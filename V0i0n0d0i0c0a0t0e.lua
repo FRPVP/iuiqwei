@@ -2102,73 +2102,11 @@ for _, v in pairs(game:GetService("Players"):GetPlayers()) do
 end
         end
     })
-
-
-
-
--- Function to update the dropdown with the current player list
-local function UpdatePenisListDropdown(Dropdown)
-    local penisList = {}
-    for _, player in pairs(game.Players:GetPlayers()) do
-        table.insert(penisList, player.Name)
-    end
-    Dropdown:SetValues(penisList)
-end
-
--- Create the dropdown with player names
-local Dropdown = Tabs.Visual:AddDropdown("Deez", {
-    Title = "Penis Player",
-    Values = {},  -- Start with an empty list
-    Multi = false,
-    Default = 0,
-})
-
--- Update the dropdown with the current player list
-UpdatePenisListDropdown(Deez)
-
--- Callback function when dropdown value changes
-Dropdown:OnChanged(function(Value)
-    print("Dropdown changed:", Value)
-
-    -- Script to spectate the selected player
-    local User = game.Players:FindFirstChild(Value)
-    if User then
-        game.Workspace.CurrentCamera.CameraSubject = User.Character.Humanoid
-    else
-        warn("Invalid Player!")
-    end
-end)
-
--- Connect to player added/removed events to update the dropdown
-game.Players.PlayerAdded:Connect(function(player)
-    UpdatePenisListDropdown(Deez)
-end)
-
-game.Players.PlayerRemoving:Connect(function(player)
-    UpdatePenisListDropdown(Deez)
-end)
-
-
-
-
-
-
-
-    local Toggle = Tabs.Premium:AddToggle("MyToggle", {Title = "Penis", Default = false })
-
-    Toggle:OnChanged(function()
-        print("Toggle changed:", Options.MyToggle.Value)
-    end)
-
-    Options.MyToggle:SetValue(false)
-
-
-
-
-
-
-
-	
+    
+    
+    
+    
+    
     
     
     
