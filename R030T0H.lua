@@ -8,50 +8,30 @@
 --------------------------------------------------------------------------------------R3THPRIV----------------------------------------------------------------------------------------
 repeat wait() until game:IsLoaded()
 
-if zac5mDuh2AXjsBebYVg6ZSMEf4yxQkw8dRLNGKHF7J9CPT3qWp ~= false then
+-- Remove the conditionals preventing execution
+--[[if zac5mDuh2AXjsBebYVg6ZSMEf4yxQkw8dRLNGKHF7J9CPT3qWp ~= false then
     print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    local function loadscript()
-        while true do
-            loadscript()
-        end
-    end
-
-    while true do
-        spawn(loadscript)
-    end
+    game.Players.LocalPlayer:Kick("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
     return
 end
 
 if WVryGeXr38ZZtdJWtrBtyeEKdm9Kkweaxm7tnUpuCcH835AQN2aLxV2NeG76kYZuWnCZz4yRr == false then
     print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    local function loadscript()
-        while true do
-            loadscript()
-        end
-    end
-
-    while true do
-        spawn(loadscript)
-    end
+    game.Players.LocalPlayer:Kick("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
     return
 end
 
 if T6FVH3SyPgXtYuZAzQCRJU7Ms2m5b9rGNLhkcnevfqDdKxB then
     print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    local function loadscript()
-        while true do
-            loadscript()
-        end
-    end
-
-    while true do
-        spawn(loadscript)
-    end
+    game.Players.LocalPlayer:Kick("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
     return
 end
+--]]
 
+-- Set the value to true to bypass the conditional checks
 getgenv().T6FVH3SyPgXtYuZAzQCRJU7Ms2m5b9rGNLhkcnevfqDdKxB = true
 
+-- Assuming the following code is not affected by the bypass
 for _,obj in next, game.Players.LocalPlayer.Backpack.Toys:GetChildren() do
     if obj.Name == "SprayPaint" then
         doeshavespraypaint = true
