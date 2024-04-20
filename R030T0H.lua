@@ -1,5 +1,5 @@
 Ssprayid = 60484593
-local isScriptSpruce = true -- Set the initial state to true
+local isScriptSpruce = false -- Set the initial state to true
 
 while isScriptSpruce do
     if game.Players.LocalPlayer.Character ~= nil then
