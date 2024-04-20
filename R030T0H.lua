@@ -1,17 +1,7 @@
---[[
-    R3TH PRIV MURDER MYSTERY 2 SOURCE
-
-    Credits:
-        pethicial
-]]
-
---------------------------------------------------------------------------------------R3THPRIV----------------------------------------------------------------------------------------
 repeat wait() until game:IsLoaded()
 
--- Set the value to true to bypass the conditional checks
 getgenv().T6FVH3SyPgXtYuZAzQCRJU7Ms2m5b9rGNLhkcnevfqDdKxB = true
 
--- Assuming the following code is not affected by the bypass
 for _,obj in next, game.Players.LocalPlayer.Backpack.Toys:GetChildren() do
     if obj.Name == "SprayPaint" then
         doeshavespraypaint = true
