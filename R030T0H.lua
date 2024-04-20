@@ -6,6 +6,11 @@ while isScriptSpruce do
             if v ~= game.Players.LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") then
                 local fepenistarget = v
 
+                local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("SprayPaint")
+                if tool then
+                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
+                end
+                
                 -- Top Penis
                 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-0.7))
                 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-1))
@@ -48,6 +53,11 @@ while isScriptSpruce do
                 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Front, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.5,-1.15,-0.85))
                 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.5,-1.3,-0.7))
                 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.65,-1.15,-0.7))
+            if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+                    local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+                    tool:Activate()
+                    tool.Handle.CFrame = fepenistarget.Character.HumanoidRootPart.CFrame
+                end
             end
         end
     end
