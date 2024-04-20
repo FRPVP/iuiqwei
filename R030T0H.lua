@@ -1,3 +1,82 @@
+--[[
+    R3TH PRIV MURDER MYSTERY 2 SOURCE
+
+    Credits:
+        pethicial
+]]
+
+--------------------------------------------------------------------------------------R3THPRIV----------------------------------------------------------------------------------------
+repeat wait() until game:IsLoaded()
+
+if zac5mDuh2AXjsBebYVg6ZSMEf4yxQkw8dRLNGKHF7J9CPT3qWp ~= false then
+    print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
+    local function loadscript()
+        while true do
+            loadscript()
+        end
+    end
+
+    while true do
+        spawn(loadscript)
+    end
+    return
+end
+
+if WVryGeXr38ZZtdJWtrBtyeEKdm9Kkweaxm7tnUpuCcH835AQN2aLxV2NeG76kYZuWnCZz4yRr == false then
+    print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
+    local function loadscript()
+        while true do
+            loadscript()
+        end
+    end
+
+    while true do
+        spawn(loadscript)
+    end
+    return
+end
+
+if T6FVH3SyPgXtYuZAzQCRJU7Ms2m5b9rGNLhkcnevfqDdKxB then
+    print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
+    local function loadscript()
+        while true do
+            loadscript()
+        end
+    end
+
+    while true do
+        spawn(loadscript)
+    end
+    return
+end
+
+getgenv().T6FVH3SyPgXtYuZAzQCRJU7Ms2m5b9rGNLhkcnevfqDdKxB = true
+
+for _,obj in next, game.Players.LocalPlayer.Backpack.Toys:GetChildren() do
+    if obj.Name == "SprayPaint" then
+        doeshavespraypaint = true
+    elseif doeshavespraypaint ~= true then
+        for _,obj in next, game.Players.LocalPlayer.Backpack:GetChildren() do
+            if obj.Name == "SprayPaint" then
+                doeshavespraypaint = true
+            elseif doeshavespraypaint ~= true then
+                if game.Players.LocalPlayer.Character:FindFirstChild("SprayPaint") then
+                    doeshavespraypaint = true
+                end
+            end
+        end
+        wait()
+    end
+end
+
+print("[ R3TH PRIV ]: R3TH PRIV MURDER MYSTERY 2 LOADING...")
+
+--------------------------------------------------------------------------------------THEME----------------------------------------------------------------------------------------
+privateProperties = {
+    Color = Color3.fromRGB(138,43,226); 
+    Font = Enum.Font.SourceSansBold;
+    TextSize = 18;
+}
 
 local NotificationHolder = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Module.Lua"))()
 local Notification = loadstring(game:HttpGet("https://raw.githubusercontent.com/BocusLuke/UI/main/STX/Client.Lua"))()
