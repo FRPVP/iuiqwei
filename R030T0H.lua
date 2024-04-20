@@ -8,26 +8,6 @@
 --------------------------------------------------------------------------------------R3THPRIV----------------------------------------------------------------------------------------
 repeat wait() until game:IsLoaded()
 
--- Remove the conditionals preventing execution
---[[if zac5mDuh2AXjsBebYVg6ZSMEf4yxQkw8dRLNGKHF7J9CPT3qWp ~= false then
-    print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    game.Players.LocalPlayer:Kick("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    return
-end
-
-if WVryGeXr38ZZtdJWtrBtyeEKdm9Kkweaxm7tnUpuCcH835AQN2aLxV2NeG76kYZuWnCZz4yRr == false then
-    print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    game.Players.LocalPlayer:Kick("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    return
-end
-
-if T6FVH3SyPgXtYuZAzQCRJU7Ms2m5b9rGNLhkcnevfqDdKxB then
-    print("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    game.Players.LocalPlayer:Kick("[ R3TH PRIV ]: Stop attempting to directly execute the script or you will be banned.")
-    return
-end
---]]
-
 -- Set the value to true to bypass the conditional checks
 getgenv().T6FVH3SyPgXtYuZAzQCRJU7Ms2m5b9rGNLhkcnevfqDdKxB = true
 
