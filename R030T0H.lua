@@ -1,57 +1,62 @@
-function fepenisfunc(fepenistarget)
-    -- Top Penis
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-0.7))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-1))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-1.5))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-2))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-2.5))
-    
-    ----Bottom Penis
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.3,-0.5))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.3,-1))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.3,-1.5))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.3,-2))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Bottom, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.3,-2.5))
+Ssprayid = 60484593
+local isScriptSpruce = true -- Set the initial state to true
 
-    -- Left Penis
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.15,-1.15,-0.5))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.15,-1.15,-1))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.15,-1.15,-1.5))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.15,-1.15,-2))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Left, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.15,-1.15,-2.5))
-
-    -- Right Penis
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.15,-1.15,-0.5))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.15,-1.15,-1))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.15,-1.15,-1.5))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.15,-1.15,-2))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Right, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.15,-1.15,-2.5))
-    
-    -- Front Penis
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Front, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.15,-2.65))
-
-    -- Left Sack
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.5,-1,-0.7))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Front, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.5,-1.15,-0.85))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.5,-1.3,-0.7))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0.65,-1.15,-0.7))
-    
-    -- Right side
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.5,-1,-0.7))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Front, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.5,-1.15,-0.85))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.5,-1.3,-0.7))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, fepenistarget.Character.HumanoidRootPart, fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.65,-1.15,-0.7))
-end
-
--- Function to draw "penis" on all players
-function DrawPenisOnAllPlayers()
-    for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
-        -- Check if the player is not the local player
-        if player ~= game:GetService("Players").LocalPlayer then
-            fepenisfunc(player)
+while isScriptSpruce do
+    if game.Players.LocalPlayer.Character ~= nil then
+        for i, v in pairs(game.Players:GetPlayers()) do
+            if v ~= game.Players.LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") then
+                if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+                    local posofpl = workspace[v.Name].HumanoidRootPart.CFrame
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+                    game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 3, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Bottom, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 3.15, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Bottom, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, -2.8, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, -3, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Front, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, 3.1))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Back, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, 2.86))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Front, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, -2.86))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Back, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, -3.1))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Right, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(2.86, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Left, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(3.1, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Right, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-3.1, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Left, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-2.86, 0.1, 0))
+                    game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+                elseif game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+                    local posofpl = workspace[v.Name].HumanoidRootPart.CFrame
+                    game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 3, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Bottom, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 3.15, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Bottom, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, -2.8, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, -3, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Front, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, 3.1))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Back, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, 2.86))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Front, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, -2.86))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Back, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, -3.1))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Right, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(2.86, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Left, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(3.1, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Right, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-3.1, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Left, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-2.86, 0.1, 0))
+                    game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+                elseif game:GetService("Players").LocalPlayer.Character:FindFirstChild("SprayPaint") then
+                    local posofpl = workspace[v.Name].HumanoidRootPart.CFrame
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 3, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Bottom, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 3.15, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Bottom, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, -2.8, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, -3, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Front, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, 3.1))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Back, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, 2.86))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Front, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, -2.86))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Back, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0, 0.1, -3.1))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Right, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(2.86, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Left, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(3.1, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Right, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-3.1, 0.1, 0))
+                    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Left, 32, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-2.86, 0.1, 0))
+                    game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+                end
+            end
         end
     end
+    wait(15.5)
 end
-
--- Call the function to draw "penis" on all players
-DrawPenisOnAllPlayers()
