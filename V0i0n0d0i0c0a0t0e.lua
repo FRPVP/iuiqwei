@@ -2110,6 +2110,20 @@ end
 
 
 
+local Dropdown = Tabs.Premium:AddDropdown("Select Player", {
+    Title = "Select Player",
+    Values = playerlistfe,
+    Multi = false,
+    Default = 1,
+})
+
+Dropdown:OnChanged(function(Value)
+    fetargetname = Value
+end)
+
+
+
+
 function fepenisfunc()
     -- Top Penis
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-0.7))
@@ -2155,11 +2169,17 @@ function fepenisfunc()
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.65,-1.15,-0.7))
 end
 
-local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Toggle", Default = false })
+
+
+
+	
+local Toggle = Tabs.Premium:AddToggle("FE Penis", {
+    Title = "FE Penis",
+    Default = false,
+})
 
 Toggle:OnChanged(function()
-    print("Toggle changed:", Options.MyToggle.Value)
-    if Options.MyToggle.Value == true then
+    if Toggle.Value == true then
         SprayPaintNotif()
         fepenistarget = players:FindFirstChild(LocalPlayer.Name)
         fepenisloop = true
@@ -2182,13 +2202,13 @@ Toggle:OnChanged(function()
             wait()
             pcall(fepenisloopfix)
         end
-    else
+    end
+    if Toggle.Value == false then
         fepenisloop = false
         wait()
     end
 end)
 
-Options.MyToggle:SetValue(false)
 
 
 
