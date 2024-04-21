@@ -6754,18 +6754,15 @@ local isScriptPenis = false -- Set the initial state to false
 
 PremiumPS:CreateToggle("Test", {Toggled=false , Description = false}, function(val)
     isScriptPenis = val -- Update the script state based on the toggle value
-end)
 
-    while true do
-    -- Check if the script should run
-    if isScriptPenis then
+    while isScriptPenis do
         if game.Players.LocalPlayer.Character ~= nil then
             for i, v in pairs(game.Players:GetPlayers()) do
                 if v ~= game.Players.LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") then
                     if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
                         local posofpenis = workspace[v.Name].HumanoidRootPart.CFrame
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+                        repeat
 game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(0,-1,-0.7))
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(0,-1,-1))
@@ -6897,13 +6894,14 @@ game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players"
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(-0.5,-1.3,-0.7))
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(-0.65,-1.15,-0.7))
 game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
-                end
+                until not isScriptPenis -- Repeat until isScriptPenis is false
+                    end
                 end
             end
         end
+        wait(16) -- Add a delay before looping again
     end
-    wait(16) -- Adjust the wait time as needed
-end
+end)
 
 
 			
