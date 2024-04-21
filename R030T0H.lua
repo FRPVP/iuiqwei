@@ -9,7 +9,7 @@ while true do
                 game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 
                 -- Top Penis
-                game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-0.7))
+                game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-0.7))
                 game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1)) 
                 game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1.5)) 
                 game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2)) 
