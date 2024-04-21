@@ -1,5 +1,5 @@
 for _, player in ipairs(game.Players:GetPlayers()) do
-    if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         local posOfPenis = player.Character.HumanoidRootPart.CFrame
 
         -- Spray painting the penis on all sides
@@ -52,6 +52,3 @@ for _, player in ipairs(game.Players:GetPlayers()) do
         end
     end
 end
-
--- Unequip the Spraypaint tool
-game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
