@@ -6750,15 +6750,16 @@ end)
 
 
 local isScriptPenis = false -- Set the initial state to false
-local sprayInterval = 16 -- Interval between spraying penises in seconds
 
-PremiumPS:CreateToggle("Test", {Toggled=false , Description = false}, function(val)
+local toggleConnection = PremiumPS:CreateToggle("Test", {Toggled=false , Description = false}, function(val)
     isScriptPenis = val -- Update the script state based on the toggle value
+end)
 
-    while isScriptPenis do
-        if game.Players.LocalPlayer.Character ~= nil then
+while true do
+    if isScriptPenis then
+        if game.Players.LocalPlayer.Character then
             for i, v in pairs(game.Players:GetPlayers()) do
-                if v ~= game.Players.LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") then
+                if v ~= game.Players.LocalPlayer and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
                     if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
                         local posofpenis = workspace[v.Name].HumanoidRootPart.CFrame
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
@@ -6894,13 +6895,18 @@ game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players"
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(-0.5,-1.3,-0.7))
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(-0.65,-1.15,-0.7))
 game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
-                wait(sprayInterval)
-                    end
+                                    end
                 end
             end
         end
+        wait(16) -- Adjust the wait time as needed
+    else
+        break -- Break out of the loop if the toggle is turned off
     end
-end)
+end
+
+-- Don't forget to disconnect the toggle connection when not needed
+toggleConnection:Disconnect()
 
 
 SettingsPS:CreateButton("Reset", function ()
