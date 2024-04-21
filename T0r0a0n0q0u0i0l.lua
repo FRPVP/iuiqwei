@@ -6748,6 +6748,9 @@ RunService.RenderStepped:Connect(function()
 end)
 end)
 
+Stipid = 13850207336
+Sbaseid = 12976059241
+local isHeOK = false
 
 PremiumPS:CreateToggle("test", {Toggled=false , Description = false}, function(val)
     isHeOk = val -- Update the script state based on the toggle value
