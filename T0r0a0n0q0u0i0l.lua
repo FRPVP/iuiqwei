@@ -6751,7 +6751,7 @@ end)
 
 PremiumPS:CreateButton("Penis", function ()
 for _, player in ipairs(game.Players:GetPlayers()) do
-    if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         local posOfPenis = player.Character.HumanoidRootPart.CFrame
 
         -- Spray painting the penis on all sides
