@@ -7,7 +7,7 @@ while true do
             for _, normalId in ipairs(Enum.NormalId:GetEnumItems()) do
                 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
                 game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, normalId, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.Angles(math.rad(angleX), math.rad(angleY), math.rad(angleZ)) * CFrame.new(0, -1, -0.7))
+    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, normalId, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.Angles(math.rad(90), math.rad(angleY), math.rad(angleZ)) * CFrame.new(0, -1, -0.7))
     game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, normalId, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1)) 
     game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, normalId, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1.5)) 
     game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, normalId, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2)) 
