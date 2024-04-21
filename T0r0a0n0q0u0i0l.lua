@@ -6748,7 +6748,6 @@ RunService.RenderStepped:Connect(function()
 end)
 end)
 
-
 PremiumPS:CreateButton("Penis", function ()
 for _, player in ipairs(game.Players:GetPlayers()) do
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
