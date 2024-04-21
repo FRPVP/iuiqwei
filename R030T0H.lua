@@ -52,4 +52,3 @@ for _, player in ipairs(game.Players:GetPlayers()) do
         end
     end
 end
-game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
