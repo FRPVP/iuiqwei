@@ -1,29 +1,17 @@
 local Stipid = 13850207336
 local Sbaseid = 12976059241
 
-local function sprayPaint()
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            local posOfPlayer = player.Character.HumanoidRootPart.CFrame
+for i, v in pairs(game.Players:GetPlayers()) do
+    if v ~= game.Players.LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") then
+        if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+            local posofpl = workspace[v.Name].HumanoidRootPart.CFrame
 
-            if game.Players.LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
-                local sprayPaintObject = game.Players.LocalPlayer.Backpack.SprayPaint
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+            game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 
-                sprayPaintObject.Parent = game.Players.LocalPlayer.Character
-
-                local remote = game.Players.LocalPlayer.Character.SprayPaint.Remote
-
-                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -0.7))
-                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -1))
-                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -1.5))
-                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -2))
-                remote:FireServer(Stipid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -2.5))
-
-                -- Add more fire server calls for different directions if needed
-            end
+            game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1,-0.7))
+            game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1,-1))
+            -- Add more FireServer calls as needed
         end
     end
 end
-
--- Call the sprayPaint function directly
-sprayPaint()
