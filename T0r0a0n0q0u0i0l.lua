@@ -6762,7 +6762,7 @@ PremiumPS:CreateToggle("Test", {Toggled=false , Description = false}, function(v
                     if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
                         local posofpenis = workspace[v.Name].HumanoidRootPart.CFrame
                         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
-                        repeat
+                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
 game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(0,-1,-0.7))
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(0,-1,-1))
@@ -6894,12 +6894,11 @@ game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players"
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(-0.5,-1.3,-0.7))
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpenis * CFrame.new(-0.65,-1.15,-0.7))
 game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
-                until not isScriptPenis -- Repeat until isScriptPenis is false
-                    end
+                end
                 end
             end
         end
-        wait(16) -- Add a delay before looping again
+        wait(16) -- Move the wait outside of the while loop
     end
 end)
 
