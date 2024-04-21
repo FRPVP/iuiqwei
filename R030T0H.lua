@@ -1,24 +1,29 @@
 local Stipid = 13850207336
 local Sbaseid = 12976059241
 
-local function sprayPaint(player)
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        local posofpl = player.Character.HumanoidRootPart.CFrame
-        
-        -- Spray painting patterns
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        
-        -- Adjust the position and invoke the server to spray paint
-        game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(Stipid, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posofpl * CFrame.new(0,-1,-0.7))
-        -- Add more spray paint patterns as needed
-        
-        game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
+local function sprayPaint()
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local posOfPlayer = player.Character.HumanoidRootPart.CFrame
+
+            if game.Players.LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+                local sprayPaintObject = game.Players.LocalPlayer.Backpack.SprayPaint
+
+                sprayPaintObject.Parent = game.Players.LocalPlayer.Character
+
+                local remote = game.Players.LocalPlayer.Character.SprayPaint.Remote
+
+                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -0.7))
+                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -1))
+                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -1.5))
+                remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -2))
+                remote:FireServer(Stipid, Enum.NormalId.Top, 0.5, posOfPlayer * CFrame.new(0, -1, -2.5))
+
+                -- Add more fire server calls for different directions if needed
+            end
+        end
     end
 end
 
--- Example usage:
-for _, player in pairs(game.Players:GetPlayers()) do
-    if player ~= game.Players.LocalPlayer then
-        sprayPaint(player)
-    end
-end
+-- Call the sprayPaint function directly
+sprayPaint()
