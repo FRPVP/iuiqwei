@@ -4,8 +4,8 @@ for _, player in ipairs(game.Players:GetPlayers()) do
 
         -- Spray painting the penis on all sides
         for _, normalId in ipairs(Enum.NormalId:GetEnumItems()) do
-            -- No need to equip the tool, directly use it
-            game.Players.LocalPlayer.Backpack.SprayPaint:FireServer("SprayPaint")
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+            game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 
             -- Top Penis
             game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-0.7))
@@ -52,3 +52,4 @@ for _, player in ipairs(game.Players:GetPlayers()) do
         end
     end
 end
+game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
