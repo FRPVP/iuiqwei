@@ -12,8 +12,8 @@ while true do
                 game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-0.7))
                 game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1)) 
                 game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1.5)) 
-                game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2)) 
-                game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2.5)) 
+                game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2)) 
+                game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2.5)) 
                 
                 -- Bottom Penis
                 game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1.3,-0.5)) 
