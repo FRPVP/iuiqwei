@@ -1,11 +1,3 @@
-Stipid = 13850207336
-Sbaseid = 12976059241
-local isHeOk = false -- Set the initial state to false
-
-PremiumPS:CreateToggle("test", {Toggled=false , Description = false}, function(val)
-    isHeOk = val -- Update the script state based on the toggle value
-
-    while isHeOk do
 if game.Players.LocalPlayer.Character ~= nil then
         for i, v in pairs(game.Players:GetPlayers()) do
             if v ~= game.Players.LocalPlayer and v.Character ~= nil and v.Character:FindFirstChild("HumanoidRootPart") then
@@ -114,4 +106,3 @@ game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players"
     end
     wait(15.5)
 end
-end)
