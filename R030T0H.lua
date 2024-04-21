@@ -1,8 +1,8 @@
-for _, normalId in ipairs(Enum.NormalId:GetEnumItems()) do
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            local posOfPenis = player.Character.HumanoidRootPart.CFrame
-            
+for _, player in ipairs(game.Players:GetPlayers()) do
+    if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local posOfPenis = player.Character.HumanoidRootPart.CFrame
+
+        for _, normalId in ipairs(Enum.NormalId:GetEnumItems()) do
             game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
             game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 
