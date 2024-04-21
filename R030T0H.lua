@@ -12,21 +12,36 @@ if game.Players.LocalPlayer.Character ~= nil then
                 
                 -- Firing spray paint from various directions
                 for _, normalId in ipairs(Enum.NormalId:GetEnumItems()) do
-                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(
-                        Sbaseid,
-                        normalId,
-                        0.5,
-                        workspace[v.Name].HumanoidRootPart,
-                        posofpl * CFrame.new(Vector3.new())
-                    )
-                    wait(0.1)
-                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(
-                        Stipid,
-                        normalId,
-                        0.5,
-                        workspace[v.Name].HumanoidRootPart,
-                        posofpl * CFrame.new(Vector3.new())
-                    )
+                   game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1,-0.7))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1,-1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1,-1.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1,-2))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Stipid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1,-2.5))                      
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1.3,-0.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1.3,-1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1.3,-1.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1.3,-2))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Stipid, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1.3,-2.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.15,-1.15,-0.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.15,-1.15,-1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.15,-1.15,-1.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.15,-1.15,-2))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Stipid, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.15,-1.15,-2.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Right, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.15,-1.15,-0.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Right, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.15,-1.15,-1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Right, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.15,-1.15,-1.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Right, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.15,-1.15,-2))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Stipid, Enum.NormalId.Right, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.15,-1.15,-2.5))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Stipid, Enum.NormalId.Front, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0,-1.15,-2.65))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.5,-1,-0.7))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Front, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.5,-1.15,-0.85))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.5,-1.3,-0.7))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Right, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(0.65,-1.15,-0.7))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Top, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.5,-1,-0.7))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Front, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.5,-1.15,-0.85))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Bottom, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.5,-1.3,-0.7))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Sbaseid, Enum.NormalId.Left, 0.5, workspace[v.Name].HumanoidRootPart, posofpl * CFrame.new(-0.65,-1.15,-0.7))
                     wait(0.1)
                 end
                 
