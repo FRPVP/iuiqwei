@@ -1,37 +1,54 @@
-local Stipid = 13850207336
-local Sbaseid = 12976059241
+for _, player in ipairs(game.Players:GetPlayers()) do
+    if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        local posOfPenis = player.Character.HumanoidRootPart.CFrame
 
--- Function to get the target position of the spray paint
-local function getTargetPosition(player)
-    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        return player.Character.HumanoidRootPart.Position
-    end
-    return nil
-end
+        -- Spray painting the penis on all sides
+        for _, normalId in ipairs(Enum.NormalId:GetEnumItems()) do
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+            game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 
--- Main loop
-while true do
-    for _, player in ipairs(game.Players:GetPlayers()) do
-        if player ~= game.Players.LocalPlayer and player.Character then
-            local posofpl = getTargetPosition(player)
-            if posofpl then
-                -- Apply spray paint to the player's position
-                for _, normalId in ipairs(Enum.NormalId:GetEnumItems()) do
-                    for _, offset in ipairs({0, -0.5, -1, -1.5, -2, -2.5}) do
-                        local sprayPosition = posofpl + Vector3.new(0, offset, 0)
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
-                        game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-                        game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(Stipid, normalId, 0.5, player.Character.HumanoidRootPart, sprayPosition)
-                    end
-                end
-                -- Lock the player's position using BodyPosition
-                local bodyPosition = Instance.new("BodyPosition")
-                bodyPosition.Position = player.Character.HumanoidRootPart.Position
-                bodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-                bodyPosition.Parent = player.Character.HumanoidRootPart
-                player.Character.HumanoidRootPart.Anchored = true
-            end
+            -- Top Penis
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-0.7))
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-1.5)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1,-2.5)) 
+                
+            -- Bottom Penis
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1.3,-0.5)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1.3,-1))
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1.3,-1.5)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1.3,-2)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1.3,-2.5)) 
+
+            -- Left Penis
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.15,-1.15,-0.5)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.15,-1.15,-1)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.15,-1.15,-1.5)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.15,-1.15,-2)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Left, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.15,-1.15,-2.5)) 
+
+            -- Right Penis
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.15,-1.15,-0.5)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.15,-1.15,-1)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.15,-1.15,-1.5)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.15,-1.15,-2)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Right, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.15,-1.15,-2.5)) 
+                
+            -- Front Penis
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Front, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0,-1.15,-2.65)) 
+                
+            -- Left Sack
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.5,-1,-0.7)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Front, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.5,-1.15,-0.85)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.5,-1.3,-0.7)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Right, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(0.65,-1.15,-0.7)) 
+                
+            -- Right side
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.5,-1,-0.7)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Front, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.5,-1.15,-0.85)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Bottom, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.5,-1.3,-0.7)) 
+            game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, player.Character.HumanoidRootPart, posOfPenis * CFrame.new(-0.65,-1.15,-0.7)) 
         end
     end
-    wait(15.5)
 end
