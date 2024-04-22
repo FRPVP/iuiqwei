@@ -6954,7 +6954,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2, workspace[v.Name].HumanoidRootPart, posofplr * CFrame.new(-8, 12, 0))
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2, workspace[v.Name].HumanoidRootPart, posofplr * CFrame.new(-8, 14, 0))
 game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
-end
+
     elseif game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
         local posofpl = workspace[v.Name].HumanoidRootPart.CFrame
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12781220539, Enum.NormalId.Front, 2, workspace[v.Name].HumanoidRootPart, posofplr * CFrame.new(0, 10, 0))
@@ -7029,7 +7029,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2, workspace[v.Name].HumanoidRootPart, posofplr * CFrame.new(-8, 12, 0))
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2, workspace[v.Name].HumanoidRootPart, posofplr * CFrame.new(-8, 14, 0))
 game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
-end
+
     elseif game:GetService("Players").LocalPlayer.Character:FindFirstChild("SprayPaint") then
         local posofpl = workspace[v.Name].HumanoidRootPart.CFrame
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12781220539, Enum.NormalId.Front, 2, workspace[v.Name].HumanoidRootPart, posofplr * CFrame.new(0, 10, 0))
