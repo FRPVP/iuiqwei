@@ -2165,7 +2165,6 @@ GodMode()
 
 
 
--- Function to update the dropdown with the current player list
 local function UpdateplayerListPaint(Dropdown)
     local playerListPaint = {"All"}
     for _, player in pairs(game.Players:GetPlayers()) do
@@ -2199,13 +2198,10 @@ game.Players.PlayerRemoving:Connect(function(player)
     UpdateplayerListPaint(Dropdown)
 end)
 
-
-
-
 function EquipSpray()
     game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
     wait()
-    for _,obj in next, game.Players.LocalPlayer.Backpack:GetChildren() do
+    for _, obj in next, game.Players.LocalPlayer.Backpack:GetChildren() do
         if obj.Name == "SprayPaint" then
             local equip = game.Players.LocalPlayer.Backpack.SprayPaint
             equip.Parent = game.Players.LocalPlayer.Character
@@ -2213,10 +2209,7 @@ function EquipSpray()
     end
 end
 
-
-
-
-function fepenisfunc()
+function fepenisfunc(target)
     -- Top Penis
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-0.7))
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-1))
@@ -2261,44 +2254,30 @@ function fepenisfunc()
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Left, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-0.65,-1.15,-0.7))
 end
 
+local Toggle = Tabs.Premium:AddToggle("Toggle", {Title = "FE PP", Default = false})
 
-
-
-
-
-    local Toggle = Tabs.Player:AddToggle("", {Title = "FE PP", Default = false })
-
-    Toggle:OnChanged(function(fepenis)
-        if fepenis == true then
-        fepenistarget = players:FindFirstChild(LocalPlayer.Name)
+Toggle:OnChanged(function(fepenis)
+    if fepenis == true then
         fepenisloop = true
         while fepenisloop do
-            function fepenisloopfix()
-            EquipSpray()
-            task.wait(0.4)
+            wait(0.4)
             if fetargetname == "All" then
-                for i,v in pairs(game.Players:GetPlayers()) do
-                    fepenistarget = players:FindFirstChild(v.Name)
-                    fepenisfunc()
-                    task.wait()
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    fepenisfunc(v)
+                    wait()
                 end
             else
-                fepenistarget = players:FindFirstChild(fetargetname)
-                fepenisfunc()
+                local targetPlayer = game.Players:FindFirstChild(fetargetname)
+                if targetPlayer then
+                    fepenisfunc(targetPlayer)
+                end
             end
-            task.wait(15)
+            wait(15)
         end
-        wait()
-        pcall(fepenisloopfix)
-        end
-    end
-    if fepenis == false then
+    else
         fepenisloop = false
-        wait()
     end
-    end)
-
-    Options.MyToggle:SetValue(false)
+end)
 
 	
 end
