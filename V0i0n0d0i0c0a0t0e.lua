@@ -12,6 +12,19 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
 
+local MinimizeButton = Instance.new("TextButton")
+MinimizeButton.Parent = Window.Titlebar
+MinimizeButton.Text = "_"
+MinimizeButton.Size = UDim2.new(0, 30, 0, 30)
+MinimizeButton.Position = UDim2.new(1, -60, 0, 0) -- Adjust position as needed
+MinimizeButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+MinimizeButton.BorderSizePixel = 0
+MinimizeButton.Font = Enum.Font.SourceSans
+MinimizeButton.TextSize = 18
+MinimizeButton.MouseButton1Click:Connect(function()
+    Window.Minimized = not Window.Minimized
+end)
+
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
     Player = Window:AddTab({ Title = "Player", Icon = "" }),
