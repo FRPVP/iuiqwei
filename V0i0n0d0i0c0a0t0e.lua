@@ -2527,67 +2527,23 @@ Options.MyToggle:SetValue(false)
 
 
 
-local function ResetSprayPaint(targetName)
-    local players = game:GetService("Players")
-    local targetPlayer
 
-    if targetName == "All" then
-        for _, player in ipairs(players:GetPlayers()) do
-            if player ~= players.LocalPlayer then
-                targetPlayer = player
-                break
-            end
+Tabs.Premium:AddButton({
+    Title = "Reset",
+    Description = "",
+    Callback = function()
+        if not fetargetname then
+            print("No target player specified.")
+            return
         end
-    else
-        targetPlayer = players:FindFirstChild(targetName)
-    end
-
-    if not targetPlayer then
-        warn("Target player not found.")
-        return
-    end
-
-    if targetPlayer.Character then
-        local args = {
-            [1] = 80373024,
-            [2] = Enum.NormalId.Back,
-            [3] = 15,
-            [4] = targetPlayer.Character.Head,
-            [5] = CFrame.new(0, math.huge, 0)
-        }
-        if players.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
-            players.LocalPlayer.Backpack.SprayPaint.Parent = players.LocalPlayer.Character
-            players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
-            players.LocalPlayer.Character.SprayPaint.Parent = players.LocalPlayer.Backpack
-        elseif players.LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
-            players.LocalPlayer.Backpack.SprayPaint.Parent = players.LocalPlayer.Character
-            players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
-            players.LocalPlayer.Character.SprayPaint.Parent = players.LocalPlayer.Backpack
-        elseif players.LocalPlayer.Character:FindFirstChild("SprayPaint") then
-            players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
+        local player = game:GetService("Players"):FindFirstChild(fetargetname)
+        if player then
+            game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, player.Character.Head, player.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+        else
+            print("Target player not found.")
         end
     end
-end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Reset", Default = false })
-
-local resetSprayPaintLoop = false
-
-Toggle:OnChanged(function(enabled)
-    if enabled then
-        resetSprayPaintLoop = true
-        while resetSprayPaintLoop do
-            ResetSprayPaint(fetargetname)
-            wait(0)
-        end
-    else
-        resetSprayPaintLoop = false
-    end
-end)
-
-Options.MyToggle:SetValue(false)
+})
 
 
 
