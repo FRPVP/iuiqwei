@@ -1,35 +1,34 @@
-function cumfunc()
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2, (nazigermanytarget.Character.HumanoidRootPart), nazigermanytarget.Character.HumanoidRootPart.CFrame * CFrame.new(-8, 14, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 2048, (nazigermanytarget.Character.HumanoidRootPart), nazigermanytarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+function poolplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 2048, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Cum", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Pool", Default = false })
 
-Toggle:OnChanged(function(cum)
-    if cum == true then
-        cumloop = true
-        while cumloop do
-            function cumloopfix()
+Toggle:OnChanged(function(poolplayer)
+    if poolplayer == true then
+        poolplayerloop = true
+        while poolplayerloop do
+            function poolplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        cumtarget = players:FindFirstChild(v.Name)
-                        cumfunc()
+                        poolplayertarget = players:FindFirstChild(v.Name)
+                        poolplayerfunc()
                         task.wait()
                     end
                 else
-                    cumtarget = players:FindFirstChild(fetargetname)
-                    cumfunc()
+                    poolplayertarget = players:FindFirstChild(fetargetname)
+                    poolplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(cumloopfix)
+            pcall(poolplayerloopfix)
         end
     end
-    if cum == false then
-        cumloop = false
+    if poolplayer == false then
+        poolplayerloop = false
         wait()
     end
 end)
