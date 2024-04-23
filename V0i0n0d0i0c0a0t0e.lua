@@ -2526,7 +2526,7 @@ Options.MyToggle:SetValue(false)
 
 
 
-Tabs.Player:AddButton({
+Tabs.Premium:AddButton({
     Title = "Reset Player",
     Description = "",
     Callback = function()
