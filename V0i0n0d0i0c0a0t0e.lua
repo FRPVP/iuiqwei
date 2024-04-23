@@ -2527,31 +2527,46 @@ Options.MyToggle:SetValue(false)
 
 
 
-local function ResetSprayPaint()
-    if game.Players.LocalPlayer.Character then
-        for _, player in ipairs(game.Players:GetPlayers()) do
-            if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
-                local args = {
-                    [1] = 80373024,
-                    [2] = Enum.NormalId.Back,
-                    [3] = 15,
-                    [4] = player.Character.Head,
-                    [5] = CFrame.new(0, math.huge, 0)
-                }
-                if game.Players.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
-                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
-                    game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
-                    game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
-                elseif game.Players.LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
-                    game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
-                    game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
-                elseif game.Players.LocalPlayer.Character:FindFirstChild("SprayPaint") then
-                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
-                end
+local function ResetSprayPaint(targetName)
+    local players = game:GetService("Players")
+    local targetPlayer
+
+    if targetName == "All" then
+        for _, player in ipairs(players:GetPlayers()) do
+            if player ~= players.LocalPlayer then
+                targetPlayer = player
+                break
             end
+        end
+    else
+        targetPlayer = players:FindFirstChild(targetName)
+    end
+
+    if not targetPlayer then
+        warn("Target player not found.")
+        return
+    end
+
+    if targetPlayer.Character then
+        local args = {
+            [1] = 80373024,
+            [2] = Enum.NormalId.Back,
+            [3] = 15,
+            [4] = targetPlayer.Character.Head,
+            [5] = CFrame.new(0, math.huge, 0)
+        }
+        if players.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+            players.LocalPlayer.Backpack.SprayPaint.Parent = players.LocalPlayer.Character
+            players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
+            players.LocalPlayer.Character.SprayPaint.Parent = players.LocalPlayer.Backpack
+        elseif players.LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+            players.LocalPlayer.Backpack.SprayPaint.Parent = players.LocalPlayer.Character
+            players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
+            players.LocalPlayer.Character.SprayPaint.Parent = players.LocalPlayer.Backpack
+        elseif players.LocalPlayer.Character:FindFirstChild("SprayPaint") then
+            players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
         end
     end
 end
@@ -2564,7 +2579,7 @@ Toggle:OnChanged(function(enabled)
     if enabled then
         resetSprayPaintLoop = true
         while resetSprayPaintLoop do
-            ResetSprayPaint()
+            ResetSprayPaint(fetargetname)
             wait(15)
         end
     else
