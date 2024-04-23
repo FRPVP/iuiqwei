@@ -2532,18 +2532,22 @@ Tabs.Premium:AddButton({
     Title = "Reset",
     Description = "",
     Callback = function()
-        if not fetargetname then
-            print("No target player specified.")
-            return
-        end
-        local player = game:GetService("Players"):FindFirstChild(fetargetname)
-        if player then
-            game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, player.Character.Head, player.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+        local selectedPlayer = players:FindFirstChild(fetargetname)
+        if selectedPlayer then
+            local success, errorMessage = pcall(function()
+                resetplayertarget = players:FindFirstChild(selectedPlayer.Name)
+                resetplayerfunc()
+                print("Player reset successfully.")
+            end)
+            if not success then
+                warn("Failed to reset player:", errorMessage)
+            end
         else
-            print("Target player not found.")
+            warn("No player selected.")
         end
     end
 })
+
 
 
 
