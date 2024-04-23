@@ -2,15 +2,50 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
+local isWindowVisible = false
+
+-- Function to toggle the visibility of the Fluent window
+local function toggleWindow()
+    if isWindowVisible then
+        Window:Close()
+    else
+        Window:Open()
+    end
+    isWindowVisible = not isWindowVisible
+end
+
+-- Your existing Fluent window creation code
 local Window = Fluent:CreateWindow({
     Title = "Vindicate " .. Fluent.Version,
     SubTitle = "MM2",
     TabWidth = 120,
     Size = UDim2.fromOffset(480, 360),
-    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
+    Acrylic = true,
     Theme = "Amethyst",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+    MinimizeKey = Enum.KeyCode.LeftControl
 })
+
+-- Your existing code to create the toggle button
+local gui = Instance.new("ScreenGui")
+gui.Name = "ToggleUiDCCHub"
+gui.Parent = game.CoreGui
+
+local toggleui = Instance.new("TextButton")
+toggleui.Size = UDim2.new(0, 75, 0, 75)
+toggleui.Position = UDim2.new(0.01001973976, 0, 0.343832953, 0)
+toggleui.BackgroundColor3 = Color3.fromRGB(28,28,28)
+toggleui.Active = true
+toggleui.Draggable = true
+toggleui.Parent = gui
+toggleui.Text = "Toggle Ui"
+toggleui.TextSize = 18
+toggleui.TextScaled = true
+toggleui.TextColor3 = Color3.fromRGB(255,255,255)
+toggleui.Font = Enum.Font.SourceSans
+toggleui.ZIndex = 0
+
+-- Connect the toggle button to the toggleWindow function
+toggleui.MouseButton1Click:Connect(toggleWindow)
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
