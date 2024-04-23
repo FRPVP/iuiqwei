@@ -2476,24 +2476,22 @@ Options.MyToggle:SetValue(false)
 	
 
 
-function CreateBlackSquareUnderPlayer(player)
-    local humanoidRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if humanoidRootPart then
-        local floorPosition = humanoidRootPart.Position - Vector3.new(0, humanoidRootPart.Position.Y - 0.5, 0) -- Adjust the offset as needed
-        local blackSquare = Instance.new("Part")
-        blackSquare.Size = Vector3.new(5, 0.1, 5) -- Adjust the size as needed
-        blackSquare.Color = Color3.new(0, 0, 0)
-        blackSquare.Anchored = true
-        blackSquare.Position = floorPosition
-        blackSquare.Parent = game.Workspace -- Assuming the black square should be parented to Workspace
-    end
-end
-
 function poolplayerfunc()
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 5, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "5", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Blind", Default = false })
 
 Toggle:OnChanged(function(poolplayer)
     if poolplayer == true then
@@ -2506,15 +2504,13 @@ Toggle:OnChanged(function(poolplayer)
                     for _, v in pairs(players:GetPlayers()) do
                         poolplayertarget = players:FindFirstChild(v.Name)
                         poolplayerfunc()
-                        CreateBlackSquareUnderPlayer(poolplayertarget)
                         task.wait()
                     end
                 else
                     poolplayertarget = players:FindFirstChild(fetargetname)
                     poolplayerfunc()
-                    CreateBlackSquareUnderPlayer(poolplayertarget)
                 end
-                task.wait(3)
+                task.wait(15)
             end
             wait()
             pcall(poolplayerloopfix)
