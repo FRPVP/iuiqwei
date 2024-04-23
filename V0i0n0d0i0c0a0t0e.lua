@@ -2,6 +2,17 @@ local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
 
+local Window = Fluent:CreateWindow({
+    Title = "Vindicate " .. Fluent.Version,
+    SubTitle = "MM2",
+    TabWidth = 120,
+    Size = UDim2.fromOffset(480, 360),
+    Acrylic = true,
+    Theme = "Amethyst",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+-- Define a variable to track the visibility of the Fluent window
 local isWindowVisible = false
 
 -- Function to toggle the visibility of the Fluent window
@@ -13,17 +24,6 @@ local function toggleWindow()
     end
     isWindowVisible = not isWindowVisible
 end
-
--- Your existing Fluent window creation code
-local Window = Fluent:CreateWindow({
-    Title = "Vindicate " .. Fluent.Version,
-    SubTitle = "MM2",
-    TabWidth = 120,
-    Size = UDim2.fromOffset(480, 360),
-    Acrylic = true,
-    Theme = "Amethyst",
-    MinimizeKey = Enum.KeyCode.LeftControl
-})
 
 -- Your existing code to create the toggle button
 local gui = Instance.new("ScreenGui")
