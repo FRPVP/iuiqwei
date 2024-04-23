@@ -2527,6 +2527,61 @@ Options.MyToggle:SetValue(false)
 
 
 
+local function ResetSprayPaint()
+    if game.Players.LocalPlayer.Character then
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if player ~= game.Players.LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
+                local args = {
+                    [1] = 80373024,
+                    [2] = Enum.NormalId.Back,
+                    [3] = 15,
+                    [4] = player.Character.Head,
+                    [5] = CFrame.new(0, math.huge, 0)
+                }
+                if game.Players.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+                    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras"):WaitForChild("ReplicateToy"):InvokeServer("SprayPaint")
+                    game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
+                    game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
+                elseif game.Players.LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+                    game.Players.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
+                    game.Players.LocalPlayer.Character.SprayPaint.Parent = game.Players.LocalPlayer.Backpack
+                elseif game.Players.LocalPlayer.Character:FindFirstChild("SprayPaint") then
+                    game.Players.LocalPlayer.Character.SprayPaint.Remote:FireServer(unpack(args))
+                end
+            end
+        end
+    end
+end
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Reset Spray Paint", Default = false })
+
+local resetSprayPaintLoop = false
+
+Toggle:OnChanged(function(enabled)
+    if enabled then
+        resetSprayPaintLoop = true
+        while resetSprayPaintLoop do
+            ResetSprayPaint()
+            wait(15)
+        end
+    else
+        resetSprayPaintLoop = false
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+
+	
 	
 	
 end
