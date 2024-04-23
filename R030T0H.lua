@@ -72,7 +72,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2, (nazigermanytarget.Character.HumanoidRootPart), nazigermanytarget.Character.HumanoidRootPart.CFrame * CFrame.new(-8, 14, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Black Penis", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Nazi", Default = false })
 
 Toggle:OnChanged(function(nazigermany)
     if nazigermany == true then
