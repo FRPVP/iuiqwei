@@ -2571,7 +2571,7 @@ local function ResetSprayPaint(targetName)
     end
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Reset Spray Paint", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Reset", Default = false })
 
 local resetSprayPaintLoop = false
 
@@ -2580,7 +2580,7 @@ Toggle:OnChanged(function(enabled)
         resetSprayPaintLoop = true
         while resetSprayPaintLoop do
             ResetSprayPaint(fetargetname)
-            wait(15)
+            wait(0)
         end
     else
         resetSprayPaintLoop = false
