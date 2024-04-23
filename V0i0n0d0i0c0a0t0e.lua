@@ -2526,27 +2526,23 @@ Options.MyToggle:SetValue(false)
 
 
 
-
+function firstplayerfunc(firstPlayerTarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, firstPlayerTarget.Character.Head, firstPlayerTarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
 
 Tabs.Premium:AddButton({
-    Title = "Reset1",
+    Title = "Reset",
     Description = "",
     Callback = function()
-        local selectedPlayer = players:FindFirstChild(fetargetname)
-        if selectedPlayer then
-            local success, errorMessage = pcall(function()
-                resetplayertarget = players:FindFirstChild(fetargetname)
-                resetplayerfunc()
-                print("Player reset successfully.")
-            end)
-            if not success then
-                warn("Failed to reset player:", errorMessage)
-            end
+        local firstPlayerTarget = players:FindFirstChild(fetargetname)
+        if firstPlayerTarget then
+            firstplayerfunc(firstPlayerTarget)
         else
-            warn("No player selected.")
+            print("Player not found.")
         end
     end
 })
+
 
 
 
