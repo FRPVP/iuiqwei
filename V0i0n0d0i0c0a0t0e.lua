@@ -2471,17 +2471,29 @@ Options.MyToggle:SetValue(false)
 
 
 
-function poolplayerfunc()
-    -- FireServer to create the black square under the player's feet
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(
-        60484593, -- Black square asset ID
-        Enum.NormalId.Top,
-        5, -- Intensity of spray
-        (poolplayertarget.Character.HumanoidRootPart.Position + Vector3.new(0, -3, 0)) -- Position under the player's feet
-    )
+
+
+	
+
+
+function CreateBlackSquareUnderPlayer(player)
+    local humanoidRootPart = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        local floorPosition = humanoidRootPart.Position - Vector3.new(0, humanoidRootPart.Position.Y - 0.5, 0) -- Adjust the offset as needed
+        local blackSquare = Instance.new("Part")
+        blackSquare.Size = Vector3.new(5, 0.1, 5) -- Adjust the size as needed
+        blackSquare.Color = Color3.new(0, 0, 0)
+        blackSquare.Anchored = true
+        blackSquare.Position = floorPosition
+        blackSquare.Parent = game.Workspace -- Assuming the black square should be parented to Workspace
+    end
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "4", Default = false })
+function poolplayerfunc()
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 5, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+end
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "5", Default = false })
 
 Toggle:OnChanged(function(poolplayer)
     if poolplayer == true then
@@ -2494,13 +2506,15 @@ Toggle:OnChanged(function(poolplayer)
                     for _, v in pairs(players:GetPlayers()) do
                         poolplayertarget = players:FindFirstChild(v.Name)
                         poolplayerfunc()
+                        CreateBlackSquareUnderPlayer(poolplayertarget)
                         task.wait()
                     end
                 else
                     poolplayertarget = players:FindFirstChild(fetargetname)
                     poolplayerfunc()
+                    CreateBlackSquareUnderPlayer(poolplayertarget)
                 end
-                task.wait(15)
+                task.wait(3)
             end
             wait()
             pcall(poolplayerloopfix)
