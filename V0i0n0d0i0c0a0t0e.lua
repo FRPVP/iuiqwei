@@ -2531,7 +2531,7 @@ function firstplayerfunc(firstPlayerTarget)
 end
 
 Tabs.Premium:AddButton({
-    Title = "Reset",
+    Title = "Reset123",
     Description = "",
     Callback = function()
         local firstPlayerTarget = players:FindFirstChild(fetargetname)
