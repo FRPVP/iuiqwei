@@ -2526,15 +2526,28 @@ Options.MyToggle:SetValue(false)
 
 
 
+
+
+
+
+
+
+function resetplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (resetplayertarget.Character.Head), resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
+
+
+
+
 Tabs.Premium:AddButton({
     Title = "Reset Player",
-    Description = "",
+    Description = "Reset the selected player",
     Callback = function()
         local playerToReset = fetargetname -- Assuming fetargetname is already set somewhere else
         
         if playerToReset then
-            miniplayertarget = game.Players:FindFirstChild(playerToReset)
-            if miniplayertarget then
+            resetplayertarget = game.Players:FindFirstChild(playerToReset)
+            if resetplayertarget then
                 resetplayerfunc()
             else
                 print("Player not found.")
@@ -2547,13 +2560,6 @@ Tabs.Premium:AddButton({
 
 
 
-
-
-
-
-function resetplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (resetplayertarget.Character.Head), resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
-end
 
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Reset", Default = false })
 
