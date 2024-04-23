@@ -2167,7 +2167,7 @@ GodMode()
 
 -- Function to update the dropdown with the current player list
 local function UpdateplayerListPaint(Dropdown)
-    local playerListPaint = {}
+    local playerListPaint = {"All"}
     for _, player in pairs(game.Players:GetPlayers()) do
         table.insert(playerListPaint, player.Name)
     end
