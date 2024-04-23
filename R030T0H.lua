@@ -1,5 +1,6 @@
 function cumfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 2048, workspace[game:GetService("CoreGui").WizardLibrary.Container.MM2ModsWindow.Body.SprayPaintFunSection["(Shift-Apply)UsernameTextBoxHolder"].TextBox.Text].HumanoidRootPart, posofpl * CFrame.new(0, -3, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2, (nazigermanytarget.Character.HumanoidRootPart), nazigermanytarget.Character.HumanoidRootPart.CFrame * CFrame.new(-8, 14, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(Ssprayid, Enum.NormalId.Top, 2048, (nazigermanytarget.Character.HumanoidRootPart), nazigermanytarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
 end
 
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Cum", Default = false })
