@@ -2529,13 +2529,13 @@ Options.MyToggle:SetValue(false)
 
 
 Tabs.Premium:AddButton({
-    Title = "Reset",
+    Title = "Reset1",
     Description = "",
     Callback = function()
         local selectedPlayer = players:FindFirstChild(fetargetname)
         if selectedPlayer then
             local success, errorMessage = pcall(function()
-                resetplayertarget = players:FindFirstChild(selectedPlayer.Name)
+                resetplayertarget = players:FindFirstChild(fetargetname)
                 resetplayerfunc()
                 print("Player reset successfully.")
             end)
