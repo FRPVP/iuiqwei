@@ -13,7 +13,7 @@ local Window = Fluent:CreateWindow({
 })
 
 -- Define a variable to track the visibility of the Fluent window
-local isWindowVisible = false
+local isWindowVisible = true
 
 -- Function to toggle the visibility of the Fluent window
 local function toggleWindow()
@@ -24,6 +24,13 @@ local function toggleWindow()
     end
     isWindowVisible = not isWindowVisible
 end
+
+-- Connect the minimize key to the toggleWindow function
+game:GetService("UserInputService").InputBegan:Connect(function(input)
+    if input.KeyCode == Window.MinimizeKey then
+        toggleWindow()
+    end
+end)
 
 -- Your existing code to create the toggle button
 local gui = Instance.new("ScreenGui")
