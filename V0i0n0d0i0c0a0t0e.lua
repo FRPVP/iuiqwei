@@ -2471,85 +2471,39 @@ Options.MyToggle:SetValue(false)
 
 
 
--- Function to create the black square trail
-function createBlackSquareTrail(character)
-    local blackSquare = Instance.new("Part")
-    blackSquare.Size = Vector3.new(4, 0.1, 4) -- Adjust the size as needed
-    blackSquare.Color = Color3.new(0, 0, 0) -- Black color
-    blackSquare.Anchored = true
-    blackSquare.CanCollide = false
-    blackSquare.Transparency = 0.5 -- Adjust transparency as needed
-    blackSquare.Position = character.HumanoidRootPart.Position - Vector3.new(0, 1, 0) -- Offset to appear under the feet
-    blackSquare.Parent = game.Workspace
-    return blackSquare
+function poolplayerfunc()
+    -- FireServer to create the black square under the player's feet
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(
+        60484593, -- Black square asset ID
+        Enum.NormalId.Top,
+        5, -- Intensity of spray
+        (poolplayertarget.Character.HumanoidRootPart.Position + Vector3.new(0, -3, 0)) -- Position under the player's feet
+    )
 end
 
--- Function to update the position of the black square trail
-function updateBlackSquareTrail(square, character)
-    if character and character:FindFirstChild("HumanoidRootPart") then
-        square.Position = character.HumanoidRootPart.Position - Vector3.new(0, 1, 0) -- Update position
-    else
-        square:Destroy() -- If the character is not found, destroy the square
-    end
-end
+local Toggle = Tabs.Premium:AddToggle("", {Title = "3", Default = false })
 
--- Function to create the black square trail for a player
-function createBlackSquareTrailForPlayer(player)
-    local character = player.Character
-    if character then
-        local blackSquare = createBlackSquareTrail(character)
-        return blackSquare
-    end
-    return nil
-end
-
--- Function to update the black square trail for a player
-function updateBlackSquareTrailForPlayer(square, player)
-    local character = player.Character
-    if character then
-        updateBlackSquareTrail(square, character)
-    else
-        square:Destroy() -- If the character is not found, destroy the square
-    end
-end
-
--- Function to create the black square trail for all players
-function createBlackSquareTrailForAllPlayers()
-    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-        createBlackSquareTrailForPlayer(player)
-    end
-end
-
--- Function to update the black square trail for all players
-function updateBlackSquareTrailForAllPlayers()
-    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-        local blackSquare = player:FindFirstChild("BlackSquareTrail")
-        if blackSquare then
-            updateBlackSquareTrailForPlayer(blackSquare, player)
-        end
-    end
-end
-
--- Toggle handler
 Toggle:OnChanged(function(poolplayer)
     if poolplayer == true then
         poolplayerloop = true
         while poolplayerloop do
-            if fetargetname == "All" then
-                createBlackSquareTrailForAllPlayers()
-            else
-                local player = game:GetService("Players"):FindFirstChild(fetargetname)
-                if player then
-                    local blackSquare = player:FindFirstChild("BlackSquareTrail")
-                    if not blackSquare then
-                        blackSquare = createBlackSquareTrailForPlayer(player)
+            function poolplayerloopfix()
+                EquipSpray()
+                task.wait(0.4)
+                if fetargetname == "All" then
+                    for _, v in pairs(players:GetPlayers()) do
+                        poolplayertarget = players:FindFirstChild(v.Name)
+                        poolplayerfunc()
+                        task.wait()
                     end
-                    if blackSquare then
-                        updateBlackSquareTrailForPlayer(blackSquare, player)
-                    end
+                else
+                    poolplayertarget = players:FindFirstChild(fetargetname)
+                    poolplayerfunc()
                 end
+                task.wait(15)
             end
-            task.wait(2)
+            wait()
+            pcall(poolplayerloopfix)
         end
     end
     if poolplayer == false then
@@ -2557,6 +2511,8 @@ Toggle:OnChanged(function(poolplayer)
         wait()
     end
 end)
+
+Options.MyToggle:SetValue(false)
 
 
 
