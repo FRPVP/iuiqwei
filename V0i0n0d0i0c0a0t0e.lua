@@ -7,52 +7,10 @@ local Window = Fluent:CreateWindow({
     SubTitle = "MM2",
     TabWidth = 120,
     Size = UDim2.fromOffset(480, 360),
-    Acrylic = true,
+    Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
     Theme = "Amethyst",
-    MinimizeKey = Enum.KeyCode.LeftControl
+    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
 })
-
--- Define a variable to track the visibility of the Fluent window
-local isWindowVisible = true
-
--- Function to toggle the visibility of the Fluent window
-local function toggleWindow()
-    if isWindowVisible then
-        Window:Close()
-    else
-        Window:Open()
-    end
-    isWindowVisible = not isWindowVisible
-end
-
--- Connect the minimize key to the toggleWindow function
-game:GetService("UserInputService").InputBegan:Connect(function(input)
-    if input.KeyCode == Window.MinimizeKey then
-        toggleWindow()
-    end
-end)
-
--- Your existing code to create the toggle button
-local gui = Instance.new("ScreenGui")
-gui.Name = "ToggleUiDCCHub"
-gui.Parent = game.CoreGui
-
-local toggleui = Instance.new("TextButton")
-toggleui.Size = UDim2.new(0, 75, 0, 75)
-toggleui.Position = UDim2.new(0.01001973976, 0, 0.343832953, 0)
-toggleui.BackgroundColor3 = Color3.fromRGB(28,28,28)
-toggleui.Active = true
-toggleui.Draggable = true
-toggleui.Parent = gui
-toggleui.Text = "Toggle Ui"
-toggleui.TextSize = 18
-toggleui.TextScaled = true
-toggleui.TextColor3 = Color3.fromRGB(255,255,255)
-toggleui.Font = Enum.Font.SourceSans
-toggleui.ZIndex = 0
-
--- Connect the toggle button to the toggleWindow function
-toggleui.MouseButton1Click:Connect(toggleWindow)
 
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
