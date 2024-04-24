@@ -2614,40 +2614,34 @@ function reerplayerfunc()
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (reerplayertarget.Character.HumanoidRootPart), reerplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0)
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Null", Default = false })
-
-Toggle:OnChanged(function(reerplayer)
-    if reerplayer == true then
-        reerplayerloop = true
-        while reerplayerloop do
-            function reerplayerloopfix()
-                EquipSpray()
-                task.wait(0.4)
-                if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            reerplayertarget = players:FindFirstChild(v.Name)
-                            reerplayerfunc()
-                            task.wait()
-                        end
-                    end
-                else
-                    reerplayertarget = players:FindFirstChild(fetargetname)
-                    reerplayerfunc()
+Tabs.Premium:AddButton({
+    Title = "Test",
+    Description = "",
+    Icon = "", -- Replace "icon.png" with the path to your icon file
+    Callback = function()
+        -- Check if a name is selected
+        if fetargetname == "All" then
+            EquipSpray() -- Equip the spray first
+            -- Iterate over all players and execute heatplayerfunc on each player except yourself
+            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if player ~= game:GetService("Players").LocalPlayer then
+                    reerplayerfunc(player)
                 end
-                task.wait(0)
             end
-            wait()
-            pcall(reerplayerloopfix)
+        elseif fetargetname ~= "" then
+            EquipSpray() -- Equip the spray first
+            -- Find the player with the selected name
+            local reerplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
+            if reerplayertarget then
+                reerplayerfunc(reerplayertarget) -- Execute heatplayerfunc on the player
+            else
+                print("Player not found.")
+            end
+        else
+            print("Please select a name from the dropdown.")
         end
     end
-    if reerplayer == false then
-        reerplayerloop = false
-        wait()
-    end
-end)
-
-Options.MyToggle:SetValue(false)
+})
 	
 
 
