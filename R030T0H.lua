@@ -1,34 +1,36 @@
-function holdplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (holdplayertarget.Character.HumanoidRootPart), holdplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+function collideplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (collideplayertarget.Character.HumanoidRootPart), collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Test", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Remove Collide Sensors", Default = false })
 
-Toggle:OnChanged(function(holdplayer)
-    if holdplayer == true then
-        holdplayerloop = true
-        while holdplayerloop do
-            function holdplayerloopfix()
+Toggle:OnChanged(function(collideplayer)
+    if collideplayer == true then
+        collideplayerloop = true
+        while collideplayerloop do
+            function collideplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        holdplayertarget = players:FindFirstChild(v.Name)
-                        holdplayerfunc()
-                        task.wait()
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            collideplayertarget = players:FindFirstChild(v.Name)
+                            collideplayerfunc()
+                            task.wait()
+                        end
                     end
                 else
-                    holdplayertarget = players:FindFirstChild(fetargetname)
-                    holdplayerfunc()
+                    collideplayertarget = players:FindFirstChild(fetargetname)
+                    collideplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(holdplayerloopfix)
+            pcall(collideplayerloopfix)
         end
     end
-    if holdplayer == false then
-        holdplayerloop = false
+    if collideplayer == false then
+        collideplayerloop = false
         wait()
     end
 end)
