@@ -1,36 +1,34 @@
-function reerplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (reerplayertarget.Character.HumanoidRootPart), reerplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0)
+function holdplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (holdplayertarget.Character.HumanoidRootPart), holdplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Remove Collides", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Test", Default = false })
 
-Toggle:OnChanged(function(reerplayer)
-    if reerplayer == true then
-        reerplayerloop = true
-        while reerplayerloop do
-            function reerplayerloopfix()
+Toggle:OnChanged(function(holdplayer)
+    if holdplayer == true then
+        holdplayerloop = true
+        while holdplayerloop do
+            function holdplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            reerplayertarget = players:FindFirstChild(v.Name)
-                            reerplayerfunc()
-                            task.wait()
-                        end
+                        holdplayertarget = players:FindFirstChild(v.Name)
+                        holdplayerfunc()
+                        task.wait()
                     end
                 else
-                    reerplayertarget = players:FindFirstChild(fetargetname)
-                    reerplayerfunc()
+                    holdplayertarget = players:FindFirstChild(fetargetname)
+                    holdplayerfunc()
                 end
-                task.wait(0)
+                task.wait(15)
             end
             wait()
-            pcall(reerplayerloopfix)
+            pcall(holdplayerloopfix)
         end
     end
-    if reerplayer == false then
-        reerplayerloop = false
+    if holdplayer == false then
+        holdplayerloop = false
         wait()
     end
 end)
