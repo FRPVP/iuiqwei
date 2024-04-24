@@ -1,5 +1,5 @@
 function collideplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (targetPlayer.Character.collideplayertarget), targetPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0)
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (collideplayertarget.Character.HumanoidRootPart), collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0)
 end
 
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Remove Colliders", Default = false })
