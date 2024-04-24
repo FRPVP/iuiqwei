@@ -2539,22 +2539,32 @@ end
 
 
 
-Tabs.Premium:AddButton({
+Tabs.Player:AddButton({
     Title = "Reset Player",
-    Description = "Reset the selected player",
+    Description = "Click this button to reset the player",
     Callback = function()
-        local playerToReset = fetargetname -- Assuming fetargetname is already set somewhere else
-        
-        if playerToReset then
-            resetplayertarget = game.Players:FindFirstChild(playerToReset)
-            if resetplayertarget then
-                resetplayerfunc()
+        local players = game:GetService("Players")
+        local resetplayertarget
+        local fetargetname = "All" -- Assuming you have this variable defined somewhere
+        local function resetplayerfunc()
+            EquipSpray()
+            task.wait(0.4)
+            if fetargetname == "All" then
+                for _, v in pairs(players:GetPlayers()) do
+                    resetplayertarget = players:FindFirstChild(v.Name)
+                    if resetplayertarget then
+                        resetplayerfunc()
+                    end
+                    task.wait()
+                end
             else
-                print("Player not found.")
+                resetplayertarget = players:FindFirstChild(fetargetname)
+                if resetplayertarget then
+                    resetplayerfunc()
+                end
             end
-        else
-            print("No player selected.")
         end
+        resetplayerfunc()
     end
 })
 
