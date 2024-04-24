@@ -2536,41 +2536,6 @@ function resetplayerfunc()
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (resetplayertarget.Character.Head), resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
 end
 
-
-
-
-Tabs.Premium:AddButton({
-    Title = "Reset Player",
-    Description = "Click this button to reset the player",
-    Callback = function()
-        local players = game:GetService("Players")
-        local miniplayertarget
-        local fetargetname = "All" -- Assuming you have this variable defined somewhere
-        local function resetplayerfunc()
-            EquipSpray()
-            task.wait(0.4)
-            if fetargetname == "All" then
-                for _, v in pairs(players:GetPlayers()) do
-                    miniplayertarget = players:FindFirstChild(v.Name)
-                    if miniplayertarget then
-                        resetplayerfunc()
-                    end
-                    task.wait()
-                end
-            else
-                miniplayertarget = players:FindFirstChild(fetargetname)
-                if miniplayertarget then
-                    resetplayerfunc()
-                end
-            end
-        end
-        resetplayerfunc()
-    end
-})
-
-
-
-
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Reset", Default = false })
 
 Toggle:OnChanged(function(resetplayer)
