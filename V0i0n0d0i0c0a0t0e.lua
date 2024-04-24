@@ -2580,7 +2580,7 @@ Toggle:OnChanged(function(resetplayer)
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        if v ~= game:GetService("Players").LocalPlayer then -- Skip the local player
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
                             resetplayertarget = players:FindFirstChild(v.Name)
                             resetplayerfunc()
                             task.wait()
