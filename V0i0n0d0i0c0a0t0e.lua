@@ -2532,13 +2532,21 @@ function heatplayerfunc(heatplayertarget)
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
 end
 
-Tabs.Premium:AddButton({
+Tabs.Player:AddButton({
     Title = "Reset",
-    Description = "",
-    Icon = "", -- Replace "icon.png" with the path to your icon file
+    Description = "Very important button",
+    Icon = "icon.png", -- Replace "icon.png" with the path to your icon file
     Callback = function()
         -- Check if a name is selected
-        if fetargetname ~= "" then
+        if fetargetname == "All" then
+            EquipSpray() -- Equip the spray first
+            -- Iterate over all players and execute heatplayerfunc on each player except yourself
+            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if player ~= game:GetService("Players").LocalPlayer then
+                    heatplayerfunc(player)
+                end
+            end
+        elseif fetargetname ~= "" then
             EquipSpray() -- Equip the spray first
             -- Find the player with the selected name
             local heatplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
