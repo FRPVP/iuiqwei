@@ -2579,14 +2579,17 @@ Toggle:OnChanged(function(resetplayer)
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        resetplayertarget = players:FindFirstChild(v.Name)
-                        resetplayerfunc()
+                    for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+                        if v ~= game:GetService("Players").LocalPlayer then
+                            resetplayerfunc(v)
+                        end
                         task.wait()
                     end
                 else
-                    resetplayertarget = players:FindFirstChild(fetargetname)
-                    resetplayerfunc()
+                    local resetplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
+                    if resetplayertarget and resetplayertarget ~= game:GetService("Players").LocalPlayer then
+                        resetplayerfunc(resetplayertarget)
+                    end
                 end
                 task.wait(0)
             end
