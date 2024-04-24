@@ -1,34 +1,36 @@
-function resetplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (resetplayertarget.Character.Head), resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+function collideplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (targetPlayer.Character.collideplayertarget), targetPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0)
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Blind", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Remove Colliders", Default = false })
 
-Toggle:OnChanged(function(resetplayer)
-    if resetplayer == true then
-        resetplayerloop = true
-        while resetplayerloop do
-            function resetplayerloopfix()
+Toggle:OnChanged(function(collideplayer)
+    if collideplayer == true then
+        collideplayerloop = true
+        while collideplayerloop do
+            function collideplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        resetplayertarget = players:FindFirstChild(v.Name)
-                        resetplayerfunc()
-                        task.wait()
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            collideplayertarget = players:FindFirstChild(v.Name)
+                            collideplayerfunc()
+                            task.wait()
+                        end
                     end
                 else
-                    resetplayertarget = players:FindFirstChild(fetargetname)
-                    resetplayerfunc()
+                    collideplayertarget = players:FindFirstChild(fetargetname)
+                    collideplayerfunc()
                 end
                 task.wait(0)
             end
             wait()
-            pcall(resetplayerloopfix)
+            pcall(collideplayerloopfix)
         end
     end
-    if resetplayer == false then
-        resetplayerloop = false
+    if collideplayer == false then
+        collideplayerloop = false
         wait()
     end
 end)
