@@ -2532,10 +2532,10 @@ function heatplayerfunc(heatplayertarget)
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
 end
 
-Tabs.Player:AddButton({
+Tabs.Premium:AddButton({
     Title = "Reset",
-    Description = "Very important button",
-    Icon = "icon.png", -- Replace "icon.png" with the path to your icon file
+    Description = "",
+    Icon = "", -- Replace "icon.png" with the path to your icon file
     Callback = function()
         -- Check if a name is selected
         if fetargetname == "All" then
@@ -2579,11 +2579,11 @@ Toggle:OnChanged(function(resetplayer)
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        resetplayertarget = players:FindFirstChild(v.Name)
-                        resetplayerfunc()
-                        task.wait()
-                    end
+                    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if player ~= game:GetService("Players").LocalPlayer then
+                    resetplayerfunc(player)
+                end
+            end
                 else
                     resetplayertarget = players:FindFirstChild(fetargetname)
                     resetplayerfunc()
