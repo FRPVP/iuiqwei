@@ -2533,7 +2533,7 @@ function heatplayerfunc(heatplayertarget)
 end
 
 Tabs.Premium:AddButton({
-    Title = "heat",
+    Title = "Reset",
     Description = "",
     Icon = "", -- Replace "icon.png" with the path to your icon file
     Callback = function()
