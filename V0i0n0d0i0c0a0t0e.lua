@@ -13,34 +13,6 @@ local Window = Fluent:CreateWindow({
 })
 
 
-
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.Players.LocalPlayer.PlayerGui
-
--- Create a Frame to hold the button
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, 100) -- Adjust the size as needed
-frame.Position = UDim2.new(0.5, -100, 0.5, -50) -- Center the frame
-frame.BackgroundColor3 = Color3.new(0.5, 0.5, 0.5) -- Gray color
-frame.Parent = gui
-
--- Create a TextButton inside the frame
-local button = Instance.new("TextButton")
-button.Text = "Press Ctrl"
-button.Size = UDim2.new(0, 150, 0, 50) -- Adjust the size as needed
-button.Position = UDim2.new(0.5, -75, 0.5, -25) -- Center the button
-button.Parent = frame
-
--- Function to simulate pressing Left Ctrl
-local function pressLeftCtrl()
-    -- Simulate pressing Left Ctrl key
-    game:GetService("UserInputService"):InputBegan({KeyCode = Enum.KeyCode.LeftControl})
-end
-
--- Connect the button's Click event to the function
-button.MouseButton1Click:Connect(pressLeftCtrl)
-
-
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
     Player = Window:AddTab({ Title = "Player", Icon = "" }),
