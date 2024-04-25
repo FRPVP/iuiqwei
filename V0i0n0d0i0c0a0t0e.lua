@@ -2697,7 +2697,7 @@ function faceplayerfunc()
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12579922286, Enum.NormalId.Bottom, 200, (faceplayertarget.Character.HumanoidRootPart), faceplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 500, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Creep Above Player", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Creep Above", Default = false })
 
 Toggle:OnChanged(function(faceplayer)
     if faceplayer == true then
