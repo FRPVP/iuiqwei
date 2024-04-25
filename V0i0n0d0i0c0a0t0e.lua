@@ -2738,7 +2738,7 @@ Options.MyToggle:SetValue(false)
 
 
 function trollplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10193511157, Enum.NormalId.Front, 8, (trollplayertarget.Character.HumanoidRootPart), trollplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10193511157, Enum.NormalId.Front, 3, (trollplayertarget.Character.HumanoidRootPart), trollplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,3,-2))
 end
 
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Troll Face", Default = false })
