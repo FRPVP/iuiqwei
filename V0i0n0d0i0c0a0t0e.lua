@@ -14,25 +14,7 @@ local Window = Fluent:CreateWindow({
 
 
 
-local gui = Instance.new("ScreenGui")
-gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
--- Create a TextButton
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 200, 0, 50) -- Size of the button
-button.Position = UDim2.new(0.5, -100, 0.5, -25) -- Position of the button (centered)
-button.Text = "Press me"
-button.Parent = gui
-
--- Function to simulate left Ctrl key press
-local function pressLeftCtrl()
-    local input = game:GetService("UserInputService")
-    input.InputBegan:Fire({KeyCode = Enum.KeyCode.LeftControl}, false)
-    input.InputEnded:Fire({KeyCode = Enum.KeyCode.LeftControl}, false)
-end
-
--- Connect the button's Click event to the function
-button.MouseButton1Click:Connect(pressLeftCtrl)
+local Button = Instance.new("TextButton", game:GetService("StarterGui"):WaitForChild("ScreenGui")); Button.Size = UDim2.new(0, 100, 0, 50); Button.Position = UDim2.new(0, 10, 0, 10); Button.Text = "Toggle Minimize"; local Minimized = false; game:GetService("UserInputService").InputBegan:Connect(function(Input) if Input.KeyCode == MinimizeKey then Minimized = not Minimized; Button.Text = Minimized and "Maximize" or "Minimize" end end); Button.MouseButton1Click:Connect(function() Minimized = not Minimized; Button.Text = Minimized and "Maximize" or "Minimize" end)
 
 
 
