@@ -2178,7 +2178,7 @@ end
 
 -- Create the dropdown with player names
 local Dropdown = Tabs.Premium:AddDropdown("Dropdown", {
-    Title = "Paint",
+    Title = "Spray Paint",
     Values = {},  -- Start with an empty list
     Multi = false,
     Default = 0,
