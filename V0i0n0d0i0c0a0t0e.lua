@@ -13,11 +13,6 @@ local Window = Fluent:CreateWindow({
 })
 
 
-
-local Button = Instance.new("TextButton", game:GetService("StarterGui"):WaitForChild("ScreenGui")); Button.Size = UDim2.new(0, 100, 0, 50); Button.Position = UDim2.new(0, 10, 0, 10); Button.Text = "Toggle Minimize"; local Minimized = false; game:GetService("UserInputService").InputBegan:Connect(function(Input) if Input.KeyCode == MinimizeKey then Minimized = not Minimized; Button.Text = Minimized and "Maximize" or "Minimize" end end); Button.MouseButton1Click:Connect(function() Minimized = not Minimized; Button.Text = Minimized and "Maximize" or "Minimize" end)
-
-
-
 --Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
 local Tabs = {
     Player = Window:AddTab({ Title = "Player", Icon = "" }),
