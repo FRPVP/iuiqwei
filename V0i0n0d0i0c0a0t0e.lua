@@ -2840,7 +2840,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(16
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(16989882575, Enum.NormalId.Left, 6, (boxplayertarget.Character.HumanoidRootPart), boxplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Sponge Sex", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Spongebob Sex", Default = false })
 
 Toggle:OnChanged(function(boxplayer)
     if boxplayer == true then
@@ -2851,11 +2851,9 @@ Toggle:OnChanged(function(boxplayer)
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            boxplayertarget = players:FindFirstChild(v.Name)
-                            boxplayerfunc()
-                            task.wait()
-                        end
+                        boxplayertarget = players:FindFirstChild(v.Name)
+                        boxplayerfunc()
+                        task.wait()
                     end
                 else
                     boxplayertarget = players:FindFirstChild(fetargetname)
