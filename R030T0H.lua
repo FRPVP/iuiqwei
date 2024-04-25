@@ -1,36 +1,36 @@
-function faceplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12579922286, Enum.NormalId.Bottom, 2048, (faceplayertarget.Character.HumanoidRootPart), faceplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 50, 0))
+function trollplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Front, 8, (trollplayertarget.Character.HumanoidRootPart), trollplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Creep Above Player", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Troll Face", Default = false })
 
-Toggle:OnChanged(function(faceplayer)
-    if faceplayer == true then
-        faceplayerloop = true
-        while faceplayerloop do
-            function faceplayerloopfix()
+Toggle:OnChanged(function(trollplayer)
+    if trollplayer == true then
+        trollplayerloop = true
+        while trollplayerloop do
+            function trollplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            faceplayertarget = players:FindFirstChild(v.Name)
-                            faceplayerfunc()
+                            trollplayertarget = players:FindFirstChild(v.Name)
+                            trollplayerfunc()
                             task.wait()
                         end
                     end
                 else
-                    faceplayertarget = players:FindFirstChild(fetargetname)
-                    faceplayerfunc()
+                    trollplayertarget = players:FindFirstChild(fetargetname)
+                    trollplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(faceplayerloopfix)
+            pcall(trollplayerloopfix)
         end
     end
-    if faceplayer == false then
-        faceplayerloop = false
+    if trollplayer == false then
+        trollplayerloop = false
         wait()
     end
 end)
