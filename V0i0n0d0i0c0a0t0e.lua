@@ -2694,10 +2694,10 @@ Options.MyToggle:SetValue(false)
 
 
 function faceplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12579922286, Enum.NormalId.Bottom, 200, (faceplayertarget.Character.HumanoidRootPart), faceplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 500, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12579922286, Enum.NormalId.Bottom, 500, (faceplayertarget.Character.HumanoidRootPart), faceplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 500, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Creep Above", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Sky Watcher", Default = false })
 
 Toggle:OnChanged(function(faceplayer)
     if faceplayer == true then
