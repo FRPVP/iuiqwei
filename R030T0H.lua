@@ -1,32 +1,38 @@
-function funnyplayerfunc(funnyplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10193511157, Enum.NormalId.Front, 1.5, (funnyplayertarget.Character.HumanoidRootPart), funnyplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,1.2,-1))
+function poolplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10193511157, Enum.NormalId.Front, 1.5, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,1.2,-1))
 end
 
-Tabs.Premium:AddButton({
-    Title = "Troll Face (15sec)",
-    Description = "",
-    Icon = "", -- Replace "icon.png" with the path to your icon file
-    Callback = function()
-        -- Check if a name is selected
-        if fetargetname == "All" then
-            EquipSpray() -- Equip the spray first
-            -- Iterate over all players and execute funnyplayerfunc on each player except yourself
-            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-                if player ~= game:GetService("Players").LocalPlayer then
-                    funnyplayerfunc(player)
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Blind", Default = false })
+
+Toggle:OnChanged(function(poolplayer)
+    if poolplayer == true then
+        poolplayerloop = true
+        while poolplayerloop do
+            function poolplayerloopfix()
+                EquipSpray()
+                task.wait(0.4)
+                if fetargetname == "All" then
+                    for _, v in pairs(players:GetPlayers()) do
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            poolplayertarget = players:FindFirstChild(v.Name)
+                            poolplayerfunc()
+                            task.wait()
+                        end
+                    end
+                else
+                    poolplayertarget = players:FindFirstChild(fetargetname)
+                    poolplayerfunc()
                 end
+                task.wait(15)
             end
-        elseif fetargetname ~= "" then
-            EquipSpray() -- Equip the spray first
-            -- Find the player with the selected name
-            local funnyplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
-            if funnyplayertarget then
-                funnyplayerfunc(funnyplayertarget) -- Execute funnyplayerfunc on the player
-            else
-                print("Player not found.")
-            end
-        else
-            print("Please select a name from the dropdown.")
+            wait()
+            pcall(poolplayerloopfix)
         end
     end
-})
+    if poolplayer == false then
+        poolplayerloop = false
+        wait()
+    end
+end)
+
+Options.MyToggle:SetValue(false)
