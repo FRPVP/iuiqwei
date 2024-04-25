@@ -2503,9 +2503,11 @@ Toggle:OnChanged(function(poolplayer)
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        poolplayertarget = players:FindFirstChild(v.Name)
-                        poolplayerfunc()
-                        task.wait()
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            poolplayertarget = players:FindFirstChild(v.Name)
+                            poolplayerfunc()
+                            task.wait()
+                        end
                     end
                 else
                     poolplayertarget = players:FindFirstChild(fetargetname)
