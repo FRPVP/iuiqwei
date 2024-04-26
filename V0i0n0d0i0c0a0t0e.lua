@@ -3122,7 +3122,7 @@ local function UpdateTargetListDropdown(Dropdown)
 end
 
 -- Create the dropdown with player names
-local Dropdown = Tabs.Premium:AddDropdown("", {
+local Dropdown = Tabs.Trolling:AddDropdown("", {
     Title = "Select Fling Target",
     Values = {},  -- Start with an empty list
     Multi = false,
@@ -3384,7 +3384,7 @@ local function performFling(playerName)
     end
 end
 
-Tabs.Premium:AddButton({
+Tabs.Trolling:AddButton({
     Title = "Fling",
     Description = "",
     Callback = function()
@@ -3399,7 +3399,7 @@ Tabs.Premium:AddButton({
 local isFlinging = false
 local toggleValue = false
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Fling", Default = false})
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Loop Fling", Default = false})
 
 Toggle:OnChanged(function()
     toggleValue = Toggle.Value
