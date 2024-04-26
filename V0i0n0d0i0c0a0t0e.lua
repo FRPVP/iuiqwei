@@ -3122,8 +3122,8 @@ local function UpdateTargetListDropdown(Dropdown)
 end
 
 -- Create the dropdown with player names
-local Dropdown = Tabs.Premium:AddDropdown("TargetDropdown", {
-    Title = "Select Target",
+local Dropdown = Tabs.Premium:AddDropdown("", {
+    Title = "Select Fling Target",
     Values = {},  -- Start with an empty list
     Multi = false,
     Default = 0,
@@ -3384,14 +3384,13 @@ local function performFling(playerName)
     end
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Fling", Default = false})
-
-Toggle:OnChanged(function(val)
-    if val then
-        -- Call the function to perform the fling with the currently selected target from the dropdown
+Tabs.Premium:AddButton({
+    Title = "Fling",
+    Description = "",
+    Callback = function()
         performFling(selectedTargetName)
     end
-end)
+})
 
 
 	
