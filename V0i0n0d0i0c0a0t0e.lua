@@ -3397,40 +3397,24 @@ Tabs.Trolling:AddButton({
 
 
 local isFlinging = false
-local toggleValue = false
 
--- Define the function to handle the fling process
-local function toggleFling()
-    if toggleValue then
-        print("Fling toggled on")
-        isFlinging = true
+local Toggle = Tabs.Trolling:AddToggle("", { Title = "Toggle", Default = false })
+
+Toggle:OnChanged(function()
+    isFlinging = not isFlinging
+    if isFlinging then
+        print("Flinging loop started")
+        -- Assuming 'selectedTargetName' is defined somewhere else
         while isFlinging do
             performFling(selectedTargetName)
-            wait(1) -- Adjust the delay between flings if needed
-            if not toggleValue then
-                print("Fling toggled off")
-                isFlinging = false
-            end
+            wait(1) -- Adjust the wait time as needed
         end
     else
-        print("Fling toggled off")
-        isFlinging = false
+        print("Flinging loop stopped")
     end
-end
+end)
 
--- Define the function to handle toggle change events
-local function onToggleChanged()
-    toggleValue = Toggle.Value
-    toggleFling()
-end
-
-local Toggle = Tabs.Trolling:AddToggle("", {Title = "Toggle Fling", Default = false})
-
--- Call onToggleChanged when the toggle state changes
-Toggle:OnChanged(onToggleChanged)
-
--- Set the initial state of the toggle
-Options.FlingToggle:SetValue(false)
+Options.MyToggle:SetValue(false)
 
 
 
