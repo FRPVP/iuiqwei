@@ -3393,17 +3393,6 @@ Toggle:OnChanged(function(val)
     end
 end)
 
-local Dropdown = Tabs.Premium:AddDropdown("TargetDropdown", {
-    Title = "Select Target",
-    Values = {"All"},
-    Multi = false,
-    Default = 0,
-})
-
-Dropdown:OnChanged(function(selectedTarget)
-    selectedTargetName = selectedTarget
-end)
-
 
 	
 
