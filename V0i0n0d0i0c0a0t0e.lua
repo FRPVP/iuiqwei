@@ -3396,21 +3396,16 @@ Tabs.Trolling:AddButton({
 
 
 
-local isFlinging = false
-
-local Toggle = Tabs.Trolling:AddToggle("", { Title = "Toggle", Default = false })
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Flinging", Default = false })
 
 Toggle:OnChanged(function()
-    isFlinging = not isFlinging
-    if isFlinging then
-        print("Flinging loop started")
-        -- Assuming 'selectedTargetName' is defined somewhere else
-        while isFlinging do
+    if Toggle.Value then
+        print("Flinging enabled")
+        while Toggle.Value do
             performFling(selectedTargetName)
-            wait(1) -- Adjust the wait time as needed
+            wait(1) -- Adjust this delay as needed
         end
-    else
-        print("Flinging loop stopped")
+        print("Flinging disabled")
     end
 end)
 
