@@ -348,7 +348,7 @@ end
 
 
 
-Tabs.Player:AddButton({
+Tabs.Visual:AddButton({
     Title = "Message Roles",
     Description = "",
     Callback = function()
@@ -382,7 +382,7 @@ Tabs.Player:AddButton({
 
 local Stealth -- Declare Stealth variable outside of the scope
 
-local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Ghost", Default = false })
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Ghost", Default = false })
 
 Toggle:OnChanged(function()
     local val = Toggle.Value
@@ -415,7 +415,7 @@ Options.MyToggle:SetValue(false) -- Ensure the toggle starts in the off position
 
 local sprint -- Declare sprint variable outside of the scope
 
-local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Sprint Trail", Default = false })
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Sprint Trail", Default = false })
 
 Toggle:OnChanged(function()
     local val = Toggle.Value
@@ -446,7 +446,7 @@ Options.MyToggle:SetValue(false) -- Ensure the toggle starts in the off position
 
 
 
-Tabs.Player:AddButton({
+Tabs.Trolling:AddButton({
     Title = "Spawn Trap",
     Description = "Spawn a trap (Trap Perk Required)",
     Callback = function()
@@ -470,7 +470,7 @@ Tabs.Player:AddButton({
 local trapSpawnConnection -- Declare the connection variable outside the scope
 local trapDelay = 2 -- Default delay
 
-local Toggle = Tabs.Player:AddToggle("", {Title = "Loop Traps", Default = false })
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Loop Traps", Default = false })
 
 Toggle:OnChanged(function()
     local val = Toggle.Value
@@ -491,7 +491,7 @@ Toggle:OnChanged(function()
 end)
 
 -- Slider to control the delay between trap spawns
-local Slider = Tabs.Player:AddSlider("Trap Spawn Delay", {
+local Slider = Tabs.Trolling:AddSlider("Trap Spawn Delay", {
     Title = "Loop Trap Delay",
     Description = "Adjust the delay between trap spawns",
     Default = trapDelay,
@@ -543,7 +543,7 @@ end)
 
 
 
-Tabs.Player:AddButton({
+Tabs.Visual:AddButton({
     Title = "Notify Roles",
     Description = "",
     Callback = function()
