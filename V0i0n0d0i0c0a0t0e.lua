@@ -3399,7 +3399,7 @@ Tabs.Premium:AddButton({
 local isFlinging = false
 local toggleValue = false
 
-local Toggle = Tabs.Player:AddToggle("", {Title = "Toggle Fling", Default = false})
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Fling", Default = false})
 
 Toggle:OnChanged(function()
     toggleValue = Toggle.Value
