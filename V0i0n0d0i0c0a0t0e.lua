@@ -3403,7 +3403,7 @@ local function performFling(targetName)
     print("Flinging:", targetName)
 end
 
-local Toggle = Tabs.Premium:AddToggle("FlingToggle", {Title = "Fling Toggle", Default = false})
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Fling", Default = false})
 
 Toggle:OnChanged(function()
     isFlinging = Toggle.Value
