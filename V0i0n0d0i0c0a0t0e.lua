@@ -2958,11 +2958,9 @@ Toggle:OnChanged(function(communistplayer)
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            communistplayertarget = players:FindFirstChild(v.Name)
-                            communistplayerfunc()
-                            task.wait()
-                        end
+                        communistplayertarget = players:FindFirstChild(v.Name)
+                        communistplayerfunc()
+                        task.wait()
                     end
                 else
                     communistplayertarget = players:FindFirstChild(fetargetname)
