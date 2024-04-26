@@ -3091,76 +3091,72 @@ Tabs.Premium:AddButton({
 
 
 
-local godModeEnabled = false
-local accessories = {}
+local TouchFlig = nil -- Declare TouchFlig outside the toggle function
+local hiddenfling = false -- Declare hiddenfling outside the toggle function
 
-local function activateGodMode()
-    if game.Players.LocalPlayer.Character then
-        if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
-            for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
-                table.insert(accessories, accessory:Clone())
-            end
-            game.Players.LocalPlayer.Character.Humanoid.Name = "boop"
-        end
-        local v = game.Players.LocalPlayer.Character["boop"]:Clone()
-        v.Parent = game.Players.LocalPlayer.Character
-        v.Name = "Humanoid"
-        wait(0.1)
-        game.Players.LocalPlayer.Character["boop"]:Destroy()
-        workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
-        for _, accessory in pairs(accessories) do
-            game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
-        end
-        game.Players.LocalPlayer.Character.Animate.Disabled = true
-        wait(0.1)
-        game.Players.LocalPlayer.Character.Animate.Disabled = false
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Touch Fling", Default = false})
 
-        -- Jump Functionality
-        local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
-        if humanoid then
-            local user_input = game:GetService("UserInputService")
-            local is_jumping = false
-            local jump_height = 7 -- Adjust this value to set the jump height
+Toggle:OnChanged(function(val)
+    if val then
+        if not TouchFlig then -- Check if TouchFlig is not already connected
+            TouchFlig = RS.RenderStepped:Connect(function()
+                hiddenfling = false
 
-            user_input.InputBegan:Connect(function(input, isProcessed)
-                if not isProcessed and input.KeyCode == Enum.KeyCode.Space and not is_jumping then
-                    is_jumping = true
-                    while user_input:IsKeyDown(Enum.KeyCode.Space) do
-                        humanoid.Jump = true
-                        wait()
+                local function enableWalkfling()
+                    if game:GetService("ReplicatedStorage"):FindFirstChild("juisdfj0i32i0eidsuf0iok") then
+                        hiddenfling = true
+                    else
+                        hiddenfling = true
+                        local detection = Instance.new("Decal")
+                        detection.Name = "juisdfj0i32i0eidsuf0iok"
+                        detection.Parent = game:GetService("ReplicatedStorage")
+
+                        -- Fling function
+                        local function fling()
+                            local hrp, c, vel, movel = nil, nil, nil, 0.1
+                            while true do
+                                game:GetService("RunService").Heartbeat:Wait()
+                                if hiddenfling then
+                                    local lp = game.Players.LocalPlayer
+                                    while hiddenfling and not (c and c.Parent and hrp and hrp.Parent) do
+                                        game:GetService("RunService").Heartbeat:Wait()
+                                        c = lp.Character
+                                        hrp = c:FindFirstChild("HumanoidRootPart") or c:FindFirstChild("Torso") or c:FindFirstChild("UpperTorso")
+                                    end
+                                    if hiddenfling then
+                                        vel = hrp.Velocity
+                                        hrp.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
+                                        game:GetService("RunService").RenderStepped:Wait()
+                                        if c and c.Parent and hrp and hrp.Parent then
+                                            hrp.Velocity = vel
+                                        end
+                                        game:GetService("RunService").Stepped:Wait()
+                                        if c and c.Parent and hrp and hrp.Parent then
+                                            hrp.Velocity = vel + Vector3.new(0, movel, 0)
+                                            movel = movel * -1
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                        fling()
                     end
-                    is_jumping = false
                 end
+
+                -- Call the function to enable walkfling when the script is executed
+                enableWalkfling()
             end)
         end
-    end
-end
-
-local function deactivateGodMode()
-    -- Reset character to normal state
-    for _, accessory in pairs(accessories) do
-        accessory:Destroy()
-    end
-    accessories = {}
-    local character = game.Players.LocalPlayer.Character
-    if character then
-        local humanoid = character:FindFirstChild("Humanoid")
-        if humanoid then
-            humanoid.Name = "Humanoid"
-            humanoid.Animate.Disabled = false
+    else
+        if TouchFlig then -- Check if TouchFlig is connected
+            TouchFlig:Disconnect() -- Disconnect TouchFlig
+            TouchFlig = nil -- Set TouchFlig to nil to indicate it's disconnected
+            hiddenfling = false
         end
     end
-end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "God Mode", Default = false})
-
-Toggle:OnChanged(function(enabled)
-    if enabled then
-        activateGodMode()
-    else
-        deactivateGodMode()
-    end
 end)
+
 
 
 
