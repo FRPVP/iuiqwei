@@ -3393,7 +3393,45 @@ Tabs.Premium:AddButton({
 })
 
 
-	
+
+
+
+local isFlinging = false
+
+local function performFling(targetName)
+    -- Your function to perform the fling action goes here
+    print("Flinging:", targetName)
+end
+
+local Toggle = Tabs.Premium:AddToggle("FlingToggle", {Title = "Fling Toggle", Default = false})
+
+Toggle:OnChanged(function()
+    isFlinging = Toggle.Value
+    if isFlinging then
+        print("Flinging started")
+        -- Here you can start your loop to fling the player continuously
+        while isFlinging do
+            performFling(selectedTargetName) -- Replace selectedTargetName with your target name
+            wait(1) -- Adjust the wait time as needed
+        end
+    else
+        print("Flinging stopped")
+        -- If you need to do something when the fling is stopped, you can add it here
+    end
+end)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 end
 
