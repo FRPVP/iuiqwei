@@ -1,36 +1,36 @@
-function trollplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(6978648716, Enum.NormalId.Front, 1.5, (trollplayertarget.Character.HumanoidRootPart), trollplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,5,0))
+function communistplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(6978648716, Enum.NormalId.Front, 5, (communistplayertarget.Character.HumanoidRootPart), communistplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,5,0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Troll Face", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Communist", Default = false })
 
-Toggle:OnChanged(function(trollplayer)
-    if trollplayer == true then
-        trollplayerloop = true
-        while trollplayerloop do
-            function trollplayerloopfix()
+Toggle:OnChanged(function(communistplayer)
+    if communistplayer == true then
+        communistplayerloop = true
+        while communistplayerloop do
+            function communistplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            trollplayertarget = players:FindFirstChild(v.Name)
-                            trollplayerfunc()
+                            communistplayertarget = players:FindFirstChild(v.Name)
+                            communistplayerfunc()
                             task.wait()
                         end
                     end
                 else
-                    trollplayertarget = players:FindFirstChild(fetargetname)
-                    trollplayerfunc()
+                    communistplayertarget = players:FindFirstChild(fetargetname)
+                    communistplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(trollplayerloopfix)
+            pcall(communistplayerloopfix)
         end
     end
-    if trollplayer == false then
-        trollplayerloop = false
+    if communistplayer == false then
+        communistplayerloop = false
         wait()
     end
 end)
