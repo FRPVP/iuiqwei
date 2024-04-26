@@ -2970,6 +2970,43 @@ Options.MyToggle:SetValue(false)
 
 
 
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Fake Gun Rain", Default = false })
+
+local dropGunEnabled = false
+local dropGunConnection = nil
+
+Toggle:OnChanged(function()
+    local toggleValue = Toggle.Value
+    print("Toggle changed:", toggleValue)
+    if toggleValue then
+        -- Start dropping fake gun
+        dropGunEnabled = true
+        dropGunConnection = game:GetService("RunService").Stepped:Connect(function()
+            if dropGunEnabled then
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(true)
+                wait(0.2)
+                local character = game.Players.LocalPlayer.Character
+                if character then
+                    local tool = character:FindFirstChildOfClass("Tool")
+                    if tool then
+                        tool.Parent = game.Workspace
+                    end
+                end
+            end
+        end)
+    else
+        -- Stop dropping fake gun
+        dropGunEnabled = false
+        if dropGunConnection then
+            dropGunConnection:Disconnect()
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+	
+
 
 
 end
