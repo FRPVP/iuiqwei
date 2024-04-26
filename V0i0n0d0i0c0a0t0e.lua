@@ -3399,10 +3399,8 @@ Tabs.Trolling:AddButton({
 local isFlinging = false
 local toggleValue = false
 
-local Toggle = Tabs.Trolling:AddToggle("", {Title = "Loop Fling", Default = false})
-
-Toggle:OnChanged(function()
-    toggleValue = Toggle.Value
+-- Define the function to handle the fling process
+local function toggleFling()
     if toggleValue then
         print("Fling toggled on")
         isFlinging = true
@@ -3418,8 +3416,20 @@ Toggle:OnChanged(function()
         print("Fling toggled off")
         isFlinging = false
     end
-end)
+end
 
+-- Define the function to handle toggle change events
+local function onToggleChanged()
+    toggleValue = Toggle.Value
+    toggleFling()
+end
+
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Toggle Fling", Default = false})
+
+-- Call onToggleChanged when the toggle state changes
+Toggle:OnChanged(onToggleChanged)
+
+-- Set the initial state of the toggle
 Options.FlingToggle:SetValue(false)
 
 
