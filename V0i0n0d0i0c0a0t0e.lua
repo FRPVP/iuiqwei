@@ -3094,67 +3094,60 @@ Tabs.Premium:AddButton({
 
 
 local godModeEnabled = false
-local godModeLoop = nil
+local accessories = {}
+local godModeConnection = nil
 
-local ToggleGodMode = Tabs.Premium:AddToggle({
-    Title = "Loop 2 Lives",
-    Description = "Toggle invincibility and infinite jumping.",
+local Toggle = Tabs.Premium:AddToggle({
+    Title = "God Mode",
+    Description = "Make the player invincible and enable infinite jumping.",
     Default = false,
     Callback = function(value)
         godModeEnabled = value
-        if value then
-            godModeLoop = RS.RenderStepped:Connect(function()
-                if godModeEnabled then
-                    if game.Players.LocalPlayer.Character then
-                        local accessories = {}
-
-                        if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
-                            for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
-                                table.insert(accessories, accessory:Clone())
-                            end
-                            game.Players.LocalPlayer.Character.Humanoid.Name = "boop"
+        if godModeEnabled then
+            godModeConnection = RS.RenderStepped:Connect(function()
+                if game.Players.LocalPlayer.Character then
+                    if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+                        for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
+                            table.insert(accessories, accessory:Clone())
                         end
-                        local v = game.Players.LocalPlayer.Character["boop"]:Clone()
-                        v.Parent = game.Players.LocalPlayer.Character
-                        v.Name = "Humanoid"
-                        wait(0.1)
-                        game.Players.LocalPlayer.Character["boop"]:Destroy()
-                        workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
-                        for _, accessory in pairs(accessories) do
-                            game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
-                        end
-                        game.Players.LocalPlayer.Character.Animate.Disabled = true
-                        wait(0.1)
-                        game.Players.LocalPlayer.Character.Animate.Disabled = false
-
-                        -- Jump Functionality
-                        local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
-                        if humanoid then
-                            local user_input = game:GetService("UserInputService")
-                            local is_jumping = false
-                            local jump_height = 7 -- Adjust this value to set the jump height
-
-                            user_input.InputBegan:Connect(function(input, isProcessed)
-                                if not isProcessed and input.KeyCode == Enum.KeyCode.Space and not is_jumping then
-                                    is_jumping = true
-                                    while user_input:IsKeyDown(Enum.KeyCode.Space) do
-                                        humanoid.Jump = true
-                                        wait()
-                                    end
-                                    is_jumping = false
-                                end
-                            end)
-                        end
+                        game.Players.LocalPlayer.Character.Humanoid.Name = "boop"
                     end
-                else
-                    if godModeLoop then
-                        godModeLoop:Disconnect()
+                    local v = game.Players.LocalPlayer.Character["boop"]:Clone()
+                    v.Parent = game.Players.LocalPlayer.Character
+                    v.Name = "Humanoid"
+                    wait(0.1)
+                    game.Players.LocalPlayer.Character["boop"]:Destroy()
+                    workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+                    for _, accessory in pairs(accessories) do
+                        game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
+                    end
+                    game.Players.LocalPlayer.Character.Animate.Disabled = true
+                    wait(0.1)
+                    game.Players.LocalPlayer.Character.Animate.Disabled = false
+
+                    -- Jump Functionality
+                    local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+                    if humanoid then
+                        local user_input = game:GetService("UserInputService")
+                        local is_jumping = false
+                        local jump_height = 7 -- Adjust this value to set the jump height
+
+                        user_input.InputBegan:Connect(function(input, isProcessed)
+                            if not isProcessed and input.KeyCode == Enum.KeyCode.Space and not is_jumping then
+                                is_jumping = true
+                                while user_input:IsKeyDown(Enum.KeyCode.Space) do
+                                    humanoid.Jump = true
+                                    wait()
+                                end
+                                is_jumping = false
+                            end
+                        end)
                     end
                 end
             end)
         else
-            if godModeLoop then
-                godModeLoop:Disconnect()
+            if godModeConnection then
+                godModeConnection:Disconnect()
             end
         end
     end
