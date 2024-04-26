@@ -2890,15 +2890,6 @@ Options.MyToggle:SetValue(false)
 
 
 
-
-Tabs.Premium:AddParagraph({
-        Title = "Spray Paint Fun",
-        Content = ""
-    })
-
-
-
-
 function spongeplayerfunc()
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17282019822, Enum.NormalId.Top, 6, (spongeplayertarget.Character.HumanoidRootPart), spongeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17282019822, Enum.NormalId.Bottom, 6, (spongeplayertarget.Character.HumanoidRootPart), spongeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
