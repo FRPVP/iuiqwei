@@ -2943,6 +2943,14 @@ Options.MyToggle:SetValue(false)
 
 
 
+    Tabs.Premium:AddParagraph({
+        Title = "Paragraph",
+        Content = "\nSecond line"
+    })
+
+
+
+
 function communistplayerfunc()
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(6978648716, Enum.NormalId.Front, 5, (communistplayertarget.Character.HumanoidRootPart), communistplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,5,0))
 end
