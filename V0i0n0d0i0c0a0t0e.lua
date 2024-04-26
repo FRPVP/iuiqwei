@@ -3009,6 +3009,36 @@ Options.MyToggle:SetValue(false)
 
 
 
+
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Break Gun", Default = false })
+
+local loopBreakG = nil
+
+Toggle:OnChanged(function(val)
+    if val then
+        loopBreakG = RS.RenderStepped:Connect(function()
+            for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+                if v ~= game.Players.LocalPlayer and v.Backpack:FindFirstChild("Gun") and v.Character ~= nil then
+                    v.Backpack.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                elseif v ~= game.Players.LocalPlayer and v.Character:FindFirstChild("Gun") and v.Character ~= nil then
+                    v.Character.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                end
+            end
+        end)
+    else
+        if loopBreakG then
+            loopBreakG:Disconnect()
+        end
+    end
+end)
+
+
+
+
+
+
+
 end
 
 
