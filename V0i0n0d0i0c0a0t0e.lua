@@ -1281,20 +1281,6 @@ require(game:GetService('ReplicatedStorage').Modules.EmoteModule).GeneratePage({
     })
     
     
-    
-    
-    
-    
-    
-                Tabs.Combat:AddButton({
-        Title = "FE Roblox Emotes",
-        Description = "Key = BETA",
-        Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/script-by/Nx-Crazy/main/Silent-Aim-MM2"))()
-        end
-    })
-    
-    
 
 
 
@@ -2939,14 +2925,6 @@ end)
 Options.MyToggle:SetValue(false)
 
 
-
-
-
-
-    Tabs.Premium:AddParagraph({
-        Title = "Paragraph",
-        Content = "\nSecond line"
-    })
 
 
 
