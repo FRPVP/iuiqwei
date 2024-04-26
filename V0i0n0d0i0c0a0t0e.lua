@@ -1286,11 +1286,11 @@ require(game:GetService('ReplicatedStorage').Modules.EmoteModule).GeneratePage({
     
     
     
-                Tabs.Emotes:AddButton({
+                Tabs.Combat:AddButton({
         Title = "FE Roblox Emotes",
-        Description = "",
+        Description = "Key = BETA",
         Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FEmotesGui/main/FEmotesGui.lua", true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/script-by/Nx-Crazy/main/Silent-Aim-MM2"))()
         end
     })
     
