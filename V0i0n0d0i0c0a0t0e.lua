@@ -5379,11 +5379,78 @@ TreesFling("cheese")
 
 
 
+local players = game:GetService("Players")
+
+local function UpdatePlayerListDropdown(Dropdown)
+    local playerList = {"All"}
+    for _, player in pairs(players:GetPlayers()) do
+        table.insert(playerList, player.Name)
+    end
+    Dropdown:SetValues(playerList)
+end
+
+-- Create the dropdown with player names
+local Dropdown = Tabs.Premium:AddDropdown("Dropdown", {
+    Title = "Trade Target",
+    Values = {},  -- Start with an empty list
+    Multi = false,
+    Default = 0,
+})
+
+-- Update the dropdown with the current player list
+UpdatePlayerListDropdown(Dropdown)
+
+-- Function to handle player join
+local function OnPlayerAdded(player)
+    UpdatePlayerListDropdown(Dropdown)
+end
+
+-- Function to handle player leaving
+local function OnPlayerRemoving(player)
+    UpdatePlayerListDropdown(Dropdown)
+end
+
+-- Connect player events
+players.PlayerAdded:Connect(OnPlayerAdded)
+players.PlayerRemoving:Connect(OnPlayerRemoving)
+
+-- Callback function when dropdown value changes
+Dropdown:OnChanged(function(tradetarget)
+    tradetargetname = tradetarget
+end)
 
 
 
 
 
+
+Tabs.Premium:AddButton({
+    Title = "Trade",
+    Description = "",
+    Callback = function()
+    local function sendTradeRequest(tradetargetname)
+    local targetTradePlayer = game:GetService("Players"):FindFirstChild(tradetargetname)
+
+    if targetTradePlayer then
+        local args = {
+            [1] = targetTradePlayer
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("SendRequest"):InvokeServer(unpack(args))
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("AcceptRequest"):FireServer()
+    else
+        warn("Player not found:", tradetargetname)
+    end
+end
+    end
+})
+
+
+
+
+
+	
 
 end
 
