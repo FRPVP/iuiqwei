@@ -5379,17 +5379,12 @@ TreesFling("cheese")
 
 
 
-local players = game:GetService("Players")
 
-local function UpdatePlayerListDropdown(Dropdown)
-    local playerList = {"All"}
-    for _, player in pairs(players:GetPlayers()) do
-        table.insert(playerList, player.Name)
-    end
-    Dropdown:SetValues(playerList)
-end
 
--- Create the dropdown with player names
+
+
+
+
 local Dropdown = Tabs.Premium:AddDropdown("Dropdown", {
     Title = "Trade Target",
     Values = {},  -- Start with an empty list
@@ -5415,34 +5410,45 @@ players.PlayerAdded:Connect(OnPlayerAdded)
 players.PlayerRemoving:Connect(OnPlayerRemoving)
 
 -- Callback function when dropdown value changes
-Dropdown:OnChanged(function(tradetarget)
-    tradetargetname = tradetarget
+Dropdown:OnChanged(function(tradeTargetName)
+    sendTradeRequest(tradeTargetName)
 end)
 
 
 
 
 
+local function sendTradeRequest(targetPlayerName)
+    local targetPlayer = game:GetService("Players"):FindFirstChild(targetPlayerName)
 
-Tabs.Premium:AddButton({
-    Title = "Trade",
-    Description = "",
-    Callback = function()
-    local function sendTradeRequest(tradetargetname)
-    local targetTradePlayer = game:GetService("Players"):FindFirstChild(tradetargetname)
-
-    if targetTradePlayer then
+    if targetPlayer then
         local args = {
-            [1] = targetTradePlayer
+            [1] = targetPlayer
         }
 
         game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("SendRequest"):InvokeServer(unpack(args))
 
         game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("AcceptRequest"):FireServer()
     else
-        warn("Player not found:", tradetargetname)
+        warn("Player not found:", targetPlayerName)
     end
 end
+
+
+
+
+
+Tabs.Premium:AddButton({
+    Title = "Button",
+    Description = "",
+    Callback = function()
+        local selectedPlayer = Dropdown:GetValue()
+        if selectedPlayer then
+            sendTradeRequest(selectedPlayer)
+        else
+            print("No player selected.")
+        end
+    end
 })
 
 
