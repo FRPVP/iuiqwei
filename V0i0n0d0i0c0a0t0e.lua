@@ -5451,7 +5451,27 @@ Tabs.Premium:AddButton({
 
 
 
+local function ToggleLoop()
+    if selectedPlayer ~= "All" then
+        while isLooping do
+            SendTradeRequestToPlayer(selectedPlayer)
+            wait(0) -- Adjust the delay as needed
+        end
+    else
+        print("Please select a valid player.")
+    end
+end
 
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Force Trade", Default = false })
+
+Toggle:OnChanged(function()
+    isLooping = Toggle.Value
+    if isLooping then
+        ToggleLoop()
+    end
+end)
+
+Options.MyToggle:SetValue(false)
 
 
 
