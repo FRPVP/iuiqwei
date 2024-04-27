@@ -5497,7 +5497,7 @@ local function removeTradeGUI()
         savedTradeGUI = tradeGUI
 
         -- Hide the TradeGUI
-        tradeGUI.Parent = nil
+        tradeGUI:Destroy() -- Use Destroy() to remove the GUI instead of reparenting
         print("TradeGUI removed successfully!")
     else
         print("TradeGUI not found.")
@@ -5516,7 +5516,7 @@ local function restoreTradeGUI()
     end
 end
 
-local ToggleTradeGUI = Tabs.Premium:AddToggle("", {Title = "Toggle TradeGUI", Default = false})
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Remove Trade GUI", Default = false})
 
 ToggleTradeGUI:OnChanged(function(isEnabled)
     if isEnabled then
