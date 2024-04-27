@@ -5571,12 +5571,19 @@ end
 local section = Tabs.Settings:AddSection("World/Player")
 
 Tabs.Settings:AddButton({
-    Title = "Reset",
+    Title = "Reset Yourself",
     Description = "",
     Callback = function()
-    lp.Character.Humanoid.Health = 0
-lp.Character.Head:Remove()
-lp.Character.Humanoid.BreakJointsOnDeath = false
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Function to reset the character
+local function resetCharacter()
+    character:BreakJoints()
+end
+
+-- Reset the character immediately upon script execution
+resetCharacter()
 end
 })
 
