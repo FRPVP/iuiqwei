@@ -5481,7 +5481,7 @@ Options.MyToggle:SetValue(false)
 
 
 
-local player = game.Players.LocalPlayer
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Toggle", Default = false })
 
 -- Variable to store TradeGUI reference
 local savedTradeGUI = nil
@@ -5489,7 +5489,7 @@ local savedTradeGUI = nil
 -- Function to remove TradeGUI
 local function removeTradeGUI()
     -- Find the TradeGUI in the player's PlayerGui
-    local tradeGUI = player.PlayerGui:FindFirstChild("TradeGUI")
+    local tradeGUI = game.Players.LocalPlayer.PlayerGui:FindFirstChild("TradeGUI")
 
     -- Check if the TradeGUI exists
     if tradeGUI then
@@ -5497,7 +5497,7 @@ local function removeTradeGUI()
         savedTradeGUI = tradeGUI
 
         -- Hide the TradeGUI
-        tradeGUI:Destroy() -- Use Destroy() to remove the GUI instead of reparenting
+        tradeGUI.Parent = nil
         print("TradeGUI removed successfully!")
     else
         print("TradeGUI not found.")
@@ -5509,22 +5509,25 @@ local function restoreTradeGUI()
     -- Check if there's a saved reference to TradeGUI
     if savedTradeGUI then
         -- Restore TradeGUI
-        savedTradeGUI.Parent = player.PlayerGui
+        savedTradeGUI.Parent = game.Players.LocalPlayer.PlayerGui
         print("TradeGUI restored successfully!")
     else
         print("No TradeGUI to restore.")
     end
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Remove Trade GUI", Default = false})
-
-ToggleTradeGUI:OnChanged(function(isEnabled)
-    if isEnabled then
+Toggle:OnChanged(function()
+    -- Toggle logic
+    if Toggle.Value then
+        -- Call the function to remove TradeGUI
         removeTradeGUI()
     else
+        -- Call the function to restore TradeGUI
         restoreTradeGUI()
     end
 end)
+
+Options.MyToggle:SetValue(false)
 
 
 
