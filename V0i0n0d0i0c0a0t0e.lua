@@ -5406,8 +5406,8 @@ local function UpdatePlayerDropdown(Dropdown)
 end
 
 -- Create the dropdown with player names
-local PlayerDropdown = Tabs.Player:AddDropdown("PlayerDropdown", {
-    Title = "Select Player",
+local PlayerDropdown = Tabs.Premium:AddDropdown("PlayerDropdown", {
+    Title = "Trade Target",
     Values = {},  -- Start with an empty list
     Multi = false,
     Default = 0,
@@ -5430,16 +5430,9 @@ end
 game:GetService("Players").PlayerAdded:Connect(OnPlayerAdded)
 game:GetService("Players").PlayerRemoving:Connect(OnPlayerRemoving)
 
--- Callback function when dropdown value changes
-PlayerDropdown:OnChanged(function(selectedPlayer)
-    if selectedPlayer ~= "All" then
-        SendTradeRequestToPlayer(selectedPlayer)
-    end
-end)
-
-Tabs.Player:AddButton({
-    Title = "Send Trade",
-    Description = "Send a trade request to the selected player",
+Tabs.Premium:AddButton({
+    Title = "Trade",
+    Description = "",
     Callback = function()
         local selectedPlayer = PlayerDropdown:GetValue() -- Get the selected player from the dropdown
         if selectedPlayer and selectedPlayer ~= "All" then
