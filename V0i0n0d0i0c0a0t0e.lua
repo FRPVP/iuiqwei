@@ -5381,47 +5381,74 @@ TreesFling("cheese")
 
 
 
-local players = game:GetService("Players")
+local function SendTradeRequestToPlayer(targetPlayerName)
+    local targetPlayer = game:GetService("Players"):FindFirstChild(targetPlayerName)
 
-local function UpdatePlayerListDropdown(Dropdown)
+    if targetPlayer then
+        local args = {
+            [1] = targetPlayer
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("SendRequest"):InvokeServer(unpack(args))
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("AcceptRequest"):FireServer()
+    else
+        warn("Player not found:", targetPlayerName)
+    end
+end
+
+local function UpdatePlayerDropdown(Dropdown)
     local playerList = {"All"}
-    for _, player in pairs(players:GetPlayers()) do
+    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
         table.insert(playerList, player.Name)
     end
     Dropdown:SetValues(playerList)
 end
 
 -- Create the dropdown with player names
-local Dropdown = Tabs.Premium:AddDropdown("Dropdown", {
-    Title = "Spray Paint",
+local PlayerDropdown = Tabs.Player:AddDropdown("PlayerDropdown", {
+    Title = "Select Player",
     Values = {},  -- Start with an empty list
     Multi = false,
     Default = 0,
 })
 
 -- Update the dropdown with the current player list
-UpdatePlayerListDropdown(Dropdown)
+UpdatePlayerDropdown(PlayerDropdown)
 
 -- Function to handle player join
 local function OnPlayerAdded(player)
-    UpdatePlayerListDropdown(Dropdown)
+    UpdatePlayerDropdown(PlayerDropdown)
 end
 
 -- Function to handle player leaving
 local function OnPlayerRemoving(player)
-    UpdatePlayerListDropdown(Dropdown)
+    UpdatePlayerDropdown(PlayerDropdown)
 end
 
 -- Connect player events
-players.PlayerAdded:Connect(OnPlayerAdded)
-players.PlayerRemoving:Connect(OnPlayerRemoving)
+game:GetService("Players").PlayerAdded:Connect(OnPlayerAdded)
+game:GetService("Players").PlayerRemoving:Connect(OnPlayerRemoving)
 
 -- Callback function when dropdown value changes
-Dropdown:OnChanged(function(selectedPlayer)
+PlayerDropdown:OnChanged(function(selectedPlayer)
     if selectedPlayer ~= "All" then
-        SendTradeRequest(selectedPlayer)
+        SendTradeRequestToPlayer(selectedPlayer)
     end
 end)
+
+Tabs.Player:AddButton({
+    Title = "Send Trade",
+    Description = "Send a trade request to the selected player",
+    Callback = function()
+        local selectedPlayer = PlayerDropdown:GetValue() -- Get the selected player from the dropdown
+        if selectedPlayer and selectedPlayer ~= "All" then
+            SendTradeRequestToPlayer(selectedPlayer) -- Send trade request to the selected player
+        else
+            print("Please select a valid player.")
+        end
+    end
+})
 
 
 
