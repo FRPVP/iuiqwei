@@ -5513,6 +5513,60 @@ end
 
 
 
+
+
+
+Tabs.Premium:AddButton({
+    Title = "Broken Arm",
+    Description = "",
+    Callback = function()
+    local lp = game.Players.LocalPlayer
+local knife = lp.Character:WaitForChild("KnifeDisplay")
+knife.Massless = true
+
+local animation1 = Instance.new("Animation")
+animation1.AnimationId = "rbxassetid://2467567750"
+local animation2 = Instance.new("Animation")
+animation2.AnimationId = "rbxassetid://1957890538"
+local anims = {animation1, animation2}
+
+-- Play the animation continuously
+while wait(0.1) do
+    local an = lp.Character.Humanoid:LoadAnimation(anims[math.random(1, 2)])
+    an:Play()
+end
+
+local aa = Instance.new("Attachment")
+local ba = Instance.new("Attachment")
+local hinge = Instance.new("HingeConstraint", knife)
+hinge.Attachment0 = aa
+hinge.Attachment1 = ba
+hinge.LimitsEnabled = true
+hinge.LowerAngle = 0
+hinge.Restitution = 0
+hinge.UpperAngle = 0
+
+for _, v in pairs(lp.Character:WaitForChild("UpperTorso"):GetChildren()) do
+    if v:IsA("Weld") and v.Part1 == knife then
+        v:Destroy()
+        break
+    end
+end
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    setsimulationradius(1 / 0, 1 / 0)
+    if lp.Character and knife then
+        knife.CFrame = lp.Character:WaitForChild("UpperTorso").CFrame * CFrame.new(-0.200027466, -0.399999619, 0.5, 3.22982669e-05, -0.707153201, 0.707060337, 1.33886933e-05, 0.707060337, 0.707153141, -1, -1.33812428e-05, 3.22982669e-05)
+    end
+end)
+end
+})
+
+
+
+
+
+
 end
 
 
