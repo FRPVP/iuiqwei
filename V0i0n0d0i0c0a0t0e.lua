@@ -5481,62 +5481,33 @@ Options.MyToggle:SetValue(false)
 
 
 
-local player = game.Players.LocalPlayer
-
--- Variable to store TradeGUI reference
-local savedTradeGUI = nil
-
--- Function to remove TradeGUI
-local function removeTradeGUI()
-    -- Find the TradeGUI in the player's PlayerGui
-    local tradeGUI = player.PlayerGui:FindFirstChild("TradeGUI")
-
-    -- Check if the TradeGUI exists
-    if tradeGUI then
-        -- Save a reference to TradeGUI
-        savedTradeGUI = tradeGUI
-
-        -- Hide the TradeGUI
-        tradeGUI.Parent = nil
-        print("TradeGUI removed successfully!")
-    else
-        print("TradeGUI not found.")
-    end
+Tabs.Trolling:AddButton({
+    Title = "Take The Murderer's Knife",
+    Description = "",
+    Callback = function()
+    for i,s in pairs(Players:GetPlayers()) do
+if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Knife") or s.Character:FindFirstChild("Knife") then
+s.Backpack.Knife.Parent = Players.LocalPlayer.Backpack
 end
-
--- Function to restore TradeGUI
-local function restoreTradeGUI()
-    -- Check if there's a saved reference to TradeGUI
-    if savedTradeGUI then
-        -- Restore TradeGUI
-        savedTradeGUI.Parent = player.PlayerGui
-        print("TradeGUI restored successfully!")
-    else
-        print("No TradeGUI to restore.")
-    end
 end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "GUI Toggle", Default = false })
-
-Toggle:OnChanged(function()
-    print("Toggle changed:", Options.MyToggle.Value)
-    -- Toggle logic
-    if Toggle.Value then
-        -- Call the function to remove TradeGUI
-        removeTradeGUI()
-    else
-        -- Call the function to restore TradeGUI
-        restoreTradeGUI()
-    end
-end)
-
-Options.MyToggle:SetValue(false) -- Initialize the toggle to off state
+end
+})
 
 
 
 
 
-
+Tabs.Trolling:AddButton({
+    Title = "Take The Sheriff's Gun",
+    Description = "Shoot a player to break it!",
+    Callback = function()
+    for i,s in pairs(Players:GetPlayers()) do
+if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Gun") or s.Character:FindFirstChild("Gun") then
+s.Backpack.Gun.Parent = Players.LocalPlayer.Backpack
+end
+end
+end
+})
 
 
 
