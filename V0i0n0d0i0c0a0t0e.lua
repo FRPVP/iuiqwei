@@ -5451,6 +5451,11 @@ Tabs.Premium:AddButton({
 
 
 
+
+local section = Tabs.Premium:AddSection("Spray Paint Fun")
+
+
+
 local function ToggleLoop()
     if selectedPlayer ~= "All" then
         while isLooping do
