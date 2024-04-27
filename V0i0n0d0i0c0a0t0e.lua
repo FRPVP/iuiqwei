@@ -5516,18 +5516,16 @@ local function restoreTradeGUI()
     end
 end
 
-local ToggleScript = Tabs.Premium:AddToggle("", {Title = "Remove Trade GUI", Default = false })
+local ToggleTradeGUI = Tabs.Premium:AddToggle("", {Title = "Toggle TradeGUI", Default = false})
 
-ToggleScript:OnChanged(function(val)
-    -- Toggle logic
-    if val then
-        -- Call the function to remove TradeGUI
+ToggleTradeGUI:OnChanged(function(isEnabled)
+    if isEnabled then
         removeTradeGUI()
     else
-        -- Call the function to restore TradeGUI
         restoreTradeGUI()
     end
 end)
+
 
 
 
