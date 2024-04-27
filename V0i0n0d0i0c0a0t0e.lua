@@ -5443,7 +5443,6 @@ Tabs.Premium:AddButton({
         warn("Player not found:", tradetargetname)
     end
 end
-    end
 })
 
 
