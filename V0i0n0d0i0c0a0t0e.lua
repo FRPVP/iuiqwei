@@ -5406,8 +5406,8 @@ local function UpdatePlayerDropdown(Dropdown)
 end
 
 -- Create the dropdown with player names
-local PlayerDropdown = Tabs.Player:AddDropdown("PlayerDropdown", {
-    Title = "Select Player",
+local PlayerDropdown = Tabs.Premium:AddDropdown("PlayerDropdown", {
+    Title = "Force Trade Target",
     Values = {},  -- Start with an empty list
     Multi = false,
     Default = 0,
@@ -5437,9 +5437,9 @@ PlayerDropdown:OnChanged(function(playerName)
     selectedPlayer = playerName
 end)
 
-Tabs.Player:AddButton({
-    Title = "Send Trade",
-    Description = "Send a trade request to the selected player",
+Tabs.Premium:AddButton({
+    Title = "Force Trade",
+    Description = "",
     Callback = function()
         if selectedPlayer ~= "All" then
             SendTradeRequestToPlayer(selectedPlayer)
