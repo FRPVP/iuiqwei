@@ -5516,7 +5516,9 @@ local function restoreTradeGUI()
     end
 end
 
-local ToggleFunction = function(val)
+local ToggleScript = Tabs.Premium:AddToggle("", {Title = "Remove Trade GUI", Default = false })
+
+ToggleScript:OnChanged(function(val)
     -- Toggle logic
     if val then
         -- Call the function to remove TradeGUI
@@ -5525,13 +5527,8 @@ local ToggleFunction = function(val)
         -- Call the function to restore TradeGUI
         restoreTradeGUI()
     end
-end
+end)
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Toggle Trade GUI", Default = false })
-
-Toggle:OnChanged(ToggleFunction)
-
-Options.MyToggle:SetValue(false) -- Assuming you want the toggle initially set to false
 
 
 
