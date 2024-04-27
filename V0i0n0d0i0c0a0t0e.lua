@@ -5451,11 +5451,6 @@ Tabs.Premium:AddButton({
 
 
 
-
-local section = Tabs.Premium:AddSection("Spray Paint Fun")
-
-
-
 local function ToggleLoop()
     if selectedPlayer ~= "All" then
         while isLooping do
@@ -5480,7 +5475,70 @@ Options.MyToggle:SetValue(false)
 
 
 
-	
+
+
+
+
+
+
+local player = game.Players.LocalPlayer
+
+-- Variable to store TradeGUI reference
+local savedTradeGUI = nil
+
+-- Function to remove TradeGUI
+local function removeTradeGUI()
+    -- Find the TradeGUI in the player's PlayerGui
+    local tradeGUI = player.PlayerGui:FindFirstChild("TradeGUI")
+
+    -- Check if the TradeGUI exists
+    if tradeGUI then
+        -- Save a reference to TradeGUI
+        savedTradeGUI = tradeGUI
+
+        -- Hide the TradeGUI
+        tradeGUI.Parent = nil
+        print("TradeGUI removed successfully!")
+    else
+        print("TradeGUI not found.")
+    end
+end
+
+-- Function to restore TradeGUI
+local function restoreTradeGUI()
+    -- Check if there's a saved reference to TradeGUI
+    if savedTradeGUI then
+        -- Restore TradeGUI
+        savedTradeGUI.Parent = player.PlayerGui
+        print("TradeGUI restored successfully!")
+    else
+        print("No TradeGUI to restore.")
+    end
+end
+
+local ToggleFunction = function(val)
+    -- Toggle logic
+    if val then
+        -- Call the function to remove TradeGUI
+        removeTradeGUI()
+    else
+        -- Call the function to restore TradeGUI
+        restoreTradeGUI()
+    end
+end
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Toggle Trade GUI", Default = false })
+
+Toggle:OnChanged(ToggleFunction)
+
+Options.MyToggle:SetValue(false) -- Assuming you want the toggle initially set to false
+
+
+
+
+
+
+
 
 end
 
