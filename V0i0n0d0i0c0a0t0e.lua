@@ -1,3 +1,7 @@
+ local Sound = Instance.new("Sound",game:GetService("SoundService"))
+ Sound.SoundId = "rbxassetid://1846291721"
+ Sound:Play()
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()
@@ -5561,6 +5565,164 @@ game:GetService("RunService").Heartbeat:Connect(function()
 end)
 end
 })
+
+
+
+
+
+Tabs.Settings:AddButton({
+    Title = "Reset",
+    Description = "",
+    Callback = function()
+    lp.Character.Humanoid.Health = 0
+lp.Character.Head:Remove()
+lp.Character.Humanoid.BreakJointsOnDeath = false
+end
+})
+
+
+
+
+Tabs.Settings:AddButton({
+    Title = "Kick Yourself",
+    Description = "",
+    Callback = function()
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function KickPlayer()
+    LocalPlayer:Kick("You have been kicked from the server.")
+end
+
+KickPlayer()
+end
+})
+
+
+
+
+
+Tabs.Settings:AddButton({
+    Title = "RTX",
+    Description = "",
+    Callback = function()
+local find1 = game.Lighting:FindFirstChildWhichIsA("BloomEffect") if find1 then
+    game.Lighting:FindFirstChildWhichIsA("BloomEffect"):Destroy()
+end
+local find2 = game.Lighting:FindFirstChildWhichIsA("SunRaysEffect") if find2 then
+    game.Lighting:FindFirstChildWhichIsA("SunRaysEffect"):Destroy()
+end
+local find3 = game.Lighting:FindFirstChildWhichIsA("ColorCorrectionEffect") if find3 then
+    game.Lighting:FindFirstChildWhichIsA("ColorCorrectionEffect"):Destroy()
+end
+local find4 = game.Lighting:FindFirstChildWhichIsA("BlurEffect") if find4 then
+    game.Lighting:FindFirstChildWhichIsA("BlurEffect"):Destroy()
+end
+local find5 = game.Lighting:FindFirstChildWhichIsA("Sky") if find5 then
+    game.Lighting:FindFirstChildWhichIsA("Sky"):Destroy()
+end
+local blem = Instance.new("BloomEffect",game.Lighting)
+local sanrey = Instance.new("SunRaysEffect",game.Lighting)
+local color = Instance.new("ColorCorrectionEffect",game.Lighting)
+local blor = Instance.new("BlurEffect",game.Lighting)
+Instance.new("Sky",game.Lighting)
+game.Lighting.ExposureCompensation = 0.34
+game.Lighting.ShadowSoftness = 1
+game.Lighting.EnvironmentDiffuseScale = 0.343
+game.Lighting.EnvironmentSpecularScale = 1
+game.Lighting.Brightness = 2
+game.Lighting.ColorShift_Top = Color3.fromRGB(118,117,108)
+game.Lighting.OutdoorAmbient = Color3.fromRGB(141,141,141)
+game.Lighting.GeographicLatitude = 100
+game.Lighting.Ambient = Color3.fromRGB(112,112,112)
+blem.Intensity = 0.5
+blem.Size = 22
+blem.Threshold = 1.5
+sanrey.Intensity = 0.117
+sanrey.Spread = 1
+blor.Size = 2
+color.Contrast = 0.3
+color.Saturation = 0.2
+color.TintColor = Color3.fromRGB(255,252,224)
+end
+})
+
+
+
+
+
+
+Tabs.Settings:AddButton({
+    Title = "Night",
+    Description = "",
+    Callback = function()
+local player = game.Players.LocalPlayer
+local lighting = game:GetService("Lighting")
+
+-- Function to change the time of day
+local function setNighttime()
+    lighting.TimeOfDay = 0.2 -- You can adjust this value to control the time of day (0 is midnight, 0.5 is noon)
+    lighting.Brightness = 0.5 -- You can adjust this value to control the overall brightness at night
+    lighting.FogEnd = 300 -- You can adjust this value to control the fog distance at night
+    lighting.GlobalShadows = true -- Enable global shadows for a nighttime effect
+end
+
+-- Connect the function to the player's character added event
+player.CharacterAdded:Connect(setNighttime)
+
+-- Call the function immediately in case the character is already loaded
+if player.Character then
+    setNighttime()
+end
+end
+})
+
+
+
+
+
+
+Tabs.Settings:AddButton({
+    Title = " Special Night",
+    Description = "",
+    Callback = function()
+local player = game.Players.LocalPlayer
+local Lighting = game:GetService("Lighting")
+
+-- Function to change the sky to nighttime
+local function setNighttime()
+    Lighting.TimeOfDay = "18:00:00" -- You can adjust the time as needed
+    Lighting.FogEnd = 100 -- Adjust the fog to create a nighttime atmosphere
+end
+
+-- Function to reset the sky to default
+local function setDefaultTime()
+    Lighting.TimeOfDay = "12:00:00" -- Reset the time to default
+    Lighting.FogEnd = 1000 -- Reset fog to default
+end
+
+-- Connect the functions to events
+player.CharacterAdded:Connect(setNighttime)
+player.CharacterRemoving:Connect(setDefaultTime)
+
+-- Call the functions initially (in case the player is already in the game)
+if player.Character then
+    setNighttime()
+end
+end
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
