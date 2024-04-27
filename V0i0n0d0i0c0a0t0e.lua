@@ -36,7 +36,7 @@ local Options = Fluent.Options
 do
 
 
-
+local section = Tabs.Player:AddSection("Mods")
     
     local Slider = Tabs.Player:AddSlider("Slider", {
         Title = "Walkspeed",
@@ -114,7 +114,12 @@ do
         print("Input updated:", Input.vv)
     end)
     
-    
+
+
+
+local section = Tabs.Player:AddSection("Traverse Travel")
+
+	
     
     local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Noclip", Default = false })
 
@@ -323,7 +328,10 @@ Options.MyToggle:SetValue(false)
     
     
     
-    
+
+
+local section = Tabs.Player:AddSection("MM2")
+	
     
     
     local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Remove Kill Barriers", Default = false })
@@ -350,7 +358,355 @@ end
     
 
 
+local section = Tabs.Visual:AddSection("ESP")
+	
 
+
+
+
+
+
+
+
+
+
+        local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "ESP Players", Default = false })
+
+    Toggle:OnChanged(function(val)
+        getgenv().BetterESP = val
+    end)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LP = Players.LocalPlayer
+local roles
+
+-- > Functions <--
+
+function CreateBillboard() -- create billboards for new players
+    for i, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character then
+            local role = GetPlayerRole(v.Name)
+            
+            if role and (role == "Innocent" or role == "Murderer" or role == "Sheriff" or role == "Hero") then
+                if not v.Character:FindFirstChild("Billboard") then
+                    local billboard = Instance.new("BillboardGui", v.Character)
+                    billboard.Name = "Billboard"
+                    billboard.AlwaysOnTop = true
+                    billboard.Size = UDim2.new(0, 200, 0, 50)
+                    billboard.StudsOffset = Vector3.new(0, 3, 0)
+                    billboard.Adornee = v.Character:FindFirstChild("Head") -- Adornee should be set to the head for proper positioning
+                    
+                    local nameLabel = Instance.new("TextLabel", billboard)
+                    nameLabel.Size = UDim2.new(1, 0, 1, 0)
+                    nameLabel.Text = v.Name
+                    nameLabel.TextColor3 = Color3.new(1, 1, 1)
+                    nameLabel.TextStrokeTransparency = 0.5
+                    nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+                    nameLabel.BackgroundTransparency = 1 -- Make the background (billboard) transparent
+                end
+            else
+                local billboard = v.Character:FindFirstChild("Billboard")
+                if billboard then
+                    billboard:Destroy()
+                end
+            end
+        end
+    end
+end
+
+function UpdateBillboards() -- Update billboard colors based on roles
+    for _, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character and v.Character:FindFirstChild("Billboard") then
+            local billboard = v.Character:FindFirstChild("Billboard")
+            local nameLabel = billboard:FindFirstChild("TextLabel")
+            
+            local role = GetPlayerRole(v.Name)
+            
+            if IsAlive(v) then
+                if role == "Sheriff" then
+                    nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 225)
+                elseif role == "Murderer" then
+                    nameLabel.TextStrokeColor3 = Color3.fromRGB(225, 0, 0)
+                elseif role == "Hero" then
+                    nameLabel.TextStrokeColor3 = Color3.fromRGB(255, 250, 0)
+                else
+                    nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 225, 0)
+                end
+            else
+                nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            end
+        end
+    end
+end    
+
+function IsAlive(Player) -- Simple sexy function
+    for i, v in pairs(roles) do
+        if Player.Name == i then
+            if not v.Killed and not v.Dead then
+                return true
+            else
+                return false
+            end
+        end
+    end
+end
+
+function GetPlayerRole(playerName)
+    for i, v in pairs(roles) do
+        if i == playerName then
+            return v.Role
+        end
+    end
+    return nil
+end
+
+-- Loops --
+
+RunService.RenderStepped:Connect(function()
+    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+    
+    if getgenv().BetterESP then
+        CreateBillboard()
+        UpdateBillboards()
+    else
+        for _, v in pairs(Players:GetChildren()) do
+            if v ~= LP and v.Character and v.Character:FindFirstChild("Billboard") then
+                local billboard = v.Character:FindFirstChild("Billboard")
+                billboard:Destroy()
+            end
+        end
+    end
+end)
+
+
+    Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+
+local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "Highlight Players", Default = false })
+
+Toggle:OnChanged(function(val)
+    getgenv().he = val
+end)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LP = Players.LocalPlayer
+local roles
+
+-- > Functions <--
+
+function CreateHighlight() -- make any new highlights for new players
+    for i, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character and not v.Character:FindFirstChild("Highlight") then
+            Instance.new("Highlight", v.Character)           
+        end
+    end
+end
+
+function UpdateHighlights() -- Get Current Role Colors (messy)
+    for _, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character and v.Character:FindFirstChild("Highlight") then
+            local Highlight = v.Character:FindFirstChild("Highlight")
+            local role = GetPlayerRole(v.Name)
+            if role then
+                if role == "Sheriff" and IsAlive(v) then
+                    Highlight.FillColor = Color3.fromRGB(0, 0, 225)
+                elseif role == "Murderer" and IsAlive(v) then
+                    Highlight.FillColor = Color3.fromRGB(225, 0, 0)
+                elseif role == "Hero" and IsAlive(v) and not IsAlive(game.Players[Sheriff]) then
+                    Highlight.FillColor = Color3.fromRGB(255, 250, 0)
+                else
+                    Highlight.FillColor = Color3.fromRGB(0, 225, 0)
+                end
+            end
+        end
+    end
+end    
+
+-- > Loops < --
+
+RunService.RenderStepped:Connect(function()
+    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+    for i, v in pairs(roles) do
+        if v.Role == "Murderer" then
+            Murder = i
+        elseif v.Role == 'Sheriff' then
+            Sheriff = i
+        elseif v.Role == 'Hero' then
+            Hero = i
+        end
+    end
+    
+    if getgenv().he then
+        CreateHighlight()
+        UpdateHighlights()
+    else
+        for _, v in pairs(Players:GetChildren()) do
+            if v ~= LP and v.Character and v.Character:FindFirstChild("Highlight") then
+                v.Character:FindFirstChild("Highlight"):Destroy()
+            end
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+	
+
+
+
+
+
+
+
+
+
+getgenv().GlowCham = false    
+    local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "Glow Chams", Default = false })
+
+Toggle:OnChanged(function(val)
+    getgenv().GlowCham = val
+end)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LP = Players.LocalPlayer
+local roles
+
+local outlineDebounces = {}
+
+-- > Functions <--
+
+function ApplyOutline(character, color)
+    if not outlineDebounces[character] then
+        local outline = Instance.new("SelectionBox")
+        outline.LineThickness = 0.05
+        outline.SurfaceColor3 = color
+        outline.Color3 = color
+        outline.Adornee = character:WaitForChild("Head") -- Wait for Head to ensure it exists
+        outline.Parent = character
+
+        local surfaceLight = Instance.new("SurfaceLight")
+        surfaceLight.Brightness = 9999 -- Adjust brightness as needed
+        surfaceLight.Color = color
+        surfaceLight.Face = Enum.NormalId.Front -- Adjusted to include multiple faces
+        surfaceLight.Parent = character.Head
+
+        local surfaceLightBack = surfaceLight:Clone()
+        surfaceLightBack.Face = Enum.NormalId.Back
+        surfaceLightBack.Parent = character.Head
+
+        local surfaceLightLeft = surfaceLight:Clone()
+        surfaceLightLeft.Face = Enum.NormalId.Left
+        surfaceLightLeft.Parent = character.Head
+
+        outlineDebounces[character] = true
+    end
+end
+
+function RemoveOutline(character)
+    if outlineDebounces[character] then
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("SelectionBox") or part:IsA("SurfaceLight") then
+                part:Destroy()
+            end
+        end
+
+        outlineDebounces[character] = false
+    end
+end
+
+function UpdateOutlines()
+    for _, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character then
+            if IsAlive(v) then
+                local role = GetPlayerRole(v.Name)
+                if role == "Sheriff" then
+                    ApplyOutline(v.Character, Color3.fromRGB(0, 0, 225))
+                elseif role == "Murderer" then
+                    ApplyOutline(v.Character, Color3.fromRGB(225, 0, 0))
+                elseif role == "Hero" then
+                    ApplyOutline(v.Character, Color3.fromRGB(255, 250, 0))
+                else
+                    ApplyOutline(v.Character, Color3.fromRGB(0, 225, 0))
+                end
+            else
+                RemoveOutline(v.Character)
+            end
+        end
+    end
+end
+
+-- > Loops < --
+
+RunService.RenderStepped:Connect(function()
+    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+
+    if getgenv().GlowCham then
+        UpdateOutlines()
+    else
+        for _, v in pairs(Players:GetChildren()) do
+            if v ~= LP and v.Character then
+                RemoveOutline(v.Character)
+            end
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+local section = Tabs.Visual:AddSection("Roles")	
+
+
+
+
+
+
+
+Tabs.Visual:AddButton({
+    Title = "Notify Roles",
+    Description = "",
+    Callback = function()
+        for _, player in pairs(game.Players:GetPlayers()) do 
+            if player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife")) then 
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Murder Detected",
+                    Text = "Murder is " .. player.Name .. "!",
+                    Duration = 5
+                })
+            end 
+        end
+
+        for _, player in pairs(game.Players:GetPlayers()) do 
+            if player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun")) then
+                game.StarterGui:SetCore("SendNotification", {
+                    Title = "Sheriff Detected",
+                    Text = "Sheriff is " .. player.Name .. "!",
+                    Duration = 5
+                })
+            end 
+        end
+    end
+})
+
+	
+
+
+	
 
 Tabs.Visual:AddButton({
     Title = "Message Roles",
@@ -379,7 +735,7 @@ Tabs.Visual:AddButton({
 
 
 
-
+local section = Tabs.Visual:AddSection("Spectate")
 
 
 
@@ -539,39 +895,6 @@ Toggle:OnChanged(function()
 end)
 
 
-
-
-
-
-
-
-
-
-Tabs.Visual:AddButton({
-    Title = "Notify Roles",
-    Description = "",
-    Callback = function()
-        for _, player in pairs(game.Players:GetPlayers()) do 
-            if player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife")) then 
-                game.StarterGui:SetCore("SendNotification", {
-                    Title = "Murder Detected",
-                    Text = "Murder is " .. player.Name .. "!",
-                    Duration = 5
-                })
-            end 
-        end
-
-        for _, player in pairs(game.Players:GetPlayers()) do 
-            if player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun")) then
-                game.StarterGui:SetCore("SendNotification", {
-                    Title = "Sheriff Detected",
-                    Text = "Sheriff is " .. player.Name .. "!",
-                    Duration = 5
-                })
-            end 
-        end
-    end
-})
     
     
     
@@ -584,301 +907,8 @@ Tabs.Visual:AddButton({
 	Event:FireServer(A_1)
         end
     })
-    
-    
-    
-    
-    
-        local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "ESP Players", Default = false })
-
-    Toggle:OnChanged(function(val)
-        getgenv().BetterESP = val
-    end)
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LP = Players.LocalPlayer
-local roles
-
--- > Functions <--
-
-function CreateBillboard() -- create billboards for new players
-    for i, v in pairs(Players:GetChildren()) do
-        if v ~= LP and v.Character then
-            local role = GetPlayerRole(v.Name)
-            
-            if role and (role == "Innocent" or role == "Murderer" or role == "Sheriff" or role == "Hero") then
-                if not v.Character:FindFirstChild("Billboard") then
-                    local billboard = Instance.new("BillboardGui", v.Character)
-                    billboard.Name = "Billboard"
-                    billboard.AlwaysOnTop = true
-                    billboard.Size = UDim2.new(0, 200, 0, 50)
-                    billboard.StudsOffset = Vector3.new(0, 3, 0)
-                    billboard.Adornee = v.Character:FindFirstChild("Head") -- Adornee should be set to the head for proper positioning
-                    
-                    local nameLabel = Instance.new("TextLabel", billboard)
-                    nameLabel.Size = UDim2.new(1, 0, 1, 0)
-                    nameLabel.Text = v.Name
-                    nameLabel.TextColor3 = Color3.new(1, 1, 1)
-                    nameLabel.TextStrokeTransparency = 0.5
-                    nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-                    nameLabel.BackgroundTransparency = 1 -- Make the background (billboard) transparent
-                end
-            else
-                local billboard = v.Character:FindFirstChild("Billboard")
-                if billboard then
-                    billboard:Destroy()
-                end
-            end
-        end
-    end
-end
-
-function UpdateBillboards() -- Update billboard colors based on roles
-    for _, v in pairs(Players:GetChildren()) do
-        if v ~= LP and v.Character and v.Character:FindFirstChild("Billboard") then
-            local billboard = v.Character:FindFirstChild("Billboard")
-            local nameLabel = billboard:FindFirstChild("TextLabel")
-            
-            local role = GetPlayerRole(v.Name)
-            
-            if IsAlive(v) then
-                if role == "Sheriff" then
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 225)
-                elseif role == "Murderer" then
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(225, 0, 0)
-                elseif role == "Hero" then
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(255, 250, 0)
-                else
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 225, 0)
-                end
-            else
-                nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-            end
-        end
-    end
-end    
-
-function IsAlive(Player) -- Simple sexy function
-    for i, v in pairs(roles) do
-        if Player.Name == i then
-            if not v.Killed and not v.Dead then
-                return true
-            else
-                return false
-            end
-        end
-    end
-end
-
-function GetPlayerRole(playerName)
-    for i, v in pairs(roles) do
-        if i == playerName then
-            return v.Role
-        end
-    end
-    return nil
-end
-
--- Loops --
-
-RunService.RenderStepped:Connect(function()
-    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
-    
-    if getgenv().BetterESP then
-        CreateBillboard()
-        UpdateBillboards()
-    else
-        for _, v in pairs(Players:GetChildren()) do
-            if v ~= LP and v.Character and v.Character:FindFirstChild("Billboard") then
-                local billboard = v.Character:FindFirstChild("Billboard")
-                billboard:Destroy()
-            end
-        end
-    end
-end)
 
 
-    Options.MyToggle:SetValue(false)
-   
-
-    
-    
-    
-    
-    
-local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "Highlight Players", Default = false })
-
-Toggle:OnChanged(function(val)
-    getgenv().he = val
-end)
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LP = Players.LocalPlayer
-local roles
-
--- > Functions <--
-
-function CreateHighlight() -- make any new highlights for new players
-    for i, v in pairs(Players:GetChildren()) do
-        if v ~= LP and v.Character and not v.Character:FindFirstChild("Highlight") then
-            Instance.new("Highlight", v.Character)           
-        end
-    end
-end
-
-function UpdateHighlights() -- Get Current Role Colors (messy)
-    for _, v in pairs(Players:GetChildren()) do
-        if v ~= LP and v.Character and v.Character:FindFirstChild("Highlight") then
-            local Highlight = v.Character:FindFirstChild("Highlight")
-            local role = GetPlayerRole(v.Name)
-            if role then
-                if role == "Sheriff" and IsAlive(v) then
-                    Highlight.FillColor = Color3.fromRGB(0, 0, 225)
-                elseif role == "Murderer" and IsAlive(v) then
-                    Highlight.FillColor = Color3.fromRGB(225, 0, 0)
-                elseif role == "Hero" and IsAlive(v) and not IsAlive(game.Players[Sheriff]) then
-                    Highlight.FillColor = Color3.fromRGB(255, 250, 0)
-                else
-                    Highlight.FillColor = Color3.fromRGB(0, 225, 0)
-                end
-            end
-        end
-    end
-end    
-
--- > Loops < --
-
-RunService.RenderStepped:Connect(function()
-    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
-    for i, v in pairs(roles) do
-        if v.Role == "Murderer" then
-            Murder = i
-        elseif v.Role == 'Sheriff' then
-            Sheriff = i
-        elseif v.Role == 'Hero' then
-            Hero = i
-        end
-    end
-    
-    if getgenv().he then
-        CreateHighlight()
-        UpdateHighlights()
-    else
-        for _, v in pairs(Players:GetChildren()) do
-            if v ~= LP and v.Character and v.Character:FindFirstChild("Highlight") then
-                v.Character:FindFirstChild("Highlight"):Destroy()
-            end
-        end
-    end
-end)
-
-Options.MyToggle:SetValue(false)
-
-    
- 
-
-
-   
-    
-    
-getgenv().GlowCham = false    
-    local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "Glow Chams", Default = false })
-
-Toggle:OnChanged(function(val)
-    getgenv().GlowCham = val
-end)
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local LP = Players.LocalPlayer
-local roles
-
-local outlineDebounces = {}
-
--- > Functions <--
-
-function ApplyOutline(character, color)
-    if not outlineDebounces[character] then
-        local outline = Instance.new("SelectionBox")
-        outline.LineThickness = 0.05
-        outline.SurfaceColor3 = color
-        outline.Color3 = color
-        outline.Adornee = character:WaitForChild("Head") -- Wait for Head to ensure it exists
-        outline.Parent = character
-
-        local surfaceLight = Instance.new("SurfaceLight")
-        surfaceLight.Brightness = 9999 -- Adjust brightness as needed
-        surfaceLight.Color = color
-        surfaceLight.Face = Enum.NormalId.Front -- Adjusted to include multiple faces
-        surfaceLight.Parent = character.Head
-
-        local surfaceLightBack = surfaceLight:Clone()
-        surfaceLightBack.Face = Enum.NormalId.Back
-        surfaceLightBack.Parent = character.Head
-
-        local surfaceLightLeft = surfaceLight:Clone()
-        surfaceLightLeft.Face = Enum.NormalId.Left
-        surfaceLightLeft.Parent = character.Head
-
-        outlineDebounces[character] = true
-    end
-end
-
-function RemoveOutline(character)
-    if outlineDebounces[character] then
-        for _, part in pairs(character:GetDescendants()) do
-            if part:IsA("SelectionBox") or part:IsA("SurfaceLight") then
-                part:Destroy()
-            end
-        end
-
-        outlineDebounces[character] = false
-    end
-end
-
-function UpdateOutlines()
-    for _, v in pairs(Players:GetChildren()) do
-        if v ~= LP and v.Character then
-            if IsAlive(v) then
-                local role = GetPlayerRole(v.Name)
-                if role == "Sheriff" then
-                    ApplyOutline(v.Character, Color3.fromRGB(0, 0, 225))
-                elseif role == "Murderer" then
-                    ApplyOutline(v.Character, Color3.fromRGB(225, 0, 0))
-                elseif role == "Hero" then
-                    ApplyOutline(v.Character, Color3.fromRGB(255, 250, 0))
-                else
-                    ApplyOutline(v.Character, Color3.fromRGB(0, 225, 0))
-                end
-            else
-                RemoveOutline(v.Character)
-            end
-        end
-    end
-end
-
--- > Loops < --
-
-RunService.RenderStepped:Connect(function()
-    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
-
-    if getgenv().GlowCham then
-        UpdateOutlines()
-    else
-        for _, v in pairs(Players:GetChildren()) do
-            if v ~= LP and v.Character then
-                RemoveOutline(v.Character)
-            end
-        end
-    end
-end)
-
-Options.MyToggle:SetValue(false)
     
     
     
@@ -917,46 +947,11 @@ pcall(function()
     
     
     
-    
-    
-    
-    
-        Tabs.Visual:AddButton({
-        Title = "Spectate Murderer",
-        Description = "",
-        Callback = function()
-           for _,v in pairs(game.Players:GetPlayers()) do
-if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
-game.Workspace.CurrentCamera.CameraSubject = v.Character.Humanoid
-end
-end
-end
-    })
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        Tabs.Visual:AddButton({
-        Title = "Spectate Sheriff",
-        Description = "",
-        Callback = function()
-for _,v in pairs(game.Players:GetPlayers()) do
-if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
-game.Workspace.CurrentCamera.CameraSubject = v.Character.Humanoid
-end
-end
-end
-    })
-    
-    
-    
-    
+
+
+
+
+
 -- Function to update the dropdown with the current player list
 local function UpdatePlayerListDropdown(Dropdown)
     local playerList = {}
@@ -1015,11 +1010,52 @@ end)
 game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Humanoid')
 end
     })
+
+
+
+	
+    
+    
+    
+        Tabs.Visual:AddButton({
+        Title = "Spectate Murderer",
+        Description = "",
+        Callback = function()
+           for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
+game.Workspace.CurrentCamera.CameraSubject = v.Character.Humanoid
+end
+end
+end
+    })
     
     
     
     
     
+    
+    
+    
+    
+    
+        Tabs.Visual:AddButton({
+        Title = "Spectate Sheriff",
+        Description = "",
+        Callback = function()
+for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
+game.Workspace.CurrentCamera.CameraSubject = v.Character.Humanoid
+end
+end
+end
+    })
+    
+    
+    
+    
+
+local section = Tabs.Combat:AddSection("Sheriff")
+
     
     
     
@@ -1059,9 +1095,24 @@ teleportToGunDrop()
     
     
     
+    local section = Tabs.Combat:AddSection("Murderer")
     
-    
-    
+
+
+
+
+
+
+
+
+
+local section = Tabs.Teleport:AddSection("MM2")
+
+
+
+
+
+	
     
         Tabs.Teleport:AddButton({
         Title = "Lobby",
@@ -1117,31 +1168,6 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-108, 14
     
     
     
-        Tabs.Teleport:AddButton({
-        Title = "Void",
-        Description = "",
-        Callback = function()
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-74, -6, 693)
-if not game.Workspace:FindFirstChild("TpVoid") then
-local TpVoid = Instance.new("Part", game.Workspace)
-TpVoid.Anchored = true
-TpVoid.Name = "TpVoid"
-TpVoid.Transparency = 0.8
-TpVoid.Position = Vector3.new(-74, -9, 694)
-TpVoid.Size = Vector3.new(20,0,20)
-        end
-        end
-    })
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
         Tabs.Teleport:AddButton({
         Title = "Murderer",
@@ -1181,8 +1207,32 @@ end
     
     
     
-    
-    
+local section = Tabs.Teleport:AddSection("Other")
+
+
+
+
+       Tabs.Teleport:AddButton({
+        Title = "Void",
+        Description = "",
+        Callback = function()
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-74, -6, 693)
+if not game.Workspace:FindFirstChild("TpVoid") then
+local TpVoid = Instance.new("Part", game.Workspace)
+TpVoid.Anchored = true
+TpVoid.Name = "TpVoid"
+TpVoid.Transparency = 0.8
+TpVoid.Position = Vector3.new(-74, -9, 694)
+TpVoid.Size = Vector3.new(20,0,20)
+        end
+        end
+    })
+
+
+
+	
+
+	
     
     
         local Toggle = Tabs.Trolling:AddToggle("MyToggle", {Title = "Fake Gun", Default = false })
