@@ -5520,7 +5520,7 @@ end
 
 
 
-Tabs.Animation:AddButton({
+Tabs.Animations:AddButton({
     Title = "Break Your Arm",
     Description = "you will soon realize it's literal (reset a couple of times to fix)",
     Callback = function()
