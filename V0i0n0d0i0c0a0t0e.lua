@@ -5568,7 +5568,7 @@ end
 
 
 
-
+local section = Tabs.Settings:AddSection("World/Player")
 
 Tabs.Settings:AddButton({
     Title = "Reset",
