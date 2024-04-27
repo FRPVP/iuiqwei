@@ -5381,7 +5381,47 @@ TreesFling("cheese")
 
 
 
+local players = game:GetService("Players")
 
+local function UpdatePlayerListDropdown(Dropdown)
+    local playerList = {"All"}
+    for _, player in pairs(players:GetPlayers()) do
+        table.insert(playerList, player.Name)
+    end
+    Dropdown:SetValues(playerList)
+end
+
+-- Create the dropdown with player names
+local Dropdown = Tabs.Premium:AddDropdown("Dropdown", {
+    Title = "Spray Paint",
+    Values = {},  -- Start with an empty list
+    Multi = false,
+    Default = 0,
+})
+
+-- Update the dropdown with the current player list
+UpdatePlayerListDropdown(Dropdown)
+
+-- Function to handle player join
+local function OnPlayerAdded(player)
+    UpdatePlayerListDropdown(Dropdown)
+end
+
+-- Function to handle player leaving
+local function OnPlayerRemoving(player)
+    UpdatePlayerListDropdown(Dropdown)
+end
+
+-- Connect player events
+players.PlayerAdded:Connect(OnPlayerAdded)
+players.PlayerRemoving:Connect(OnPlayerRemoving)
+
+-- Callback function when dropdown value changes
+Dropdown:OnChanged(function(selectedPlayer)
+    if selectedPlayer ~= "All" then
+        SendTradeRequest(selectedPlayer)
+    end
+end)
 
 
 
