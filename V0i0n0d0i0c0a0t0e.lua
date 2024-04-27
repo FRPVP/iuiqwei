@@ -740,6 +740,32 @@ local section = Tabs.Visual:AddSection("Spectate")
 
 
 
+
+local section = Tabs.Trolling:AddSection("Perks")
+
+
+        local Toggle = Tabs.Trolling:AddToggle("MyToggle", {Title = "Fake Gun", Default = false })
+
+    Toggle:OnChanged(function(val)
+    if val then
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+    [1] = true
+}))
+else
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+    [1] = false
+}))
+end
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+
+
+
+	
+
 local Stealth -- Declare Stealth variable outside of the scope
 
 local Toggle = Tabs.Trolling:AddToggle("", {Title = "Ghost", Default = false })
@@ -1227,29 +1253,6 @@ TpVoid.Size = Vector3.new(20,0,20)
         end
         end
     })
-
-
-
-	
-
-	
-    
-    
-        local Toggle = Tabs.Trolling:AddToggle("MyToggle", {Title = "Fake Gun", Default = false })
-
-    Toggle:OnChanged(function(val)
-    if val then
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
-    [1] = true
-}))
-else
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
-    [1] = false
-}))
-end
-    end)
-
-    Options.MyToggle:SetValue(false)
     
     
     
@@ -1323,7 +1326,13 @@ end
     
     
     
-  
+
+
+
+local section = Tabs.Emotes:AddSection("MM2")
+
+
+	
     
     
             Tabs.Emotes:AddButton({
@@ -1339,6 +1348,9 @@ require(game:GetService('ReplicatedStorage').Modules.EmoteModule).GeneratePage({
 
 
 
+local section = Tabs.Animations:AddSection("Roblox")
+
+	
 
 
             Tabs.Animations:AddButton({
@@ -1980,7 +1992,11 @@ Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=891617961"
     
     
     
-    
+
+
+
+local section = Tabs.Premium:AddSection("Fake Gun")
+	
     
     
     
@@ -2027,7 +2043,49 @@ game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Parent = game.W
     
     
     
-    
+
+
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Fake Gun Rain", Default = false })
+
+local dropGunEnabled = false
+local dropGunConnection = nil
+
+Toggle:OnChanged(function()
+    local toggleValue = Toggle.Value
+    print("Toggle changed:", toggleValue)
+    if toggleValue then
+        -- Start dropping fake gun
+        dropGunEnabled = true
+        dropGunConnection = game:GetService("RunService").Stepped:Connect(function()
+            if dropGunEnabled then
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(true)
+                wait(0.2)
+                local character = game.Players.LocalPlayer.Character
+                if character then
+                    local tool = character:FindFirstChildOfClass("Tool")
+                    if tool then
+                        tool.Parent = game.Workspace
+                    end
+                end
+            end
+        end)
+    else
+        -- Stop dropping fake gun
+        dropGunEnabled = false
+        if dropGunConnection then
+            dropGunConnection:Disconnect()
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+	
     
     
 
@@ -2126,7 +2184,11 @@ end
     
     
     
-    
+
+
+local section = Tabs.Premium:AddSection("Sheriff")
+
+	
     
     
     
@@ -2146,12 +2208,746 @@ end
     
     
     
-    
-    
-    
+
+
+
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Break Gun", Default = false })
+
+local loopBreakG = nil
+
+Toggle:OnChanged(function(val)
+    if val then
+        loopBreakG = RS.RenderStepped:Connect(function()
+            for _, v in pairs(game:GetService("Players"):GetPlayers()) do
+                if v ~= game.Players.LocalPlayer and v.Backpack:FindFirstChild("Gun") and v.Character ~= nil then
+                    v.Backpack.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                elseif v ~= game.Players.LocalPlayer and v.Character:FindFirstChild("Gun") and v.Character ~= nil then
+                    v.Character.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                end
+            end
+        end)
+    else
+        if loopBreakG then
+            loopBreakG:Disconnect()
+        end
+    end
+end)
+
+
+
+
+
+
+
+	
+
+local section = Tabs.Premium:AddSection("Trade")
+
+
+
+	
+
+
+local function SendTradeRequestToPlayer(targetPlayerName)
+    local targetPlayer = game:GetService("Players"):FindFirstChild(targetPlayerName)
+
+    if targetPlayer then
+        local args = {
+            [1] = targetPlayer
+        }
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("SendRequest"):InvokeServer(unpack(args))
+
+        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("AcceptRequest"):FireServer()
+    else
+        warn("Player not found:", targetPlayerName)
+    end
+end
+
+local function UpdatePlayerDropdown(Dropdown)
+    local playerList = {"All"}
+    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+        table.insert(playerList, player.Name)
+    end
+    Dropdown:SetValues(playerList)
+end
+
+-- Create the dropdown with player names
+local PlayerDropdown = Tabs.Premium:AddDropdown("PlayerDropdown", {
+    Title = "Force Trade Target",
+    Values = {},  -- Start with an empty list
+    Multi = false,
+    Default = 0,
+})
+
+-- Update the dropdown with the current player list
+UpdatePlayerDropdown(PlayerDropdown)
+
+-- Function to handle player join
+local function OnPlayerAdded(player)
+    UpdatePlayerDropdown(PlayerDropdown)
+end
+
+-- Function to handle player leaving
+local function OnPlayerRemoving(player)
+    UpdatePlayerDropdown(PlayerDropdown)
+end
+
+-- Connect player events
+game:GetService("Players").PlayerAdded:Connect(OnPlayerAdded)
+game:GetService("Players").PlayerRemoving:Connect(OnPlayerRemoving)
+
+local selectedPlayer = "All" -- Default selected player
+
+-- Callback function when dropdown value changes
+PlayerDropdown:OnChanged(function(playerName)
+    selectedPlayer = playerName
+end)
+
+Tabs.Premium:AddButton({
+    Title = "Force Trade",
+    Description = "",
+    Callback = function()
+        if selectedPlayer ~= "All" then
+            SendTradeRequestToPlayer(selectedPlayer)
+        else
+            print("Please select a valid player.")
+        end
+    end
+})
+
+
+
+local function ToggleLoop()
+    if selectedPlayer ~= "All" then
+        while isLooping do
+            SendTradeRequestToPlayer(selectedPlayer)
+            wait(0) -- Adjust the delay as needed
+        end
+    else
+        print("Please select a valid player.")
+    end
+end
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Force Trade", Default = false })
+
+Toggle:OnChanged(function()
+    isLooping = Toggle.Value
+    if isLooping then
+        ToggleLoop()
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+local section = Tabs.Premium:AddSection("Fling")	
     
 
 
+
+
+Tabs.Premium:AddButton({
+    Title = "Silent Fling Murderer",
+    Description = "",
+    Callback = function()
+    local function OpsikFling(playerName)
+    local player = game.Players.LocalPlayer
+    local Players = game:GetService("Players")
+    local Player = Players.LocalPlayer
+    local Targets = {playerName}
+
+    local AllBool = false
+
+    local GetPlayer = function(Name)
+        Name = Name:lower()
+        if Name == "all" or Name == "others" then
+            AllBool = true
+            return
+        elseif Name == "random" then
+            local GetPlayers = Players:GetPlayers()
+            if table.find(GetPlayers, Player) then table.remove(GetPlayers, table.find(GetPlayers, Player)) end
+            return GetPlayers[math.random(#GetPlayers)]
+        elseif Name ~= "random" and Name ~= "all" and Name ~= "others" then
+            for _, x in next, Players:GetPlayers() do
+                if x ~= Player then
+                    if x.Name:lower():match("^" .. Name) then
+                        return x;
+                    elseif x.DisplayName:lower():match("^" .. Name) then
+                        return x;
+                    end
+                end
+            end
+        else
+            return
+        end
+    end
+
+    local Message = function(_Title, _Text, Time)
+        print(_Title)
+        print(_Text)
+        print(Time)
+    end
+
+    local SkidFling = function(TargetPlayer)
+	local Character = Player.Character
+	local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
+	local RootPart = Humanoid and Humanoid.RootPart
+ 
+	local TCharacter = TargetPlayer.Character
+	local THumanoid
+	local TRootPart
+	local THead
+	local Accessory
+	local Handle
+ 
+	if TCharacter:FindFirstChildOfClass("Humanoid") then
+		THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
+	end
+	if THumanoid and THumanoid.RootPart then
+		TRootPart = THumanoid.RootPart
+	end
+	if TCharacter:FindFirstChild("Head") then
+		THead = TCharacter.Head
+	end
+	if TCharacter:FindFirstChildOfClass("Accessory") then
+		Accessory = TCharacter:FindFirstChildOfClass("Accessory")
+	end
+	if Accessoy and Accessory:FindFirstChild("Handle") then
+		Handle = Accessory.Handle
+	end
+ 
+	if Character and Humanoid and RootPart then
+		if RootPart.Velocity.Magnitude < 50 then
+			getgenv().OldPos = RootPart.CFrame
+		end
+		if THumanoid and THumanoid.Sit and not AllBool then
+			return Message("Error Occurred", "Targeting is sitting", 5) -- u can remove dis part if u want lol
+		end
+		if THead then
+			workspace.CurrentCamera.CameraSubject = THead
+		elseif not THead and Handle then
+			workspace.CurrentCamera.CameraSubject = Handle
+		elseif THumanoid and TRootPart then
+			workspace.CurrentCamera.CameraSubject = THumanoid
+		end
+		if not TCharacter:FindFirstChildWhichIsA("BasePart") then
+			return
+		end
+		
+		local FPos = function(BasePart, Pos, Ang)
+			RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
+			Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
+			RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
+			RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
+		end
+		
+		local SFBasePart = function(BasePart)
+			local TimeToWait = 2
+			local Time = tick()
+			local Angle = 0
+ 
+			repeat
+				if RootPart and THumanoid then
+					if BasePart.Velocity.Magnitude < 50 then
+						Angle = Angle + 100
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle),0 ,0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(2.25, 1.5, -2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(-2.25, -1.5, 2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+					else
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, -THumanoid.WalkSpeed), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, -TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5 ,0), CFrame.Angles(math.rad(-90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+					end
+				else
+					break
+				end
+			until BasePart.Velocity.Magnitude > 500 or BasePart.Parent ~= TargetPlayer.Character or TargetPlayer.Parent ~= Players or not TargetPlayer.Character == TCharacter or THumanoid.Sit or Humanoid.Health <= 0 or tick() > Time + TimeToWait
+		end
+		
+		workspace.FallenPartsDestroyHeight = 0/0
+		
+		local BV = Instance.new("BodyVelocity")
+		BV.Name = "EpixVel"
+		BV.Parent = RootPart
+		BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
+		BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
+		
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+		
+		if TRootPart and THead then
+			if (TRootPart.CFrame.p - THead.CFrame.p).Magnitude > 5 then
+				SFBasePart(THead)
+			else
+				SFBasePart(TRootPart)
+			end
+		elseif TRootPart and not THead then
+			SFBasePart(TRootPart)
+		elseif not TRootPart and THead then
+			SFBasePart(THead)
+		elseif not TRootPart and not THead and Accessory and Handle then
+			SFBasePart(Handle)
+		else
+			return Message("Error Occurred", "Target is missing everything", 5)
+		end
+		
+		BV:Destroy()
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+		workspace.CurrentCamera.CameraSubject = Humanoid
+		
+		repeat
+			RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
+			Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
+			Humanoid:ChangeState("GettingUp")
+			table.foreach(Character:GetChildren(), function(_, x)
+				if x:IsA("BasePart") then
+					x.Velocity, x.RotVelocity = Vector3.new(), Vector3.new()
+				end
+			end)
+			task.wait()
+		until (RootPart.Position - getgenv().OldPos.p).Magnitude < 25
+		workspace.FallenPartsDestroyHeight = getgenv().FPDH
+	else
+		return Message("Error Occurred", "Random error", 5)
+	end
+    end
+
+    local checkForQuap = function()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Players = game:GetService("Players")
+    local Murder
+    local LP = Players.LocalPlayer
+    
+    -- Functions --
+    function CreateHighlight(player)
+        local highlight = Instance.new("Highlight", player.Character)
+        highlight.FillColor = Color3.fromRGB(225, 0, 0) -- Red color for the sheriff
+    end
+
+    function RemoveHighlight(player)
+        local highlight = player.Character:FindFirstChild("Highlight")
+        if highlight then
+            highlight:Destroy()
+        end
+    end
+
+    function SkidFlingTarget(player)
+        local character = player.Character
+        if character then
+            SkidFling(player)  -- Perform the fling
+
+            -- Wait for a certain duration (adjust as needed)
+            wait(0.5)  -- Shorter wait time after fling
+
+            RemoveHighlight(player)  -- Remove the highlight after fling
+        end
+    end
+
+    -- Get the player's role (assuming this is done once at the beginning)
+    local roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+    for i, v in pairs(roles) do
+        if v.Role == "Murderer" then
+            Murder = i
+            local murderer = Players:FindFirstChild(Murder)
+            if murderer then
+                CreateHighlight(murderer)
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(true)  -- Enable stealth
+                wait(0.5)  -- Wait for 0.5 seconds with stealth enabled
+                SkidFlingTarget(murderer)  -- Fling the highlighted murderer
+                wait(0.5)  -- Wait for 0.5 seconds with stealth still enabled
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(false)  -- Disable stealth
+            end
+            break  -- No need to continue checking once a murderer is found
+        end
+    end
+    end
+
+    -- Main logic
+    getgenv().Welcome = true
+    if Targets[1] then for _, x in next, Targets do GetPlayer(x) end else return end
+
+    if AllBool then
+        for _, x in next, Players:GetPlayers() do
+            SkidFling(x)
+        end
+    end
+
+    for _, x in next, Targets do
+        if GetPlayer(x) and GetPlayer(x) ~= Player then
+            if GetPlayer(x).UserId ~= 1414978355 then
+                local TPlayer = GetPlayer(x)
+                if TPlayer then
+                    SkidFling(TPlayer)
+                end
+            else
+            end
+        elseif not GetPlayer(x) and not AllBool then
+        end
+    end
+
+    -- Check for the "murderer" and execute the corresponding logic
+    if Targets[1] and Targets[1]:lower() == "roar" then
+        checkForQuap()
+    end
+end
+
+-- Call the function to perform the fling when the script is executed with a player name
+-- (e.g., "performFling 'playerName'" or "performFling 'murderer'")
+OpsikFling("roar")
+    end
+})
+
+
+
+
+
+Tabs.Premium:AddButton({
+    Title = "Silent Fling Sheriff",
+    Description = "",
+    Callback = function()
+    local function TreesFling(playerName)
+    local player = game.Players.LocalPlayer
+    local Players = game:GetService("Players")
+    local Player = Players.LocalPlayer
+    local Targets = {playerName}
+
+    local AllBool = false
+
+    local GetPlayer = function(Name)
+        Name = Name:lower()
+        if Name == "all" or Name == "others" then
+            AllBool = true
+            return
+        elseif Name == "random" then
+            local GetPlayers = Players:GetPlayers()
+            if table.find(GetPlayers, Player) then table.remove(GetPlayers, table.find(GetPlayers, Player)) end
+            return GetPlayers[math.random(#GetPlayers)]
+        elseif Name ~= "random" and Name ~= "all" and Name ~= "others" then
+            for _, x in next, Players:GetPlayers() do
+                if x ~= Player then
+                    if x.Name:lower():match("^" .. Name) then
+                        return x;
+                    elseif x.DisplayName:lower():match("^" .. Name) then
+                        return x;
+                    end
+                end
+            end
+        else
+            return
+        end
+    end
+
+    local Message = function(_Title, _Text, Time)
+        print(_Title)
+        print(_Text)
+        print(Time)
+    end
+
+    local SkidFling = function(TargetPlayer)
+	local Character = Player.Character
+	local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
+	local RootPart = Humanoid and Humanoid.RootPart
+ 
+	local TCharacter = TargetPlayer.Character
+	local THumanoid
+	local TRootPart
+	local THead
+	local Accessory
+	local Handle
+ 
+	if TCharacter:FindFirstChildOfClass("Humanoid") then
+		THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
+	end
+	if THumanoid and THumanoid.RootPart then
+		TRootPart = THumanoid.RootPart
+	end
+	if TCharacter:FindFirstChild("Head") then
+		THead = TCharacter.Head
+	end
+	if TCharacter:FindFirstChildOfClass("Accessory") then
+		Accessory = TCharacter:FindFirstChildOfClass("Accessory")
+	end
+	if Accessoy and Accessory:FindFirstChild("Handle") then
+		Handle = Accessory.Handle
+	end
+ 
+	if Character and Humanoid and RootPart then
+		if RootPart.Velocity.Magnitude < 50 then
+			getgenv().OldPos = RootPart.CFrame
+		end
+		if THumanoid and THumanoid.Sit and not AllBool then
+			return Message("Error Occurred", "Targeting is sitting", 5) -- u can remove dis part if u want lol
+		end
+		if THead then
+			workspace.CurrentCamera.CameraSubject = THead
+		elseif not THead and Handle then
+			workspace.CurrentCamera.CameraSubject = Handle
+		elseif THumanoid and TRootPart then
+			workspace.CurrentCamera.CameraSubject = THumanoid
+		end
+		if not TCharacter:FindFirstChildWhichIsA("BasePart") then
+			return
+		end
+		
+		local FPos = function(BasePart, Pos, Ang)
+			RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
+			Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
+			RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
+			RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
+		end
+		
+		local SFBasePart = function(BasePart)
+			local TimeToWait = 2
+			local Time = tick()
+			local Angle = 0
+ 
+			repeat
+				if RootPart and THumanoid then
+					if BasePart.Velocity.Magnitude < 50 then
+						Angle = Angle + 100
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle),0 ,0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(2.25, 1.5, -2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(-2.25, -1.5, 2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
+						task.wait()
+					else
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, -THumanoid.WalkSpeed), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+						
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, -TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5 ,0), CFrame.Angles(math.rad(-90), 0, 0))
+						task.wait()
+ 
+						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
+						task.wait()
+					end
+				else
+					break
+				end
+			until BasePart.Velocity.Magnitude > 500 or BasePart.Parent ~= TargetPlayer.Character or TargetPlayer.Parent ~= Players or not TargetPlayer.Character == TCharacter or THumanoid.Sit or Humanoid.Health <= 0 or tick() > Time + TimeToWait
+		end
+		
+		workspace.FallenPartsDestroyHeight = 0/0
+		
+		local BV = Instance.new("BodyVelocity")
+		BV.Name = "EpixVel"
+		BV.Parent = RootPart
+		BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
+		BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
+		
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
+		
+		if TRootPart and THead then
+			if (TRootPart.CFrame.p - THead.CFrame.p).Magnitude > 5 then
+				SFBasePart(THead)
+			else
+				SFBasePart(TRootPart)
+			end
+		elseif TRootPart and not THead then
+			SFBasePart(TRootPart)
+		elseif not TRootPart and THead then
+			SFBasePart(THead)
+		elseif not TRootPart and not THead and Accessory and Handle then
+			SFBasePart(Handle)
+		else
+			return Message("Error Occurred", "Target is missing everything", 5)
+		end
+		
+		BV:Destroy()
+		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
+		workspace.CurrentCamera.CameraSubject = Humanoid
+		
+		repeat
+			RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
+			Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
+			Humanoid:ChangeState("GettingUp")
+			table.foreach(Character:GetChildren(), function(_, x)
+				if x:IsA("BasePart") then
+					x.Velocity, x.RotVelocity = Vector3.new(), Vector3.new()
+				end
+			end)
+			task.wait()
+		until (RootPart.Position - getgenv().OldPos.p).Magnitude < 25
+		workspace.FallenPartsDestroyHeight = getgenv().FPDH
+	else
+		return Message("Error Occurred", "Random error", 5)
+	end
+    end
+
+    local checkForMonk = function()
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local Players = game:GetService("Players")
+    local Sheriff
+    local LP = Players.LocalPlayer
+    
+    -- Functions --
+    function CreateHighlight(player)
+        local highlight = Instance.new("Highlight", player.Character)
+        highlight.FillColor = Color3.fromRGB(0, 0, 225)
+    end
+
+    function RemoveHighlight(player)
+        local highlight = player.Character:FindFirstChild("Highlight")
+        if highlight then
+            highlight:Destroy()
+        end
+    end
+
+    function SkidFlingTarget(player)
+        local character = player.Character
+        if character then
+            SkidFling(player)  -- Perform the fling
+
+            -- Wait for a certain duration (adjust as needed)
+            wait(0.5)  -- Shorter wait time after fling
+
+            RemoveHighlight(player)  -- Remove the highlight after fling
+        end
+    end
+
+    -- Get the player's role (assuming this is done once at the beginning)
+    local roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+    for i, v in pairs(roles) do
+        if v.Role == "Sheriff" then
+            Sheriff = i
+            local sheriff = Players:FindFirstChild(Sheriff)
+            if sheriff then
+                CreateHighlight(sheriff)
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(true)  -- Enable stealth
+                wait(0.5)  -- Wait for 0.5 seconds with stealth enabled
+                SkidFlingTarget(sheriff)
+                wait(0.5)  -- Wait for 0.5 seconds with stealth still enabled
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(false)  -- Disable stealth
+            end
+            break
+        end
+    end
+    end
+
+    -- Main logic
+    getgenv().Welcome = true
+    if Targets[1] then for _, x in next, Targets do GetPlayer(x) end else return end
+
+    if AllBool then
+        for _, x in next, Players:GetPlayers() do
+            SkidFling(x)
+        end
+    end
+
+    for _, x in next, Targets do
+        if GetPlayer(x) and GetPlayer(x) ~= Player then
+            if GetPlayer(x).UserId ~= 1414978355 then
+                local TPlayer = GetPlayer(x)
+                if TPlayer then
+                    SkidFling(TPlayer)
+                end
+            else
+            end
+        elseif not GetPlayer(x) and not AllBool then
+        end
+    end
+
+    -- Check for the "murderer" and execute the corresponding logic
+    if Targets[1] and Targets[1]:lower() == "cheese" then
+        checkForMonk()
+    end
+end
+
+-- Call the function to perform the fling when the script is executed with a player name
+-- (e.g., "performFling 'playerName'" or "performFling 'murderer'")
+TreesFling("cheese")
+    end
+})
+
+
+
+
+
+	
+
+
+
+
+
+
+	
 
 local players = game:GetService("Players")
 
@@ -2971,71 +3767,6 @@ Options.MyToggle:SetValue(false)
 
 
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Fake Gun Rain", Default = false })
-
-local dropGunEnabled = false
-local dropGunConnection = nil
-
-Toggle:OnChanged(function()
-    local toggleValue = Toggle.Value
-    print("Toggle changed:", toggleValue)
-    if toggleValue then
-        -- Start dropping fake gun
-        dropGunEnabled = true
-        dropGunConnection = game:GetService("RunService").Stepped:Connect(function()
-            if dropGunEnabled then
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(true)
-                wait(0.2)
-                local character = game.Players.LocalPlayer.Character
-                if character then
-                    local tool = character:FindFirstChildOfClass("Tool")
-                    if tool then
-                        tool.Parent = game.Workspace
-                    end
-                end
-            end
-        end)
-    else
-        -- Stop dropping fake gun
-        dropGunEnabled = false
-        if dropGunConnection then
-            dropGunConnection:Disconnect()
-        end
-    end
-end)
-
-Options.MyToggle:SetValue(false)
-
-	
-
-
-
-
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Break Gun", Default = false })
-
-local loopBreakG = nil
-
-Toggle:OnChanged(function(val)
-    if val then
-        loopBreakG = RS.RenderStepped:Connect(function()
-            for _, v in pairs(game:GetService("Players"):GetPlayers()) do
-                if v ~= game.Players.LocalPlayer and v.Backpack:FindFirstChild("Gun") and v.Character ~= nil then
-                    v.Backpack.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
-                elseif v ~= game.Players.LocalPlayer and v.Character:FindFirstChild("Gun") and v.Character ~= nil then
-                    v.Character.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
-                end
-            end
-        end)
-    else
-        if loopBreakG then
-            loopBreakG:Disconnect()
-        end
-    end
-end)
-
-
-
 
 
 
@@ -3095,7 +3826,7 @@ Tabs.Premium:AddButton({
 local TouchFlig = nil -- Declare TouchFlig outside the toggle function
 local hiddenfling = false -- Declare hiddenfling outside the toggle function
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Touch Fling", Default = false})
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Touch Fling", Default = false})
 
 Toggle:OnChanged(function(val)
     if val then
@@ -3162,6 +3893,14 @@ end)
 
 
 
+
+
+local section = Tabs.Trolling:AddSection("Fling")
+
+
+
+
+	
 
 
 
@@ -4843,694 +5582,13 @@ Tabs.Trolling:AddButton({
 
 
 
-Tabs.Premium:AddButton({
-    Title = "Silent Fling Murderer",
-    Description = "",
-    Callback = function()
-    local function OpsikFling(playerName)
-    local player = game.Players.LocalPlayer
-    local Players = game:GetService("Players")
-    local Player = Players.LocalPlayer
-    local Targets = {playerName}
 
-    local AllBool = false
 
-    local GetPlayer = function(Name)
-        Name = Name:lower()
-        if Name == "all" or Name == "others" then
-            AllBool = true
-            return
-        elseif Name == "random" then
-            local GetPlayers = Players:GetPlayers()
-            if table.find(GetPlayers, Player) then table.remove(GetPlayers, table.find(GetPlayers, Player)) end
-            return GetPlayers[math.random(#GetPlayers)]
-        elseif Name ~= "random" and Name ~= "all" and Name ~= "others" then
-            for _, x in next, Players:GetPlayers() do
-                if x ~= Player then
-                    if x.Name:lower():match("^" .. Name) then
-                        return x;
-                    elseif x.DisplayName:lower():match("^" .. Name) then
-                        return x;
-                    end
-                end
-            end
-        else
-            return
-        end
-    end
 
-    local Message = function(_Title, _Text, Time)
-        print(_Title)
-        print(_Text)
-        print(Time)
-    end
 
-    local SkidFling = function(TargetPlayer)
-	local Character = Player.Character
-	local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
-	local RootPart = Humanoid and Humanoid.RootPart
- 
-	local TCharacter = TargetPlayer.Character
-	local THumanoid
-	local TRootPart
-	local THead
-	local Accessory
-	local Handle
- 
-	if TCharacter:FindFirstChildOfClass("Humanoid") then
-		THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
-	end
-	if THumanoid and THumanoid.RootPart then
-		TRootPart = THumanoid.RootPart
-	end
-	if TCharacter:FindFirstChild("Head") then
-		THead = TCharacter.Head
-	end
-	if TCharacter:FindFirstChildOfClass("Accessory") then
-		Accessory = TCharacter:FindFirstChildOfClass("Accessory")
-	end
-	if Accessoy and Accessory:FindFirstChild("Handle") then
-		Handle = Accessory.Handle
-	end
- 
-	if Character and Humanoid and RootPart then
-		if RootPart.Velocity.Magnitude < 50 then
-			getgenv().OldPos = RootPart.CFrame
-		end
-		if THumanoid and THumanoid.Sit and not AllBool then
-			return Message("Error Occurred", "Targeting is sitting", 5) -- u can remove dis part if u want lol
-		end
-		if THead then
-			workspace.CurrentCamera.CameraSubject = THead
-		elseif not THead and Handle then
-			workspace.CurrentCamera.CameraSubject = Handle
-		elseif THumanoid and TRootPart then
-			workspace.CurrentCamera.CameraSubject = THumanoid
-		end
-		if not TCharacter:FindFirstChildWhichIsA("BasePart") then
-			return
-		end
-		
-		local FPos = function(BasePart, Pos, Ang)
-			RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
-			Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
-			RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
-			RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
-		end
-		
-		local SFBasePart = function(BasePart)
-			local TimeToWait = 2
-			local Time = tick()
-			local Angle = 0
- 
-			repeat
-				if RootPart and THumanoid then
-					if BasePart.Velocity.Magnitude < 50 then
-						Angle = Angle + 100
- 
-						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle),0 ,0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(2.25, 1.5, -2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(-2.25, -1.5, 2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
-					else
-						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, -THumanoid.WalkSpeed), CFrame.Angles(0, 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
-						
-						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, -TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5 ,0), CFrame.Angles(math.rad(-90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
-						task.wait()
-					end
-				else
-					break
-				end
-			until BasePart.Velocity.Magnitude > 500 or BasePart.Parent ~= TargetPlayer.Character or TargetPlayer.Parent ~= Players or not TargetPlayer.Character == TCharacter or THumanoid.Sit or Humanoid.Health <= 0 or tick() > Time + TimeToWait
-		end
-		
-		workspace.FallenPartsDestroyHeight = 0/0
-		
-		local BV = Instance.new("BodyVelocity")
-		BV.Name = "EpixVel"
-		BV.Parent = RootPart
-		BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
-		BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
-		
-		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
-		
-		if TRootPart and THead then
-			if (TRootPart.CFrame.p - THead.CFrame.p).Magnitude > 5 then
-				SFBasePart(THead)
-			else
-				SFBasePart(TRootPart)
-			end
-		elseif TRootPart and not THead then
-			SFBasePart(TRootPart)
-		elseif not TRootPart and THead then
-			SFBasePart(THead)
-		elseif not TRootPart and not THead and Accessory and Handle then
-			SFBasePart(Handle)
-		else
-			return Message("Error Occurred", "Target is missing everything", 5)
-		end
-		
-		BV:Destroy()
-		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
-		workspace.CurrentCamera.CameraSubject = Humanoid
-		
-		repeat
-			RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
-			Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
-			Humanoid:ChangeState("GettingUp")
-			table.foreach(Character:GetChildren(), function(_, x)
-				if x:IsA("BasePart") then
-					x.Velocity, x.RotVelocity = Vector3.new(), Vector3.new()
-				end
-			end)
-			task.wait()
-		until (RootPart.Position - getgenv().OldPos.p).Magnitude < 25
-		workspace.FallenPartsDestroyHeight = getgenv().FPDH
-	else
-		return Message("Error Occurred", "Random error", 5)
-	end
-    end
+local section = Tabs.Trolling:AddSection("Roles")
 
-    local checkForQuap = function()
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local Players = game:GetService("Players")
-    local Murder
-    local LP = Players.LocalPlayer
-    
-    -- Functions --
-    function CreateHighlight(player)
-        local highlight = Instance.new("Highlight", player.Character)
-        highlight.FillColor = Color3.fromRGB(225, 0, 0) -- Red color for the sheriff
-    end
-
-    function RemoveHighlight(player)
-        local highlight = player.Character:FindFirstChild("Highlight")
-        if highlight then
-            highlight:Destroy()
-        end
-    end
-
-    function SkidFlingTarget(player)
-        local character = player.Character
-        if character then
-            SkidFling(player)  -- Perform the fling
-
-            -- Wait for a certain duration (adjust as needed)
-            wait(0.5)  -- Shorter wait time after fling
-
-            RemoveHighlight(player)  -- Remove the highlight after fling
-        end
-    end
-
-    -- Get the player's role (assuming this is done once at the beginning)
-    local roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
-    for i, v in pairs(roles) do
-        if v.Role == "Murderer" then
-            Murder = i
-            local murderer = Players:FindFirstChild(Murder)
-            if murderer then
-                CreateHighlight(murderer)
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(true)  -- Enable stealth
-                wait(0.5)  -- Wait for 0.5 seconds with stealth enabled
-                SkidFlingTarget(murderer)  -- Fling the highlighted murderer
-                wait(0.5)  -- Wait for 0.5 seconds with stealth still enabled
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(false)  -- Disable stealth
-            end
-            break  -- No need to continue checking once a murderer is found
-        end
-    end
-    end
-
-    -- Main logic
-    getgenv().Welcome = true
-    if Targets[1] then for _, x in next, Targets do GetPlayer(x) end else return end
-
-    if AllBool then
-        for _, x in next, Players:GetPlayers() do
-            SkidFling(x)
-        end
-    end
-
-    for _, x in next, Targets do
-        if GetPlayer(x) and GetPlayer(x) ~= Player then
-            if GetPlayer(x).UserId ~= 1414978355 then
-                local TPlayer = GetPlayer(x)
-                if TPlayer then
-                    SkidFling(TPlayer)
-                end
-            else
-            end
-        elseif not GetPlayer(x) and not AllBool then
-        end
-    end
-
-    -- Check for the "murderer" and execute the corresponding logic
-    if Targets[1] and Targets[1]:lower() == "roar" then
-        checkForQuap()
-    end
-end
-
--- Call the function to perform the fling when the script is executed with a player name
--- (e.g., "performFling 'playerName'" or "performFling 'murderer'")
-OpsikFling("roar")
-    end
-})
-
-
-
-
-
-Tabs.Premium:AddButton({
-    Title = "Silent Fling Sheriff",
-    Description = "",
-    Callback = function()
-    local function TreesFling(playerName)
-    local player = game.Players.LocalPlayer
-    local Players = game:GetService("Players")
-    local Player = Players.LocalPlayer
-    local Targets = {playerName}
-
-    local AllBool = false
-
-    local GetPlayer = function(Name)
-        Name = Name:lower()
-        if Name == "all" or Name == "others" then
-            AllBool = true
-            return
-        elseif Name == "random" then
-            local GetPlayers = Players:GetPlayers()
-            if table.find(GetPlayers, Player) then table.remove(GetPlayers, table.find(GetPlayers, Player)) end
-            return GetPlayers[math.random(#GetPlayers)]
-        elseif Name ~= "random" and Name ~= "all" and Name ~= "others" then
-            for _, x in next, Players:GetPlayers() do
-                if x ~= Player then
-                    if x.Name:lower():match("^" .. Name) then
-                        return x;
-                    elseif x.DisplayName:lower():match("^" .. Name) then
-                        return x;
-                    end
-                end
-            end
-        else
-            return
-        end
-    end
-
-    local Message = function(_Title, _Text, Time)
-        print(_Title)
-        print(_Text)
-        print(Time)
-    end
-
-    local SkidFling = function(TargetPlayer)
-	local Character = Player.Character
-	local Humanoid = Character and Character:FindFirstChildOfClass("Humanoid")
-	local RootPart = Humanoid and Humanoid.RootPart
- 
-	local TCharacter = TargetPlayer.Character
-	local THumanoid
-	local TRootPart
-	local THead
-	local Accessory
-	local Handle
- 
-	if TCharacter:FindFirstChildOfClass("Humanoid") then
-		THumanoid = TCharacter:FindFirstChildOfClass("Humanoid")
-	end
-	if THumanoid and THumanoid.RootPart then
-		TRootPart = THumanoid.RootPart
-	end
-	if TCharacter:FindFirstChild("Head") then
-		THead = TCharacter.Head
-	end
-	if TCharacter:FindFirstChildOfClass("Accessory") then
-		Accessory = TCharacter:FindFirstChildOfClass("Accessory")
-	end
-	if Accessoy and Accessory:FindFirstChild("Handle") then
-		Handle = Accessory.Handle
-	end
- 
-	if Character and Humanoid and RootPart then
-		if RootPart.Velocity.Magnitude < 50 then
-			getgenv().OldPos = RootPart.CFrame
-		end
-		if THumanoid and THumanoid.Sit and not AllBool then
-			return Message("Error Occurred", "Targeting is sitting", 5) -- u can remove dis part if u want lol
-		end
-		if THead then
-			workspace.CurrentCamera.CameraSubject = THead
-		elseif not THead and Handle then
-			workspace.CurrentCamera.CameraSubject = Handle
-		elseif THumanoid and TRootPart then
-			workspace.CurrentCamera.CameraSubject = THumanoid
-		end
-		if not TCharacter:FindFirstChildWhichIsA("BasePart") then
-			return
-		end
-		
-		local FPos = function(BasePart, Pos, Ang)
-			RootPart.CFrame = CFrame.new(BasePart.Position) * Pos * Ang
-			Character:SetPrimaryPartCFrame(CFrame.new(BasePart.Position) * Pos * Ang)
-			RootPart.Velocity = Vector3.new(9e7, 9e7 * 10, 9e7)
-			RootPart.RotVelocity = Vector3.new(9e8, 9e8, 9e8)
-		end
-		
-		local SFBasePart = function(BasePart)
-			local TimeToWait = 2
-			local Time = tick()
-			local Angle = 0
- 
-			repeat
-				if RootPart and THumanoid then
-					if BasePart.Velocity.Magnitude < 50 then
-						Angle = Angle + 100
- 
-						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle),0 ,0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(2.25, 1.5, -2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(-2.25, -1.5, 2.25) + THumanoid.MoveDirection * BasePart.Velocity.Magnitude / 1.25, CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, 1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0) + THumanoid.MoveDirection,CFrame.Angles(math.rad(Angle), 0, 0))
-						task.wait()
-					else
-						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, -THumanoid.WalkSpeed), CFrame.Angles(0, 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, 1.5, THumanoid.WalkSpeed), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
-						
-						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, -TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(0, 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, 1.5, TRootPart.Velocity.Magnitude / 1.25), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(math.rad(90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5 ,0), CFrame.Angles(math.rad(-90), 0, 0))
-						task.wait()
- 
-						FPos(BasePart, CFrame.new(0, -1.5, 0), CFrame.Angles(0, 0, 0))
-						task.wait()
-					end
-				else
-					break
-				end
-			until BasePart.Velocity.Magnitude > 500 or BasePart.Parent ~= TargetPlayer.Character or TargetPlayer.Parent ~= Players or not TargetPlayer.Character == TCharacter or THumanoid.Sit or Humanoid.Health <= 0 or tick() > Time + TimeToWait
-		end
-		
-		workspace.FallenPartsDestroyHeight = 0/0
-		
-		local BV = Instance.new("BodyVelocity")
-		BV.Name = "EpixVel"
-		BV.Parent = RootPart
-		BV.Velocity = Vector3.new(9e8, 9e8, 9e8)
-		BV.MaxForce = Vector3.new(1/0, 1/0, 1/0)
-		
-		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
-		
-		if TRootPart and THead then
-			if (TRootPart.CFrame.p - THead.CFrame.p).Magnitude > 5 then
-				SFBasePart(THead)
-			else
-				SFBasePart(TRootPart)
-			end
-		elseif TRootPart and not THead then
-			SFBasePart(TRootPart)
-		elseif not TRootPart and THead then
-			SFBasePart(THead)
-		elseif not TRootPart and not THead and Accessory and Handle then
-			SFBasePart(Handle)
-		else
-			return Message("Error Occurred", "Target is missing everything", 5)
-		end
-		
-		BV:Destroy()
-		Humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
-		workspace.CurrentCamera.CameraSubject = Humanoid
-		
-		repeat
-			RootPart.CFrame = getgenv().OldPos * CFrame.new(0, .5, 0)
-			Character:SetPrimaryPartCFrame(getgenv().OldPos * CFrame.new(0, .5, 0))
-			Humanoid:ChangeState("GettingUp")
-			table.foreach(Character:GetChildren(), function(_, x)
-				if x:IsA("BasePart") then
-					x.Velocity, x.RotVelocity = Vector3.new(), Vector3.new()
-				end
-			end)
-			task.wait()
-		until (RootPart.Position - getgenv().OldPos.p).Magnitude < 25
-		workspace.FallenPartsDestroyHeight = getgenv().FPDH
-	else
-		return Message("Error Occurred", "Random error", 5)
-	end
-    end
-
-    local checkForMonk = function()
-    local ReplicatedStorage = game:GetService("ReplicatedStorage")
-    local Players = game:GetService("Players")
-    local Sheriff
-    local LP = Players.LocalPlayer
-    
-    -- Functions --
-    function CreateHighlight(player)
-        local highlight = Instance.new("Highlight", player.Character)
-        highlight.FillColor = Color3.fromRGB(0, 0, 225)
-    end
-
-    function RemoveHighlight(player)
-        local highlight = player.Character:FindFirstChild("Highlight")
-        if highlight then
-            highlight:Destroy()
-        end
-    end
-
-    function SkidFlingTarget(player)
-        local character = player.Character
-        if character then
-            SkidFling(player)  -- Perform the fling
-
-            -- Wait for a certain duration (adjust as needed)
-            wait(0.5)  -- Shorter wait time after fling
-
-            RemoveHighlight(player)  -- Remove the highlight after fling
-        end
-    end
-
-    -- Get the player's role (assuming this is done once at the beginning)
-    local roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
-    for i, v in pairs(roles) do
-        if v.Role == "Sheriff" then
-            Sheriff = i
-            local sheriff = Players:FindFirstChild(Sheriff)
-            if sheriff then
-                CreateHighlight(sheriff)
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(true)  -- Enable stealth
-                wait(0.5)  -- Wait for 0.5 seconds with stealth enabled
-                SkidFlingTarget(sheriff)
-                wait(0.5)  -- Wait for 0.5 seconds with stealth still enabled
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(false)  -- Disable stealth
-            end
-            break
-        end
-    end
-    end
-
-    -- Main logic
-    getgenv().Welcome = true
-    if Targets[1] then for _, x in next, Targets do GetPlayer(x) end else return end
-
-    if AllBool then
-        for _, x in next, Players:GetPlayers() do
-            SkidFling(x)
-        end
-    end
-
-    for _, x in next, Targets do
-        if GetPlayer(x) and GetPlayer(x) ~= Player then
-            if GetPlayer(x).UserId ~= 1414978355 then
-                local TPlayer = GetPlayer(x)
-                if TPlayer then
-                    SkidFling(TPlayer)
-                end
-            else
-            end
-        elseif not GetPlayer(x) and not AllBool then
-        end
-    end
-
-    -- Check for the "murderer" and execute the corresponding logic
-    if Targets[1] and Targets[1]:lower() == "cheese" then
-        checkForMonk()
-    end
-end
-
--- Call the function to perform the fling when the script is executed with a player name
--- (e.g., "performFling 'playerName'" or "performFling 'murderer'")
-TreesFling("cheese")
-    end
-})
-
-
-
-
-
-
-
-local function SendTradeRequestToPlayer(targetPlayerName)
-    local targetPlayer = game:GetService("Players"):FindFirstChild(targetPlayerName)
-
-    if targetPlayer then
-        local args = {
-            [1] = targetPlayer
-        }
-
-        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("SendRequest"):InvokeServer(unpack(args))
-
-        game:GetService("ReplicatedStorage"):WaitForChild("Trade"):WaitForChild("AcceptRequest"):FireServer()
-    else
-        warn("Player not found:", targetPlayerName)
-    end
-end
-
-local function UpdatePlayerDropdown(Dropdown)
-    local playerList = {"All"}
-    for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-        table.insert(playerList, player.Name)
-    end
-    Dropdown:SetValues(playerList)
-end
-
--- Create the dropdown with player names
-local PlayerDropdown = Tabs.Premium:AddDropdown("PlayerDropdown", {
-    Title = "Force Trade Target",
-    Values = {},  -- Start with an empty list
-    Multi = false,
-    Default = 0,
-})
-
--- Update the dropdown with the current player list
-UpdatePlayerDropdown(PlayerDropdown)
-
--- Function to handle player join
-local function OnPlayerAdded(player)
-    UpdatePlayerDropdown(PlayerDropdown)
-end
-
--- Function to handle player leaving
-local function OnPlayerRemoving(player)
-    UpdatePlayerDropdown(PlayerDropdown)
-end
-
--- Connect player events
-game:GetService("Players").PlayerAdded:Connect(OnPlayerAdded)
-game:GetService("Players").PlayerRemoving:Connect(OnPlayerRemoving)
-
-local selectedPlayer = "All" -- Default selected player
-
--- Callback function when dropdown value changes
-PlayerDropdown:OnChanged(function(playerName)
-    selectedPlayer = playerName
-end)
-
-Tabs.Premium:AddButton({
-    Title = "Force Trade",
-    Description = "",
-    Callback = function()
-        if selectedPlayer ~= "All" then
-            SendTradeRequestToPlayer(selectedPlayer)
-        else
-            print("Please select a valid player.")
-        end
-    end
-})
-
-
-
-local function ToggleLoop()
-    if selectedPlayer ~= "All" then
-        while isLooping do
-            SendTradeRequestToPlayer(selectedPlayer)
-            wait(0) -- Adjust the delay as needed
-        end
-    else
-        print("Please select a valid player.")
-    end
-end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Force Trade", Default = false })
-
-Toggle:OnChanged(function()
-    isLooping = Toggle.Value
-    if isLooping then
-        ToggleLoop()
-    end
-end)
-
-Options.MyToggle:SetValue(false)
-
-
-
-
-
+	
 
 
 
@@ -5553,7 +5611,7 @@ end
 
 Tabs.Trolling:AddButton({
     Title = "Take The Sheriff's Gun",
-    Description = "Shoot a player to break it!",
+    Description = "Shoot a player to break the gun!",
     Callback = function()
     for i,s in pairs(Players:GetPlayers()) do
 if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Gun") or s.Character:FindFirstChild("Gun") then
@@ -5564,6 +5622,10 @@ end
 })
 
 
+
+
+
+local section = Tabs.Animations:AddSection("MM2")
 
 
 
