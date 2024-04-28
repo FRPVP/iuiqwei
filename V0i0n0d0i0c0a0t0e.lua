@@ -3413,7 +3413,7 @@ Toggle:OnChanged(function(fehow)
                     fehowtarget = players:FindFirstChild(fetargetname)
                     fehowfunc()
                 end
-                task.wait(0)
+                task.wait(15)
             end
             wait()
             pcall(fehowloopfix)
