@@ -3226,6 +3226,117 @@ Options.MyToggle:SetValue(false)
 
 
 
+
+
+
+Tabs.Premium:AddButton({
+    Title = "Steal Gun From Sheriff",
+    Description = "",
+    Callback = function()
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LP = Players.LocalPlayer
+local Sheriff -- Variable to store the player with the Sheriff role
+local SprayExecuted = false -- Flag to track whether the spray script has been executed
+
+-- > Additional Script < --
+
+-- Get references to the player and workspace
+local player = game.Players.LocalPlayer
+local workspace = game:GetService("Workspace")
+
+-- Variable to store the original position
+local originalPosition = player.Character.HumanoidRootPart.CFrame
+
+-- Function to find and teleport to the GunDrop part
+local function teleportToGunDrop()
+    local gunDrop = workspace:FindFirstChild("GunDrop") -- Check if GunDrop exists in Workspace
+
+    if gunDrop then
+        -- Teleport the player to the GunDrop's position
+        player.Character:SetPrimaryPartCFrame(gunDrop.CFrame)
+
+        -- Wait for a moment (adjust the time as needed)
+        wait(0.2)
+
+        -- Teleport the player back to the original position
+        player.Character:SetPrimaryPartCFrame(originalPosition)
+    else
+        warn("GunDrop not found in Workspace")
+    end
+end
+
+-- > Functions <--
+
+function FindSheriff()
+    if not Sheriff then
+        for _, v in pairs(Players:GetChildren()) do
+            if v ~= LP then
+                local playerData = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+                local role = playerData[v.Name]
+                if role and role.Role == "Sheriff" then
+                    Sheriff = v
+                    if Sheriff ~= LP and not SprayExecuted then
+                        ExecuteSprayScript() -- Execute the spray script when Sheriff is found
+                        SprayExecuted = true
+                        teleportToGunDrop() -- Execute the teleport script after the spray script
+                    end
+                    break
+                end
+            end
+        end
+    end
+end
+
+function ExecuteSprayScript()
+    if LP.Character and Sheriff then
+        local args = {
+            [1] = 80373024,
+            [2] = Enum.NormalId.Back,
+            [3] = 15,
+            [4] = workspace[Sheriff.Name].Head,
+            [5] = CFrame.new(0, math.huge, 0)
+        }
+        if LP.Backpack.Toys:FindFirstChild("SprayPaint") then
+            ReplicateToy("SprayPaint", 2) -- Replicate SprayPaint twice
+            LP.Backpack.SprayPaint.Parent = LP.Character
+            LP.Character.SprayPaint.Remote:FireServer(unpack(args))
+            LP.Character.SprayPaint.Parent = LP.Backpack
+        elseif LP.Backpack:FindFirstChild("SprayPaint") then
+            LP.Backpack.SprayPaint.Parent = LP.Character
+            LP.Character.SprayPaint.Remote:FireServer(unpack(args))
+            LP.Character.SprayPaint.Parent = LP.Backpack
+        elseif LP.Character:FindFirstChild("SprayPaint") then
+            LP.Character.SprayPaint.Remote:FireServer(unpack(args))
+        end
+    end
+end
+
+function ReplicateToy(toyName, replicateCount)
+    local remotes = game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Extras")
+    local replicateToyRemote = remotes:WaitForChild("ReplicateToy")
+    
+    for _ = 1, replicateCount do
+        replicateToyRemote:InvokeServer(toyName)
+    end
+end
+
+-- > Loop < --
+
+RunService.RenderStepped:Connect(function()
+    FindSheriff()
+end)
+end
+})
+
+
+
+
+
+
+	
+
 	
 
 
