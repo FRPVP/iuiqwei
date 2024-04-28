@@ -1,26 +1,9 @@
 function fehowfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.RightUpperLeg), fehowtarget.Character.RightUpperLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (fehowtarget.Character.RightUpperLeg), fehowtarget.Character.RightUpperLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (fehowtarget.Character.RightUpperLeg), fehowtarget.Character.RightUpperLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 6.331, (fehowtarget.Character.RightUpperLeg), fehowtarget.Character.RightUpperLeg.CFrame * CFrame.new(0, 0, 0))
-
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftUpperLeg), fehowtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (fehowtarget.Character.LeftUpperLeg), fehowtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (fehowtarget.Character.LeftUpperLeg), fehowtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 6.331, (fehowtarget.Character.LeftUpperLeg), fehowtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, 0, 0))
-
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftLowerLeg), fehowtarget.Character.LeftLowerLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (fehowtarget.Character.LeftLowerLeg), fehowtarget.Character.LeftLowerLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (fehowtarget.Character.LeftLowerLeg), fehowtarget.Character.LeftLowerLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 6.331, (fehowtarget.Character.LeftLowerLeg), fehowtarget.Character.LeftLowerLeg.CFrame * CFrame.new(0, 0, 0))
-
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.RightLowerLeg), fehowtarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (fehowtarget.Character.RightLowerLeg), fehowtarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (fehowtarget.Character.RightLowerLeg), fehowtarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 6.331, (fehowtarget.Character.RightLowerLeg), fehowtarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftUpperLeg), fehowtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -99999, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftUpperLeg), fehowtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -99999, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Test5", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "test", Default = false })
 
 Toggle:OnChanged(function(fehow)
     if fehow == true then
