@@ -1,39 +1,36 @@
-function fehowfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftHand), fehowtarget.Character.LeftHand.CFrame * CFrame.new(0, -2, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftHand), fehowtarget.Character.LeftHand.CFrame * CFrame.new(0, -2, 0))
+-- Get the LocalPlayer
+local player = game.Players.LocalPlayer
+
+-- Function to check if a part is a decal created by the "SprayPaint" tool
+local function isSprayPaintDecal(part)
+    return part:IsA("Decal") and part.Parent and part.Parent:IsA("Model") and part.Parent:FindFirstChild("Creator") and part.Parent.Creator.Value == player
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "test345", Default = false })
+-- Function to highlight a part
+local function highlightPart(part)
+    local highlight = Instance.new("SelectionBox")
+    highlight.Adornee = part
+    highlight.Color3 = Color3.new(1, 1, 0) -- Yellow color
+    highlight.LineThickness = 0.05
+    highlight.Parent = part
+end
 
-Toggle:OnChanged(function(fehow)
-    if fehow == true then
-        fehowloop = true
-        while fehowloop do
-            function fehowloopfix()
-                EquipSpray()
-                task.wait(0.4)
-                if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            fehowtarget = players:FindFirstChild(v.Name)
-                            fehowfunc()
-                            task.wait()
-                        end
-                    end
-                else
-                    fehowtarget = players:FindFirstChild(fetargetname)
-                    fehowfunc()
-                end
-                task.wait(15)
-            end
-            wait()
-            pcall(fehowloopfix)
+-- Function to remove the highlight from a part
+local function removeHighlight(part)
+    for _, child in ipairs(part:GetChildren()) do
+        if child:IsA("SelectionBox") then
+            child:Destroy()
         end
     end
-    if fehow == false then
-        fehowloop = false
-        wait()
+end
+
+-- Connect to the descendant added event of the workspace
+game.Workspace.DescendantAdded:Connect(function(descendant)
+    -- Check if the descendant is a decal and was created by the "SprayPaint" tool
+    if isSprayPaintDecal(descendant) then
+        highlightPart(descendant) -- Highlight the decal
+        descendant.AncestryChanged:Connect(function()
+            removeHighlight(descendant) -- Remove highlight if the decal is removed
+        end)
     end
 end)
-
-Options.MyToggle:SetValue(false)
