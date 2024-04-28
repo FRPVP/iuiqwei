@@ -1,36 +1,32 @@
--- Get the LocalPlayer
+-- Get the local player
 local player = game.Players.LocalPlayer
 
--- Function to check if a part is a decal created by the "SprayPaint" tool
-local function isSprayPaintDecal(part)
-    return part:IsA("Decal") and part.Parent and part.Parent:IsA("Model") and part.Parent:FindFirstChild("SprayPaint") and part.Parent.SprayPaint:IsA("Tool") and part.Parent.SprayPaint.Parent == player.Backpack
+-- Define the decal highlight color
+local highlightColor = Color3.fromRGB(255, 0, 0) -- Red color
+
+-- Function to check if a part is created by the SprayPaint tool
+local function isSprayPainted(part)
+    return part and part:IsA("Decal") and part.Parent and part.Parent:IsA("Model") and part.Parent:FindFirstChild("creator") and part.Parent.creator.Value == player
 end
 
--- Function to highlight a part
-local function highlightPart(part)
+-- Function to highlight the given decal
+local function highlightDecal(decal)
     local highlight = Instance.new("SelectionBox")
-    highlight.Adornee = part
-    highlight.Color3 = Color3.new(1, 1, 0) -- Yellow color
-    highlight.LineThickness = 0.05
-    highlight.Parent = part
+    highlight.Adornee = decal
+    highlight.Color3 = highlightColor
+    highlight.Parent = decal
 end
 
--- Function to remove the highlight from a part
-local function removeHighlight(part)
-    for _, child in ipairs(part:GetChildren()) do
-        if child:IsA("SelectionBox") then
-            child:Destroy()
-        end
-    end
-end
-
--- Connect to the descendant added event of the backpack
-player.Backpack.DescendantAdded:Connect(function(descendant)
-    -- Check if the descendant is a decal and was created by the "SprayPaint" tool
-    if isSprayPaintDecal(descendant) then
-        highlightPart(descendant) -- Highlight the decal
-        descendant.AncestryChanged:Connect(function()
-            removeHighlight(descendant) -- Remove highlight if the decal is removed
-        end)
+-- Listen for new parts being added to the workspace
+game.Workspace.DescendantAdded:Connect(function(part)
+    if isSprayPainted(part) then
+        highlightDecal(part)
     end
 end)
+
+-- Check existing parts in the workspace
+for _, part in ipairs(game.Workspace:GetDescendants()) do
+    if isSprayPainted(part) then
+        highlightDecal(part)
+    end
+end
