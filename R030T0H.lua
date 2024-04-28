@@ -1,39 +1,39 @@
-function feslipfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fesliptarget.Character.LeftUpperLeg), fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fesliptarget.Character.LeftUpperLeg), fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(7199393435, Enum.NormalId.Top, 3.5, (fesliptarget.Character.HumanoidRootPart), fesliptarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(7199393435, Enum.NormalId.Bottom, 3.5, (fesliptarget.Character.HumanoidRootPart), fesliptarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.85, 0))
+function fehowfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.RightUpperLeg), fehowtarget.Character.RightUpperLeg.CFrame * CFrame.new(0, -2, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftUpperLeg), fehowtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.RightLowerLeg), fehowtarget.Character.RightLowerLeg.CFrame * CFrame.new(0, -2, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftLowerLeg), fehowtarget.Character.LeftLowerLeg.CFrame * CFrame.new(0, -2, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Reset", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Test", Default = false })
 
-Toggle:OnChanged(function(feslip)
-    if feslip == true then
-        fesliploop = true
-        while fesliploop do
-            function fesliploopfix()
+Toggle:OnChanged(function(fehow)
+    if fehow == true then
+        fehowloop = true
+        while fehowloop do
+            function fehowloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            fesliptarget = players:FindFirstChild(v.Name)
-                            feslipfunc()
+                            fehowtarget = players:FindFirstChild(v.Name)
+                            fehowfunc()
                             task.wait()
                         end
                     end
                 else
-                    fesliptarget = players:FindFirstChild(fetargetname)
-                    feslipfunc()
+                    fehowtarget = players:FindFirstChild(fetargetname)
+                    fehowfunc()
                 end
                 task.wait(0)
             end
             wait()
-            pcall(fesliploopfix)
+            pcall(fehowloopfix)
         end
     end
-    if feslip == false then
-        fesliploop = false
+    if fehow == false then
+        fehowloop = false
         wait()
     end
 end)
