@@ -3,7 +3,7 @@ local player = game.Players.LocalPlayer
 
 -- Function to check if a part is a decal created by the "SprayPaint" tool
 local function isSprayPaintDecal(part)
-    return part:IsA("Decal") and part.Parent and part.Parent:IsA("Model") and part.Parent:FindFirstChild("Creator") and part.Parent.Creator.Value == player
+    return part:IsA("Decal") and part.Parent and part.Parent:IsA("Model") and part.Parent:FindFirstChild("SprayPaint") and part.Parent.SprayPaint:IsA("Tool") and part.Parent.SprayPaint.Parent == player.Backpack
 end
 
 -- Function to highlight a part
@@ -24,8 +24,8 @@ local function removeHighlight(part)
     end
 end
 
--- Connect to the descendant added event of the workspace
-game.Workspace.DescendantAdded:Connect(function(descendant)
+-- Connect to the descendant added event of the backpack
+player.Backpack.DescendantAdded:Connect(function(descendant)
     -- Check if the descendant is a decal and was created by the "SprayPaint" tool
     if isSprayPaintDecal(descendant) then
         highlightPart(descendant) -- Highlight the decal
