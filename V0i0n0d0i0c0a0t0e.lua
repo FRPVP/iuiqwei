@@ -2186,7 +2186,7 @@ end
     
 
 
-local section = Tabs.Premium:AddSection("Sheriff")
+local section = Tabs.Premium:AddSection("Break Gun")
 
 	
     
@@ -2942,7 +2942,7 @@ TreesFling("cheese")
 
 	
 
-
+local section = Tabs.Premium:AddSection("Spray Paint (Abusive)")
 
 
 
@@ -2961,7 +2961,7 @@ end
 
 -- Create the dropdown with player names
 local Dropdown = Tabs.Premium:AddDropdown("Dropdown", {
-    Title = "Spray Paint",
+    Title = "Target",
     Values = {},  -- Start with an empty list
     Multi = false,
     Default = 0,
@@ -2998,6 +2998,244 @@ function EquipSpray()
         end
     end
 end
+
+
+
+
+
+
+
+function heatplayerfunc(heatplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
+
+Tabs.Premium:AddButton({
+    Title = "Reset",
+    Description = "",
+    Icon = "", -- Replace "icon.png" with the path to your icon file
+    Callback = function()
+        -- Check if a name is selected
+        if fetargetname == "All" then
+            EquipSpray() -- Equip the spray first
+            -- Iterate over all players and execute heatplayerfunc on each player except yourself
+            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if player ~= game:GetService("Players").LocalPlayer then
+                    heatplayerfunc(player)
+                end
+            end
+        elseif fetargetname ~= "" then
+            EquipSpray() -- Equip the spray first
+            -- Find the player with the selected name
+            local heatplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
+            if heatplayertarget then
+                heatplayerfunc(heatplayertarget) -- Execute heatplayerfunc on the player
+            else
+                print("Player not found.")
+            end
+        else
+            print("Please select a name from the dropdown.")
+        end
+    end
+})
+
+	
+
+
+
+function resetplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (resetplayertarget.Character.Head), resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Reset", Default = false })
+
+Toggle:OnChanged(function(resetplayer)
+    if resetplayer == true then
+        resetplayerloop = true
+        while resetplayerloop do
+            function resetplayerloopfix()
+                EquipSpray()
+                task.wait(0.4)
+                if fetargetname == "All" then
+                    for _, v in pairs(players:GetPlayers()) do
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            resetplayertarget = players:FindFirstChild(v.Name)
+                            resetplayerfunc()
+                            task.wait()
+                        end
+                    end
+                else
+                    resetplayertarget = players:FindFirstChild(fetargetname)
+                    resetplayerfunc()
+                end
+                task.wait(0)
+            end
+            wait()
+            pcall(resetplayerloopfix)
+        end
+    end
+    if resetplayer == false then
+        resetplayerloop = false
+        wait()
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+function reerplayerfunc(reerplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (reerplayertarget.Character.HumanoidRootPart), reerplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+end
+
+Tabs.Premium:AddButton({
+    Title = "Remove Collides (15sec)",
+    Description = "",
+    Icon = "", -- Replace "icon.png" with the path to your icon file
+    Callback = function()
+        -- Check if a name is selected
+        if fetargetname == "All" then
+            EquipSpray() -- Equip the spray first
+            -- Iterate over all players and execute reerplayerfunc on each player except yourself
+            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if player ~= game:GetService("Players").LocalPlayer then
+                    reerplayerfunc(player)
+                end
+            end
+        elseif fetargetname ~= "" then
+            EquipSpray() -- Equip the spray first
+            -- Find the player with the selected name
+            local reerplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
+            if reerplayertarget then
+                reerplayerfunc(reerplayertarget) -- Execute reerplayerfunc on the player
+            else
+                print("Player not found.")
+            end
+        else
+            print("Please select a name from the dropdown.")
+        end
+    end
+})
+
+
+
+
+
+
+function collideplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (collideplayertarget.Character.HumanoidRootPart), collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+end
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Remove Collides", Default = false })
+
+Toggle:OnChanged(function(collideplayer)
+    if collideplayer == true then
+        collideplayerloop = true
+        while collideplayerloop do
+            function collideplayerloopfix()
+                EquipSpray()
+                task.wait(0.4)
+                if fetargetname == "All" then
+                    for _, v in pairs(players:GetPlayers()) do
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            collideplayertarget = players:FindFirstChild(v.Name)
+                            collideplayerfunc()
+                            task.wait()
+                        end
+                    end
+                else
+                    collideplayertarget = players:FindFirstChild(fetargetname)
+                    collideplayerfunc()
+                end
+                task.wait(15)
+            end
+            wait()
+            pcall(collideplayerloopfix)
+        end
+    end
+    if collideplayer == false then
+        collideplayerloop = false
+        wait()
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+function poolplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
+end
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Blind", Default = false })
+
+Toggle:OnChanged(function(poolplayer)
+    if poolplayer == true then
+        poolplayerloop = true
+        while poolplayerloop do
+            function poolplayerloopfix()
+                EquipSpray()
+                task.wait(0.4)
+                if fetargetname == "All" then
+                    for _, v in pairs(players:GetPlayers()) do
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            poolplayertarget = players:FindFirstChild(v.Name)
+                            poolplayerfunc()
+                            task.wait()
+                        end
+                    end
+                else
+                    poolplayertarget = players:FindFirstChild(fetargetname)
+                    poolplayerfunc()
+                end
+                task.wait(15)
+            end
+            wait()
+            pcall(poolplayerloopfix)
+        end
+    end
+    if poolplayer == false then
+        poolplayerloop = false
+        wait()
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+	
+
+
+local section = Tabs.Premium:AddSection("Spray Paint (Fun)")
+
+
+
+
+
+	
 
 function fepenisfunc()
     -- Top Penis
@@ -3271,221 +3509,6 @@ Options.MyToggle:SetValue(false)
 
 
 
-	
-
-
-function poolplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, (poolplayertarget.Character.HumanoidRootPart), poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
-end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Blind", Default = false })
-
-Toggle:OnChanged(function(poolplayer)
-    if poolplayer == true then
-        poolplayerloop = true
-        while poolplayerloop do
-            function poolplayerloopfix()
-                EquipSpray()
-                task.wait(0.4)
-                if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            poolplayertarget = players:FindFirstChild(v.Name)
-                            poolplayerfunc()
-                            task.wait()
-                        end
-                    end
-                else
-                    poolplayertarget = players:FindFirstChild(fetargetname)
-                    poolplayerfunc()
-                end
-                task.wait(15)
-            end
-            wait()
-            pcall(poolplayerloopfix)
-        end
-    end
-    if poolplayer == false then
-        poolplayerloop = false
-        wait()
-    end
-end)
-
-Options.MyToggle:SetValue(false)
-
-
-
-
-	
-function heatplayerfunc(heatplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
-end
-
-Tabs.Premium:AddButton({
-    Title = "Reset",
-    Description = "",
-    Icon = "", -- Replace "icon.png" with the path to your icon file
-    Callback = function()
-        -- Check if a name is selected
-        if fetargetname == "All" then
-            EquipSpray() -- Equip the spray first
-            -- Iterate over all players and execute heatplayerfunc on each player except yourself
-            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-                if player ~= game:GetService("Players").LocalPlayer then
-                    heatplayerfunc(player)
-                end
-            end
-        elseif fetargetname ~= "" then
-            EquipSpray() -- Equip the spray first
-            -- Find the player with the selected name
-            local heatplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
-            if heatplayertarget then
-                heatplayerfunc(heatplayertarget) -- Execute heatplayerfunc on the player
-            else
-                print("Player not found.")
-            end
-        else
-            print("Please select a name from the dropdown.")
-        end
-    end
-})
-
-	
-
-
-
-function resetplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (resetplayertarget.Character.Head), resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
-end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Reset", Default = false })
-
-Toggle:OnChanged(function(resetplayer)
-    if resetplayer == true then
-        resetplayerloop = true
-        while resetplayerloop do
-            function resetplayerloopfix()
-                EquipSpray()
-                task.wait(0.4)
-                if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            resetplayertarget = players:FindFirstChild(v.Name)
-                            resetplayerfunc()
-                            task.wait()
-                        end
-                    end
-                else
-                    resetplayertarget = players:FindFirstChild(fetargetname)
-                    resetplayerfunc()
-                end
-                task.wait(0)
-            end
-            wait()
-            pcall(resetplayerloopfix)
-        end
-    end
-    if resetplayer == false then
-        resetplayerloop = false
-        wait()
-    end
-end)
-
-Options.MyToggle:SetValue(false)
-
-
-
-
-
-
-
-function reerplayerfunc(reerplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (reerplayertarget.Character.HumanoidRootPart), reerplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
-end
-
-Tabs.Premium:AddButton({
-    Title = "Remove Collides (15sec)",
-    Description = "",
-    Icon = "", -- Replace "icon.png" with the path to your icon file
-    Callback = function()
-        -- Check if a name is selected
-        if fetargetname == "All" then
-            EquipSpray() -- Equip the spray first
-            -- Iterate over all players and execute reerplayerfunc on each player except yourself
-            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-                if player ~= game:GetService("Players").LocalPlayer then
-                    reerplayerfunc(player)
-                end
-            end
-        elseif fetargetname ~= "" then
-            EquipSpray() -- Equip the spray first
-            -- Find the player with the selected name
-            local reerplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
-            if reerplayertarget then
-                reerplayerfunc(reerplayertarget) -- Execute reerplayerfunc on the player
-            else
-                print("Player not found.")
-            end
-        else
-            print("Please select a name from the dropdown.")
-        end
-    end
-})
-
-
-
-
-
-
-function collideplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (collideplayertarget.Character.HumanoidRootPart), collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
-end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Remove Collides", Default = false })
-
-Toggle:OnChanged(function(collideplayer)
-    if collideplayer == true then
-        collideplayerloop = true
-        while collideplayerloop do
-            function collideplayerloopfix()
-                EquipSpray()
-                task.wait(0.4)
-                if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            collideplayertarget = players:FindFirstChild(v.Name)
-                            collideplayerfunc()
-                            task.wait()
-                        end
-                    end
-                else
-                    collideplayertarget = players:FindFirstChild(fetargetname)
-                    collideplayerfunc()
-                end
-                task.wait(15)
-            end
-            wait()
-            pcall(collideplayerloopfix)
-        end
-    end
-    if collideplayer == false then
-        collideplayerloop = false
-        wait()
-    end
-end)
-
-Options.MyToggle:SetValue(false)
 	
 
 
@@ -3772,7 +3795,7 @@ Options.MyToggle:SetValue(false)
 
 
 
-Tabs.Premium:AddButton({
+Tabs.Trolling:AddButton({
     Title = "2 Lives",
     Description = "",
     Callback = function()
@@ -3823,71 +3846,7 @@ Tabs.Premium:AddButton({
 
 
 
-local TouchFlig = nil -- Declare TouchFlig outside the toggle function
-local hiddenfling = false -- Declare hiddenfling outside the toggle function
 
-local Toggle = Tabs.Trolling:AddToggle("", {Title = "Touch Fling", Default = false})
-
-Toggle:OnChanged(function(val)
-    if val then
-        if not TouchFlig then -- Check if TouchFlig is not already connected
-            TouchFlig = RS.RenderStepped:Connect(function()
-                hiddenfling = false
-
-                local function enableWalkfling()
-                    if game:GetService("ReplicatedStorage"):FindFirstChild("juisdfj0i32i0eidsuf0iok") then
-                        hiddenfling = true
-                    else
-                        hiddenfling = true
-                        local detection = Instance.new("Decal")
-                        detection.Name = "juisdfj0i32i0eidsuf0iok"
-                        detection.Parent = game:GetService("ReplicatedStorage")
-
-                        -- Fling function
-                        local function fling()
-                            local hrp, c, vel, movel = nil, nil, nil, 0.1
-                            while true do
-                                game:GetService("RunService").Heartbeat:Wait()
-                                if hiddenfling then
-                                    local lp = game.Players.LocalPlayer
-                                    while hiddenfling and not (c and c.Parent and hrp and hrp.Parent) do
-                                        game:GetService("RunService").Heartbeat:Wait()
-                                        c = lp.Character
-                                        hrp = c:FindFirstChild("HumanoidRootPart") or c:FindFirstChild("Torso") or c:FindFirstChild("UpperTorso")
-                                    end
-                                    if hiddenfling then
-                                        vel = hrp.Velocity
-                                        hrp.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
-                                        game:GetService("RunService").RenderStepped:Wait()
-                                        if c and c.Parent and hrp and hrp.Parent then
-                                            hrp.Velocity = vel
-                                        end
-                                        game:GetService("RunService").Stepped:Wait()
-                                        if c and c.Parent and hrp and hrp.Parent then
-                                            hrp.Velocity = vel + Vector3.new(0, movel, 0)
-                                            movel = movel * -1
-                                        end
-                                    end
-                                end
-                            end
-                        end
-
-                        fling()
-                    end
-                end
-
-                -- Call the function to enable walkfling when the script is executed
-                enableWalkfling()
-            end)
-        end
-    else
-        if TouchFlig then -- Check if TouchFlig is connected
-            TouchFlig:Disconnect() -- Disconnect TouchFlig
-            TouchFlig = nil -- Set TouchFlig to nil to indicate it's disconnected
-            hiddenfling = false
-        end
-    end
-end)
 
 
 
@@ -5585,6 +5544,78 @@ Tabs.Trolling:AddButton({
 
 
 
+local TouchFlig = nil -- Declare TouchFlig outside the toggle function
+local hiddenfling = false -- Declare hiddenfling outside the toggle function
+
+local Toggle = Tabs.Trolling:AddToggle("", {Title = "Touch Fling", Default = false})
+
+Toggle:OnChanged(function(val)
+    if val then
+        if not TouchFlig then -- Check if TouchFlig is not already connected
+            TouchFlig = RS.RenderStepped:Connect(function()
+                hiddenfling = false
+
+                local function enableWalkfling()
+                    if game:GetService("ReplicatedStorage"):FindFirstChild("juisdfj0i32i0eidsuf0iok") then
+                        hiddenfling = true
+                    else
+                        hiddenfling = true
+                        local detection = Instance.new("Decal")
+                        detection.Name = "juisdfj0i32i0eidsuf0iok"
+                        detection.Parent = game:GetService("ReplicatedStorage")
+
+                        -- Fling function
+                        local function fling()
+                            local hrp, c, vel, movel = nil, nil, nil, 0.1
+                            while true do
+                                game:GetService("RunService").Heartbeat:Wait()
+                                if hiddenfling then
+                                    local lp = game.Players.LocalPlayer
+                                    while hiddenfling and not (c and c.Parent and hrp and hrp.Parent) do
+                                        game:GetService("RunService").Heartbeat:Wait()
+                                        c = lp.Character
+                                        hrp = c:FindFirstChild("HumanoidRootPart") or c:FindFirstChild("Torso") or c:FindFirstChild("UpperTorso")
+                                    end
+                                    if hiddenfling then
+                                        vel = hrp.Velocity
+                                        hrp.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
+                                        game:GetService("RunService").RenderStepped:Wait()
+                                        if c and c.Parent and hrp and hrp.Parent then
+                                            hrp.Velocity = vel
+                                        end
+                                        game:GetService("RunService").Stepped:Wait()
+                                        if c and c.Parent and hrp and hrp.Parent then
+                                            hrp.Velocity = vel + Vector3.new(0, movel, 0)
+                                            movel = movel * -1
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                        fling()
+                    end
+                end
+
+                -- Call the function to enable walkfling when the script is executed
+                enableWalkfling()
+            end)
+        end
+    else
+        if TouchFlig then -- Check if TouchFlig is connected
+            TouchFlig:Disconnect() -- Disconnect TouchFlig
+            TouchFlig = nil -- Set TouchFlig to nil to indicate it's disconnected
+            hiddenfling = false
+        end
+    end
+end)
+
+
+
+
+
+
+
 
 local section = Tabs.Trolling:AddSection("Roles")
 
@@ -5620,6 +5651,19 @@ end
 end
 end
 })
+
+
+
+
+
+
+local section = Tabs.Trolling:AddSection("Others")
+
+
+
+
+
+
 
 
 
