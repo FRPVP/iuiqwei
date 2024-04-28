@@ -1,59 +1,37 @@
-function febigpenisfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Bottom, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.9, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Bottom, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.5, -2.9, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Bottom, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.5, -2.9, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Top, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.5, -0.6, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Top, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -0.6, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Top, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.5, -0.6, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Left, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.65, -1.75, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Right, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.65, -1.75, -2))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Front, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.5, -1.75, -3.15))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Front, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.5, -1.75, -3.15))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Back, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.5, -1.75, -0.85))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Back, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -1.75, -0.85))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Back, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.5, -1.75, -0.85))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Left, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-1.15, -1.75, -4.5))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Right, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(1.15, -1.75, -4.5))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Left, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-1.15, -1.75, -6.75))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Right, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(1.15, -1.75, -6.75))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Top, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -0.6, -4.5))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Top, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -0.6, -6.75))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Bottom, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.9, -4.5))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(9418596904, Enum.NormalId.Bottom, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.9, -6.75))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Left, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(-1.15, -1.75, -9))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Right, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(1.15, -1.75, -9))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Top, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -0.6, -9))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Bottom, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.9, -9))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2.5, (febigpenistarget.Character.HumanoidRootPart), febigpenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -1.75, -10.15))
+function feslipfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fesliptarget.Character.LeftUpperLeg), fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fesliptarget.Character.LeftUpperLeg), fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(7199393435, Enum.NormalId.Top, 3.5, (fesliptarget.Character.HumanoidRootPart), fesliptarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(7199393435, Enum.NormalId.Bottom, 3.5, (fesliptarget.Character.HumanoidRootPart), fesliptarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.85, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Big Penis", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Slip Up", Default = false })
 
-Toggle:OnChanged(function(febigpenis)
-    if febigpenis == true then
-        febigpenisloop = true
-        while febigpenisloop do
-            function febigpenisloopfix()
+Toggle:OnChanged(function(feslip)
+    if feslip == true then
+        fesliploop = true
+        while fesliploop do
+            function fesliploopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        febigpenistarget = players:FindFirstChild(v.Name)
-                        febigpenisfunc()
+                        fesliptarget = players:FindFirstChild(v.Name)
+                        feslipfunc()
                         task.wait()
                     end
                 else
-                    febigpenistarget = players:FindFirstChild(fetargetname)
-                    febigpenisfunc()
+                    fesliptarget = players:FindFirstChild(fetargetname)
+                    feslipfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(febigpenisloopfix)
+            pcall(fesliploopfix)
         end
     end
-    if febigpenis == false then
-        febigpenisloop = false
+    if feslip == false then
+        fesliploop = false
         wait()
     end
 end)
