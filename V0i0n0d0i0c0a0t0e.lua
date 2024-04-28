@@ -3868,6 +3868,16 @@ Options.MyToggle:SetValue(false)
 
 
 
+Tabs.Premium:AddButton({
+    Title = "Minecraft Blocks",
+    Description = "",
+    Callback = function()
+
+end
+})
+
+
+
 
 
 local section = Tabs.Trolling:AddSection("Fling")
