@@ -5,7 +5,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0,
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftLowerLeg), fehowtarget.Character.LeftLowerLeg.CFrame * CFrame.new(0, -2, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Test", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Test2", Default = false })
 
 Toggle:OnChanged(function(fehow)
     if fehow == true then
@@ -26,7 +26,7 @@ Toggle:OnChanged(function(fehow)
                     fehowtarget = players:FindFirstChild(fetargetname)
                     fehowfunc()
                 end
-                task.wait(0)
+                task.wait(15)
             end
             wait()
             pcall(fehowloopfix)
