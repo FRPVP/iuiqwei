@@ -3384,11 +3384,11 @@ Options.MyToggle:SetValue(false)
 
 
 function fehowfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftHand), fehowtarget.Character.LeftHand.CFrame * CFrame.new(0, -2, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftHand), fehowtarget.Character.LeftHand.CFrame * CFrame.new(0, -2, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftHand), fehowtarget.Character.LeftHand.CFrame * CFrame.new(0, -10, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fehowtarget.Character.LeftHand), fehowtarget.Character.LeftHand.CFrame * CFrame.new(0, -10, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "test345", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "test666", Default = false })
 
 Toggle:OnChanged(function(fehow)
     if fehow == true then
