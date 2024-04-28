@@ -3354,15 +3354,17 @@ Toggle:OnChanged(function(feslip)
                 task.wait(0.4)
                 if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        fesliptarget = players:FindFirstChild(v.Name)
-                        feslipfunc()
-                        task.wait()
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            fesliptarget = players:FindFirstChild(v.Name)
+                            feslipfunc()
+                            task.wait()
+                        end
                     end
                 else
                     fesliptarget = players:FindFirstChild(fetargetname)
                     feslipfunc()
                 end
-                task.wait(15)
+                task.wait(0)
             end
             wait()
             pcall(fesliploopfix)
@@ -3370,7 +3372,7 @@ Toggle:OnChanged(function(feslip)
     end
     if feslip == false then
         fesliploop = false
-        wait()
+        wait(15)
     end
 end)
 
