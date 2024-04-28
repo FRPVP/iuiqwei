@@ -3364,7 +3364,7 @@ Toggle:OnChanged(function(feslip)
                     fesliptarget = players:FindFirstChild(fetargetname)
                     feslipfunc()
                 end
-                task.wait(0)
+                task.wait(15)
             end
             wait()
             pcall(fesliploopfix)
@@ -3372,7 +3372,7 @@ Toggle:OnChanged(function(feslip)
     end
     if feslip == false then
         fesliploop = false
-        wait(15)
+        wait()
     end
 end)
 
