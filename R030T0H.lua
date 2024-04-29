@@ -1,28 +1,34 @@
--- Function to highlight a part
-local function highlightDecal(decal)
-    local highlightColor = Color3.fromRGB(255, 255, 0) -- Yellow color
-    local originalColor = decal.Color3
-    decal.Color3 = highlightColor
-    wait(0.5) -- Highlight duration
-    decal.Color3 = originalColor
-end
-
--- Function to check for new decals in the Workspace
-local function checkForNewDecals()
-    local workspaceChildren = game.Workspace:GetChildren()
-    for _, child in ipairs(workspaceChildren) do
-        if child:IsA("Decal") then
-            highlightDecal(child)
+local function highlightNewDecals()
+    local workspace = game:GetService("Workspace")
+    
+    -- Keep track of decals we've already highlighted
+    local highlightedDecals = {}
+    
+    -- Function to check if a part contains a new decal
+    local function checkPart(part)
+        if part:IsA("Decal") and not highlightedDecals[part] then
+            -- Highlight the part
+            local highlight = Instance.new("SelectionBox")
+            highlight.Color3 = Color3.new(1, 1, 0) -- Yellow color
+            highlight.LineThickness = 0.05
+            highlight.Adornee = part
+            highlight.Parent = part
+            
+            -- Add to highlighted decals table
+            highlightedDecals[part] = true
         end
     end
+    
+    -- Check all existing decals
+    for _, decal in ipairs(workspace:GetDescendants()) do
+        checkPart(decal)
+    end
+    
+    -- Connect to new decal creation events
+    workspace.DescendantAdded:Connect(function(descendant)
+        checkPart(descendant)
+    end)
 end
 
--- Connect the function to run whenever a new decal is added to the Workspace
-game.Workspace.ChildAdded:Connect(function(child)
-    if child:IsA("Decal") then
-        highlightDecal(child)
-    end
-end)
-
--- Check for any existing decals when the script starts
-checkForNewDecals()
+-- Call the function to start highlighting new decals
+highlightNewDecals()
