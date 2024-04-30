@@ -2990,11 +2990,10 @@ Dropdown:OnChanged(function(fetarget)
 end)
 
 function EquipSpray()
-    game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-    wait()
-    for _, obj in pairs(players.LocalPlayer.Backpack:GetChildren()) do
-        if obj.Name == "SprayPaint" then
-            obj.Parent = players.LocalPlayer.Character
+if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
         end
     end
 end
