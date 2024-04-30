@@ -3396,6 +3396,45 @@ local section = Tabs.Premium:AddSection("Spray Paint (Fun)")
 
 	
 
+local players = game:GetService("Players")
+
+local function QuantumLeapPlayerList(Dropdown)
+    local playerList = {"All"}
+    for _, player in pairs(players:GetPlayers()) do
+        table.insert(playerList, player.Name)
+    end
+    Dropdown:SetValues(playerList)
+end
+
+local Dropdown = Tabs.Premium:AddDropdown("Dropdown", {
+    Title = "Target",
+    Values = {},
+    Multi = false,
+    Default = 0,
+})
+
+QuantumLeapPlayerList(Dropdown)
+
+local function HyperdriveEngage(player)
+    QuantumLeapPlayerList(Dropdown)
+end
+
+local function WormholeExit(player)
+    QuantumLeapPlayerList(Dropdown)
+end
+
+players.PlayerAdded:Connect(HyperdriveEngage)
+players.PlayerRemoving:Connect(WormholeExit)
+
+Dropdown:OnChanged(function(infinityStones)
+    infinityGauntlet = infinityStones
+end)
+
+
+
+
+
+
 function fepenisfunc()
     -- Top Penis
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12976059241, Enum.NormalId.Top, 0.5, (fepenistarget.Character.HumanoidRootPart), fepenistarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1,-0.7))
@@ -3450,14 +3489,14 @@ Toggle:OnChanged(function(fepenis)
             function fepenisloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         fepenistarget = players:FindFirstChild(v.Name)
                         fepenisfunc()
                         task.wait()
                     end
                 else
-                    fepenistarget = players:FindFirstChild(fetargetname)
+                    fepenistarget = players:FindFirstChild(infinityGauntlet)
                     fepenisfunc()
                 end
                 task.wait(15)
@@ -3529,14 +3568,14 @@ Toggle:OnChanged(function(feblackpenis)
             function feblackpenisloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         feblackpenistarget = players:FindFirstChild(v.Name)
                         feblackpenisfunc()
                         task.wait()
                     end
                 else
-                    feblackpenistarget = players:FindFirstChild(fetargetname)
+                    feblackpenistarget = players:FindFirstChild(infinityGauntlet)
                     feblackpenisfunc()
                 end
                 task.wait(15)
@@ -3598,14 +3637,14 @@ Toggle:OnChanged(function(febigpenis)
             function febigpenisloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         febigpenistarget = players:FindFirstChild(v.Name)
                         febigpenisfunc()
                         task.wait()
                     end
                 else
-                    febigpenistarget = players:FindFirstChild(fetargetname)
+                    febigpenistarget = players:FindFirstChild(infinityGauntlet)
                     febigpenisfunc()
                 end
                 task.wait(15)
@@ -3712,14 +3751,14 @@ Toggle:OnChanged(function(nazigermany)
             function nazigermanyloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         nazigermanytarget = players:FindFirstChild(v.Name)
                         nazigermanyfunc()
                         task.wait()
                     end
                 else
-                    nazigermanytarget = players:FindFirstChild(fetargetname)
+                    nazigermanytarget = players:FindFirstChild(infinityGauntlet)
                     nazigermanyfunc()
                 end
                 task.wait(15)
@@ -3757,14 +3796,14 @@ Toggle:OnChanged(function(communistplayer)
             function communistplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         communistplayertarget = players:FindFirstChild(v.Name)
                         communistplayerfunc()
                         task.wait()
                     end
                 else
-                    communistplayertarget = players:FindFirstChild(fetargetname)
+                    communistplayertarget = players:FindFirstChild(infinityGauntlet)
                     communistplayerfunc()
                 end
                 task.wait(15)
@@ -3802,7 +3841,7 @@ Toggle:OnChanged(function(faceplayer)
             function faceplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         if v ~= players.LocalPlayer then -- Skip executing the function on yourself
                             faceplayertarget = players:FindFirstChild(v.Name)
@@ -3811,7 +3850,7 @@ Toggle:OnChanged(function(faceplayer)
                         end
                     end
                 else
-                    faceplayertarget = players:FindFirstChild(fetargetname)
+                    faceplayertarget = players:FindFirstChild(infinityGauntlet)
                     faceplayerfunc()
                 end
                 task.wait(15)
@@ -3849,7 +3888,7 @@ Toggle:OnChanged(function(trollplayer)
             function trollplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         if v ~= players.LocalPlayer then -- Skip executing the function on yourself
                             trollplayertarget = players:FindFirstChild(v.Name)
@@ -3858,7 +3897,7 @@ Toggle:OnChanged(function(trollplayer)
                         end
                     end
                 else
-                    trollplayertarget = players:FindFirstChild(fetargetname)
+                    trollplayertarget = players:FindFirstChild(infinityGauntlet)
                     trollplayerfunc()
                 end
                 task.wait(15)
@@ -3905,14 +3944,14 @@ Toggle:OnChanged(function(boxplayer)
             function boxplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         boxplayertarget = players:FindFirstChild(v.Name)
                         boxplayerfunc()
                         task.wait()
                     end
                 else
-                    boxplayertarget = players:FindFirstChild(fetargetname)
+                    boxplayertarget = players:FindFirstChild(infinityGauntlet)
                     boxplayerfunc()
                 end
                 task.wait(15)
@@ -3956,14 +3995,14 @@ Toggle:OnChanged(function(spongeplayer)
             function spongeplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if fetargetname == "All" then
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
                         spongeplayertarget = players:FindFirstChild(v.Name)
                         spongeplayerfunc()
                         task.wait()
                     end
                 else
-                    spongeplayertarget = players:FindFirstChild(fetargetname)
+                    spongeplayertarget = players:FindFirstChild(infinityGauntlet)
                     spongeplayerfunc()
                 end
                 task.wait(15)
