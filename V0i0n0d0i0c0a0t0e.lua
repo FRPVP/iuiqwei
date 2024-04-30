@@ -2995,7 +2995,6 @@ if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPai
         game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
         end
-    end
 
 
 
