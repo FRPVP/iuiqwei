@@ -2996,7 +2996,6 @@ if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPai
         game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
         end
     end
-end
 
 
 
