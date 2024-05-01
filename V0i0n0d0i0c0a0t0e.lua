@@ -6448,6 +6448,32 @@ end
 
 
 
+
+
+
+
+
+
+Tabs.Settings:AddButton({
+    Title = "Rejoin",
+    Description = "",
+    Callback = function()
+-- Function to rejoin the server
+local function RejoinServer()
+    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+end
+
+-- Call the function to rejoin the server
+RejoinServer()
+end
+})
+
+
+
+
+
+
+
 local section = Tabs.Settings:AddSection("World")
 
 
