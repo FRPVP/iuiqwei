@@ -1,45 +1,36 @@
-function rickplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Top, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Bottom, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Bottom, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Top, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Front, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Back, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Front, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Back, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Right, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Left, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Right, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Left, 6, (rickplayertarget.Character.HumanoidRootPart), rickplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
+function laughplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12877195347, Enum.NormalId.Front, 1.5, (laughplayertarget.Character.HumanoidRootPart), laughplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,1.2,-1))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "LOL", Default = false })
 
-Toggle:OnChanged(function(rickplayer)
-    if rickplayer == true then
-        rickplayerloop = true
-        while rickplayerloop do
-            function rickplayerloopfix()
+Toggle:OnChanged(function(laughplayer)
+    if laughplayer == true then
+        laughplayerloop = true
+        while laughplayerloop do
+            function laughplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        rickplayertarget = players:FindFirstChild(v.Name)
-                        rickplayerfunc()
-                        task.wait()
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            laughplayertarget = players:FindFirstChild(v.Name)
+                            laughplayerfunc()
+                            task.wait()
+                        end
                     end
                 else
-                    rickplayertarget = players:FindFirstChild(infinityGauntlet)
-                    rickplayerfunc()
+                    laughplayertarget = players:FindFirstChild(infinityGauntlet)
+                    laughplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(rickplayerloopfix)
+            pcall(laughplayerloopfix)
         end
     end
-    if rickplayer == false then
-        rickplayerloop = false
+    if laughplayer == false then
+        laughplayerloop = false
         wait()
     end
 end)
