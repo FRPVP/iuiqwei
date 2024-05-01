@@ -4442,7 +4442,7 @@ function laughplayerfunc()
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(12877195347, Enum.NormalId.Front, 1.5, (laughplayertarget.Character.HumanoidRootPart), laughplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,1.2,-1))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Cum on Penis", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "LOL", Default = false })
 
 Toggle:OnChanged(function(laughplayer)
     if laughplayer == true then
