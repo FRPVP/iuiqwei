@@ -1,5 +1,5 @@
 function cumplayerfunc()
-   
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14976845153, Enum.NormalId.Front, 1.5, (cumplayertarget.Character.HumanoidRootPart), cumplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.15,-2.90))
 end
 
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Cum on Penis", Default = false })
