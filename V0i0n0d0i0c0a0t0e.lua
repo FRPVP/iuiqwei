@@ -699,6 +699,60 @@ end)
 
 
 
+
+local GunHighlight = Instance.new("Highlight");
+local GunHandleAdornment = Instance.new("SphereHandleAdornment");
+
+GunHighlight.FillColor = Color3.fromRGB(248, 241, 174);
+GunHighlight.Adornee = Workspace:FindFirstChild("GunDrop");
+GunHighlight.OutlineTransparency = 1;
+GunHighlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop;
+GunHighlight.RobloxLocked = true;
+
+GunHandleAdornment.Color3 = Color3.fromRGB(248, 241, 174);
+GunHandleAdornment.Transparency = 0.2;
+GunHandleAdornment.Adornee = Workspace:FindFirstChild("GunDrop");
+GunHandleAdornment.AlwaysOnTop = true;
+GunHandleAdornment.AdornCullingMode = Enum.AdornCullingMode.Never;
+GunHandleAdornment.RobloxLocked = true;
+
+GunHighlight.Parent = CoreGui;
+GunHandleAdornment.Parent = CoreGui;
+
+
+	coroutine.wrap(function()
+    RunService.RenderStepped:Connect(function()
+        pcall(function()
+            if getgenv().GunESP then
+                local gundrop = Workspace:FindFirstChild("GunDrop");
+                GunHighlight.Adornee = gundrop;
+                GunHandleAdornment.Adornee = gundrop;
+                if gundrop then 
+                    GunHandleAdornment.Size = gundrop.Size + Vector3.new(0.05, 0.05, 0.05) ;
+                end;
+        
+                GunHighlight.Enabled = getgenv().GunESP;
+                GunHandleAdornment.Visible = getgenv().GunESP;
+            end;
+        end);
+    end);
+end)();
+
+
+	
+
+
+    local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Gun ESP", Default = false })
+
+    Toggle:OnChanged(function(state)
+    getgenv().GunESP = state;
+	end
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+
 	
 
 
