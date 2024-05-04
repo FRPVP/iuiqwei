@@ -165,15 +165,10 @@ local section = Tabs.Player:AddSection("Traverse Travel")
 
 	
     
-local player = game:GetService("Players").LocalPlayer
-local mouse = player:GetMouse()
-local runservice = game:GetService("RunService")
-local uis = game:GetService("UserInputService")
-local camera = game:GetService("Workspace").CurrentCamera
-
-local flybutton = "e"
+local flybutton = "" -- Empty string to remove the key binding
 local flyparent = "HumanoidRootPart"
-local flyspeed = 100
+local flyspeed = 40
+
 local invisible_subkey = ""
 local invisiblebutton = "r"
 local invisible_max_distance = 9e10
@@ -190,6 +185,13 @@ local controls = {
     reset_speed = "minus"
 }
 local default_flyspeed = flyspeed
+-- Configs
+
+local player = game:GetService("Players").LocalPlayer
+local mouse = player:GetMouse()
+local runservice = game:GetService("RunService")
+local uis = game:GetService("UserInputService")
+local camera = game:GetService("Workspace").CurrentCamera
 
 local flycontrol = {F = 0, R = 0, B = 0, L = 0, U = 0, D = 0}
 local flying = false
@@ -251,9 +253,7 @@ local function fly()
         task.wait()
     end
 
-    if not invisible_enabled then
-        humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
-    end
+    humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, true)
 end
 
 local function invisible()
@@ -312,41 +312,57 @@ local function invisible()
     end)
 end
 
-local function toggleFly(enabled)
-    if enabled then
+local function load_textgui()
+    local gui = Instance.new("ScreenGui")
+    local text = Instance.new("TextLabel")
+
+    gui.ResetOnSpawn = false
+    gui.IgnoreGuiInset = true
+
+    text.Size = UDim2.new(1, 0, 0, 25)
+    text.Position = UDim2.fromScale(0, 0.5)
+    text.BackgroundTransparency = 1
+    text.TextSize = 25
+    text.Text = flyspeed
+    text.TextColor3 = Color3.new(1, 1, 1)
+    text.Font = Enum.Font.SourceSans
+    text.TextTransparency = 1
+
+    gui.Parent = game:GetService("Players").LocalPlayer.PlayerGui
+    text.Parent = gui
+
+    return text
+end
+
+local textgui = load_textgui()
+
+local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Fly (R for Invisibility)", Default = false })
+
+Toggle:OnChanged(function()
+    flying = Toggle.Value
+    if flying then
         fly()
-    else
-        flying = false
     end
-end
+end)
 
-local function toggleInvisible(enabled)
-    if enabled then
-        invisible()
-    else
-        invisible_enabled = false
-    end
-end
-
-local function onToggleChanged()
-    toggleFly(Options.MyToggle.Value)
-    print("Toggle changed:", Options.MyToggle.Value)
-end
-
-Tabs.Player:AddToggle("MyToggle", {Title = "Test", Default = false }):OnChanged(onToggleChanged)
+Options.MyToggle:SetValue(false)
 
 uis.InputBegan:Connect(function(keyinput, paused)
     if paused then return end
 
     local key = keyinput.KeyCode.Name:lower()
 
-    if key == flybutton then
-        if flying then
-            flying = false
-        else
-            fly()
+    if Toggle.Value then
+        if key == invisiblebutton then
+            if invisible_enabled then
+                invisible_enabled = false
+            else
+                invisible()
+            end
         end
-    elseif key == controls.front then
+    end
+
+    if key == controls.front then
         flycontrol.F = 1
     elseif key == controls.back then
         flycontrol.B = 1
@@ -398,28 +414,6 @@ uis.InputBegan:Connect(function(keyinput, paused)
         textgui.Text = flyspeed
         wait(0.1)
         textgui.TextTransparency = 1
-    elseif key == invisiblebutton then
-        local subkey_held = false
-        
-        if (invisible_subkey ~= "") then
-            for i, kc in pairs(Enum.KeyCode:GetEnumItems()) do
-                local kcs = kc.Name:lower()
-                if (kcs == invisible_subkey) then
-                    if not uis:IsKeyDown(kc) then return end
-                    subkey_held = true
-                end
-            end
-        else
-            subkey_held = true
-        end
-        
-        if not subkey_held then return end
-        
-        if invisible_enabled then
-            invisible_enabled = false
-        else
-            invisible()
-        end
     end
 end)
 
@@ -443,34 +437,15 @@ uis.InputEnded:Connect(function(key, paused)
     end
 end)
 
-local function load_textgui()
-    local gui = Instance.new("ScreenGui")
-    local text = Instance.new("TextLabel")
-
-    gui.ResetOnSpawn = false
-    gui.IgnoreGuiInset = true
-
-    text.Size = UDim2.new(1, 0, 0, 25)
-    text.Position = UDim2.fromScale(0, 0.5)
-    text.BackgroundTransparency = 1
-    text.TextSize = 25
-    text.Text = flyspeed
-    text.TextColor = BrickColor.new("White")
-    text.Font = Enum.Font.SciFi
-    text.TextTransparency = 1
-
-    gui.Parent = game:GetService("Players").LocalPlayer.PlayerGui
-    text.Parent = gui
-
-    return text
-end
-
 player.CharacterAdded:Connect(function()
     flying = false
     invisible_enabled = false
 end)
 
-local textgui = load_textgui()
+
+
+
+
 
 
 
@@ -487,7 +462,7 @@ local Slider = Tabs.Player:AddSlider("Slider", {
     })
 
     Slider:OnChanged(function(vv)
-    mflyspeed = vv
+    flyspeed = vv
     end)
 
     Slider:SetValue(40)
@@ -501,7 +476,7 @@ local Slider = Tabs.Player:AddSlider("Slider", {
         Numeric = true, -- Only allows numbers
         Finished = true, -- Only calls callback when you press enter
         Callback = function(vv)
-        mflyspeed = vv
+        flyspeed = vv
         end
     })
 
