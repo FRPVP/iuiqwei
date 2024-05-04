@@ -6839,43 +6839,58 @@ local section = Tabs.Settings:AddSection("Stream Sniper")
 
 
 
-local function JoinDifferentServer(gameId, userId)
-    game:GetService("TeleportService"):Teleport(gameId, userId)
-end
 
-local playerInput = Tabs.Settings:AddInput("Input", {
+
+
+local playerID = ""
+local gameID = ""
+
+-- Create input fields for player and game IDs
+local PlayerInput = Tabs.Settings:AddInput("PlayerInput", {
     Title = "Player",
     Default = "",
     Placeholder = "Player ID",
     Numeric = false,
     Finished = false,
-    Callback = function(value)
-        print("Player ID changed:", value)
+    Callback = function(Value)
+        playerID = Value -- Store the player ID when it changes
     end
 })
 
-local gameInput = Tabs.Settings:AddInput("Input", {
+local GameInput = Tabs.Settings:AddInput("GameInput", {
     Title = "Game",
     Default = "",
     Placeholder = "Game ID",
     Numeric = false,
     Finished = false,
-    Callback = function(value)
-        print("Game ID changed:", value)
+    Callback = function(Value)
+        gameID = Value -- Store the game ID when it changes
     end
 })
 
+-- Add a button to teleport to the specified player in the specified game
 Tabs.Settings:AddButton({
     Title = "Join Game",
     Description = "Note: It will sometimes work; however, if a friend is playing the SAME game as your target then it will most likely not work.",
     Callback = function()
-        local gameId = gameInput.Value
-        local userId = playerInput.Value
-
-        if gameId ~= "" and userId ~= "" then
-            JoinDifferentServer(gameId, userId)
+        -- Validate that both playerID and gameID are not empty
+        if playerID ~= "" and gameID ~= "" then
+            -- Teleport the local player to the specified game
+            game:GetService("TeleportService"):Teleport(gameID, game.Players.LocalPlayer)
         else
-            print("Please enter both Game ID and Player ID.")
+            -- If either playerID or gameID is empty, display an error message
+            Window:Dialog({
+                Title = "Error",
+                Content = "Please enter both player and game IDs.",
+                Buttons = {
+                    {
+                        Title = "OK",
+                        Callback = function()
+                            print("OK clicked.")
+                        end
+                    }
+                }
+            })
         end
     end
 })
