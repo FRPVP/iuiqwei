@@ -201,24 +201,22 @@ Toggle:OnChanged(function(t)
         local camera = game.Workspace.CurrentCamera
 
         Signal2 = RS.RenderStepped:Connect(function()
-            if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") and game.Players.LocalPlayer.Character.Humanoid.RootPart and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("VelocityHandler") and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("GyroHandler") then
+    if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") and game.Players.LocalPlayer.Character.Humanoid.RootPart and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("VelocityHandler") and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("GyroHandler") then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+        game.Players.LocalPlayer.Character.HumanoidRootPart.GyroHandler.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+        game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true
+        game.Players.LocalPlayer.Character.HumanoidRootPart.GyroHandler.CFrame = camera.CoordinateFrame
+        local controlModule = require(game.Players.LocalPlayer.PlayerScripts:WaitForChild('PlayerModule'):WaitForChild("ControlModule"))
+        local direction = controlModule:GetMoveVector()
 
-                game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.MaxForce = Vector3.new(9e9, 9e9, 9e9)
-                game.Players.LocalPlayer.Character.HumanoidRootPart.GyroHandler.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-                game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true
-
-                game.Players.LocalPlayer.Character.HumanoidRootPart.GyroHandler.CFrame = camera.CoordinateFrame
-                local direction = controlModule:GetMoveVector()
-                game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity = Vector3.new()
-
-                if direction.X ~= 0 then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity + camera.CFrame.RightVector * (direction.X * mflyspeed)
-                end
-                if direction.Z ~= 0 then
-                    game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity - camera.CFrame.LookVector * (direction.Z * mflyspeed)
-                end
-            end
-        end)
+        if direction.X ~= 0 or direction.Z ~= 0 then
+            local moveVector = (camera.CFrame.RightVector * direction.X) + (camera.CFrame.LookVector * direction.Z)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity = moveVector.unit * mflyspeed
+        else
+            game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity = Vector3.new()
+        end
+    end
+end)
     else
         if Signal1 and Signal2 then
             game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler:Destroy()
