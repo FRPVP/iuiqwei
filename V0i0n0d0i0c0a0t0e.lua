@@ -6668,7 +6668,7 @@ local Input = Tabs.Settings:AddInput("Input", {
 
     Tabs.Settings:AddButton({
         Title = "Join Game",
-        Description = "Note: It will sometimes work; however, if a friend is playing the SAME game as you target player then it will most likely not work.",
+        Description = "Note: It will sometimes work; however, if a friend is playing the SAME game as your target then it will most likely not work.",
         Callback = function()
             Window:Dialog({
                 Title = "Title",
