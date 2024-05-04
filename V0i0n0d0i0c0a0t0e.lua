@@ -6628,7 +6628,7 @@ local section = Tabs.Settings:AddSection("Stream Sniper")
 
 
 local Input = Tabs.Settings:AddInput("Input", {
-        Title = "",
+        Title = "Player",
         Default = "",
         Placeholder = "Player ID",
         Numeric = false, -- Only allows numbers
@@ -6647,7 +6647,7 @@ local Input = Tabs.Settings:AddInput("Input", {
 
 
 local Input = Tabs.Settings:AddInput("Input", {
-        Title = "Input",
+        Title = "Game",
         Default = "",
         Placeholder = "Game ID",
         Numeric = false, -- Only allows numbers
@@ -6668,7 +6668,7 @@ local Input = Tabs.Settings:AddInput("Input", {
 
     Tabs.Settings:AddButton({
         Title = "Join Game",
-        Description = "Very important button",
+        Description = "Note: It will sometimes work; however, if a friend is playing the SAME game as you target player then it will most likely not work.",
         Callback = function()
             Window:Dialog({
                 Title = "Title",
