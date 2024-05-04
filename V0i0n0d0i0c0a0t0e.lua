@@ -6839,69 +6839,46 @@ local section = Tabs.Settings:AddSection("Stream Sniper")
 
 
 
-local Input = Tabs.Settings:AddInput("Input", {
-        Title = "Player",
-        Default = "",
-        Placeholder = "Player ID",
-        Numeric = false, -- Only allows numbers
-        Finished = false, -- Only calls callback when you press enter
-        Callback = function(Value)
-            print("Input changed:", Value)
+local function JoinDifferentServer(gameId, userId)
+    game:GetService("TeleportService"):Teleport(gameId, userId)
+end
+
+local playerInput = Tabs.Settings:AddInput("Input", {
+    Title = "Player",
+    Default = "",
+    Placeholder = "Player ID",
+    Numeric = false,
+    Finished = false,
+    Callback = function(value)
+        print("Player ID changed:", value)
+    end
+})
+
+local gameInput = Tabs.Settings:AddInput("Input", {
+    Title = "Game",
+    Default = "",
+    Placeholder = "Game ID",
+    Numeric = false,
+    Finished = false,
+    Callback = function(value)
+        print("Game ID changed:", value)
+    end
+})
+
+Tabs.Settings:AddButton({
+    Title = "Join Game",
+    Description = "Note: It will sometimes work; however, if a friend is playing the SAME game as your target then it will most likely not work.",
+    Callback = function()
+        local gameId = gameInput.Value
+        local userId = playerInput.Value
+
+        if gameId ~= "" and userId ~= "" then
+            JoinDifferentServer(gameId, userId)
+        else
+            print("Please enter both Game ID and Player ID.")
         end
-    })
-
-    Input:OnChanged(function()
-        print("Input updated:", Input.Value)
-    end)
-
-
-
-
-
-local Input = Tabs.Settings:AddInput("Input", {
-        Title = "Game",
-        Default = "",
-        Placeholder = "Game ID",
-        Numeric = false, -- Only allows numbers
-        Finished = false, -- Only calls callback when you press enter
-        Callback = function(Value)
-            print("Input changed:", Value)
-        end
-    })
-
-    Input:OnChanged(function()
-        print("Input updated:", Input.Value)
-    end)
-
-
-
-
-
-
-    Tabs.Settings:AddButton({
-        Title = "Join Game",
-        Description = "Note: It will sometimes work; however, if a friend is playing the SAME game as your target then it will most likely not work.",
-        Callback = function()
-            Window:Dialog({
-                Title = "Title",
-                Content = "This is a dialog",
-                Buttons = {
-                    {
-                        Title = "Confirm",
-                        Callback = function()
-                            print("Confirmed the dialog.")
-                        end
-                    },
-                    {
-                        Title = "Cancel",
-                        Callback = function()
-                            print("Cancelled the dialog.")
-                        end
-                    }
-                }
-            })
-        end
-    })
+    end
+})
 
 
 
