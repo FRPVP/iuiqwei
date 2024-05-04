@@ -698,7 +698,55 @@ end)
 
 
 
+	
 
+
+    local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "Gun ESP", Default = false })
+
+    Toggle:OnChanged(function(Value)
+    getgenv().EspGun = Value
+if EspGun then
+while wait(1) do
+task.wait(0.5)
+pcall(function()
+for i,v in pairs(game.Workspace:GetDescendants()) do
+if v.Name == "GunDrop" and not v:FindFirstChild("EspGun") then
+local bill= Instance.new("BillboardGui",v)
+    bill.Name = "EspGun"
+    bill.AlwaysOnTop = true
+    bill.Size = UDim2.fromOffset(200,50)
+    bill.ExtentsOffset = Vector3.new(0,3,0)
+    bill.Enabled = true
+
+    local textlabel = Instance.new("TextLabel",bill)
+    textlabel.TextSize = 20
+    textlabel.Text = "GunDrop"
+    textlabel.Font = Enum.Font.SourceSans
+    textlabel.BackgroundTransparency = 1
+    textlabel.Size = UDim2.fromScale(1,1)
+    textlabel.TextColor3 = Color3.fromRGB(0,155,155)
+textlabel.TextStrokeTransparency = 0
+textlabel.TextYAlignment = Enum.TextYAlignment.Bottom
+textlabel.ZIndex = 0
+    repeat
+            billboard.Adornee = v
+    until not obj.Parent
+end
+end
+end)
+if not EspGun then
+bill:Destroy()
+textlabel:Destroy()
+break
+end
+end
+end
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+
+	
 
 
 
