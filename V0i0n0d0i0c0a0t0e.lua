@@ -1,5 +1,5 @@
  local Sound = Instance.new("Sound",game:GetService("SoundService"))
- Sound.SoundId = "rbxassetid://1846291721"
+ Sound.SoundId = "rbxassetid://9120129807"
  Sound:Play()
 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
