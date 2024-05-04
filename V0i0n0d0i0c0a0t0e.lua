@@ -700,56 +700,40 @@ end)
 
 
 
-local GunHighlight = Instance.new("Highlight");
-local GunHandleAdornment = Instance.new("SphereHandleAdornment");
+local RunService = game:GetService("RunService")
+local CoreGui = game:GetService("CoreGui")
+local Workspace = game:GetService("Workspace")
 
-GunHighlight.FillColor = Color3.fromRGB(248, 241, 174);
-GunHighlight.Adornee = Workspace:FindFirstChild("GunDrop");
-GunHighlight.OutlineTransparency = 1;
-GunHighlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop;
-GunHighlight.RobloxLocked = true;
+local GunHighlight = Instance.new("BoxHandleAdornment")
+GunHighlight.Size = Vector3.new(1, 1, 1) -- Set the initial size
+GunHighlight.Color3 = Color3.fromRGB(248, 241, 174)
+GunHighlight.AlwaysOnTop = true
+GunHighlight.Adornee = Workspace:WaitForChild("GunDrop")
+GunHighlight.Transparency = 0.5 -- Set the transparency
+GunHighlight.ZIndex = 5 -- Set a higher ZIndex to ensure it's rendered on top
+GunHighlight.Name = "GunHighlight"
+GunHighlight.Parent = CoreGui
 
-GunHandleAdornment.Color3 = Color3.fromRGB(248, 241, 174);
-GunHandleAdornment.Transparency = 0.2;
-GunHandleAdornment.Adornee = Workspace:FindFirstChild("GunDrop");
-GunHandleAdornment.AlwaysOnTop = true;
-GunHandleAdornment.AdornCullingMode = Enum.AdornCullingMode.Never;
-GunHandleAdornment.RobloxLocked = true;
+local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "Gun ESP", Default = false })
 
-GunHighlight.Parent = CoreGui;
-GunHandleAdornment.Parent = CoreGui;
-
-
-	coroutine.wrap(function()
-    RunService.RenderStepped:Connect(function()
-        pcall(function()
-            if getgenv().GunESP then
-                local gundrop = Workspace:FindFirstChild("GunDrop");
-                GunHighlight.Adornee = gundrop;
-                GunHandleAdornment.Adornee = gundrop;
-                if gundrop then 
-                    GunHandleAdornment.Size = gundrop.Size + Vector3.new(0.05, 0.05, 0.05) ;
-                end;
-        
-                GunHighlight.Enabled = getgenv().GunESP;
-                GunHandleAdornment.Visible = getgenv().GunESP;
-            end;
-        end);
-    end);
-end)();
-
-
-	
-
-
-    local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Gun ESP", Default = false })
-
-    Toggle:OnChanged(function(state)
+Toggle:OnChanged(function(state)
     getgenv().GunESP = state;
-	end
-    end)
+end)
 
-    Options.MyToggle:SetValue(false)
+getgenv().GunESP = false -- Initialize GunESP to false
+
+while true do
+    RunService.RenderStepped:Wait()
+    if getgenv().GunESP then
+        local gundrop = Workspace:FindFirstChild("GunDrop")
+        if gundrop then 
+            GunHighlight.Adornee = gundrop
+            GunHighlight.Size = gundrop.Size + Vector3.new(0.05, 0.05, 0.05)
+        else
+            GunHighlight.Adornee = nil -- Remove adornee if gun drop is not found
+        end
+    end
+end
 
 
 
