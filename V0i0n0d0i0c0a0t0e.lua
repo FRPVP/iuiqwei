@@ -6628,9 +6628,9 @@ local section = Tabs.Settings:AddSection("Stream Sniper")
 
 
 local Input = Tabs.Settings:AddInput("Input", {
-        Title = "Input",
-        Default = "Default",
-        Placeholder = "Placeholder",
+        Title = "",
+        Default = "",
+        Placeholder = "Player ID",
         Numeric = false, -- Only allows numbers
         Finished = false, -- Only calls callback when you press enter
         Callback = function(Value)
@@ -6641,7 +6641,6 @@ local Input = Tabs.Settings:AddInput("Input", {
     Input:OnChanged(function()
         print("Input updated:", Input.Value)
     end)
-end
 
 
 
@@ -6649,8 +6648,8 @@ end
 
 local Input = Tabs.Settings:AddInput("Input", {
         Title = "Input",
-        Default = "Default",
-        Placeholder = "Placeholder",
+        Default = "",
+        Placeholder = "Game ID",
         Numeric = false, -- Only allows numbers
         Finished = false, -- Only calls callback when you press enter
         Callback = function(Value)
@@ -6661,7 +6660,6 @@ local Input = Tabs.Settings:AddInput("Input", {
     Input:OnChanged(function()
         print("Input updated:", Input.Value)
     end)
-end
 
 
 
@@ -6669,7 +6667,7 @@ end
 
 
     Tabs.Settings:AddButton({
-        Title = "Button",
+        Title = "Join Game",
         Description = "Very important button",
         Callback = function()
             Window:Dialog({
