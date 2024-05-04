@@ -3992,7 +3992,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(16
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(16989882575, Enum.NormalId.Left, 6, (boxplayertarget.Character.HumanoidRootPart), boxplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Spongebob Sex", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "No Context Spongebob", Default = false })
 
 Toggle:OnChanged(function(boxplayer)
     if boxplayer == true then
@@ -4043,7 +4043,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17282019822, Enum.NormalId.Left, 6, (spongeplayertarget.Character.HumanoidRootPart), spongeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Spongebob Sex 2", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "No Context Spongebob 2", Default = false })
 
 Toggle:OnChanged(function(spongeplayer)
     if spongeplayer == true then
@@ -4098,7 +4098,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17373315144, Enum.NormalId.Left, 6, (defeatplayertarget.Character.HumanoidRootPart), defeatplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Spongebob Sex 3", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "No Context Spongebob 3", Default = false })
 
 Toggle:OnChanged(function(defeatplayer)
     if defeatplayer == true then
@@ -4152,7 +4152,7 @@ game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17373265789, Enum.NormalId.Left, 6, (isuadyplayertarget.Character.HumanoidRootPart), isuadyplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Spongebob Sex 4", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "No Context Spongebob 4", Default = false })
 
 Toggle:OnChanged(function(isuadyplayer)
     if isuadyplayer == true then
