@@ -168,65 +168,44 @@ local Signal1, Signal2
 
 Toggle:OnChanged(function(t)
     if t then
-        local controlModule = require(game.Players.LocalPlayer.PlayerScripts:WaitForChild('PlayerModule'):WaitForChild("ControlModule"))
+        flying = true
+	
+        local function fly()
+            local character = game.Players.LocalPlayer.Character
+            if not character then return end
+            local hrp = character:FindFirstChild("HumanoidRootPart")
+            if not hrp then return end
+            local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+            if not humanoid then return end
 
-        local bv = Instance.new("BodyVelocity")
-        bv.Name = "VelocityHandler"
-        bv.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-        bv.MaxForce = Vector3.new(0, 0, 0)
-        bv.Velocity = Vector3.new(0, 0, 0)
+            humanoid:SetStateEnabled(Enum.HumanoidStateType.Seated, false)
 
-        local bg = Instance.new("BodyGyro")
-        bg.Name = "GyroHandler"
-        bg.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-        bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-        bg.P = 1000
-        bg.D = 50
-
-        Signal1 = game.Players.LocalPlayer.CharacterAdded:Connect(function(NewChar)
             local bv = Instance.new("BodyVelocity")
-            bv.Name = "VelocityHandler"
-            bv.Parent = NewChar:WaitForChild("Humanoid").RootPart
-            bv.MaxForce = Vector3.new(0, 0, 0)
-            bv.Velocity = Vector3.new(0, 0, 0)
-
             local bg = Instance.new("BodyGyro")
-            bg.Name = "GyroHandler"
-            bg.Parent = NewChar:WaitForChild("Humanoid").HumanoidRootPart
-            bg.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-            bg.P = 1000
-            bg.D = 50
-        end)
+            bv.MaxForce = Vector3.new(9e4, 9e4, 9e4)
+            bg.CFrame = hrp.CFrame
+            bg.MaxTorque = Vector3.new(9e4, 9e4, 9e4)
+            bg.P = 9e4
+            bv.Parent = hrp
+            bg.Parent = hrp
 
-        local camera = game.Workspace.CurrentCamera
-
-        Signal2 = RS.RenderStepped:Connect(function()
-    if game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid") and game.Players.LocalPlayer.Character.Humanoid.RootPart and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("VelocityHandler") and game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("GyroHandler") then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.MaxForce = Vector3.new(9e9, 9e9, 9e9)
-        game.Players.LocalPlayer.Character.HumanoidRootPart.GyroHandler.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
-        game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true
-        game.Players.LocalPlayer.Character.HumanoidRootPart.GyroHandler.CFrame = camera.CoordinateFrame
-        local controlModule = require(game.Players.LocalPlayer.PlayerScripts:WaitForChild('PlayerModule'):WaitForChild("ControlModule"))
-        local direction = controlModule:GetMoveVector()
-
-        if direction.X ~= 0 or direction.Z ~= 0 then
-            local moveVector = (camera.CFrame.RightVector * direction.X) + (camera.CFrame.LookVector * direction.Z)
-            game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity = moveVector.unit * mflyspeed
-        else
-            game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler.Velocity = Vector3.new()
+            local con = nil
+            con = RS.Stepped:Connect(function()
+                if not flying then
+                    con:Disconnect()
+                    bv:Destroy()
+                    bg:Destroy()
+                end
+                
+                humanoid.PlatformStand = true
+                bv.Velocity = (game.Workspace.CurrentCamera.CFrame.LookVector * ((flycontrol.F - flycontrol.B) * mflyspeed)) + (game.Workspace.CurrentCamera.CFrame.RightVector * ((flycontrol.R - flycontrol.L) * mflyspeed)) + (game.Workspace.CurrentCamera.CFrame.UpVector * ((flycontrol.U - flycontrol.D) * mflyspeed))
+                bg.CFrame = game.Workspace.CurrentCamera.CFrame
+            end)
         end
-    end
-end)
+
+        fly()
     else
-        if Signal1 and Signal2 then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.VelocityHandler:Destroy()
-            game.Players.LocalPlayer.Character.HumanoidRootPart.GyroHandler:Destroy()
-            game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
-            Signal1:Disconnect()
-            Signal2:Disconnect()
-            Signal1 = nil
-            Signal2 = nil
-        end
+        flying = false
     end
 end)
 
