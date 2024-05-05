@@ -1306,46 +1306,6 @@ end)
 
     
     
-    
-    
-    
-    
-    
-      local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "View Dropped Gun", Default = false })
-
-    Toggle:OnChanged(function(Value)
-     getgenv().ViewGun = Value
-if ViewGun then
-while ViewGun do
-task.wait(0.5)
-pcall(function()
-		for i,v in pairs(game.Workspace:GetDescendants()) do
-			if v.Name == "GunDrop" then
-				game.Workspace.CurrentCamera.CameraSubject = v
-			end
-		end
-		end)
-	    if not ViewGun then
-        game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Humanoid')
-	game.Workspace.CurrentCamera.CameraType = "Custom"
-	game.Players.LocalPlayer.CameraMinZoomDistance = 0.5
-	game.Players.LocalPlayer.CameraMaxZoomDistance = 400
-	game.Players.LocalPlayer.CameraMode = "Classic"
-	game.Players.LocalPlayer.Character.Head.Anchored = false
-	break
-        end
-		end
-		end
-    end)
-
-    Options.MyToggle:SetValue(false)
-    
-    
-    
-
-
-
-
 
 -- Function to update the dropdown with the current player list
 local function UpdatePlayerListDropdown(Dropdown)
@@ -1390,11 +1350,9 @@ game.Players.PlayerRemoving:Connect(function(player)
 end)
 
 
-    
-    
-    
-    
-    
+
+
+
     
     
     
@@ -1408,42 +1366,116 @@ end
 
 
 
+
+
+
+
+    
+    
+ local function toggleCameraFocus()
+    local character = game.Players.LocalPlayer.Character
+    local camera = game.Workspace.CurrentCamera
+    local originalPosition = camera.CFrame
+
+    local gunDrop = game.Workspace:FindFirstChild("GunDrop")
+
+    if gunDrop then
+        if camera.CameraSubject == gunDrop then
+            camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+        else
+            camera.CameraSubject = gunDrop
+        end
+    end
+end
+
+-- Accessing the Toggle
+local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "View Gun", Default = false })
+
+Toggle:OnChanged(function()
+    if Toggle.Value then
+        toggleCameraFocus()
+    else
+        -- Restore original camera focus (assuming it was on the player)
+        local character = game.Players.LocalPlayer.Character
+        local camera = game.Workspace.CurrentCamera
+        camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
 	
     
     
     
-        Tabs.Visual:AddButton({
-        Title = "Spectate Murderer",
-        Description = "",
-        Callback = function()
-           for _,v in pairs(game.Players:GetPlayers()) do
-if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
-game.Workspace.CurrentCamera.CameraSubject = v.Character.Humanoid
+        local function toggleSpectateMurderer()
+    local isSpectating = Options.SpectateMurderer.Value
+
+    if isSpectating then
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife")) then
+                game.Workspace.CurrentCamera.CameraSubject = player.Character.Humanoid
+                break
+            end
+        end
+    else
+        -- Restore original camera focus (assuming it was on the player)
+        local character = game.Players.LocalPlayer.Character
+        local camera = game.Workspace.CurrentCamera
+        camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+    end
 end
+
+-- Accessing the Toggle
+local Toggle = Tabs.Visual:AddToggle("SpectateMurderer", {Title = "Spectate Murderer", Default = false })
+
+Toggle:OnChanged(function()
+    toggleSpectateMurderer()
+end)
+
+Options.SpectateMurderer:SetValue(false)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        local function toggleSpectateSheriff()
+    local spectatingEnabled = Options.SpectateSheriff.Value
+
+    if spectatingEnabled then
+        for _, player in pairs(game.Players:GetPlayers()) do
+            if player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun")) then
+                game.Workspace.CurrentCamera.CameraSubject = player.Character.Humanoid
+                break
+            end
+        end
+    else
+        -- Restore original camera focus (assuming it was on the player)
+        local character = game.Players.LocalPlayer.Character
+        local camera = game.Workspace.CurrentCamera
+        camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+    end
 end
-end
-    })
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-        Tabs.Visual:AddButton({
-        Title = "Spectate Sheriff",
-        Description = "",
-        Callback = function()
-for _,v in pairs(game.Players:GetPlayers()) do
-if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
-game.Workspace.CurrentCamera.CameraSubject = v.Character.Humanoid
-end
-end
-end
-    })
+
+-- Accessing the Toggle
+local Toggle = Tabs.Visual:AddToggle("SpectateSheriff", {Title = "Spectate Sheriff", Default = false })
+
+Toggle:OnChanged(function()
+    toggleSpectateSheriff()
+end)
+
+Options.SpectateSheriff:SetValue(false)
     
     
     
