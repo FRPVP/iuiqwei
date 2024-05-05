@@ -701,49 +701,75 @@ end)
 
 
 
-local Toggle = Tabs.Visual:AddToggle("", {Title = "Gun ESP", Default = false })
+local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "Gun ESP", Default = false })
 
+local BillboardGui = nil
 local RenderSteppedConnection = nil
+local Gun = Workspace:FindFirstChild("GunDrop")
+
+local function CreateBillboardAboveGun(gun)
+    BillboardGui = Instance.new("BillboardGui")
+    BillboardGui.Adornee = gun
+    BillboardGui.Size = UDim2.new(0, 80, 0, 50) -- Decreased size for smaller text
+    BillboardGui.StudsOffset = Vector3.new(0, 3, 0) -- Adjust the height of the billboard
+    BillboardGui.AlwaysOnTop = true -- Ensure the billboard is always visible
+
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel.Text = "Gundrop"
+    TextLabel.Font = Enum.Font.SourceSansBold
+    TextLabel.TextColor3 = Color3.fromRGB(0,214,0,255)
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.TextScaled = true -- Allow the text to scale based on the size of the billboard
+    TextLabel.Parent = BillboardGui
+
+    BillboardGui.Parent = gun
+end
+
+local function DestroyBillboard()
+    if BillboardGui then
+        BillboardGui:Destroy()
+        BillboardGui = nil
+    end
+    if RenderSteppedConnection then
+        RenderSteppedConnection:Disconnect()
+        RenderSteppedConnection = nil
+    end
+end
+
+local function OnGunAdded(gun)
+    if Toggle.Value then
+        CreateBillboardAboveGun(gun)
+    end
+end
+
+local function OnGunRemoved(gun)
+    DestroyBillboard()
+end
 
 Toggle:OnChanged(function()
     if Toggle.Value then
-        local function CreateRandomBillboard(object)
-            local RandomBillboard = Instance.new("BillboardGui")
-            RandomBillboard.Size = UDim2.new(0, 100, 0, 50)
-            RandomBillboard.StudsOffset = Vector3.new(0, object.Size.Y / 2 + 1, 0) -- Adjust height to place above the object
-            RandomBillboard.AlwaysOnTop = true
-            RandomBillboard.LightInfluence = 0
-            RandomBillboard.Parent = object
-
-            local RandomLabel = Instance.new("TextLabel")
-            RandomLabel.Size = UDim2.new(1, 0, 1, 0)
-            RandomLabel.Text = "Random Text"
-            RandomLabel.TextScaled = true
-            RandomLabel.BackgroundTransparency = 1 -- Make background transparent
-            RandomLabel.TextColor3 = Color3.fromRGB(173, 255, 255) -- Very light cyan color
-            RandomLabel.Parent = RandomBillboard
+        if Gun then
+            OnGunAdded(Gun)
         end
-
-        for _, object in ipairs(Workspace:GetChildren()) do
-            if object.Name == "RandomDrop" then
-                CreateRandomBillboard(object)
-            end
-        end
-
-        Workspace.ChildAdded:Connect(function(child)
-            if child.Name == "RandomDrop" then
-                CreateRandomBillboard(child)
-            end
-        end)
     else
-        for _, object in ipairs(Workspace:GetChildren()) do
-            if object:FindFirstChild("BillboardGui") then
-                object:FindFirstChild("BillboardGui"):Destroy()
-            end
-        end
+        DestroyBillboard()
     end
 
     print("Toggle changed:", Toggle.Value)
+end)
+
+Workspace.ChildAdded:Connect(function(child)
+    if child.Name == "GunDrop" then
+        Gun = child
+        OnGunAdded(child)
+    end
+end)
+
+Workspace.ChildRemoved:Connect(function(child)
+    if child.Name == "GunDrop" then
+        OnGunRemoved(child)
+    end
 end)
 
 Options.MyToggle:SetValue(false)
@@ -851,7 +877,7 @@ Toggle:OnChanged(function()
 
             GunHandleAdornment.Radius = (gun.Size.X + gun.Size.Y + gun.Size.Z) / 3
             GunHandleAdornment.Adornee = gun
-            GunHandleAdornment.Color3 = Color3.fromRGB(173, 255, 255)
+            GunHandleAdornment.Color3 = Color3.fromRGB(0,214,0,255)
             GunHandleAdornment.Transparency = 0.2
             GunHandleAdornment.AlwaysOnTop = true
             GunHandleAdornment.ZIndex = 10
