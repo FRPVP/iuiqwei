@@ -1445,13 +1445,21 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-108, 13
         Title = "Map",
         Description = "",
         Callback = function()
-for i,v in pairs(game.Workspace:GetDescendants()) do
-if v.Name == "House2" or v.Name == "MilBase" or v.Name == "Mansion2" or v.Name == "Hospital3" or v.Name == "PoliceStation" or v.Name == "nSOffice" or v.Name == "Bank2" or v.Name == "Office3" or v.Name == "Hotel" or v.Name == "Factory" or v.Name == "Workplace" or v.Name == "BioLab" then
-game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Spawns.Spawn.CFrame
-elseif v.Name == "ResearchFacility" then
-lp.Character.HumanoidRootPart.CFrame = v.Spawns.PlayerSpawn.CFrame
+local function teleportPlayerToCoordinates()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:WaitForChild("Humanoid")
+    local rootPart = character:WaitForChild("HumanoidRootPart")
+
+    -- Coordinates to teleport
+    local targetPosition = Vector3.new(-107.90824127197266, 138.34988403320312, -10.622464179992676)
+
+    -- Teleport the player's character
+    rootPart.CFrame = CFrame.new(targetPosition)
 end
-end
+
+-- Call the function to teleport the player when the script is run
+teleportPlayerToCoordinates()
         end
     })
     
