@@ -33,36 +33,36 @@ local function CreateRainCubes(targetPosition)
     end
 end
 
-function rickplayerfunc()
-    local rickplayertarget = game.Players.LocalPlayer.Character
-    CreateRainCubes(rickplayertarget.HumanoidRootPart.Position)
+function soadijplayerfunc()
+    local soadijplayertarget = game.Players.LocalPlayer.Character
+    CreateRainCubes(soadijplayertarget.HumanoidRootPart.Position)
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "testing", Default = false })
 
-Toggle:OnChanged(function(rickplayer)
-    if rickplayer == true then
-        rickplayerloop = true
-        while rickplayerloop do
-            function rickplayerloopfix()
+Toggle:OnChanged(function(soadijplayer)
+    if soadijplayer == true then
+        soadijplayerloop = true
+        while soadijplayerloop do
+            function soadijplayerloopfix()
                 if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        rickplayertarget = players:FindFirstChild(v.Name)
-                        rickplayerfunc()
+                        soadijplayertarget = players:FindFirstChild(v.Name)
+                        soadijplayerfunc()
                         task.wait()
                     end
                 else
-                    rickplayertarget = players:FindFirstChild(infinityGauntlet)
-                    rickplayerfunc()
+                    soadijplayertarget = players:FindFirstChild(infinityGauntlet)
+                    soadijplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(rickplayerloopfix)
+            pcall(soadijplayerloopfix)
         end
     end
-    if rickplayer == false then
-        rickplayerloop = false
+    if soadijplayer == false then
+        soadijplayerloop = false
         wait()
     end
 end)
