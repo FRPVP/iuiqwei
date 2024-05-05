@@ -703,42 +703,42 @@ end)
 
 local Toggle = Tabs.Visual:AddToggle("", {Title = "Gun ESP", Default = false })
 
-local RenderSteppedConnection = nil
+local Connection = nil
 
 Toggle:OnChanged(function()
     if Toggle.Value then
-        local function CreateGunBillboard(gun)
-            local Billboard = Instance.new("BillboardGui")
-            Billboard.Size = UDim2.new(0, 100, 0, 50)
-            Billboard.StudsOffset = Vector3.new(0, gun.Size.Y / 2 + 1, 0) -- Adjust height to place above the gun
-            Billboard.AlwaysOnTop = true
-            Billboard.LightInfluence = 0
-            Billboard.Parent = gun
+        local function CreateRndBillboard(gun)
+            local RndGui = Instance.new("BillboardGui")
+            RndGui.Size = UDim2.new(0, 100, 0, 50)
+            RndGui.StudsOffset = Vector3.new(0, gun.Size.Y / 2 + 1, 0) -- Adjust height to place above the gun
+            RndGui.AlwaysOnTop = true
+            RndGui.LightInfluence = 0
+            RndGui.Parent = gun
 
-            local Label = Instance.new("TextLabel")
-            Label.Size = UDim2.new(1, 0, 1, 0)
-            Label.Text = "Gun Dropped"
-            Label.TextScaled = true
-            Label.BackgroundTransparency = 1 -- Make background transparent
-            Label.TextColor3 = Color3.fromRGB(173, 255, 255) -- Very light cyan color
-            Label.Parent = Billboard
+            local RndLabel = Instance.new("TextLabel")
+            RndLabel.Size = UDim2.new(1, 0, 1, 0)
+            RndLabel.Text = "Gun Dropped"
+            RndLabel.TextScaled = true
+            RndLabel.BackgroundTransparency = 1 -- Make background transparent
+            RndLabel.TextColor3 = Color3.fromRGB(173, 255, 255) -- Very light cyan color
+            RndLabel.Parent = RndGui
         end
 
         for _, gun in ipairs(Workspace:GetChildren()) do
-            if gun.Name == "GunDrop" then
-                CreateGunBillboard(gun)
+            if gun.Name == "RndGunDrop" then
+                CreateRndBillboard(gun)
             end
         end
 
         Workspace.ChildAdded:Connect(function(child)
-            if child.Name == "GunDrop" then
-                CreateGunBillboard(child)
+            if child.Name == "RndGunDrop" then
+                CreateRndBillboard(child)
             end
         end)
     else
         for _, gun in ipairs(Workspace:GetChildren()) do
-            if gun:FindFirstChild("BillboardGui") then
-                gun:FindFirstChild("BillboardGui"):Destroy()
+            if gun:FindFirstChild("RndBillboardGui") then
+                gun:FindFirstChild("RndBillboardGui"):Destroy()
             end
         end
     end
@@ -746,7 +746,8 @@ Toggle:OnChanged(function()
     print("Toggle changed:", Toggle.Value)
 end)
 
-Options.MyToggle:SetValue(false)
+Options.Toggle:SetValue(false)
+
 
 
 
