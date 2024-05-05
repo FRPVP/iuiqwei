@@ -699,6 +699,80 @@ end)
 
 
 
+
+
+local Toggle = Tabs.Visual:AddToggle("", {Title = "Gun ESP", Default = false })
+
+local GunHighlight = nil
+local GunHandleAdornment = nil
+local RenderSteppedConnection = nil
+
+Toggle:OnChanged(function()
+    if Toggle.Value then
+        local function CreateGunAdornment(gun)
+            GunHighlight = Instance.new("Highlight")
+            GunHandleAdornment = Instance.new("SphereHandleAdornment")
+
+            GunHandleAdornment.Radius = (gun.Size.X + gun.Size.Y + gun.Size.Z) / 3
+            GunHandleAdornment.Adornee = gun
+            GunHandleAdornment.Color3 = Color3.fromRGB(173, 255, 255)
+            GunHandleAdornment.Transparency = 0.2
+            GunHandleAdornment.AlwaysOnTop = true
+            GunHandleAdornment.ZIndex = 10
+            GunHandleAdornment.Parent = gun
+
+            local function UpdateGunHighlight()
+                if gun.Parent then
+                    GunHighlight.Adornee = gun
+                    GunHandleAdornment.Adornee = gun
+                    GunHandleAdornment.Size = gun.Size + Vector3.new(0.05, 0.05, 0.05)
+                    GunHighlight.Enabled = true
+                    GunHandleAdornment.Visible = true
+                else
+                    GunHighlight.Enabled = false
+                    GunHandleAdornment.Visible = false
+                end
+            end
+
+            UpdateGunHighlight()
+
+            RenderSteppedConnection = game:GetService("RunService").RenderStepped:Connect(function()
+                UpdateGunHighlight()
+            end)
+        end
+
+        for _, gun in ipairs(Workspace:GetChildren()) do
+            if gun.Name == "GunDrop" then
+                CreateGunAdornment(gun)
+            end
+        end
+
+        Workspace.ChildAdded:Connect(function(child)
+            if child.Name == "GunDrop" then
+                CreateGunAdornment(child)
+            end
+        end)
+    else
+        if GunHighlight then
+            GunHighlight:Destroy()
+        end
+        if GunHandleAdornment then
+            GunHandleAdornment:Destroy()
+        end
+        if RenderSteppedConnection then
+            RenderSteppedConnection:Disconnect()
+        end
+    end
+
+    print("Toggle changed:", Toggle.Value)
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
 	
 
 
