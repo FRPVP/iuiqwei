@@ -703,42 +703,42 @@ end)
 
 local Toggle = Tabs.Visual:AddToggle("", {Title = "Gun ESP", Default = false })
 
-local Connection = nil
+local RenderSteppedConnection = nil
 
 Toggle:OnChanged(function()
     if Toggle.Value then
-        local function CreateRndBillboard(gun)
-            local RndGui = Instance.new("BillboardGui")
-            RndGui.Size = UDim2.new(0, 100, 0, 50)
-            RndGui.StudsOffset = Vector3.new(0, gun.Size.Y / 2 + 1, 0) -- Adjust height to place above the gun
-            RndGui.AlwaysOnTop = true
-            RndGui.LightInfluence = 0
-            RndGui.Parent = gun
+        local function CreateRandomBillboard(object)
+            local RandomBillboard = Instance.new("BillboardGui")
+            RandomBillboard.Size = UDim2.new(0, 100, 0, 50)
+            RandomBillboard.StudsOffset = Vector3.new(0, object.Size.Y / 2 + 1, 0) -- Adjust height to place above the object
+            RandomBillboard.AlwaysOnTop = true
+            RandomBillboard.LightInfluence = 0
+            RandomBillboard.Parent = object
 
-            local RndLabel = Instance.new("TextLabel")
-            RndLabel.Size = UDim2.new(1, 0, 1, 0)
-            RndLabel.Text = "Gun Dropped"
-            RndLabel.TextScaled = true
-            RndLabel.BackgroundTransparency = 1 -- Make background transparent
-            RndLabel.TextColor3 = Color3.fromRGB(173, 255, 255) -- Very light cyan color
-            RndLabel.Parent = RndGui
+            local RandomLabel = Instance.new("TextLabel")
+            RandomLabel.Size = UDim2.new(1, 0, 1, 0)
+            RandomLabel.Text = "Random Text"
+            RandomLabel.TextScaled = true
+            RandomLabel.BackgroundTransparency = 1 -- Make background transparent
+            RandomLabel.TextColor3 = Color3.fromRGB(173, 255, 255) -- Very light cyan color
+            RandomLabel.Parent = RandomBillboard
         end
 
-        for _, gun in ipairs(Workspace:GetChildren()) do
-            if gun.Name == "RndGunDrop" then
-                CreateRndBillboard(gun)
+        for _, object in ipairs(Workspace:GetChildren()) do
+            if object.Name == "RandomDrop" then
+                CreateRandomBillboard(object)
             end
         end
 
         Workspace.ChildAdded:Connect(function(child)
-            if child.Name == "RndGunDrop" then
-                CreateRndBillboard(child)
+            if child.Name == "RandomDrop" then
+                CreateRandomBillboard(child)
             end
         end)
     else
-        for _, gun in ipairs(Workspace:GetChildren()) do
-            if gun:FindFirstChild("RndBillboardGui") then
-                gun:FindFirstChild("RndBillboardGui"):Destroy()
+        for _, object in ipairs(Workspace:GetChildren()) do
+            if object:FindFirstChild("BillboardGui") then
+                object:FindFirstChild("BillboardGui"):Destroy()
             end
         end
     end
@@ -746,7 +746,8 @@ Toggle:OnChanged(function()
     print("Toggle changed:", Toggle.Value)
 end)
 
-Options.Toggle:SetValue(false)
+Options.MyToggle:SetValue(false)
+
 
 
 
