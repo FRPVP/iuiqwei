@@ -1,34 +1,42 @@
-function phubplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(17189770364, Enum.NormalId.Front, 5, (phubplayertarget.Character.HumanoidRootPart), phubplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,5,0))
+function cantreadfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (cantreadtarget.Character.RightUpperLeg), cantreadtarget.Character.RightUpperLeg.CFrame * CFrame.new(0, 0, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (cantreadtarget.Character.LeftUpperLeg), cantreadtarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, 0, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (cantreadtarget.Character.HumanoidRootPart), cantreadtarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Bottom, 6.331, (cantreadtarget.Character.LeftHand), cantreadtarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (cantreadtarget.Character.RightLowerLeg), cantreadtarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (cantreadtarget.Character.LeftLowerLeg), cantreadtarget.Character.LeftLowerLeg.CFrame * CFrame.new(0, 0, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (cantreadtarget.Character.Head), cantreadtarget.Character.Head.CFrame * CFrame.new(0, 0, 0))
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "PHub Logo", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "test", Default = false })
 
-Toggle:OnChanged(function(phubplayer)
-    if phubplayer == true then
-        phubplayerloop = true
-        while phubplayerloop do
-            function phubplayerloopfix()
+Toggle:OnChanged(function(cantread)
+    if cantread == true then
+        cantreadloop = true
+        while cantreadloop do
+            function cantreadloopfix()
                 EquipSpray()
                 task.wait(0.4)
-                if infinityGauntlet == "All" then
+                if fetargetname == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        phubplayertarget = players:FindFirstChild(v.Name)
-                        phubplayerfunc()
-                        task.wait()
+                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
+                            cantreadtarget = players:FindFirstChild(v.Name)
+                            cantreadfunc()
+                            task.wait()
+                        end
                     end
                 else
-                    phubplayertarget = players:FindFirstChild(infinityGauntlet)
-                    phubplayerfunc()
+                    cantreadtarget = players:FindFirstChild(fetargetname)
+                    cantreadfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(phubplayerloopfix)
+            pcall(cantreadloopfix)
         end
     end
-    if phubplayer == false then
-        phubplayerloop = false
+    if cantread == false then
+        cantreadloop = false
         wait()
     end
 end)
