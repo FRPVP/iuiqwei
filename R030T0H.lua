@@ -1,37 +1,68 @@
-function feslipfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(7199393435, Enum.NormalId.Top, 3.5, (fesliptarget.Character.HumanoidRootPart), fesliptarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(7199393435, Enum.NormalId.Bottom, 3.5, (fesliptarget.Character.HumanoidRootPart), fesliptarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.85, 0))
+local function CreateRainCubes(targetPosition)
+    local cubeSize = Vector3.new(4, 4, 4) -- Adjust size as needed
+    local sprayTextureId = 10180722469 -- ID of the spray paint texture
+
+    -- Define positions for rain cubes relative to the target position
+    local cubePositions = {
+        Vector3.new(0, 0, 0),
+        Vector3.new(5, 5, 5),
+        Vector3.new(-5, 5, -5),
+        Vector3.new(5, -5, -5),
+        Vector3.new(-5, -5, 5)
+        -- Add more positions as needed
+    }
+
+    for _, offset in ipairs(cubePositions) do
+        local cube = Instance.new("Part")
+        cube.Size = cubeSize
+        cube.Position = targetPosition + offset
+        cube.Anchored = true
+        cube.CanCollide = false
+        cube.Parent = game.Workspace
+
+        -- Apply spray paint texture to each side of the cube
+        for _, face in ipairs(Enum.NormalId:GetEnumItems()) do
+            game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(
+                sprayTextureId,
+                face,
+                6,
+                cube,
+                cube.CFrame
+            )
+        end
+    end
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "test", Default = false })
+function rickplayerfunc()
+    local rickplayertarget = game.Players.LocalPlayer.Character
+    CreateRainCubes(rickplayertarget.HumanoidRootPart.Position)
+end
 
-Toggle:OnChanged(function(feslip)
-    if feslip == true then
-        fesliploop = true
-        while fesliploop do
-            function fesliploopfix()
-                EquipSpray()
-                task.wait(0.4)
-                if fetargetname == "All" then
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
+
+Toggle:OnChanged(function(rickplayer)
+    if rickplayer == true then
+        rickplayerloop = true
+        while rickplayerloop do
+            function rickplayerloopfix()
+                if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            fesliptarget = players:FindFirstChild(v.Name)
-                            feslipfunc()
-                            task.wait()
-                        end
+                        rickplayertarget = players:FindFirstChild(v.Name)
+                        rickplayerfunc()
+                        task.wait()
                     end
                 else
-                    fesliptarget = players:FindFirstChild(fetargetname)
-                    feslipfunc()
+                    rickplayertarget = players:FindFirstChild(infinityGauntlet)
+                    rickplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(fesliploopfix)
+            pcall(rickplayerloopfix)
         end
     end
-    if feslip == false then
-        fesliploop = false
+    if rickplayer == false then
+        rickplayerloop = false
         wait()
     end
 end)
