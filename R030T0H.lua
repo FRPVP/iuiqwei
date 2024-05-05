@@ -1,68 +1,45 @@
-local function CreateRainCubes(targetPosition)
-    local cubeSize = Vector3.new(4, 4, 4) -- Adjust size as needed
-    local sprayTextureId = 10180722469 -- ID of the spray paint texture
-
-    -- Define positions for rain cubes relative to the target position
-    local cubePositions = {
-        Vector3.new(0, 0, 0),
-        Vector3.new(5, 5, 5),
-        Vector3.new(-5, 5, -5),
-        Vector3.new(5, -5, -5),
-        Vector3.new(-5, -5, 5)
-        -- Add more positions as needed
-    }
-
-    for _, offset in ipairs(cubePositions) do
-        local cube = Instance.new("Part")
-        cube.Size = cubeSize
-        cube.Position = targetPosition + offset
-        cube.Anchored = true
-        cube.CanCollide = false
-        cube.Parent = game.Workspace
-
-        -- Apply spray paint texture to each side of the cube
-        for _, face in ipairs(Enum.NormalId:GetEnumItems()) do
-            game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(
-                sprayTextureId,
-                face,
-                6,
-                cube,
-                cube.CFrame
-            )
-        end
-    end
+function missmeplayerfunc()
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Top, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Bottom, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Bottom, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Top, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Front, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Back, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Front, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Back, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Right, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Left, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Right, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(10180722469, Enum.NormalId.Left, 6, (missmeplayertarget.Character.HumanoidRootPart), missmeplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-function soadijplayerfunc()
-    local soadijplayertarget = game.Players.LocalPlayer.Character
-    CreateRainCubes(soadijplayertarget.HumanoidRootPart.Position)
-end
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "testing", Default = false })
-
-Toggle:OnChanged(function(soadijplayer)
-    if soadijplayer == true then
-        soadijplayerloop = true
-        while soadijplayerloop do
-            function soadijplayerloopfix()
+Toggle:OnChanged(function(missmeplayer)
+    if missmeplayer == true then
+        missmeplayerloop = true
+        while missmeplayerloop do
+            function missmeplayerloopfix()
+                EquipSpray()
+                task.wait(0.4)
                 if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        soadijplayertarget = players:FindFirstChild(v.Name)
-                        soadijplayerfunc()
+                        missmeplayertarget = players:FindFirstChild(v.Name)
+                        missmeplayerfunc()
                         task.wait()
                     end
                 else
-                    soadijplayertarget = players:FindFirstChild(infinityGauntlet)
-                    soadijplayerfunc()
+                    missmeplayertarget = players:FindFirstChild(infinityGauntlet)
+                    missmeplayerfunc()
                 end
                 task.wait(15)
             end
             wait()
-            pcall(soadijplayerloopfix)
+            pcall(missmeplayerloopfix)
         end
     end
-    if soadijplayer == false then
-        soadijplayerloop = false
+    if missmeplayer == false then
+        missmeplayerloop = false
         wait()
     end
 end)
