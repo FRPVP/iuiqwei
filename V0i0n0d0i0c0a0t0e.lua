@@ -1527,21 +1527,25 @@ game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-108, 13
         Title = "Map",
         Description = "",
         Callback = function()
-local function teleportPlayerToCoordinates()
-    local player = game.Players.LocalPlayer
-    local character = player.Character or player.CharacterAdded:Wait()
-    local humanoid = character:WaitForChild("Humanoid")
-    local rootPart = character:WaitForChild("HumanoidRootPart")
-
-    -- Coordinates to teleport
-    local targetPosition = Vector3.new(-107.90824127197266, 138.34988403320312, -10.622464179992676)
-
-    -- Teleport the player's character
-    rootPart.CFrame = CFrame.new(targetPosition)
+local function teleportPlayerToPosition(position)
+    local character = game.Players.LocalPlayer.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(position)
+    end
 end
 
--- Call the function to teleport the player when the script is run
-teleportPlayerToCoordinates()
+-- Function to find a BasePart with the name "Coin_Server" and teleport the player to it
+local function teleportToCoinServer()
+    for _, part in ipairs(game.Workspace:GetDescendants()) do
+        if part:IsA("BasePart") and part.Name == "Coin_Server" then
+            teleportPlayerToPosition(part.Position)
+            break
+        end
+    end
+end
+
+-- Teleport to the first Coin_Server when the script is executed
+teleportToCoinServer()
         end
     })
     
