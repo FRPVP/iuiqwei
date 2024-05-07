@@ -3800,8 +3800,8 @@ Options.MyToggle:SetValue(false)
 
 function opiwhdaplayerfunc()
 game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (opiwhdaplayertarget.Character.HumanoidRootPart), opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (opiwhdaplayertarget.Character.LeftUpperLeg), opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (opiwhdaplayertarget.Character.LeftUpperLeg), opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (opiwhdaplayertarget.Character.LeftUpperLeg), opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (opiwhdaplayertarget.Character.LeftUpperLeg), opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
 end
 
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Void", Default = false })
