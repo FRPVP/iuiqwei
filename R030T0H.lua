@@ -1,39 +1,58 @@
-function fghhttyklplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, (fghhttyklplayertarget.Character.HumanoidRootPart), fghhttyklplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 99999))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fghhttyklplayertarget.Character.LeftUpperLeg), fghhttyklplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, (fghhttyklplayertarget.Character.LeftUpperLeg), fghhttyklplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+local function rickplayerfunc(sprayID, target)
+    local sprayRemote = game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote
+    local rootPart = target.Character.HumanoidRootPart
+    sprayRemote:FireServer(sprayID, Enum.NormalId.Top, 6, rootPart, rootPart.CFrame * CFrame.new(0, 3, 0))
+    -- Repeat for other directions
 end
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Void", Default = false })
+local rickplayerloop = false
+local sprayID = 10180722469 -- Default spray ID
 
-Toggle:OnChanged(function(fghhttyklplayer)
-    if fghhttyklplayer == true then
-        fghhttyklplayerloop = true
-        while fghhttyklplayerloop do
-            function fghhttyklplayerloopfix()
-                EquipSpray()
-                task.wait(0.4)
-                if fetargetname == "All" then
-                    for _, v in pairs(players:GetPlayers()) do
-                        if v ~= players.LocalPlayer then -- Skip executing the function on yourself
-                            fghhttyklplayertarget = players:FindFirstChild(v.Name)
-                            fghhttyklplayerfunc()
-                            task.wait()
-                        end
-                    end
-                else
-                    fghhttyklplayertarget = players:FindFirstChild(fetargetname)
-                    fghhttyklplayerfunc()
-                end
-                task.wait(0)
-            end
-            wait()
-            pcall(fghhttyklplayerloopfix)
-        end
+local Input = Tabs.Player:AddInput("Input", {
+    Title = "Spray ID",
+    Default = sprayID,
+    Placeholder = "Enter custom spray ID",
+    Numeric = true, -- Allows only numbers
+    Finished = true, -- Calls callback when you press enter
+    Callback = function(Value)
+        sprayID = tonumber(Value) or sprayID -- Convert input to number, or keep default if invalid
+        print("Spray ID changed:", sprayID)
     end
-    if fghhttyklplayer == false then
-        fghhttyklplayerloop = false
-        wait()
+})
+
+Input:OnChanged(function()
+    sprayID = tonumber(Input.Value) or sprayID -- Convert input to number, or keep default if invalid
+    print("Spray ID updated:", sprayID)
+end)
+
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
+
+Toggle:OnChanged(function(rickplayer)
+    if rickplayer then
+        rickplayerloop = true
+        while rickplayerloop do
+            EquipSpray()
+            task.wait(0.4)
+            local infinityGauntlet = Options.MyToggle:Value()
+            local players = game:GetService("Players")
+            if infinityGauntlet == "All" then
+                for _, v in pairs(players:GetPlayers()) do
+                    local rickplayertarget = players:FindFirstChild(v.Name)
+                    if rickplayertarget then
+                        rickplayerfunc(sprayID, rickplayertarget)
+                        task.wait()
+                    end
+                end
+            else
+                local rickplayertarget = players:FindFirstChild(infinityGauntlet)
+                if rickplayertarget then
+                    rickplayerfunc(sprayID, rickplayertarget)
+                end
+            end
+            task.wait(15)
+        end
+    else
+        rickplayerloop = false
     end
 end)
 
