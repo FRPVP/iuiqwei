@@ -1,67 +1,54 @@
+local SprayID = 10180722469  -- Default ID
+
+function ashdlzzplayerfunc(sprayID)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(SprayID, Enum.NormalId.Top, 6, (ashdlzzplayertarget.Character.HumanoidRootPart), ashdlzzplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+    -- Add other lines using sprayID
+end
+
 local Input = Tabs.Premium:AddInput("Input", {
     Title = "Input",
-    Default = "",
-    Placeholder = "Placeholder",
-    Numeric = false,
-    Finished = false,
+    Default = tostring(SprayID),
+    Placeholder = "Enter Spray ID",
+    Numeric = true,
+    Finished = true,
     Callback = function(Value)
-        print("Input changed:", Value)
-        -- Update the ID used in ahdkskwwplayerfunc
-        ahdkskwwplayerfunc(Value)
+        SprayID = tonumber(Value) or SprayID
+        print("Spray ID changed:", SprayID)
     end
 })
 
 Input:OnChanged(function()
-    print("Input updated:", Input.Value)
-    -- Update the ID used in ahdkskwwplayerfunc
-    ahdkskwwplayerfunc(Input.Value)
+    SprayID = tonumber(Input.Value) or SprayID
+    print("Spray ID updated:", SprayID)
 end)
 
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
 
-
-
-function ahdkskwwplayerfunc()
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Top, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Bottom, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Bottom, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Top, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Front, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Back, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Front, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Back, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Right, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Left, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Right, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(ID, Enum.NormalId.Left, 6, (ahdkskwwplayertarget.Character.HumanoidRootPart), ahdkskwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
-end
-
-local Toggle = Tabs.Premium:AddToggle("", {Title = "this a test", Default = false })
-
-Toggle:OnChanged(function(ahdkskwwplayer)
-    if ahdkskwwplayer == true then
-        ahdkskwwplayerloop = true
-        while ahdkskwwplayerloop do
-            function ahdkskwwplayerloopfix()
+Toggle:OnChanged(function(ashdlzzplayer)
+    if ashdlzzplayer == true then
+        ashdlzzplayerloop = true
+        while ashdlzzplayerloop do
+            function ashdlzzplayerloopfix()
                 EquipSpray()
                 task.wait(0.4)
                 if infinityGauntlet == "All" then
                     for _, v in pairs(players:GetPlayers()) do
-                        ahdkskwwplayertarget = players:FindFirstChild(v.Name)
-                        ahdkskwwplayerfunc()
+                        ashdlzzplayertarget = players:FindFirstChild(v.Name)
+                        ashdlzzplayerfunc(SprayID)
                         task.wait()
                     end
                 else
-                    ahdkskwwplayertarget = players:FindFirstChild(infinityGauntlet)
-                    ahdkskwwplayerfunc()
+                    ashdlzzplayertarget = players:FindFirstChild(infinityGauntlet)
+                    ashdlzzplayerfunc(SprayID)
                 end
                 task.wait(15)
             end
             wait()
-            pcall(ahdkskwwplayerloopfix)
+            pcall(ashdlzzplayerloopfix)
         end
     end
-    if ahdkskwwplayer == false then
-        ahdkskwwplayerloop = false
+    if ashdlzzplayer == false then
+        ashdlzzplayerloop = false
         wait()
     end
 end)
