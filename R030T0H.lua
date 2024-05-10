@@ -1,6 +1,6 @@
 local customID = "10180722469" -- Default ID
 
-local Input = Tabs.Player:AddInput("Input", {
+local Input = Tabs.Premium:AddInput("Input", {
     Title = "Custom ID",
     Default = customID,
     Placeholder = "Enter custom ID",
@@ -17,43 +17,53 @@ Input:OnChanged(function()
     customID = Input.Value
 end)
 
-function rickplayerfunc(id)
+function asdasxzcplayerfunc(id)
     local sprayRemote = game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote
-    local rootPart = rickplayertarget.Character.HumanoidRootPart
+    local rootPart = asdasxzcplayertarget.Character.HumanoidRootPart
     sprayRemote:FireServer(id, Enum.NormalId.Top, 6, rootPart, rootPart.CFrame * CFrame.new(0, 3, 0))
-    -- Repeat for other directions using the custom ID
+    sprayRemote:FireServer(id, Enum.NormalId.Bottom, 6, rootPart, rootPart.CFrame * CFrame.new(0, 3.15, 0))
+sprayRemote:FireServer(id, Enum.NormalId.Bottom, 6, rootPart, rootPart.CFrame * CFrame.new(0, -2.8, 0))
+sprayRemote:FireServer(id, Enum.NormalId.Top, 6, rootPart, rootPart.CFrame * CFrame.new(0, -3, 0))
+gsprayRemote:FireServer(id, Enum.NormalId.Front, 6, rootPart, rootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+sprayRemote:FireServer(id, Enum.NormalId.Back, 6, rootPart, rootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+sprayRemote:FireServer(id, Enum.NormalId.Front, 6, rootPart, rootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+sprayRemote:FireServer(id, Enum.NormalId.Back, 6, rootPart, rootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+sprayRemote:FireServer(id, Enum.NormalId.Right, 6, rootPart, rootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+sprayRemote:FireServer(id, Enum.NormalId.Left, 6, rootPart, rootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+sprayRemote:FireServer(id, Enum.NormalId.Right, 6, rootPart, rootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+sprayRemote:FireServer(id, Enum.NormalId.Left, 6, rootPart, rootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local rickplayerloop = false
+local asdasxzcplayerloop = false
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "Box", Default = false })
 
-Toggle:OnChanged(function(rickplayer)
-    if rickplayer then
-        rickplayerloop = true
-        while rickplayerloop do
+Toggle:OnChanged(function(asdasxzcplayer)
+    if asdasxzcplayer then
+        asdasxzcplayerloop = true
+        while asdasxzcplayerloop do
             EquipSpray()
             task.wait(0.4)
             local infinityGauntlet = Options.MyToggle:Value()
             local players = game:GetService("Players")
             if infinityGauntlet == "All" then
                 for _, v in pairs(players:GetPlayers()) do
-                    local rickplayertarget = players:FindFirstChild(v.Name)
-                    if rickplayertarget then
-                        rickplayerfunc(customID)
+                    local asdasxzcplayertarget = players:FindFirstChild(v.Name)
+                    if asdasxzcplayertarget then
+                        asdasxzcplayerfunc(customID)
                         task.wait()
                     end
                 end
             else
-                local rickplayertarget = players:FindFirstChild(infinityGauntlet)
-                if rickplayertarget then
-                    rickplayerfunc(customID)
+                local asdasxzcplayertarget = players:FindFirstChild(infinityGauntlet)
+                if asdasxzcplayertarget then
+                    asdasxzcplayerfunc(customID)
                 end
             end
             task.wait(15)
         end
     else
-        rickplayerloop = false
+        asdasxzcplayerloop = false
     end
 end)
 
