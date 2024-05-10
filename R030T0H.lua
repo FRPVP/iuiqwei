@@ -1,22 +1,27 @@
-local function yiqwyroplayerfunc(sprayID)
-    local sprayRemote = game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote
-    local rootPart = yiqwyroplayertarget.Character.HumanoidRootPart
-    sprayRemote:FireServer(sprayID, Enum.NormalId.Top, 6, rootPart, rootPart.CFrame * CFrame.new(0, 3, 0))
-    -- Repeat for other directions using the same sprayID
+local function toiuyotplayerfunc(paintID)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Top, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Bottom, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Bottom, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Top, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Front, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Back, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Front, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Back, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Right, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Left, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Right, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(paintID, Enum.NormalId.Left, 6, (toiuyotplayertarget.Character.HumanoidRootPart), toiuyotplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
-local yiqwyroplayerloop = false
-local customSprayID = nil
-
 local Input = Tabs.Player:AddInput("Input", {
-    Title = "Input",
-    Default = "Default",
-    Placeholder = "Placeholder",
-    Numeric = true, -- Only allows numbers
-    Finished = true, -- Only calls callback when you press enter
+    Title = "Spray ID",
+    Default = "",
+    Placeholder = "Enter Spray Paint ID",
+    Numeric = true,
+    Finished = false,
     Callback = function(Value)
-        customSprayID = tonumber(Value) -- Convert input to number
-        print("Custom ID set to:", customSprayID)
+        print("Input changed:", Value)
+        paintID = tonumber(Value)
     end
 })
 
@@ -24,34 +29,36 @@ Input:OnChanged(function()
     print("Input updated:", Input.Value)
 end)
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Testing", Default = false })
+local paintID = tonumber(Input.Value)
 
-Toggle:OnChanged(function(yiqwyroplayer)
-    if yiqwyroplayer then
-        yiqwyroplayerloop = true
-        while yiqwyroplayerloop do
-            EquipSpray()
-            task.wait(0.4)
-            local infinityGauntlet = Options.MyToggle:Value()
-            local players = game:GetService("Players")
-            if infinityGauntlet == "All" then
-                for _, v in pairs(players:GetPlayers()) do
-                    local yiqwyroplayertarget = players:FindFirstChild(v.Name)
-                    if yiqwyroplayertarget then
-                        yiqwyroplayerfunc(customSprayID)
+local Toggle = Tabs.Premium:AddToggle("", {Title = "TESTING", Default = false })
+
+Toggle:OnChanged(function(toiuyotplayer)
+    if toiuyotplayer == true then
+        toiuyotplayerloop = true
+        while toiuyotplayerloop do
+            function toiuyotplayerloopfix()
+                EquipSpray()
+                task.wait(0.4)
+                if infinityGauntlet == "All" then
+                    for _, v in pairs(players:GetPlayers()) do
+                        toiuyotplayertarget = players:FindFirstChild(v.Name)
+                        toiuyotplayerfunc(paintID)
                         task.wait()
                     end
+                else
+                    toiuyotplayertarget = players:FindFirstChild(infinityGauntlet)
+                    toiuyotplayerfunc(paintID)
                 end
-            else
-                local yiqwyroplayertarget = players:FindFirstChild(infinityGauntlet)
-                if yiqwyroplayertarget then
-                    yiqwyroplayerfunc(customSprayID)
-                end
+                task.wait(15)
             end
-            task.wait(15)
+            wait()
+            pcall(toiuyotplayerloopfix)
         end
-    else
-        yiqwyroplayerloop = false
+    end
+    if toiuyotplayer == false then
+        toiuyotplayerloop = false
+        wait()
     end
 end)
 
