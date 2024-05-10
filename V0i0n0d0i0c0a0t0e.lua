@@ -5170,7 +5170,7 @@ end
 
 local kljklkjasplayerloop = false
 
-local Toggle = Tabs.Premium:AddToggle("", {Title = "Rickroll", Default = false })
+local Toggle = Tabs.Premium:AddToggle("", {Title = "testing", Default = false })
 
 Toggle:OnChanged(function(kljklkjasplayer)
     if kljklkjasplayer then
