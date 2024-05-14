@@ -27,11 +27,11 @@ function allowbigpenisfunc()
     localPlayer.Character.SprayPaint.Remote:FireServer(bigpenisId, Enum.NormalId.Top, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -0.6, -6.75))
     localPlayer.Character.SprayPaint.Remote:FireServer(bigpenisId, Enum.NormalId.Bottom, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -2.9, -4.5))
     localPlayer.Character.SprayPaint.Remote:FireServer(bigpenisId, Enum.NormalId.Bottom, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -2.9, -6.75))
-    localPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Left, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(-1.15, -1.75, -9))
-    localPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Right, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(1.15, -1.75, -9))
-    localPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Top, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -0.6, -9))
-    localPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Bottom, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -2.9, -9))
-    localPlayer.Character.SprayPaint.Remote:FireServer(14033250886, Enum.NormalId.Front, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -1.75, -10.15))
+    localPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Left, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(-1.15, -1.75, -9))
+    localPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Right, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(1.15, -1.75, -9))
+    localPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Top, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -0.6, -9))
+    localPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Bottom, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -2.9, -9))
+    localPlayer.Character.SprayPaint.Remote:FireServer(13850207336, Enum.NormalId.Front, 2.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -1.75, -10.15))
 end
 
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Big Penis", Default = false })
@@ -67,12 +67,12 @@ Toggle:OnChanged(function(allowbigpenis)
     end
 end)
 
-local Input = Tabs.Player:AddInput("Input", {
-    Title = "Input",
+local Input = Tabs.Premium:AddInput("Input", {
+    Title = "ID",
     Default = tostring(bigpenisId),
     Placeholder = "Enter Spray ID",
     Numeric = true, -- Only allows numbers
-    Finished = true, -- Only calls callback when you press enter
+    Finished = false, -- Only calls callback when you press enter
     Callback = function(Value)
         bigpenisId = tonumber(Value) or bigpenisId
         print("Spray ID changed:", bigpenisId)
