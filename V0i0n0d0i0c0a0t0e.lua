@@ -3405,34 +3405,16 @@ end)
 
 
 	
-local players = game:GetService("Players")
-local replicatedStorage = game:GetService("ReplicatedStorage")
-local LP = players.LocalPlayer
-
 function EquipSpray()
-    ReplicateToy("SprayPaint", 2) -- Replicate SprayPaint twice
+    game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
     wait()
-    
-    if LP.Backpack:FindFirstChild("SprayPaint") then
-        LP.Backpack.SprayPaint.Parent = LP.Character
-    elseif LP.Character:FindFirstChild("SprayPaint") then
-        -- SprayPaint is already in the character
-    else
-        -- Handle the case where SprayPaint is not found, if necessary
+    for _, obj in pairs(players.LocalPlayer.Backpack:GetChildren()) do
+        if obj.Name == "SprayPaint" then
+            obj.Parent = players.LocalPlayer.Character
+        end
     end
 end
 
-function ReplicateToy(toyName, replicateCount)
-    local remotes = replicatedStorage:WaitForChild("Remotes"):WaitForChild("Extras")
-    local replicateToyRemote = remotes:WaitForChild("ReplicateToy")
-    
-    for _ = 1, replicateCount do
-        replicateToyRemote:InvokeServer(toyName)
-    end
-end
-
--- Example of usage:
-EquipSpray()
 
 
 
