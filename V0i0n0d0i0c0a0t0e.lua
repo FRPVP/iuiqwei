@@ -4708,6 +4708,102 @@ end
 
 
 
+local Toggle = Tabs.Premium:AddToggle("MyToggle", {Title = "Custom Block", Default = false })
+
+local defaultSprayId = 12781220539  -- Default spray ID for the block 1
+
+local function giveTool()
+    local player = game.Players.LocalPlayer
+    local backpack = player.Backpack
+    local character = player.Character
+    local mouse = player:GetMouse()
+
+    if character then
+        local tool = Instance.new("Tool")
+        tool.RequiresHandle = false
+        tool.Name = "Custom Block"
+        
+        tool.Activated:Connect(function()
+            local sprayPaint
+
+            if backpack.Toys:FindFirstChild("SprayPaint") then
+                game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+                game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+                sprayPaint = backpack.SprayPaint
+                sprayPaint.Parent = character
+            elseif backpack:FindFirstChild("SprayPaint") then
+                sprayPaint = backpack.SprayPaint
+                sprayPaint.Parent = character
+            elseif character:FindFirstChild("SprayPaint") then
+                sprayPaint = character.SprayPaint
+            end
+
+            if sprayPaint then
+                local hitPos = mouse.Hit.Position
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(hitPos) * CFrame.new(0, 3.3, 0))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Bottom, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(hitPos) * CFrame.new(0, 0, 0))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Back, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(hitPos) * CFrame.new(0, 1.65, 1.65))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Front, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(hitPos) * CFrame.new(0, 1.65, -1.65))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Right, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(hitPos) * CFrame.new(1.65, 1.65, 0))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Left, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(hitPos) * CFrame.new(-1.65, 1.65, 0))
+                sprayPaint.Parent = backpack
+            end
+        end)
+
+        tool.Parent = backpack
+    end
+end
+
+local function removeTool()
+    local player = game.Players.LocalPlayer
+    local backpack = player.Backpack
+    local character = player.Character
+
+    local tool = backpack:FindFirstChild("Custom Block") or character:FindFirstChild("Custom Block")
+    if tool then
+        tool:Destroy()
+    end
+end
+
+Toggle:OnChanged(function()
+    if Options.MyToggle.Value then
+        giveTool()
+    else
+        removeTool()
+    end
+
+    print("Toggle changed:", Options.MyToggle.Value)
+end)
+
+Options.MyToggle:SetValue(false)
+
+game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+    if Options.MyToggle.Value then
+        giveTool()
+    end
+end)
+
+local Input = Tabs.Premium:AddInput("Input", {
+    Title = "ID",
+    Default = tostring(defaultSprayId),
+    Placeholder = "Enter Spray ID",
+    Numeric = true, -- Only allows numbers
+    Finished = false, -- Only calls callback when you press enter
+    Callback = function(Value)
+        defaultSprayId = tonumber(Value) or defaultSprayId
+        print("Default Spray ID changed:", defaultSprayId)
+    end
+})
+
+Input:OnChanged(function()
+    defaultSprayId = tonumber(Input.Value) or defaultSprayId
+    print("Default Spray ID updated:", defaultSprayId)
+end)
+
+
+
+
+
 
 
 function laughplayerfunc()
