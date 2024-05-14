@@ -1,5 +1,5 @@
 local Players = game:GetService("Players")
-local bigpenisId = 9418596904  -- Default spray ID
+local bigpenisId = 60484593  -- Default spray ID
 
 function allowbigpenisfunc()
     local localPlayer = Players.LocalPlayer
