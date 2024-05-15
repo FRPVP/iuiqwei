@@ -582,11 +582,11 @@ local section = Tabs.Visual:AddSection("ESP")
 
 
 
-        local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "ESP Players", Default = false })
+local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "ESP Players", Default = false })
 
-    Toggle:OnChanged(function(val)
-        getgenv().BetterESP = val
-    end)
+Toggle:OnChanged(function(val)
+    getgenv().BetterESP = val
+end)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -596,73 +596,65 @@ local roles
 
 -- > Functions <--
 
-function CreateBillboard() -- create billboards for new players
-    for i, v in pairs(Players:GetChildren()) do
-        if v ~= LP and v.Character then
-            local role = GetPlayerRole(v.Name)
+function CreateBillboard(player)
+    if player ~= LP and player.Character and not player.Character:FindFirstChild("Billboard") then
+        local role = GetPlayerRole(player.Name)
+        
+        if role and (role == "Innocent" or role == "Murderer" or role == "Sheriff" or role == "Hero") then
+            local billboard = Instance.new("BillboardGui", player.Character)
+            billboard.Name = "Billboard"
+            billboard.AlwaysOnTop = true
+            billboard.Size = UDim2.new(0, 200, 0, 50)
+            billboard.StudsOffset = Vector3.new(0, 3, 0)
+            billboard.Adornee = player.Character:FindFirstChild("Head")
             
-            if role and (role == "Innocent" or role == "Murderer" or role == "Sheriff" or role == "Hero") then
-                if not v.Character:FindFirstChild("Billboard") then
-                    local billboard = Instance.new("BillboardGui", v.Character)
-                    billboard.Name = "Billboard"
-                    billboard.AlwaysOnTop = true
-                    billboard.Size = UDim2.new(0, 200, 0, 50)
-                    billboard.StudsOffset = Vector3.new(0, 3, 0)
-                    billboard.Adornee = v.Character:FindFirstChild("Head") -- Adornee should be set to the head for proper positioning
-                    
-                    local nameLabel = Instance.new("TextLabel", billboard)
-                    nameLabel.Size = UDim2.new(1, 0, 1, 0)
-                    nameLabel.Text = v.Name
-                    nameLabel.TextColor3 = Color3.new(1, 1, 1)
-                    nameLabel.TextStrokeTransparency = 0.5
-                    nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-                    nameLabel.BackgroundTransparency = 1 -- Make the background (billboard) transparent
-                end
-            else
-                local billboard = v.Character:FindFirstChild("Billboard")
-                if billboard then
-                    billboard:Destroy()
-                end
-            end
+            local nameLabel = Instance.new("TextLabel", billboard)
+            nameLabel.Size = UDim2.new(1, 0, 1, 0)
+            nameLabel.Text = player.Name
+            nameLabel.TextColor3 = Color3.new(1, 1, 1)
+            nameLabel.TextStrokeTransparency = 0.5
+            nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+            nameLabel.BackgroundTransparency = 1
         end
     end
 end
 
-function UpdateBillboards() -- Update billboard colors based on roles
-    for _, v in pairs(Players:GetChildren()) do
-        if v ~= LP and v.Character and v.Character:FindFirstChild("Billboard") then
-            local billboard = v.Character:FindFirstChild("Billboard")
-            local nameLabel = billboard:FindFirstChild("TextLabel")
-            
-            local role = GetPlayerRole(v.Name)
-            
-            if IsAlive(v) then
-                if role == "Sheriff" then
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 225)
-                elseif role == "Murderer" then
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(225, 0, 0)
-                elseif role == "Hero" then
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(255, 250, 0)
+function UpdateBillboards()
+    for _, player in pairs(Players:GetChildren()) do
+        if player ~= LP and player.Character then
+            local billboard = player.Character:FindFirstChild("Billboard")
+            if billboard then
+                local nameLabel = billboard:FindFirstChild("TextLabel")
+                
+                local role = GetPlayerRole(player.Name)
+                
+                if IsAlive(player) then
+                    if role == "Sheriff" then
+                        nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 225)
+                    elseif role == "Murderer" then
+                        nameLabel.TextStrokeColor3 = Color3.fromRGB(225, 0, 0)
+                    elseif role == "Hero" then
+                        nameLabel.TextStrokeColor3 = Color3.fromRGB(255, 250, 0)
+                    else
+                        nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 225, 0)
+                    end
                 else
-                    nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 225, 0)
+                    nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
                 end
             else
-                nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
+                CreateBillboard(player)
             end
         end
     end
 end    
 
-function IsAlive(Player) -- Simple sexy function
+function IsAlive(Player)
     for i, v in pairs(roles) do
         if Player.Name == i then
-            if not v.Killed and not v.Dead then
-                return true
-            else
-                return false
-            end
+            return not v.Killed and not v.Dead
         end
     end
+    return false
 end
 
 function GetPlayerRole(playerName)
@@ -680,20 +672,17 @@ RunService.RenderStepped:Connect(function()
     roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
     
     if getgenv().BetterESP then
-        CreateBillboard()
         UpdateBillboards()
     else
-        for _, v in pairs(Players:GetChildren()) do
-            if v ~= LP and v.Character and v.Character:FindFirstChild("Billboard") then
-                local billboard = v.Character:FindFirstChild("Billboard")
-                billboard:Destroy()
+        for _, player in pairs(Players:GetChildren()) do
+            if player ~= LP and player.Character and player.Character:FindFirstChild("Billboard") then
+                player.Character:FindFirstChild("Billboard"):Destroy()
             end
         end
     end
 end)
 
-
-    Options.MyToggle:SetValue(false)
+Options.MyToggle:SetValue(false)
 
 
 
