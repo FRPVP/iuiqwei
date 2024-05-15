@@ -2617,21 +2617,40 @@ end
 local Toggle = Tabs.Premium:AddToggle("", {Title = "Loop Break Gun", Default = false })
 
 local loopBreakG = nil
+local RS = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
 
 Toggle:OnChanged(function(val)
     if val then
         loopBreakG = RS.RenderStepped:Connect(function()
-            for _, v in pairs(game:GetService("Players"):GetPlayers()) do
-                if v ~= game.Players.LocalPlayer and v.Backpack:FindFirstChild("Gun") and v.Character ~= nil then
-                    v.Backpack.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
-                elseif v ~= game.Players.LocalPlayer and v.Character:FindFirstChild("Gun") and v.Character ~= nil then
-                    v.Character.Gun.KnifeServer.ShootGun:InvokeServer(1, 0, "AH")
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= LP then
+                    local backpackGun = player.Backpack:FindFirstChild("Gun")
+                    local characterGun = player.Character and player.Character:FindFirstChild("Gun")
+                    
+                    if backpackGun then
+                        local knifeServer = backpackGun:FindFirstChild("KnifeServer")
+                        if knifeServer then
+                            pcall(function()
+                                knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                            end)
+                        end
+                    elseif characterGun then
+                        local knifeServer = characterGun:FindFirstChild("KnifeServer")
+                        if knifeServer then
+                            pcall(function()
+                                knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                            end)
+                        end
+                    end
                 end
             end
         end)
     else
         if loopBreakG then
             loopBreakG:Disconnect()
+            loopBreakG = nil
         end
     end
 end)
