@@ -38,41 +38,101 @@ do
 
 local section = Tabs.Player:AddSection("Mods")
     
-    local Slider = Tabs.Player:AddSlider("Slider", {
-        Title = "Walkspeed",
-        Description = "Increase/Decrease the speed of your walk",
-        Default = 2,
-        Min = 16,
-        Max = 300,
-        Rounding = 1,
-        Callback = function(vv)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = vv
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local Slider = Tabs.Player:AddSlider("Slider", {
+    Title = "Walkspeed",
+    Description = "Increase/Decrease the speed of your walk",
+    Default = 16,
+    Min = 16,
+    Max = 300,
+    Rounding = 1,
+    Callback = function(vv)
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            LocalPlayer.Character.Humanoid.WalkSpeed = vv
         end
-    })
+    end
+})
 
-    Slider:OnChanged(function(vv)
-        print("Slider changed:", vv)
-    end)
+-- Store the current walk speed value
+local currentWalkSpeed = 16
 
-    Slider:SetValue(16)
+Slider:OnChanged(function(vv)
+    print("Slider changed:", vv)
+    currentWalkSpeed = vv
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.WalkSpeed = vv
+    end
+end)
+
+-- Function to set the walk speed
+local function setWalkSpeed()
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.WalkSpeed = currentWalkSpeed
+    end
+end
+
+-- Connect CharacterAdded event to reapply walk speed on respawn
+LocalPlayer.CharacterAdded:Connect(function()
+    -- Wait for the character to be fully loaded
+    LocalPlayer.Character:WaitForChild("Humanoid")
+    setWalkSpeed()
+end)
+
+-- Set initial value
+Slider:SetValue(16)
     
     
     
-    
-        local Input = Tabs.Player:AddInput("Input", {
-        Title = "Walkspeed",
-        Default = "16",
-        Placeholder = "Placeholder",
-        Numeric = true, -- Only allows numbers
-        Finished = true, -- Only calls callback when you press enter
-        Callback = function(vv)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = vv
+
+
+
+	
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local Input = Tabs.Player:AddInput("Input", {
+    Title = "Walkspeed",
+    Default = "16",
+    Placeholder = "Placeholder",
+    Numeric = true, -- Only allows numbers
+    Finished = true, -- Only calls callback when you press enter
+    Callback = function(vv)
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(vv)
         end
-    })
+        currentWalkSpeed = tonumber(vv) -- Store the current walk speed
+    end
+})
 
-    Input:OnChanged(function()
-        print("Input updated:", Input.vv)
-    end)
+-- Store the current walk speed value
+local currentWalkSpeed = 16
+
+Input:OnChanged(function()
+    print("Input updated:", Input.Value)
+    currentWalkSpeed = tonumber(Input.Value)
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.WalkSpeed = currentWalkSpeed
+    end
+end)
+
+-- Function to set the walk speed
+local function setWalkSpeed()
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.WalkSpeed = currentWalkSpeed
+    end
+end
+
+-- Connect CharacterAdded event to reapply walk speed on respawn
+LocalPlayer.CharacterAdded:Connect(function()
+    -- Wait for the character to be fully loaded
+    LocalPlayer.Character:WaitForChild("Humanoid")
+    setWalkSpeed()
+end)
+
+-- Set initial value
+Input:SetValue("16")
     
     
     
