@@ -1807,14 +1807,73 @@ local section = Tabs.Emotes:AddSection("MM2")
     
     
             Tabs.Emotes:AddButton({
-        Title = "Get Emotes",
-        Description = "",
-        Callback = function()
-require(game:GetService('ReplicatedStorage').Modules.EmoteModule).GeneratePage({"headless","zombie","zen","ninja","floss","dab","sit"},game:GetService("Players").LocalPlayer.PlayerGui.MainGUI.Game:FindFirstChild("Emotes"),'IDE-Ware Emotes')
-        end
-    })
+    Title = "Zen",
+    Description = "",
+    Callback = function()
+    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("zen")
+    end
+})
+
+
+            Tabs.Emotes:AddButton({
+    Title = "Headless",
+    Description = "",
+    Callback = function()
+    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("headless")
+    end
+})
     
     
+
+            Tabs.Emotes:AddButton({
+    Title = "Zombie",
+    Description = "",
+    Callback = function()
+    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("zombie")
+    end
+})
+
+
+
+            Tabs.Emotes:AddButton({
+    Title = "Ninja",
+    Description = "",
+    Callback = function()
+    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("ninja")
+    end
+})
+
+
+
+            Tabs.Emotes:AddButton({
+    Title = "Floss",
+    Description = "",
+    Callback = function()
+    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("floss")
+    end
+})
+
+
+
+            Tabs.Emotes:AddButton({
+    Title = "Dab",
+    Description = "",
+    Callback = function()
+    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("dab")
+    end
+})
+
+
+
+            Tabs.Emotes:AddButton({
+    Title = "Sit",
+    Description = "",
+    Callback = function()
+    ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("sit")
+    end
+})
+
+
 
 
 
