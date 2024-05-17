@@ -1881,35 +1881,88 @@ local section = Tabs.Emotes:AddSection("Custom")
 
 
 
-local Anim = Instance.new("Animation")
-Anim.AnimationId = "rbxassetid://717879555"
-local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
-local FloatSlashACTIVE = false
-
 local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Float Slash", Default = false })
+
+local AnimationId = "rbxassetid://717879555"
+local track = nil
+local FloatSlashACTIVE = false
 
 Toggle:OnChanged(function()
     print("Toggle changed:", Toggle.Value)
     if Toggle.Value then
-        if not FloatSlashACTIVE then
-            FloatSlashACTIVE = true
-            while wait() do
-                if track.IsPlaying == false then
-                    if FloatSlashACTIVE then
-                        track:Play(.1, 1, 1)
-                    end
+        if not track then
+            local Anim = Instance.new("Animation")
+            Anim.AnimationId = AnimationId
+            track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+        end
+        
+        -- Function to play the animation continuously
+        local function PlayLoop()
+            while FloatSlashACTIVE do
+                if not track.IsPlaying then
+                    track:Play()
                 end
+                wait(0) -- Adjust the delay between checks as needed
             end
         end
+        
+        -- Start playing the animation loop
+        FloatSlashACTIVE = true
+        PlayLoop()
     else
-        FloatSlashACTIVE = false
-        track:Stop()
+        -- Stop animation if toggle is turned off
+        if track then
+            track:Stop()
+            FloatSlashACTIVE = false
+        end
     end
 end)
 
 Options.MyToggle:SetValue(false)
 
 
+
+
+
+
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Down Slash", Default = false })
+
+local AnimationId = "rbxassetid://746398327"
+local track = nil
+local DownSlashACTIVE = false
+
+Toggle:OnChanged(function()
+    print("Toggle changed:", Toggle.Value)
+    if Toggle.Value then
+        if not track then
+            local Anim = Instance.new("Animation")
+            Anim.AnimationId = AnimationId
+            track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+        end
+        
+        -- Function to play the animation continuously
+        local function PlayLoop()
+            while DownSlashACTIVE do
+                if not track.IsPlaying then
+                    track:Play(.1, 1, 1)
+                end
+                wait(0) -- Adjust the delay between checks as needed
+            end
+        end
+        
+        -- Start playing the animation loop
+        DownSlashACTIVE = true
+        PlayLoop()
+    else
+        -- Stop animation if toggle is turned off
+        if track then
+            track:Stop()
+            DownSlashACTIVE = false
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
 
 
 
