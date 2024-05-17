@@ -1876,6 +1876,48 @@ local section = Tabs.Emotes:AddSection("MM2")
 
 
 
+local section = Tabs.Emotes:AddSection("Custom")
+
+
+
+
+local Anim = Instance.new("Animation")
+Anim.AnimationId = "rbxassetid://717879555"
+local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+local FloatSlashACTIVE = false
+
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "test", Default = false })
+
+Toggle:OnChanged(function()
+    print("Toggle changed:", Toggle.Value)
+    if Toggle.Value then
+        if not FloatSlashACTIVE then
+            FloatSlashACTIVE = true
+            while wait() do
+                if track.IsPlaying == false then
+                    if FloatSlashACTIVE then
+                        track:Play(.1, 1, 1)
+                    end
+                end
+            end
+        end
+    else
+        FloatSlashACTIVE = false
+        track:Stop()
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+
+
+
 
 
 local section = Tabs.Animations:AddSection("Roblox")
