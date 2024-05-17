@@ -1184,8 +1184,15 @@ end
 
 	
 
+local RS = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local Gameplay = Remotes:WaitForChild("Gameplay")
+local StealthRemote = Gameplay:WaitForChild("Stealth")
+
 local Stealth -- Declare Stealth variable outside of the scope
 
+-- Assuming Tabs and Options are properly defined elsewhere in your script
 local Toggle = Tabs.Trolling:AddToggle("", {Title = "Ghost", Default = false })
 
 Toggle:OnChanged(function()
@@ -1194,19 +1201,21 @@ Toggle:OnChanged(function()
     if val then
         -- If toggle is turned on, activate Stealth
         Stealth = RS.RenderStepped:Connect(function()
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(true)
+            StealthRemote:FireServer(true)
         end)
     else
         -- If toggle is turned off, disconnect the Stealth activation
         if Stealth then
             Stealth:Disconnect()
+            Stealth = nil
         end
         -- Deactivate Stealth
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("Stealth"):FireServer(false)
+        StealthRemote:FireServer(false)
     end
 end)
 
-Options.MyToggle:SetValue(false) -- Ensure the toggle starts in the off position
+-- Ensure the toggle starts in the off position
+Options.MyToggle:SetValue(false)
 
 
 
