@@ -1969,7 +1969,140 @@ Options.MyToggle:SetValue(false)
 
 
 
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Arms Out", Default = false })
 
+local AnimationId = "rbxassetid://582384156"
+local track = nil
+local ArmsOutACTIVE = false
+
+Toggle:OnChanged(function()
+    print("Toggle changed:", Toggle.Value)
+    if Toggle.Value then
+        if not track then
+            local Anim = Instance.new("Animation")
+            Anim.AnimationId = AnimationId
+            track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+        end
+        
+        -- Function to play the animation continuously
+        local function PlayLoop()
+            while ArmsOutACTIVE do
+                if not track.IsPlaying then
+                    track:Play(.1, 1, 1)
+                end
+                wait(0) -- Adjust the delay between checks as needed
+            end
+        end
+        
+        -- Start playing the animation loop
+        ArmsOutACTIVE = true
+        PlayLoop()
+    else
+        -- Stop animation if toggle is turned off
+        if track then
+            track:Stop()
+            ArmsOutACTIVE = false
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+	
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Spinner", Default = false })
+
+local AnimationId = "rbxassetid://754658275"
+local track = nil
+local R15SpinnerACTIVE = false
+
+Toggle:OnChanged(function()
+    print("Toggle changed:", Toggle.Value)
+    if Toggle.Value then
+        if not track then
+            local Anim = Instance.new("Animation")
+            Anim.AnimationId = AnimationId
+            track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+        end
+        
+        -- Function to play the animation continuously
+        local function PlayLoop()
+            while R15SpinnerACTIVE do
+                if not track.IsPlaying then
+                    track:Play(.1, 1, 1)
+                end
+                wait(0) -- Adjust the delay between checks as needed
+            end
+        end
+        
+        -- Start playing the animation loop
+        R15SpinnerACTIVE = true
+        PlayLoop()
+    else
+        -- Stop animation if toggle is turned off
+        if track then
+            track:Stop()
+            R15SpinnerACTIVE = false
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+
+
+
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Crazy Slash", Default = false })
+
+local AnimationId = "rbxassetid://674871189"
+local track = nil
+local CrazySlashACTIVE = false
+
+Toggle:OnChanged(function()
+    print("Toggle changed:", Toggle.Value)
+    if Toggle.Value then
+        if not track then
+            local Anim = Instance.new("Animation")
+            Anim.AnimationId = AnimationId
+            track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+        end
+        
+        -- Function to play the animation continuously
+        local function PlayLoop()
+            while CrazySlashACTIVE do
+                if not track.IsPlaying then
+                    track:Play(.1, 1, 1)
+                end
+                wait(0) -- Adjust the delay between checks as needed
+            end
+        end
+        
+        -- Start playing the animation loop
+        CrazySlashACTIVE = true
+        PlayLoop()
+    else
+        -- Stop animation if toggle is turned off
+        if track then
+            track:Stop()
+            CrazySlashACTIVE = false
+        end
+    end
+end)
+
+Options.MyToggle:SetValue(false)
+
+
+
+
+	
+
+
+	
 
 
 
