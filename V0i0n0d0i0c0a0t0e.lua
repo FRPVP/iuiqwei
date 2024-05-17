@@ -1886,7 +1886,7 @@ Anim.AnimationId = "rbxassetid://717879555"
 local track = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
 local FloatSlashACTIVE = false
 
-local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "test", Default = false })
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Float Slash", Default = false })
 
 Toggle:OnChanged(function()
     print("Toggle changed:", Toggle.Value)
