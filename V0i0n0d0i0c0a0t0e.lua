@@ -1887,7 +1887,14 @@ local animationIds = {
     ["Down Slash"] = "rbxassetid://746398327",
     ["Arms Out"] = "rbxassetid://582384156",
     ["Spinner"] = "rbxassetid://754658275",
-    ["Crazy Slash"] = "rbxassetid://674871189"
+    ["Crazy Slash"] = "rbxassetid://674871189",
+    ["Weird Zombie"] = "rbxassetid://708553116",
+    ["Pull"] = "rbxassetid://675025795",
+    ["Open"] = "rbxassetid://582855105",
+    ["Circle Arm"] = "rbxassetid://698251653",
+    ["Bend"] = "rbxassetid://696096087",
+    ["Rotate Slash"] = "rbxassetid://675025570",
+    ["Flail Arms"] = "rbxassetid://754656200",
 }
 
 local currentAnimation = nil
@@ -1910,7 +1917,7 @@ end
 
 local Dropdown = Tabs.Emotes:AddDropdown("Dropdown", {
     Title = "Dropdown",
-    Values = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash"},
+    Values = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms"},
     Multi = false,
     Default = 1,
 })
