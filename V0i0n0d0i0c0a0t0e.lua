@@ -1916,7 +1916,7 @@ local function StopAnimation()
 end
 
 local Dropdown = Tabs.Emotes:AddDropdown("Dropdown", {
-    Title = "Dropdown",
+    Title = "Energizer Emotes",
     Values = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms"},
     Multi = false,
     Default = 1,
