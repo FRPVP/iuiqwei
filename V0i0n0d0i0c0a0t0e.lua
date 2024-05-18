@@ -1883,11 +1883,11 @@ local section = Tabs.Emotes:AddSection("Custom")
 
 -- Define the animation IDs corresponding to the dropdown values
 local animationIds = {
-    ["one"] = "rbxassetid://717879555",
-    ["two"] = "rbxassetid://746398327",
-    ["three"] = "rbxassetid://582384156",
-    ["four"] = "rbxassetid://754658275",
-    ["five"] = "rbxassetid://674871189"
+    ["Float Slash"] = "rbxassetid://717879555",
+    ["Down Slash"] = "rbxassetid://746398327",
+    ["Arms Out"] = "rbxassetid://582384156",
+    ["Spinner"] = "rbxassetid://754658275",
+    ["Crazy Slash"] = "rbxassetid://674871189"
 }
 
 local currentAnimation = nil
@@ -1910,12 +1910,12 @@ end
 
 local Dropdown = Tabs.Emotes:AddDropdown("Dropdown", {
     Title = "Dropdown",
-    Values = {"one", "two", "three", "four", "five"},
+    Values = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash"},
     Multi = false,
     Default = 1,
 })
 
-Dropdown:SetValue("four")
+Dropdown:SetValue("Float Slash")
 
 Dropdown:OnChanged(function(Value)
     print("Dropdown changed:", Value)
@@ -1929,7 +1929,7 @@ Dropdown:OnChanged(function(Value)
     currentAnimation = Value
 end)
 
-local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Toggle", Default = false })
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Toggle Emote", Default = false })
 
 Toggle:OnChanged(function()
     print("Toggle changed:", Toggle.Value)
