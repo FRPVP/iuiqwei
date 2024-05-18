@@ -1908,7 +1908,7 @@ local function StopAnimation()
     end
 end
 
-local Dropdown = Tabs.Player:AddDropdown("Dropdown", {
+local Dropdown = Tabs.Emotes:AddDropdown("Dropdown", {
     Title = "Dropdown",
     Values = {"one", "two", "three", "four", "five"},
     Multi = false,
@@ -1929,7 +1929,7 @@ Dropdown:OnChanged(function(Value)
     currentAnimation = Value
 end)
 
-local Toggle = Tabs.Player:AddToggle("MyToggle", {Title = "Toggle", Default = false })
+local Toggle = Tabs.Emotes:AddToggle("MyToggle", {Title = "Toggle", Default = false })
 
 Toggle:OnChanged(function()
     print("Toggle changed:", Toggle.Value)
