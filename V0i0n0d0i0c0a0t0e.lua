@@ -646,18 +646,30 @@ local Toggle = Tabs.Visual:AddToggle("MyToggle", {Title = "ESP Players", Default
 
 Toggle:OnChanged(function(val)
     getgenv().BetterESP = val
+    
+    if not val then
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LP and player.Character and player.Character:FindFirstChild("Billboard") then
+                player.Character:FindFirstChild("Billboard"):Destroy()
+            end
+        end
+    else
+        for _, player in pairs(Players:GetPlayers()) do
+            CreateBillboard(player)
+        end
+    end
 end)
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LP = Players.LocalPlayer
-local roles
+local roles = {}
 
 -- > Functions <--
 
 function CreateBillboard(player)
-    if player ~= LP and player.Character and not player.Character:FindFirstChild("Billboard") then
+    if player ~= LP and player.Character and player.Character:FindFirstChild("Head") and not player.Character:FindFirstChild("Billboard") then
         local role = GetPlayerRole(player.Name)
         
         if role and (role == "Innocent" or role == "Murderer" or role == "Sheriff" or role == "Hero") then
@@ -679,64 +691,83 @@ function CreateBillboard(player)
     end
 end
 
-function UpdateBillboards()
-    for _, player in pairs(Players:GetChildren()) do
-        if player ~= LP and player.Character then
-            local billboard = player.Character:FindFirstChild("Billboard")
-            if billboard then
-                local nameLabel = billboard:FindFirstChild("TextLabel")
-                
-                local role = GetPlayerRole(player.Name)
-                
-                if IsAlive(player) then
-                    if role == "Sheriff" then
-                        nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 225)
-                    elseif role == "Murderer" then
-                        nameLabel.TextStrokeColor3 = Color3.fromRGB(225, 0, 0)
-                    elseif role == "Hero" then
-                        nameLabel.TextStrokeColor3 = Color3.fromRGB(255, 250, 0)
-                    else
-                        nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 225, 0)
-                    end
-                else
-                    nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
-                end
+function UpdateBillboard(player)
+    local billboard = player.Character and player.Character:FindFirstChild("Billboard")
+    if billboard then
+        local nameLabel = billboard:FindFirstChild("TextLabel")
+        
+        local role = GetPlayerRole(player.Name)
+        
+        if IsAlive(player) then
+            if role == "Sheriff" then
+                nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 225)
+            elseif role == "Murderer" then
+                nameLabel.TextStrokeColor3 = Color3.fromRGB(225, 0, 0)
+            elseif role == "Hero" then
+                nameLabel.TextStrokeColor3 = Color3.fromRGB(255, 250, 0)
             else
-                CreateBillboard(player)
+                nameLabel.TextStrokeColor3 = Color3.fromRGB(0, 225, 0)
             end
+        else
+            nameLabel.TextStrokeColor3 = Color3.new(0, 0, 0)
         end
+    else
+        CreateBillboard(player)
     end
 end    
 
-function IsAlive(Player)
-    for i, v in pairs(roles) do
-        if Player.Name == i then
-            return not v.Killed and not v.Dead
-        end
+function IsAlive(player)
+    local playerData = roles[player.Name]
+    if playerData then
+        return not playerData.Killed and not playerData.Dead
     end
     return false
 end
 
 function GetPlayerRole(playerName)
-    for i, v in pairs(roles) do
-        if i == playerName then
-            return v.Role
-        end
+    local playerData = roles[playerName]
+    if playerData then
+        return playerData.Role
     end
     return nil
 end
 
--- Loops --
+-- Event Handlers --
+
+Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        if getgenv().BetterESP then
+            CreateBillboard(player)
+        end
+    end)
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    if player.Character and player.Character:FindFirstChild("Billboard") then
+        player.Character:FindFirstChild("Billboard"):Destroy()
+    end
+end)
+
+-- Initial Setup --
+
+for _, player in pairs(Players:GetPlayers()) do
+    player.CharacterAdded:Connect(function(character)
+        if getgenv().BetterESP then
+            CreateBillboard(player)
+        end
+    end)
+end
 
 RunService.RenderStepped:Connect(function()
-    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+    local playerDataRemote = ReplicatedStorage:FindFirstChild("GetPlayerData", true)
+    if playerDataRemote then
+        roles = playerDataRemote:InvokeServer()
+    end
     
     if getgenv().BetterESP then
-        UpdateBillboards()
-    else
-        for _, player in pairs(Players:GetChildren()) do
-            if player ~= LP and player.Character and player.Character:FindFirstChild("Billboard") then
-                player.Character:FindFirstChild("Billboard"):Destroy()
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LP and player.Character then
+                UpdateBillboard(player)
             end
         end
     end
