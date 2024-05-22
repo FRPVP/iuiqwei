@@ -26,7 +26,6 @@ local Tabs = {
     Trolling = Window:AddTab({ Title = "Trolling", Icon = "" }),
     Autofarm = Window:AddTab({ Title = "Autofarm", Icon = "" }),
     Emotes = Window:AddTab({ Title = "Emotes", Icon = "" }),
-    Animations = Window:AddTab({ Title = "Animations", Icon = "" }),
     Premium = Window:AddTab({ Title = "Premium", Icon = "" }),
     Settings = Window:AddTab({ Title = "Settings", Icon = "" })
 }
@@ -5129,89 +5128,6 @@ Tabs.Trolling:AddButton({
 
 
 
-
-
-
-
-
-
-local section = Tabs.Animations:AddSection("MM2")
-
-
-
-
-
-
-Tabs.Animations:AddButton({
-    Title = "Break Your Arm",
-    Description = "you will soon realize it's literal (reset a couple of times to fix)",
-    Callback = function()
-    local lp = game.Players.LocalPlayer
-local knife = lp.Character:WaitForChild("KnifeDisplay")
-knife.Massless = true
-
-local animation1 = Instance.new("Animation")
-animation1.AnimationId = "rbxassetid://2467567750"
-local animation2 = Instance.new("Animation")
-animation2.AnimationId = "rbxassetid://1957890538"
-local anims = {animation1, animation2}
-
--- Play the animation continuously
-while wait(0.1) do
-    local an = lp.Character.Humanoid:LoadAnimation(anims[math.random(1, 2)])
-    an:Play()
-end
-
-local aa = Instance.new("Attachment")
-local ba = Instance.new("Attachment")
-local hinge = Instance.new("HingeConstraint", knife)
-hinge.Attachment0 = aa
-hinge.Attachment1 = ba
-hinge.LimitsEnabled = true
-hinge.LowerAngle = 0
-hinge.Restitution = 0
-hinge.UpperAngle = 0
-
-for _, v in pairs(lp.Character:WaitForChild("UpperTorso"):GetChildren()) do
-    if v:IsA("Weld") and v.Part1 == knife then
-        v:Destroy()
-        break
-    end
-end
-
-game:GetService("RunService").Heartbeat:Connect(function()
-    setsimulationradius(1 / 0, 1 / 0)
-    if lp.Character and knife then
-        knife.CFrame = lp.Character:WaitForChild("UpperTorso").CFrame * CFrame.new(-0.200027466, -0.399999619, 0.5, 3.22982669e-05, -0.707153201, 0.707060337, 1.33886933e-05, 0.707060337, 0.707153141, -1, -1.33812428e-05, 3.22982669e-05)
-    end
-end)
-end
-})
-
-
-
-local section = Tabs.Settings:AddSection("Player")
-
-Tabs.Settings:AddButton({
-    Title = "Reset Yourself",
-    Description = "",
-    Callback = function()
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
--- Function to reset the character
-local function resetCharacter()
-    character:BreakJoints()
-end
-
--- Reset the character immediately upon script execution
-resetCharacter()
-end
-})
-
-
-
-
 Tabs.Settings:AddButton({
     Title = "Kick Yourself",
     Description = "",
@@ -5373,7 +5289,97 @@ end
 
 
 
+Tabs.Autofarm:AddButton({
+    Title = "Autofarm",
+    Description = "",
+    Callback = function()
+local tweens = game:GetService('TweenService')
+local speed = 30
+local pppp = nil
+local res = false
 
+local farm = false
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
+
+local Window = Library.CreateLib('Murder Mystery 2 ', 'RJTheme3')
+
+local Tab = Window:NewTab('AutoFarm')
+
+local Tab2 = Window:NewTab('Credits')
+
+local Selection2 = Tab2:NewSection('By Klok')
+
+local Selection = Tab:NewSection('Farm Setting')
+
+Selection:NewSlider("Speed", "Farm speed", 50, 30, function(s)
+    speed = s
+end)
+
+Selection:NewToggle("Enabled", "Farm enabled", function(o)
+    farm = o
+end)
+
+Selection:NewToggle("Auto reset", "Auto reset after full", function(o)
+    res = o
+end)
+
+Selection:NewButton("Anti-AFK", "Anti-AFK", function()
+    repeat wait() until game:IsLoaded()
+        game:GetService("Players").LocalPlayer.Idled:connect(function()
+        game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+    end)
+end)
+
+
+
+while wait(1) do
+    if farm == true then
+        if game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Coin').Visible == true and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Egg').CurrencyFrame.Icon.Coins.Text ~= '20' and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.CurrencyFrame.Icon.Coins.Text ~= '40' then
+            for i,v in pairs(game.Workspace:WaitForChild('Normal'):WaitForChild('CoinContainer'):GetChildren()) do
+                if pppp == nil then
+                    pppp = v
+
+                elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude <= (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - pppp.Position).Magnitude and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude > 1 then
+                    pppp = v
+                end
+            end
+
+            local v = pppp
+
+            local time = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude/speed
+            if v:FindFirstChild('CoinVisual') then
+                pppp = v:FindFirstChild('CoinVisual')
+            else
+                pppp = v
+            end
+
+            -- game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+            --print(game.Workspace.Gravity)
+            --game.Workspace.Gravity = 170
+
+            
+            local tween = tweens:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {CFrame = pppp.CFrame})
+            tween:Play()
+            --noclip()
+
+            wait(time+0.2)
+            v:Destroy()
+            
+            pppp = nil
+
+            wait(0.1)
+            if game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Egg').CurrencyFrame.Icon.Coins.Text == '20' and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.CurrencyFrame.Icon.Coins.Text == '40' then
+                if res == true then
+                    game.Players.LocalPlayer.Character:Load()
+                end
+            end
+            --noclip()
+        end
+    end
+end
+end
+})
 
 
 
