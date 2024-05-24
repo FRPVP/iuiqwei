@@ -45,6 +45,122 @@ end
 sit()
 end)
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Store the current walk speed value
+local currentWalkSpeed = 16
+
+local Slider = Page:AddSlider("Walk Speed", {
+    Minimum = 16,  -- Assuming walk speed should not go below 16
+    Maximum = 300,  -- Assuming maximum walk speed as 300
+    Default = currentWalkSpeed  -- Initial walk speed value
+}, function(Value)
+    -- Update the walk speed whenever the slider value changes
+    currentWalkSpeed = Value
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+    print("Slider value changed:", Value)
+end)
+
+-- Function to set the walk speed
+local function setWalkSpeed()
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.WalkSpeed = currentWalkSpeed
+    end
+end
+
+-- Connect CharacterAdded event to reapply walk speed on respawn
+LocalPlayer.CharacterAdded:Connect(function()
+    -- Wait for the character to be fully loaded
+    local character = LocalPlayer.Character
+    if character then
+        character:WaitForChild("Humanoid")
+        setWalkSpeed()
+    end
+end)
+
+-- Set initial walk speed value
+setWalkSpeed()
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Store the current jump power value
+local currentJumpPower = 50
+
+local Slider = Page:AddSlider("Jump Power", {
+    Minimum = 50,  -- Minimum jump power
+    Maximum = 300,  -- Maximum jump power
+    Default = currentJumpPower  -- Initial jump power value
+}, function(Value)
+    -- Update the jump power whenever the slider value changes
+    currentJumpPower = Value
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+    print("Slider value changed:", Value)
+end)
+
+-- Function to set the jump power
+local function setJumpPower()
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.JumpPower = currentJumpPower
+    end
+end
+
+-- Connect CharacterAdded event to reapply jump power on respawn
+LocalPlayer.CharacterAdded:Connect(function()
+    -- Wait for the character to be fully loaded
+    local character = LocalPlayer.Character
+    if character then
+        character:WaitForChild("Humanoid")
+        setJumpPower()
+    end
+end)
+
+-- Set initial jump power value
+setJumpPower()
+
+local Toggle = Page:AddToggle("Noclip", false, function(Value)
+    local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local Plr = Players.LocalPlayer
+        local Clipon = Value
+
+        local function toggleNoclip()
+            if Clipon then
+                print("Noclip turned on")
+                RunService:BindToRenderStep("Noclip", Enum.RenderPriority.First.Value, function()
+                    -- Disable collision for player's parts
+                    for _, part in ipairs(Plr.Character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                end)
+            else
+                print("Noclip turned off")
+                RunService:UnbindFromRenderStep("Noclip")
+                -- Restore collision for player's parts
+                for _, part in ipairs(Plr.Character:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = true
+                    end
+                end
+            end
+        end
+
+        toggleNoclip()
+end)
+
+
+
+
+
+
+
 
 
 
