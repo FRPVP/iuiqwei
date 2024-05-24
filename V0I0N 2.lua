@@ -465,9 +465,35 @@ end)
 -- Set initial fly speed value
 setFlySpeed()
 
+local Toggle = Page:AddToggle("Click TP", false, function(Value)
+Toggle = Value
 
+      local player = game.Players.LocalPlayer
+      local mouse = player:GetMouse()
 
+      local function Teleport()
+         if Toggle and mouse.Target then
+            player.Character.HumanoidRootPart.CFrame = mouse.Hit
+         end
+      end
 
+      mouse.Button1Down:Connect(Teleport)
+end)
+
+local Toggle = Page:AddToggle("Remove Kill Barriers", false, function(val)
+if val then
+while val do task.wait(0.7)
+pcall(function()
+if game.Workspace.Mansion2.GlitchProof.KillBrick then
+game.Workspace.Mansion2.GlitchProof.KillBrick:Destroy()
+end
+end)
+if not val then
+break
+end
+end
+end
+end)
 
 
 
