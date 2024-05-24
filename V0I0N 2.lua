@@ -680,3 +680,75 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 end)
+
+local BillboardGui = nil
+local RenderSteppedConnection = nil
+local Gun = Workspace:FindFirstChild("GunDrop")
+local ToggleValue = false
+
+local function CreateBillboardAboveGun(gun)
+    BillboardGui = Instance.new("BillboardGui")
+    BillboardGui.Adornee = gun
+    BillboardGui.Size = UDim2.new(0, 80, 0, 50) -- Decreased size for smaller text
+    BillboardGui.StudsOffset = Vector3.new(0, 3, 0) -- Adjust the height of the billboard
+    BillboardGui.AlwaysOnTop = true -- Ensure the billboard is always visible
+
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel.Text = "Gundrop"
+    TextLabel.Font = Enum.Font.SourceSansBold
+    TextLabel.TextColor3 = Color3.fromRGB(0,214,0,255)
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.TextScaled = true -- Allow the text to scale based on the size of the billboard
+    TextLabel.Parent = BillboardGui
+
+    BillboardGui.Parent = gun
+end
+
+local function DestroyBillboard()
+    if BillboardGui then
+        BillboardGui:Destroy()
+        BillboardGui = nil
+    end
+    if RenderSteppedConnection then
+        RenderSteppedConnection:Disconnect()
+        RenderSteppedConnection = nil
+    end
+end
+
+local function OnGunAdded(gun)
+    if ToggleValue then
+        CreateBillboardAboveGun(gun)
+    end
+end
+
+local function OnGunRemoved(gun)
+    DestroyBillboard()
+end
+
+local function ToggleChanged(newValue)
+    ToggleValue = newValue
+    if newValue then
+        if Gun then
+            OnGunAdded(Gun)
+        end
+    else
+        DestroyBillboard()
+    end
+    print("Toggle value changed to:", newValue)
+end
+
+local Toggle = Page:AddToggle("Gun ESP", false, ToggleChanged)
+
+Workspace.ChildAdded:Connect(function(child)
+    if child.Name == "GunDrop" then
+        Gun = child
+        OnGunAdded(child)
+    end
+end)
+
+Workspace.ChildRemoved:Connect(function(child)
+    if child.Name == "GunDrop" then
+        OnGunRemoved(child)
+    end
+end)
