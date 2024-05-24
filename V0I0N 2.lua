@@ -752,3 +752,73 @@ Workspace.ChildRemoved:Connect(function(child)
         OnGunRemoved(child)
     end
 end)
+
+local GunHighlight = nil
+local GunHandleAdornment = nil
+local RenderSteppedConnection = nil
+local ToggleValue = false
+
+local function CreateGunAdornment(gun)
+    GunHighlight = Instance.new("Highlight")
+    GunHandleAdornment = Instance.new("SphereHandleAdornment")
+
+    GunHandleAdornment.Radius = (gun.Size.X + gun.Size.Y + gun.Size.Z) / 3
+    GunHandleAdornment.Adornee = gun
+    GunHandleAdornment.Color3 = Color3.fromRGB(0,214,0,255)
+    GunHandleAdornment.Transparency = 0.2
+    GunHandleAdornment.AlwaysOnTop = true
+    GunHandleAdornment.ZIndex = 10
+    GunHandleAdornment.Parent = gun
+
+    local function UpdateGunHighlight()
+        if gun.Parent then
+            GunHighlight.Adornee = gun
+            GunHandleAdornment.Adornee = gun
+            GunHandleAdornment.Size = gun.Size + Vector3.new(0.05, 0.05, 0.05)
+            GunHighlight.Enabled = true
+            GunHandleAdornment.Visible = true
+        else
+            GunHighlight.Enabled = false
+            GunHandleAdornment.Visible = false
+        end
+    end
+
+    UpdateGunHighlight()
+
+    RenderSteppedConnection = game:GetService("RunService").RenderStepped:Connect(function()
+        UpdateGunHighlight()
+    end)
+end
+
+local function DestroyGunAdornment()
+    if GunHighlight then
+        GunHighlight:Destroy()
+    end
+    if GunHandleAdornment then
+        GunHandleAdornment:Destroy()
+    end
+    if RenderSteppedConnection then
+        RenderSteppedConnection:Disconnect()
+    end
+end
+
+local function ToggleChanged(newValue)
+    ToggleValue = newValue
+    if newValue then
+        for _, gun in ipairs(Workspace:GetChildren()) do
+            if gun.Name == "GunDrop" then
+                CreateGunAdornment(gun)
+            end
+        end
+        Workspace.ChildAdded:Connect(function(child)
+            if child.Name == "GunDrop" then
+                CreateGunAdornment(child)
+            end
+        end)
+    else
+        DestroyGunAdornment()
+    end
+    print("Toggle value changed to:", newValue)
+end
+
+local Toggle = Page:AddToggle("Gun Highlight", false, ToggleChanged)
