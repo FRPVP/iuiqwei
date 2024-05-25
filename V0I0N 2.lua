@@ -969,3 +969,31 @@ end
 -- Call the function directly without a key press
 teleportToGunDrop()
 end)
+
+local Button = Page:AddButton("Break Gun", function()
+    local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= LP then
+        local backpackGun = player.Backpack:FindFirstChild("Gun")
+        local characterGun = player.Character and player.Character:FindFirstChild("Gun")
+
+        if backpackGun then
+            local knifeServer = backpackGun:FindFirstChild("KnifeServer")
+            if knifeServer then
+                pcall(function()
+                    knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                end)
+            end
+        elseif characterGun then
+            local knifeServer = characterGun:FindFirstChild("KnifeServer")
+            if knifeServer then
+                pcall(function()
+                    knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                end)
+            end
+        end
+    end
+end
+end)
