@@ -867,3 +867,75 @@ for _, player in ipairs(game.Players:GetPlayers()) do
     end
 end
 end)
+
+
+local Page = Window:AddPage("Player")
+
+
+local Button = Page:AddButton("Shoot Murderer", function()
+local function findMurderer()
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Backpack:FindFirstChild("Knife") then
+            return i
+        end
+    end
+
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Character:FindFirstChild("Knife") then
+            return i
+        end
+    end
+
+    return nil
+end
+
+local function findSheriff()
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Backpack:FindFirstChild("Gun") then
+            return i
+        end
+    end
+
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Character:FindFirstChild("Gun") then
+            return i
+        end
+    end
+
+    return nil
+end
+
+local function shootMurderer()
+    local localPlayer = game.Players.LocalPlayer
+    local murderer = findMurderer()
+    local sheriff = findSheriff()
+
+    if sheriff ~= localPlayer then
+        return
+    end
+
+    if not murderer then
+        return
+    end
+
+    if not localPlayer.Character:FindFirstChild("Gun") then
+        local humanoid = localPlayer.Character:FindFirstChild("Humanoid")
+        if localPlayer.Backpack:FindFirstChild("Gun") then
+            humanoid:EquipTool(localPlayer.Backpack:FindFirstChild("Gun"))
+        else
+            return
+        end
+    end
+
+    local shootOffset = 1  -- Define shootOffset as per your requirements
+    local args = {
+        [1] = 1,
+        [2] = murderer.Character:FindFirstChild("HumanoidRootPart").Position + murderer.Character:FindFirstChild("Humanoid").MoveDirection * shootOffset,
+        [3] = "AH"
+    }
+
+    localPlayer.Character.Gun.KnifeServer.ShootGun:InvokeServer(unpack(args))
+end
+
+shootMurderer()
+end)
