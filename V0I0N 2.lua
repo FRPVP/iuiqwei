@@ -869,7 +869,7 @@ end
 end)
 
 
-local Page = Window:AddPage("Player")
+local Page = Window:AddPage("Combat")
 
 
 local Button = Page:AddButton("Shoot Murderer", function()
@@ -938,4 +938,34 @@ local function shootMurderer()
 end
 
 shootMurderer()
+end)
+
+local Button = Page:AddButton("Grab Gun", function()
+local player = game.Players.LocalPlayer
+local workspace = game:GetService("Workspace")
+
+-- Variable to store the original position
+local originalPosition = player.Character.HumanoidRootPart.CFrame
+
+-- Function to find and teleport to the GunDrop part
+local function teleportToGunDrop()
+    local gunDrop = workspace:WaitForChild("GunDrop") -- Wait for GunDrop to exist in Workspace
+
+    -- Check if GunDrop exists
+    if gunDrop then
+        -- Teleport the player to the GunDrop's position
+        player.Character:SetPrimaryPartCFrame(gunDrop.CFrame)
+        
+        -- Wait for a moment (adjust the time as needed)
+        wait(0.2)
+        
+        -- Teleport the player back to the original position
+        player.Character:SetPrimaryPartCFrame(originalPosition)
+    else
+        warn("GunDrop not found in Workspace")
+    end
+end
+
+-- Call the function directly without a key press
+teleportToGunDrop()
 end)
