@@ -1096,3 +1096,42 @@ TpVoid.Position = Vector3.new(-74, -9, 694)
 TpVoid.Size = Vector3.new(20,0,20)
         end
 end)
+
+local Page = Window:AddPage("Trolling")
+
+local Toggle = Page:AddToggle("Fake Gun", false, function(val)
+if val then
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+    [1] = true
+}))
+else
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+    [1] = false
+}))
+end
+end)
+
+local RS = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local Gameplay = Remotes:WaitForChild("Gameplay")
+local StealthRemote = Gameplay:WaitForChild("Stealth")
+
+local Stealth
+
+local Toggle = Page:AddToggle("Stealth", false, function(val)
+if val then
+        -- If toggle is turned on, activate Stealth
+        Stealth = RS.RenderStepped:Connect(function()
+            StealthRemote:FireServer(true)
+        end)
+    else
+        -- If toggle is turned off, disconnect the Stealth activation
+        if Stealth then
+            Stealth:Disconnect()
+            Stealth = nil
+        end
+        -- Deactivate Stealth
+        StealthRemote:FireServer(false)
+    end
+end)
