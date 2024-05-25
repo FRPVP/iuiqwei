@@ -997,3 +997,42 @@ for _, player in pairs(Players:GetPlayers()) do
     end
 end
 end)
+
+local loopBreakG = nil
+local RS = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+
+local Toggle = Page:AddToggle("Loop Break Gun", false, function(val)
+if val then
+        loopBreakG = RS.RenderStepped:Connect(function()
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= LP then
+                    local backpackGun = player.Backpack:FindFirstChild("Gun")
+                    local characterGun = player.Character and player.Character:FindFirstChild("Gun")
+                    
+                    if backpackGun then
+                        local knifeServer = backpackGun:FindFirstChild("KnifeServer")
+                        if knifeServer then
+                            pcall(function()
+                                knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                            end)
+                        end
+                    elseif characterGun then
+                        local knifeServer = characterGun:FindFirstChild("KnifeServer")
+                        if knifeServer then
+                            pcall(function()
+                                knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                            end)
+                        end
+                    end
+                end
+            end
+        end)
+    else
+        if loopBreakG then
+            loopBreakG:Disconnect()
+            loopBreakG = nil
+        end
+    end
+end)
