@@ -870,6 +870,26 @@ for _, player in ipairs(game.Players:GetPlayers()) do
 end
 end)
 
+local TextBox = Page:AddTextBox("View Player", function(vv)
+    local User = nil
+    for _, player in ipairs(game.Players:GetPlayers()) do
+        if string.sub(player.Name:lower(), 1, 2) == vv:lower() then
+            User = player
+            break
+        end
+    end
+    
+    if User then
+        game.Workspace.CurrentCamera.CameraSubject = User.Character.Humanoid
+    else
+        error("Player not found!")
+    end
+end)
+
+local Button = Page:AddButton("Stop Viewing", function()
+game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Humanoid')
+end)
+
 local function toggleCameraFocus()
     local character = game.Players.LocalPlayer.Character
     local camera = game.Workspace.CurrentCamera
