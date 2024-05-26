@@ -1186,7 +1186,7 @@ end)
 
 local Page = Window:AddPage("Trolling")
 
-local Toggle = Page:AddToggle("Fake Gun", false, function(val)
+local Toggle = Page:AddToggle("Toggle Fake Gun", false, function(val)
 if val then
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = true
@@ -1195,6 +1195,116 @@ else
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = false
 }))
+end
+end)
+
+local Button = Page:AddButton("Get Fake Gun", function()
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+    [1] = true -- set to true to activate
+}))
+end)
+
+local Button = Page:AddButton("Drop Fake Gun", function()
+game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+    [1] = true -- set to true to activate
+}))
+
+wait(0.2)
+
+game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Parent = game.Workspace
+end)
+
+local dropGunEnabled = false
+local dropGunConnection = nil
+
+local Toggle = Page:AddToggle("Fake Gun Rain", false, function(Value)
+local toggleValue = Value
+    if toggleValue then
+        -- Start dropping fake gun
+        dropGunEnabled = true
+        dropGunConnection = game:GetService("RunService").Stepped:Connect(function()
+            if dropGunEnabled then
+                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(true)
+                wait(0.2)
+                local character = game.Players.LocalPlayer.Character
+                if character then
+                    local tool = character:FindFirstChildOfClass("Tool")
+                    if tool then
+                        tool.Parent = game.Workspace
+                    end
+                end
+            end
+        end)
+    else
+        -- Stop dropping fake gun
+        dropGunEnabled = false
+        if dropGunConnection then
+            dropGunConnection:Disconnect()
+        end
+    end
+end)
+
+local Button = Page:AddButton("Clear Dropped Guns (Server Side)", function()
+local function gimmeTools()
+    local p = game:GetService("Players").LocalPlayer
+    local c = p.Character
+    if c and c:FindFirstChild("Humanoid") then
+        for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+            if v:IsA("Tool") then
+                c:FindFirstChild("Humanoid"):EquipTool(v)
+            end
+        end
+    end
+end
+
+gimmeTools()
+
+wait(3)
+
+-- Get the player
+local player = game.Players.LocalPlayer
+
+-- Get the player's backpack
+local backpack = player.Backpack
+
+-- Name of the tool to exclude
+local toolToExclude = "Emotes"
+
+-- Remove all tools from the backpack except the one specified
+for _, tool in pairs(backpack:GetChildren()) do
+    if tool:IsA("Tool") and tool.Name ~= toolToExclude then
+        tool:Destroy()
+    end
+end
+end)
+
+local Button = Page:AddButton("Clear Dropped Guns (Client Side)", function()
+local children = game.Workspace:GetChildren()
+
+-- Iterate through each child
+for _, child in pairs(children) do
+    -- Check if the child is a Tool
+    if child:IsA("Tool") then
+        -- Delete the tool
+        child:Destroy()
+    end
+end
+end)
+
+local Button = Page:AddButton("Clear Fake Guns From Inventory", function()
+local player = game.Players.LocalPlayer
+
+-- Get the player's backpack
+local backpack = player.Backpack
+
+-- Name of the tool to exclude
+local toolToExclude = "Emotes"
+
+-- Remove all tools from the backpack except the one specified
+for _, tool in pairs(backpack:GetChildren()) do
+    if tool:IsA("Tool") and tool.Name ~= toolToExclude then
+        tool:Destroy()
+    end
 end
 end)
 
