@@ -51,17 +51,22 @@ local LocalPlayer = Players.LocalPlayer
 -- Store the current walk speed value
 local currentWalkSpeed = 16
 
-local Slider = Page:AddSlider("Walk Speed", {
-    Minimum = 16,  -- Assuming walk speed should not go below 16
-    Maximum = 300,  -- Assuming maximum walk speed as 300
-    Default = currentWalkSpeed  -- Initial walk speed value
-}, function(Value)
-    -- Update the walk speed whenever the slider value changes
-    currentWalkSpeed = Value
-    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-        LocalPlayer.Character.Humanoid.WalkSpeed = Value
+local TextBox = Page:AddTextBox("Walkspeed (16-300)", function(Value)
+    -- Check if the input value is a number
+    local newWalkSpeed = tonumber(Value)
+    if newWalkSpeed then
+        -- Clamp the new walk speed value between 16 and 300
+        currentWalkSpeed = math.clamp(newWalkSpeed, 16, 300)
+        
+        -- Update the walk speed
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            LocalPlayer.Character.Humanoid.WalkSpeed = currentWalkSpeed
+        end
+        
+        print("Walk speed changed to:", currentWalkSpeed)
+    else
+        warn("Invalid input. Please enter a valid number.")
     end
-    print("Slider value changed:", Value)
 end)
 
 -- Function to set the walk speed
@@ -90,17 +95,22 @@ local LocalPlayer = Players.LocalPlayer
 -- Store the current jump power value
 local currentJumpPower = 50
 
-local Slider = Page:AddSlider("Jump Power", {
-    Minimum = 50,  -- Minimum jump power
-    Maximum = 300,  -- Maximum jump power
-    Default = currentJumpPower  -- Initial jump power value
-}, function(Value)
-    -- Update the jump power whenever the slider value changes
-    currentJumpPower = Value
-    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-        LocalPlayer.Character.Humanoid.JumpPower = Value
+local TextBox = Page:AddTextBox("Jump Power (50-500)", function(Value)
+    -- Check if the input value is a number
+    local newJumpPower = tonumber(Value)
+    if newJumpPower then
+        -- Clamp the new jump power value between 50 and 300
+        currentJumpPower = math.clamp(newJumpPower, 50, 500)
+        
+        -- Update the jump power
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            LocalPlayer.Character.Humanoid.JumpPower = currentJumpPower
+        end
+        
+        print("Jump power changed to:", currentJumpPower)
+    else
+        warn("Invalid input. Please enter a valid number.")
     end
-    print("Slider value changed:", Value)
 end)
 
 -- Function to set the jump power
@@ -432,15 +442,22 @@ local LocalPlayer = Players.LocalPlayer
 -- Store the current fly speed value
 local currentFlySpeed = 40
 
-local Slider = Page:AddSlider("Fly Speed", {
-    Minimum = 40,  -- Minimum fly speed
-    Maximum = 200,  -- Maximum fly speed
-    Default = currentFlySpeed  -- Initial fly speed value
-}, function(Value)
-    -- Update the fly speed whenever the slider value changes
-    currentFlySpeed = Value
-    flyspeed = currentFlySpeed  -- Update flyspeed variable
-    print("Fly speed changed:", Value)
+local TextBox = Page:AddTextBox("Fly Speed (40-200)", function(Value)
+    -- Check if the input value is a number
+    local newFlySpeed = tonumber(Value)
+    if newFlySpeed then
+        -- Clamp the new fly speed value between 40 and 200
+        currentFlySpeed = math.clamp(newFlySpeed, 40, 200)
+        
+        -- Update the fly speed
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            flyspeed = currentFlySpeed  -- Update flyspeed variable
+        end
+        
+        print("Fly speed changed to:", currentFlySpeed)
+    else
+        warn("Invalid input. Please enter a valid number.")
+    end
 end)
 
 -- Function to set the fly speed
@@ -1134,4 +1151,28 @@ if val then
         -- Deactivate Stealth
         StealthRemote:FireServer(false)
     end
+end)
+
+local Toggle = Page:AddToggle("Sprint Trail", false, function(val)
+    if val then
+        -- If toggle is turned on, activate the trail
+        sprint = RS.RenderStepped:Connect(function()
+            game:GetService("Players").LocalPlayer.Character.SpeedTrail.Toggle:FireServer(true)
+        end)
+    else
+        -- If toggle is turned off, disconnect the trail activation
+        if sprint then
+            sprint:Disconnect()
+        end
+        -- Deactivate the trail
+        game:GetService("Players").LocalPlayer.Character.SpeedTrail.Toggle:FireServer(false)
+    end
+end)
+
+local Button = Page:AddButton("Spawn Trap", function()
+ local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local lp = game:GetService("Players").LocalPlayer
+
+        -- Invoke the server to spawn a trap
+        ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
 end)
