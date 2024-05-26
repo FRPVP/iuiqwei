@@ -1176,3 +1176,44 @@ local Button = Page:AddButton("Spawn Trap", function()
         -- Invoke the server to spawn a trap
         ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
 end)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local lp = Players.LocalPlayer
+
+local trapToggle = false
+local trapLoop
+local trapSpawnDelay = 0 -- Default delay value
+
+local function spawnTrapLoop()
+    while trapToggle do
+        -- Invoke the server to spawn a trap
+        ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
+        wait(trapSpawnDelay) -- Add a delay after spawning each trap
+    end
+end
+
+local Toggle = Page:AddToggle("Loop Traps", false, function(Value)
+    trapToggle = Value
+    if trapToggle then
+        -- Start the trap spawn loop
+        spawnTrapLoop()
+    else
+        -- If toggle turned off, disconnect the loop
+        if trapLoop then
+            trapLoop:Disconnect()
+        end
+    end
+end)
+
+local TextBox = Page:AddTextBox("Loop Trap Delay (0-10)", function(Value)
+    local delay = tonumber(Value)
+    if delay then
+        if delay >= 0 and delay <= 10 then
+            trapSpawnDelay = delay
+        else
+            -- Ensure the delay value stays within the range of 0 to 10
+            trapSpawnDelay = math.clamp(delay, 0, 10)
+        end
+    end
+end)
