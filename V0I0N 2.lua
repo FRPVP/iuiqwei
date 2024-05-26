@@ -897,48 +897,50 @@ local Toggle = Page:AddToggle("View Gun", false, function(Value)
     end
 end)
 
-     local function toggleSpectateMurderer()
-    local isSpectating = Value
-
+local function toggleSpectateMurderer(isSpectating)
     if isSpectating then
         for _, player in pairs(game.Players:GetPlayers()) do
             if player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife")) then
-                game.Workspace.CurrentCamera.CameraSubject = player.Character.Humanoid
+                game.Workspace.CurrentCamera.CameraSubject = player.Character:FindFirstChildOfClass("Humanoid")
                 break
             end
         end
     else
         -- Restore original camera focus (assuming it was on the player)
-        local character = game.Players.LocalPlayer.Character
-        local camera = game.Workspace.CurrentCamera
-        camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+        local localPlayer = game.Players.LocalPlayer
+        if localPlayer and localPlayer.Character then
+            local character = localPlayer.Character
+            local camera = game.Workspace.CurrentCamera
+            camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+        end
     end
 end
 
 local Toggle = Page:AddToggle("View Murderer", false, function(Value)
-    toggleSpectateMurderer()
+    toggleSpectateMurderer(Value)
 end)
 
-    local function toggleSpectateSheriff()
-    local spectatingEnabled = Value
-
+local function toggleSpectateSheriff(spectatingEnabled)
     if spectatingEnabled then
         for _, player in pairs(game.Players:GetPlayers()) do
             if player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun")) then
-                game.Workspace.CurrentCamera.CameraSubject = player.Character.Humanoid
+                game.Workspace.CurrentCamera.CameraSubject = player.Character:FindFirstChildOfClass("Humanoid")
                 break
             end
         end
     else
         -- Restore original camera focus (assuming it was on the player)
-        local character = game.Players.LocalPlayer.Character
-        local camera = game.Workspace.CurrentCamera
-        camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+        local localPlayer = game.Players.LocalPlayer
+        if localPlayer and localPlayer.Character then
+            local character = localPlayer.Character
+            local camera = game.Workspace.CurrentCamera
+            camera.CameraSubject = character:FindFirstChildOfClass("Humanoid") or character.PrimaryPart
+        end
     end
 end
 
 local Toggle = Page:AddToggle("View Sheriff", false, function(Value)
-    toggleSpectateSheriff()
+    toggleSpectateSheriff(Value)
 end)
 
 local Page = Window:AddPage("Combat")
