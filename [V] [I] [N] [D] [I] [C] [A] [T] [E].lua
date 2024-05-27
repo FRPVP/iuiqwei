@@ -862,9 +862,55 @@ tab:toggle({
 		Callback = ToggleChanged
 })
 
+tab:button({
+    Name = "Notify Roles",
+    Description = "",
+    Callback = function()
+        for _, player in pairs(game.Players:GetPlayers()) do 
+    if player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife")) then 
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Murder Detected",
+            Text = "Murder is " .. player.Name .. "!",
+            Duration = 5
+        })
+    end 
+end
 
+for _, player in pairs(game.Players:GetPlayers()) do 
+    if player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun")) then
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Sheriff Detected",
+            Text = "Sheriff is " .. player.Name .. "!",
+            Duration = 5
+        })
+    end 
+end
+    end,
+})
 
+tab:button({
+    Name = "Message Roles",
+    Description = "",
+    Callback = function()
+        local function checkForKnife(player)
+    return player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife"))
+end
 
+-- Function to check if a player has a gun
+local function checkForGun(player)
+    return player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun"))
+end
+
+-- Iterate through players to determine roles and send chat messages
+for _, player in ipairs(game.Players:GetPlayers()) do
+    if checkForKnife(player) then
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Murderer: " .. player.Name, "normalchat")
+    elseif checkForGun(player) then
+        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Sheriff: " .. player.Name, "normalchat")
+    end
+end
+    end,
+})
 
 
 
