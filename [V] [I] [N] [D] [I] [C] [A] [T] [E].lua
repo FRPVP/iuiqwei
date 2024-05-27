@@ -1831,7 +1831,20 @@ local something = tab:slider({
     end
 })
 
-
+tab:textbox({
+    Name = "Emote Speed",
+    Description = "",
+    Placeholder = "1-1000",
+    Callback = function(v)
+        local numericValue = tonumber(v)
+        if numericValue then
+            currentSpeed = numericValue -- Update the global speed variable
+            if currentTrack then
+                currentTrack:AdjustSpeed(currentSpeed / 100) -- Adjust the speed of the current track
+            end
+        end
+    end
+})
 
 
 
