@@ -501,6 +501,40 @@ Name = "Fly Speed",
     end
 })
 
+tab:toggle({
+    Name = "Remove Kill Barriers",
+		StartingState = false,
+		Description = "",
+		Callback = function(val)
+   if val then
+while val do task.wait(0.7)
+pcall(function()
+if game.Workspace.Mansion2.GlitchProof.KillBrick then
+game.Workspace.Mansion2.GlitchProof.KillBrick:Destroy()
+end
+end)
+if not val then
+break
+end
+end
+end
+end,})
+
+tab:button({
+    Name = "Free Xbox",
+    Description = "",
+    Callback = function()
+    local Event = game:GetService("ReplicatedStorage").Remotes.Extras.IsXbox
+Event:FireServer(A_1)
+    end,
+})
+
+
+
+
+
+
+
 
 
 
@@ -606,7 +640,75 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
+tab:toggle({
+    Name = "Player Highlights",
+		StartingState = false,
+		Description = "",
+		Callback = function(val)
+   getgenv().he = val
 
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LP = Players.LocalPlayer
+local roles
+
+-- > Functions <--
+
+function CreateHighlight() -- make any new highlights for new players
+    for i, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character and not v.Character:FindFirstChild("Highlight") then
+            Instance.new("Highlight", v.Character)           
+        end
+    end
+end
+
+function UpdateHighlights() -- Get Current Role Colors (messy)
+    for _, v in pairs(Players:GetChildren()) do
+        if v ~= LP and v.Character and v.Character:FindFirstChild("Highlight") then
+            local Highlight = v.Character:FindFirstChild("Highlight")
+            local role = GetPlayerRole(v.Name)
+            if role then
+                if role == "Sheriff" and IsAlive(v) then
+                    Highlight.FillColor = Color3.fromRGB(0, 0, 225)
+                elseif role == "Murderer" and IsAlive(v) then
+                    Highlight.FillColor = Color3.fromRGB(225, 0, 0)
+                elseif role == "Hero" and IsAlive(v) and not IsAlive(game.Players[Sheriff]) then
+                    Highlight.FillColor = Color3.fromRGB(255, 250, 0)
+                else
+                    Highlight.FillColor = Color3.fromRGB(0, 225, 0)
+                end
+            end
+        end
+    end
+end    
+
+-- > Loops < --
+
+RunService.RenderStepped:Connect(function()
+    roles = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+    for i, v in pairs(roles) do
+        if v.Role == "Murderer" then
+            Murder = i
+        elseif v.Role == 'Sheriff' then
+            Sheriff = i
+        elseif v.Role == 'Hero' then
+            Hero = i
+        end
+    end
+    
+    if getgenv().he then
+        CreateHighlight()
+        UpdateHighlights()
+    else
+        for _, v in pairs(Players:GetChildren()) do
+            if v ~= LP and v.Character and v.Character:FindFirstChild("Highlight") then
+                v.Character:FindFirstChild("Highlight"):Destroy()
+            end
+        end
+    end
+end)
+end,})
 
 
 
@@ -634,7 +736,24 @@ local tab = gui:tab{
     Name = "Teleport"
 }
 
+tab:toggle({
+    Name = "Click TP",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   Toggle = Value
 
+      local player = game.Players.LocalPlayer
+      local mouse = player:GetMouse()
+
+      local function Teleport()
+         if Toggle and mouse.Target then
+            player.Character.HumanoidRootPart.CFrame = mouse.Hit
+         end
+      end
+
+      mouse.Button1Down:Connect(Teleport)
+end,})
 
 
 
