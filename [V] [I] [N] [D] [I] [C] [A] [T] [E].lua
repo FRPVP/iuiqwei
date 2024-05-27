@@ -1585,7 +1585,7 @@ tab:toggle({
     end
 end,})
 
-local something = tab:slider({
+local trapsd = tab:slider({
     Name = "Loop Trap Delay",
     Description = "",
     Default = 0,
@@ -1759,10 +1759,12 @@ local animationIds = {
 local currentAnimation = nil
 local currentTrack = nil
 local isPlaying = false
+local currentSpeed = 1
 
 local function PlayAnimation()
     if currentTrack then
         currentTrack:Play()
+        currentTrack:AdjustSpeed(currentSpeed / 100) -- Set the speed whenever the animation is played
         isPlaying = true
     end
 end
@@ -1781,36 +1783,53 @@ tab:dropdown({
     Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Murderer Slash", "Murderer Stab"},
     Callback = function(Value)
         if currentTrack then
-        StopAnimation()
-    end
-    local animationId = animationIds[Value]
-    local anim = Instance.new("Animation")
-    anim.AnimationId = animationId
-    currentTrack = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(anim)
-    currentAnimation = Value
+            StopAnimation()
+        end
+        local animationId = animationIds[Value]
+        local anim = Instance.new("Animation")
+        anim.AnimationId = animationId
+        currentTrack = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(anim)
+        currentAnimation = Value
     end
 })
 
 tab:toggle({
     Name = "Toggle Emote",
-		StartingState = false,
-		Description = "",
-		Callback = function(Value)
-   if currentAnimation then
-        if Value then
-            PlayAnimation()
-            -- Check if animation stopped playing, then restart it
-            while isPlaying do
-                if not currentTrack.IsPlaying then
-                    PlayAnimation()
+    StartingState = false,
+    Description = "",
+    Callback = function(Value)
+        if currentAnimation then
+            if Value then
+                PlayAnimation()
+                -- Check if animation stopped playing, then restart it and set speed
+                while isPlaying do
+                    if not currentTrack.IsPlaying then
+                        PlayAnimation()
+                    end
+                    currentTrack:AdjustSpeed(currentSpeed / 100) -- Ensure speed is set consistently
+                    wait(0) -- Adjust the delay between checks as needed
                 end
-                wait(0) -- Adjust the delay between checks as needed
+            else
+                StopAnimation()
             end
-        else
-            StopAnimation()
+        end
+    end,
+})
+
+local something = tab:slider({
+    Name = "Emote Speed",
+    Description = "",
+    Default = 1,
+    Min = 1,
+    Max = 1000,
+    Rounding = 1,
+    Callback = function(v)
+        currentSpeed = v -- Update the global speed variable
+        if currentTrack then
+            currentTrack:AdjustSpeed(currentSpeed / 100) -- Adjust the speed of the current track
         end
     end
-end,})
+})
 
 
 
