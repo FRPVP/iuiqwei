@@ -1225,12 +1225,6 @@ end,})
 
 
 
-
-
-
-
-
-
 local tab = gui:tab{
     Icon = "rbxassetid://17628887332",
     Name = "Teleport"
@@ -1255,11 +1249,87 @@ tab:toggle({
       mouse.Button1Down:Connect(Teleport)
 end,})
 
+tab:button({
+    Name = "Lobby",
+    Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-108, 138, 37)
+    end,
+})
 
+tab:button({
+    Name = "Map",
+    Description = "",
+    Callback = function()
+        local function teleportPlayerToPosition(position)
+    local character = game.Players.LocalPlayer.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        character.HumanoidRootPart.CFrame = CFrame.new(position)
+    end
+end
 
+-- Function to find a BasePart with the name "Coin_Server" and teleport the player to it
+local function teleportToCoinServer()
+    for _, part in ipairs(game.Workspace:GetDescendants()) do
+        if part:IsA("BasePart") and part.Name == "Coin_Server" then
+            teleportPlayerToPosition(part.Position)
+            break
+        end
+    end
+end
 
+-- Teleport to the first Coin_Server when the script is executed
+teleportToCoinServer()
+    end,
+})
 
+tab:button({
+    Name = "Voting Room",
+    Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-108, 141, 86)
+    end,
+})
 
+tab:button({
+    Name = "Murderer",
+    Description = "",
+    Callback = function()
+        for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+end
+end
+    end,
+})
+
+tab:button({
+    Name = "Sheriff",
+    Description = "",
+    Callback = function()
+        for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
+game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame
+end
+end
+    end,
+})
+
+tab:button({
+    Name = "Void",
+    Description = "",
+    Callback = function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-74, -6, 693)
+if not game.Workspace:FindFirstChild("TpVoid") then
+local TpVoid = Instance.new("Part", game.Workspace)
+TpVoid.Anchored = true
+TpVoid.Name = "TpVoid"
+TpVoid.Transparency = 0.8
+TpVoid.Position = Vector3.new(-74, -9, 694)
+TpVoid.Size = Vector3.new(20,0,20)
+        end
+    end,
+})
 
 
 
