@@ -1,39 +1,39 @@
-function jadoiwanplayerfunc(jadoiwanplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 2048, jadoiwanplayertarget.Character.LeftLowerArm, jadoiwanplayertarget.Character.LeftLowerArm.CFrame * CFrame.new(1, 30, 1))
+function andlxcaosplayerfunc(andlxcaosplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Right, 2048, andlxcaosplayertarget.Character.HumanoidRootPart, andlxcaosplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 250, 0))
 end
 
-local jadoiwanplayerloop = false
+local andlxcaosplayerloop = false
 
 tab:toggle({
-    Name = "Freeze",
+    Name = "Lag",
 		StartingState = false,
 		Description = "Spraypaint Toy Required",
 		Callback = function(Value)
    if Value == true then
-        jadoiwanplayerloop = true
-        while jadoiwanplayerloop do
+        andlxcaosplayerloop = true
+        while andlxcaosplayerloop do
             EquipSpray()
             task.wait(0.4)
             if fetargetname == "All" then
                 for _, v in pairs(game.Players:GetPlayers()) do
                     if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
-                        local jadoiwanplayertarget = v
-                        jadoiwanplayerfunc(jadoiwanplayertarget)
+                        local andlxcaosplayertarget = v
+                        andlxcaosplayerfunc(andlxcaosplayertarget)
                         task.wait()
                     end
                 end
             else
-                local jadoiwanplayertarget = findPlayerByName(fetargetname)
-                if jadoiwanplayertarget then
-                    jadoiwanplayerfunc(jadoiwanplayertarget)
+                local andlxcaosplayertarget = findPlayerByName(fetargetname)
+                if andlxcaosplayertarget then
+                    andlxcaosplayerfunc(andlxcaosplayertarget)
                 else
                     print("Player not found.")
                 end
             end
-            task.wait(15)
+            task.wait(0)
         end
     end
     if Value == false then
-        jadoiwanplayerloop = false
+        andlxcaosplayerloop = false
     end
 end,})
