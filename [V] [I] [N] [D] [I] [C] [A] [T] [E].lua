@@ -1344,7 +1344,7 @@ local tab = gui:tab{
 tab:toggle({
     Name = "Toggle Fake Gun",
 		StartingState = false,
-		Description = "",
+		Description = "Fake Gun Perk Required",
 		Callback = function(val)
    if val then
 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
@@ -1359,7 +1359,7 @@ end,})
 
 tab:button({
     Name = "Get Fake Gun",
-    Description = "",
+    Description = "Fake Gun Perk Required",
     Callback = function()
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = true -- set to true to activate
@@ -1369,7 +1369,7 @@ tab:button({
 
 tab:button({
     Name = "Drop Fake Gun",
-    Description = "",
+    Description = "Requires Fake Gun Perk And A Godly Gun Thats An Official Roblox Asset",
     Callback = function()
         game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = true -- set to true to activate
@@ -1387,7 +1387,7 @@ local dropGunConnection = nil
 tab:toggle({
     Name = "Fake Gun Rain",
 		StartingState = false,
-		Description = "",
+		Description = "Requires Fake Gun Perk And A Godly Gun Thats An Official Roblox Asset",
 		Callback = function(Value)
    local toggleValue = Value
     if toggleValue then
@@ -1491,11 +1491,66 @@ end
     end,
 })
 
+local RS = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Remotes = ReplicatedStorage:WaitForChild("Remotes")
+local Gameplay = Remotes:WaitForChild("Gameplay")
+local StealthRemote = Gameplay:WaitForChild("Stealth")
 
+local Stealth
 
+tab:toggle({
+    Name = "Ghost",
+		StartingState = false,
+		Description = "Ghost Perk Required",
+		Callback = function(val)
+   if val then
+        -- If toggle is turned on, activate Stealth
+        Stealth = RS.RenderStepped:Connect(function()
+            StealthRemote:FireServer(true)
+        end)
+    else
+        -- If toggle is turned off, disconnect the Stealth activation
+        if Stealth then
+            Stealth:Disconnect()
+            Stealth = nil
+        end
+        -- Deactivate Stealth
+        StealthRemote:FireServer(false)
+    end
+end,})
 
+tab:toggle({
+    Name = "Sprint Trail",
+		StartingState = false,
+		Description = "Sprint Perk Required",
+		Callback = function(val)
+   if val then
+        -- If toggle is turned on, activate the trail
+        sprint = RS.RenderStepped:Connect(function()
+            game:GetService("Players").LocalPlayer.Character.SpeedTrail.Toggle:FireServer(true)
+        end)
+    else
+        -- If toggle is turned off, disconnect the trail activation
+        if sprint then
+            sprint:Disconnect()
+        end
+        -- Deactivate the trail
+        game:GetService("Players").LocalPlayer.Character.SpeedTrail.Toggle:FireServer(false)
+    end
+end,})
 
+tab:button({
+    Name = "Spawn Trap",
+    Description = "Trap Perk Required",
+    Callback = function()
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local lp = game:GetService("Players").LocalPlayer
 
+        -- Invoke the server to spawn a trap
+        ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
+    end,
+})
 
 
 
