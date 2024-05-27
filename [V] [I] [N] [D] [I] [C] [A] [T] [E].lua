@@ -1854,6 +1854,311 @@ local tab = gui:tab{
     Name = "Spraypaint"
 }
 
+local function findPlayerByName(name)
+    -- Function to find a player by name or a shortened version of the name
+    for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+        if string.find(player.Name:lower(), name:lower(), 1, true) then
+            return player
+        end
+    end
+    return nil
+end
+
+local fetargetname = ""
+
+tab:textbox({
+Name = "Username",
+Description = "Type All to select all players",
+    Callback = function(Value)
+        fetargetname = Value
+    end
+})
+
+function EquipSpray()
+    game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+    wait()
+    for _, obj in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+        if obj.Name == "SprayPaint" then
+            obj.Parent = game.Players.LocalPlayer.Character
+        end
+    end
+end
+
+function heatplayerfunc(heatplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
+
+tab:button({
+    Name = "Reset",
+    Description = "Spraypaint Toy Required",
+    Callback = function()
+        if fetargetname == "All" then
+        EquipSpray() -- Equip the spray first
+        -- Iterate over all players and execute heatplayerfunc on each player except yourself
+        for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                heatplayerfunc(player)
+            end
+        end
+    elseif fetargetname ~= "" then
+        EquipSpray() -- Equip the spray first
+        -- Find the player with the selected name
+        local heatplayertarget = findPlayerByName(fetargetname)
+        if heatplayertarget then
+            heatplayerfunc(heatplayertarget) -- Execute heatplayerfunc on the player
+        else
+            print("Player not found.")
+        end
+    else
+        print("Please select a name from the dropdown.")
+    end
+    end,
+})
+
+function resetplayerfunc(resetplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
+
+local resetplayerloop = false
+
+tab:toggle({
+    Name = "Loop Reset",
+		StartingState = false,
+		Description = "Spraypaint Toy Required",
+		Callback = function(resetplayer)
+    if resetplayer == true then
+        resetplayerloop = true
+        while resetplayerloop do
+            EquipSpray()
+            task.wait(0.4)
+            if fetargetname == "All" then
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
+                        local resetplayertarget = v
+                        resetplayerfunc(resetplayertarget)
+                        task.wait()
+                    end
+                end
+            else
+                local resetplayertarget = findPlayerByName(fetargetname)
+                if resetplayertarget then
+                    resetplayerfunc(resetplayertarget)
+                else
+                    print("Player not found.")
+                end
+            end
+            task.wait(0)
+        end
+    end
+    if resetplayer == false then
+        resetplayerloop = false
+    end
+end,})
+
+function reerplayerfunc(reerplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, reerplayertarget.Character.HumanoidRootPart, reerplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+end
+
+tab:button({
+    Name = "Remove Collisions (15sec)",
+    Description = "Spraypaint Toy Required",
+    Callback = function()
+         if fetargetname == "All" then
+        EquipSpray() -- Equip the spray first
+        -- Iterate over all players and execute reerplayerfunc on each player except yourself
+        for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+            if player ~= game:GetService("Players").LocalPlayer then
+                reerplayerfunc(player)
+            end
+        end
+    elseif fetargetname ~= "" then
+        EquipSpray() -- Equip the spray first
+        -- Find the player with the selected name
+        local reerplayertarget = game:GetService("Players"):FindFirstChild(fetargetname)
+        if reerplayertarget then
+            reerplayerfunc(reerplayertarget) -- Execute reerplayerfunc on the player
+        else
+            print("Player not found.")
+        end
+    else
+        print("Please select a name from the dropdown.")
+    end
+    end,
+})
+
+function collideplayerfunc(collideplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+end
+
+local collideplayerloop = false
+
+tab:toggle({
+    Name = "Loop Remove Collisions",
+		StartingState = false,
+		Description = "Spraypaint Toy Required",
+		Callback = function(Value)
+   if Value == true then
+        collideplayerloop = true
+        while collideplayerloop do
+            EquipSpray()
+            task.wait(0.4)
+            if fetargetname == "All" then
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
+                        local collideplayertarget = v
+                        collideplayerfunc(collideplayertarget)
+                        task.wait()
+                    end
+                end
+            else
+                local collideplayertarget = findPlayerByName(fetargetname)
+                if collideplayertarget then
+                    collideplayerfunc(collideplayertarget)
+                else
+                    print("Player not found.")
+                end
+            end
+            task.wait(15)
+        end
+    end
+    if Value == false then
+        collideplayerloop = false
+    end
+end,})
+
+function poolplayerfunc(poolplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
+end
+
+local poolplayerloop = false
+
+tab:toggle({
+    Name = "Blind",
+		StartingState = false,
+		Description = "Spraypaint Toy Required",
+		Callback = function(Value)
+   if Value == true then
+        poolplayerloop = true
+        while poolplayerloop do
+            EquipSpray()
+            task.wait(0.4)
+            if fetargetname == "All" then
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
+                        local poolplayertarget = v
+                        poolplayerfunc(poolplayertarget)
+                        task.wait()
+                    end
+                end
+            else
+                local poolplayertarget = findPlayerByName(fetargetname)
+                if poolplayertarget then
+                    poolplayerfunc(poolplayertarget)
+                else
+                    print("Player not found.")
+                end
+            end
+            task.wait(15)
+        end
+    end
+    if Value == false then
+        poolplayerloop = false
+    end
+end,})
+
+function feslipfunc(fesliptarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+end
+
+local fesliploop = false
+
+tab:toggle({
+    Name = "Slip Up",
+		StartingState = false,
+		Description = "Spraypaint Toy Required",
+		Callback = function(Value)
+   if Value == true then
+        fesliploop = true
+        while fesliploop do
+            EquipSpray()
+            task.wait(0.4)
+            if fetargetname == "All" then
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
+                        local fesliptarget = v
+                        feslipfunc(fesliptarget)
+                        task.wait()
+                    end
+                end
+            else
+                local fesliptarget = findPlayerByName(fetargetname)
+                if fesliptarget then
+                    feslipfunc(fesliptarget)
+                else
+                    print("Player not found.")
+                end
+            end
+            task.wait(15)
+        end
+    end
+    if Value == false then
+        fesliploop = false
+    end
+end,})
+
+function opiwhdaplayerfunc(opiwhdaplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+end
+
+local opiwhdaplayerloop = false
+
+tab:toggle({
+    Name = "Void",
+		StartingState = false,
+		Description = "Spraypaint Toy Required",
+		Callback = function(Value)
+   if Value == true then
+        opiwhdaplayerloop = true
+        while opiwhdaplayerloop do
+            EquipSpray()
+            task.wait(0.4)
+            if fetargetname == "All" then
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
+                        local opiwhdaplayertarget = v
+                        opiwhdaplayerfunc(opiwhdaplayertarget)
+                        task.wait()
+                    end
+                end
+            else
+                local opiwhdaplayertarget = findPlayerByName(fetargetname)
+                if opiwhdaplayertarget then
+                    opiwhdaplayerfunc(opiwhdaplayertarget)
+                else
+                    print("Player not found.")
+                end
+            end
+            task.wait(0)
+        end
+    end
+    if Value == false then
+        opiwhdaplayerloop = false
+    end
+end,})
 
 
 
@@ -1862,6 +2167,11 @@ local tab = gui:tab{
 
 
 
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17640081865",
+    Name = "Spraypaint Creative"
+}
 
 
 
