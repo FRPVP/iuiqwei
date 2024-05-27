@@ -113,6 +113,73 @@ tab:textbox({
     end
 })
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local currentJumpPower = 50
+
+local something = tab:slider({
+    Name = "Jump Height",
+    Description = "",
+    Default = 50,
+    Min = 50,
+    Max = 300,
+    Rounding = 1,
+    Callback = function(vv)
+        currentJumpPower = vv
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+            LocalPlayer.Character.Humanoid.JumpPower = vv
+        end
+    end
+})
+
+-- Function to set the jump power
+local function setJumpPower()
+    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+        LocalPlayer.Character.Humanoid.JumpPower = currentJumpPower
+    end
+end
+
+-- Connect CharacterAdded event to reapply jump power on respawn
+LocalPlayer.CharacterAdded:Connect(function()
+    -- Wait for the character to be fully loaded
+    LocalPlayer.Character:WaitForChild("Humanoid")
+    setJumpPower()
+end)
+
+-- Set initial jump power value if the character already exists
+if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+    setJumpPower()
+end
+
+tab:textbox({
+    Name = "Jump Height",
+    Callback = function(Value)
+        local newJumpPower = tonumber(Value)
+        if newJumpPower then
+            -- Clamp the new jump power value between 50 and 300
+            currentJumpPower = math.clamp(newJumpPower, 50, 300)
+            
+            -- Update the jump power
+            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+                LocalPlayer.Character.Humanoid.JumpPower = currentJumpPower
+            end
+            
+            print("Jump power changed to:", currentJumpPower)
+        else
+            warn("Invalid input. Please enter a valid number.")
+        end
+    end
+})
+
+
+
+
+
+
+
+
+
+
 
 
 
