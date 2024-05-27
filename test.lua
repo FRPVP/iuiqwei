@@ -1,5 +1,5 @@
 function jadoiwanplayerfunc(jadoiwanplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 30, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 2048, jadoiwanplayertarget.Character.LeftLowerArm, jadoiwanplayertarget.Character.LeftLowerArm.CFrame * CFrame.new(1, 30, 1))
 end
 
 local jadoiwanplayerloop = false
