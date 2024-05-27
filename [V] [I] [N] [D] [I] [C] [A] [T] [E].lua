@@ -171,7 +171,41 @@ tab:textbox({
     end
 })
 
+tab:toggle({
+    Name = "Noclip",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   local Players = game:GetService("Players")
+        local RunService = game:GetService("RunService")
+        local Plr = Players.LocalPlayer
+        local Clipon = Value
 
+        local function toggleNoclip()
+            if Clipon then
+                print("Noclip turned on")
+                RunService:BindToRenderStep("Noclip", Enum.RenderPriority.First.Value, function()
+                    -- Disable collision for player's parts
+                    for _, part in ipairs(Plr.Character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                end)
+            else
+                print("Noclip turned off")
+                RunService:UnbindFromRenderStep("Noclip")
+                -- Restore collision for player's parts
+                for _, part in ipairs(Plr.Character:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = true
+                    end
+                end
+            end
+        end
+
+        toggleNoclip()
+end,})
 
 
 
