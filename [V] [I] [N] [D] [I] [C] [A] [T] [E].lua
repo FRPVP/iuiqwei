@@ -1040,6 +1040,186 @@ local tab = gui:tab{
     Name = "Combat"
 }
 
+tab:button({
+    Name = "Shoot Murderer",
+    Description = "",
+    Callback = function()
+        local function findMurderer()
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Backpack:FindFirstChild("Knife") then
+            return i
+        end
+    end
+
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Character:FindFirstChild("Knife") then
+            return i
+        end
+    end
+
+    return nil
+end
+
+local function findSheriff()
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Backpack:FindFirstChild("Gun") then
+            return i
+        end
+    end
+
+    for _, i in ipairs(game.Players:GetPlayers()) do
+        if i.Character:FindFirstChild("Gun") then
+            return i
+        end
+    end
+
+    return nil
+end
+
+local function shootMurderer()
+    local localPlayer = game.Players.LocalPlayer
+    local murderer = findMurderer()
+    local sheriff = findSheriff()
+
+    if sheriff ~= localPlayer then
+        return
+    end
+
+    if not murderer then
+        return
+    end
+
+    if not localPlayer.Character:FindFirstChild("Gun") then
+        local humanoid = localPlayer.Character:FindFirstChild("Humanoid")
+        if localPlayer.Backpack:FindFirstChild("Gun") then
+            humanoid:EquipTool(localPlayer.Backpack:FindFirstChild("Gun"))
+        else
+            return
+        end
+    end
+
+    local shootOffset = 1  -- Define shootOffset as per your requirements
+    local args = {
+        [1] = 1,
+        [2] = murderer.Character:FindFirstChild("HumanoidRootPart").Position + murderer.Character:FindFirstChild("Humanoid").MoveDirection * shootOffset,
+        [3] = "AH"
+    }
+
+    localPlayer.Character.Gun.KnifeServer.ShootGun:InvokeServer(unpack(args))
+end
+
+shootMurderer()
+    end,
+})
+
+tab:button({
+    Name = "Grab Gun",
+    Description = "",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+local workspace = game:GetService("Workspace")
+
+-- Variable to store the original position
+local originalPosition = player.Character.HumanoidRootPart.CFrame
+
+-- Function to find and teleport to the GunDrop part
+local function teleportToGunDrop()
+    local gunDrop = workspace:WaitForChild("GunDrop") -- Wait for GunDrop to exist in Workspace
+
+    -- Check if GunDrop exists
+    if gunDrop then
+        -- Teleport the player to the GunDrop's position
+        player.Character:SetPrimaryPartCFrame(gunDrop.CFrame)
+        
+        -- Wait for a moment (adjust the time as needed)
+        wait(0.2)
+        
+        -- Teleport the player back to the original position
+        player.Character:SetPrimaryPartCFrame(originalPosition)
+    else
+        warn("GunDrop not found in Workspace")
+    end
+end
+
+-- Call the function directly without a key press
+teleportToGunDrop()
+    end,
+})
+
+tab:button({
+    Name = "Break Gun",
+    Description = "",
+    Callback = function()
+            local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= LP then
+        local backpackGun = player.Backpack:FindFirstChild("Gun")
+        local characterGun = player.Character and player.Character:FindFirstChild("Gun")
+
+        if backpackGun then
+            local knifeServer = backpackGun:FindFirstChild("KnifeServer")
+            if knifeServer then
+                pcall(function()
+                    knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                end)
+            end
+        elseif characterGun then
+            local knifeServer = characterGun:FindFirstChild("KnifeServer")
+            if knifeServer then
+                pcall(function()
+                    knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                end)
+            end
+        end
+    end
+    end
+    end,
+})
+
+local loopBreakG = nil
+local RS = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+
+tab:toggle({
+    Name = "Loop Break Gun",
+		StartingState = false,
+		Description = "",
+		Callback = function(val)
+   if val then
+        loopBreakG = RS.RenderStepped:Connect(function()
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= LP then
+                    local backpackGun = player.Backpack:FindFirstChild("Gun")
+                    local characterGun = player.Character and player.Character:FindFirstChild("Gun")
+                    
+                    if backpackGun then
+                        local knifeServer = backpackGun:FindFirstChild("KnifeServer")
+                        if knifeServer then
+                            pcall(function()
+                                knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                            end)
+                        end
+                    elseif characterGun then
+                        local knifeServer = characterGun:FindFirstChild("KnifeServer")
+                        if knifeServer then
+                            pcall(function()
+                                knifeServer.ShootGun:InvokeServer(1, 0, "AH")
+                            end)
+                        end
+                    end
+                end
+            end
+        end)
+    else
+        if loopBreakG then
+            loopBreakG:Disconnect()
+            loopBreakG = nil
+        end
+    end
+end,})
 
 
 
