@@ -1612,11 +1612,47 @@ Name = "Loop Trap Delay",
     end
 })
 
+tab:button({
+    Name = "Trap All",
+    Description = "Trap Perk Required",
+    Callback = function()
+        for i,x in pairs(Players:GetPlayers()) do
+if x ~= lp then
+game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+    [1] = x.Character.HumanoidRootPart.CFrame
+}))
+end
+end
+    end,
+})
 
+tab:button({
+    Name = "Trap Murderer",
+    Description = "Trap Perk Required",
+    Callback = function()
+        for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
+game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+    [1] = v.Character.HumanoidRootPart.CFrame
+}))
+end
+end
+    end,
+})
 
-
-
-
+tab:button({
+    Name = "Trap Sheriff",
+    Description = "Trap Perk Required",
+    Callback = function()
+        for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
+game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+    [1] = v.Character.HumanoidRootPart.CFrame
+}))
+end
+end
+    end,
+})
 
 
 
@@ -1647,14 +1683,134 @@ local tab = gui:tab{
     Name = "Emotes"
 }
 
+tab:button({
+    Name = "Zen",
+    Description = "",
+    Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("zen")
+    end,
+})
 
+tab:button({
+    Name = "Headless",
+    Description = "",
+    Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("headless")
+    end,
+})
 
+tab:button({
+    Name = "Zombie",
+    Description = "",
+    Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("zombie")
+    end,
+})
 
+tab:button({
+    Name = "Ninja",
+    Description = "",
+    Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("ninja")
+    end,
+})
 
+tab:button({
+    Name = "Floss",
+    Description = "",
+    Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("floss")
+    end,
+})
 
+tab:button({
+    Name = "Dab",
+    Description = "",
+    Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("dab")
+    end,
+})
 
+tab:button({
+    Name = "Sit",
+    Description = "",
+    Callback = function()
+        ReplicatedStorage.Remotes.Misc.PlayEmote:Fire("sit")
+    end,
+})
 
+local animationIds = {
+    ["Float Slash"] = "rbxassetid://717879555",
+    ["Down Slash"] = "rbxassetid://746398327",
+    ["Arms Out"] = "rbxassetid://582384156",
+    ["Spinner"] = "rbxassetid://754658275",
+    ["Crazy Slash"] = "rbxassetid://674871189",
+    ["Weird Zombie"] = "rbxassetid://708553116",
+    ["Pull"] = "rbxassetid://675025795",
+    ["Open"] = "rbxassetid://582855105",
+    ["Circle Arm"] = "rbxassetid://698251653",
+    ["Bend"] = "rbxassetid://696096087",
+    ["Rotate Slash"] = "rbxassetid://675025570",
+    ["Flail Arms"] = "rbxassetid://754656200",
+    ["Murderer Slash"] = "rbxassetid://2467567750",
+    ["Murderer Stab"] = "rbxassetid://1957890538",
+}
 
+local currentAnimation = nil
+local currentTrack = nil
+local isPlaying = false
+
+local function PlayAnimation()
+    if currentTrack then
+        currentTrack:Play()
+        isPlaying = true
+    end
+end
+
+local function StopAnimation()
+    if currentTrack then
+        currentTrack:Stop()
+        isPlaying = false
+    end
+end
+
+tab:dropdown({
+    Name = "Energizer Emotes",
+    Description = "",
+    StartingText = "Bodypart",
+    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Murderer Slash", "Murderer Stab"},
+    Callback = function(Value)
+        if currentTrack then
+        StopAnimation()
+    end
+    local animationId = animationIds[Value]
+    local anim = Instance.new("Animation")
+    anim.AnimationId = animationId
+    currentTrack = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(anim)
+    currentAnimation = Value
+    end
+})
+
+tab:toggle({
+    Name = "Toggle Emote",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   if currentAnimation then
+        if Value then
+            PlayAnimation()
+            -- Check if animation stopped playing, then restart it
+            while isPlaying do
+                if not currentTrack.IsPlaying then
+                    PlayAnimation()
+                end
+                wait(0) -- Adjust the delay between checks as needed
+            end
+        else
+            StopAnimation()
+        end
+    end
+end,})
 
 
 
