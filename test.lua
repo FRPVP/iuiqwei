@@ -1,11 +1,11 @@
 function qweqqwwplayerfunc(qweqqwwplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Right, 10, qweqqwwplayertarget.Character.HumanoidRootPart, qweqqwwplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(99999, 99999, 99999))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 1.5, 0))
 end
 
 local qweqqwwplayerloop = false
 
 tab:toggle({
-    Name = "Yeet",
+    Name = "Shake Camera",
 		StartingState = false,
 		Description = "Spraypaint Toy Required",
 		Callback = function(Value)
