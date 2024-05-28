@@ -84,7 +84,7 @@ tab:toggle({
         while asndzxnchajsplayerloop do
             EquipSpray()
             task.wait(0.4)
-            if fetargetname == "All" then
+            if infinityGauntlet == "All" then
                 for _, v in pairs(game.Players:GetPlayers()) do
                     if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
                         local asndzxnchajsplayertarget = v
@@ -93,7 +93,7 @@ tab:toggle({
                     end
                 end
             else
-                local asndzxnchajsplayertarget = findPlayerByName(fetargetname)
+                local asndzxnchajsplayertarget = findPlayerByName(infinityGauntlet)
                 if asndzxnchajsplayertarget then
                     asndzxnchajsplayerfunc(asndzxnchajsplayertarget)
                 else
