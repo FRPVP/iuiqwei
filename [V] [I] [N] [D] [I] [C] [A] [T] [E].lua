@@ -2810,6 +2810,99 @@ tab:textbox({
     end
 })
 
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local defaultSprayId = 12781220539  -- Default spray ID for the block
+
+local function giveTool()
+    local player = Players.LocalPlayer
+    local backpack = player.Backpack
+    local character = player.Character
+    local mouse = player:GetMouse()
+
+    if character then
+        local tool = Instance.new("Tool")
+        tool.RequiresHandle = false
+        tool.Name = "Custom Block"
+        
+        tool.Activated:Connect(function()
+            local sprayPaint
+
+            if backpack.Toys:FindFirstChild("SprayPaint") then
+                ReplicatedStorage.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+                ReplicatedStorage.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+                sprayPaint = backpack:FindFirstChild("SprayPaint")
+                if sprayPaint then
+                    sprayPaint.Parent = character
+                end
+            elseif backpack:FindFirstChild("SprayPaint") then
+                sprayPaint = backpack.SprayPaint
+                sprayPaint.Parent = character
+            elseif character:FindFirstChild("SprayPaint") then
+                sprayPaint = character.SprayPaint
+            end
+
+            if sprayPaint then
+                local hitPos = mouse.Hit.Position
+                local target = workspace.Lobby.VoteIcons.VotePad2
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Top, 3.5, target, CFrame.new(hitPos) * CFrame.new(0, 3.3, 0))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Bottom, 3.5, target, CFrame.new(hitPos) * CFrame.new(0, 0, 0))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Back, 3.5, target, CFrame.new(hitPos) * CFrame.new(0, 1.65, 1.65))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Front, 3.5, target, CFrame.new(hitPos) * CFrame.new(0, 1.65, -1.65))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Right, 3.5, target, CFrame.new(hitPos) * CFrame.new(1.65, 1.65, 0))
+                sprayPaint.Remote:FireServer(defaultSprayId, Enum.NormalId.Left, 3.5, target, CFrame.new(hitPos) * CFrame.new(-1.65, 1.65, 0))
+                sprayPaint.Parent = backpack
+            end
+        end)
+
+        tool.Parent = backpack
+    end
+end
+
+local function removeTool()
+    local player = Players.LocalPlayer
+    local backpack = player.Backpack
+    local character = player.Character
+
+    local tool = backpack:FindFirstChild("Custom Block") or character:FindFirstChild("Custom Block")
+    if tool then
+        tool:Destroy()
+    end
+end
+
+local toggleEnabled = false
+
+tab:toggle({
+    Name = "Block",
+    StartingState = false,
+    Description = "Spraypaint Toy Required",
+    Callback = function(Value)
+        toggleEnabled = Value
+        if Value then
+            giveTool()
+        else
+            removeTool()
+        end
+    end,
+})
+
+local debounce = false
+Players.LocalPlayer.CharacterAdded:Connect(function(character)
+    if toggleEnabled and not debounce then
+        debounce = true
+        -- Wait for character to load properly
+        character:WaitForChild("HumanoidRootPart")
+        giveTool()
+        debounce = false
+    end
+end)
+
+tab:textbox({
+    Name = "Custom Block ID",
+    Callback = function(Value)
+        defaultSprayId = tonumber(Value) or defaultSprayId
+    end
+})
 
 
 
