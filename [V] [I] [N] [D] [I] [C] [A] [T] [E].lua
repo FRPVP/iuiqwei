@@ -2280,12 +2280,12 @@ tab:toggle({
     end
 end,})
 
-function kknasxzcoplayerfunc(kknasxzcoplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, kknasxzcoplayertarget.Character.LeftLowerArm, kknasxzcoplayertarget.Character.LeftLowerArm.CFrame * CFrame.new(0, 50, 0))
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, kknasxzcoplayertarget.Character.RightLowerArm, kknasxzcoplayertarget.Character.RightLowerArm.CFrame * CFrame.new(0, 50, 0))
+function iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, -50, 0))
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
 end
 
-local kknasxzcoplayerloop = false
+local iopiipiopolllplayerloop = false
 
 tab:toggle({
     Name = "Launch Up",
@@ -2293,22 +2293,22 @@ tab:toggle({
 		Description = "Spraypaint Toy Required",
 		Callback = function(Value)
    if Value == true then
-        kknasxzcoplayerloop = true
-        while kknasxzcoplayerloop do
+        iopiipiopolllplayerloop = true
+        while iopiipiopolllplayerloop do
             EquipSpray()
             task.wait(0.4)
             if fetargetname == "All" then
                 for _, v in pairs(game.Players:GetPlayers()) do
                     if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
-                        local kknasxzcoplayertarget = v
-                        kknasxzcoplayerfunc(kknasxzcoplayertarget)
+                        local iopiipiopolllplayertarget = v
+                        iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
                         task.wait()
                     end
                 end
             else
-                local kknasxzcoplayertarget = findPlayerByName(fetargetname)
-                if kknasxzcoplayertarget then
-                    kknasxzcoplayerfunc(kknasxzcoplayertarget)
+                local iopiipiopolllplayertarget = findPlayerByName(fetargetname)
+                if iopiipiopolllplayertarget then
+                    iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
                 else
                     print("Player not found.")
                 end
@@ -2317,7 +2317,7 @@ tab:toggle({
         end
     end
     if Value == false then
-        kknasxzcoplayerloop = false
+        iopiipiopolllplayerloop = false
     end
 end,})
 
@@ -2401,7 +2401,6 @@ tab:toggle({
         bnmbnbbplayerloop = false
     end
 end,})
-
 
 
 
