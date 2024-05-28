@@ -55,6 +55,14 @@ local Library = {
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
 		},
+		Vindicate = {
+			Main = Color3.fromRGB(10,23,39,255),
+			Secondary = Color3.fromRGB(86,138,160,255),
+			Tertiary = Color3.fromRGB(11,220,189,255),
+
+			StrongText = Color3.fromHSV(0, 0, 1),		
+			WeakText = Color3.fromHSV(0, 0, 172/255)
+		},
 		Rust = {
 			Main = Color3.fromRGB(37, 35, 33),
 			Secondary = Color3.fromRGB(65, 63, 63),
