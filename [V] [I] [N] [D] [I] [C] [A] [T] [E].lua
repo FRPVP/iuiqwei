@@ -2457,3 +2457,134 @@ end
 KickPlayer()
     end,
 })
+
+tab:toggle({
+    Name = "Night",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        if state then
+            -- Toggle on: Set the sky to night
+            game.Lighting.TimeOfDay = "00:00:00" -- Midnight
+            print("The sky is now set to night.")
+        else
+            -- Toggle off: Set the sky to day
+            game.Lighting.TimeOfDay = "12:00:00" -- Noon
+            print("The sky is now set to day.")
+        end
+    end,
+})
+
+tab:toggle({
+    Name = "Sunset",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        if state then
+            -- Toggle on: Set the sky to night
+            game.Lighting.TimeOfDay = "18:00:00" -- Midnight
+            print("The sky is now set to night.")
+        else
+            -- Toggle off: Set the sky to day
+            game.Lighting.TimeOfDay = "12:00:00" -- Noon
+            print("The sky is now set to day.")
+        end
+    end,
+})
+
+local originalSettings = {
+    ExposureCompensation = game.Lighting.ExposureCompensation,
+    ShadowSoftness = game.Lighting.ShadowSoftness,
+    EnvironmentDiffuseScale = game.Lighting.EnvironmentDiffuseScale,
+    EnvironmentSpecularScale = game.Lighting.EnvironmentSpecularScale,
+    Brightness = game.Lighting.Brightness,
+    ColorShift_Top = game.Lighting.ColorShift_Top,
+    OutdoorAmbient = game.Lighting.OutdoorAmbient,
+    GeographicLatitude = game.Lighting.GeographicLatitude,
+    Ambient = game.Lighting.Ambient
+}
+
+-- Function to apply the custom lighting effects
+local function applyLightingEffects()
+    local find1 = game.Lighting:FindFirstChildWhichIsA("BloomEffect")
+    if find1 then
+        find1:Destroy()
+    end
+    local find2 = game.Lighting:FindFirstChildWhichIsA("SunRaysEffect")
+    if find2 then
+        find2:Destroy()
+    end
+    local find3 = game.Lighting:FindFirstChildWhichIsA("ColorCorrectionEffect")
+    if find3 then
+        find3:Destroy()
+    end
+    local find4 = game.Lighting:FindFirstChildWhichIsA("BlurEffect")
+    if find4 then
+        find4:Destroy()
+    end
+    local find5 = game.Lighting:FindFirstChildWhichIsA("Sky")
+    if find5 then
+        find5:Destroy()
+    end
+    local blem = Instance.new("BloomEffect", game.Lighting)
+    local sanrey = Instance.new("SunRaysEffect", game.Lighting)
+    local color = Instance.new("ColorCorrectionEffect", game.Lighting)
+    local blor = Instance.new("BlurEffect", game.Lighting)
+    Instance.new("Sky", game.Lighting)
+    game.Lighting.ExposureCompensation = 0.34
+    game.Lighting.ShadowSoftness = 1
+    game.Lighting.EnvironmentDiffuseScale = 0.343
+    game.Lighting.EnvironmentSpecularScale = 1
+    game.Lighting.Brightness = 2
+    game.Lighting.ColorShift_Top = Color3.fromRGB(118, 117, 108)
+    game.Lighting.OutdoorAmbient = Color3.fromRGB(141, 141, 141)
+    game.Lighting.GeographicLatitude = 100
+    game.Lighting.Ambient = Color3.fromRGB(112, 112, 112)
+    blem.Intensity = 0.5
+    blem.Size = 22
+    blem.Threshold = 1.5
+    sanrey.Intensity = 0.117
+    sanrey.Spread = 1
+    blor.Size = 2
+    color.Contrast = 0.3
+    color.Saturation = 0.2
+    color.TintColor = Color3.fromRGB(255, 252, 224)
+end
+
+-- Function to clear all custom lighting effects and restore original settings
+local function clearLightingEffects()
+    local effects = {"BloomEffect", "SunRaysEffect", "ColorCorrectionEffect", "BlurEffect", "Sky"}
+    for _, effect in ipairs(effects) do
+        local found = game.Lighting:FindFirstChildWhichIsA(effect)
+        while found do
+            found:Destroy()
+            found = game.Lighting:FindFirstChildWhichIsA(effect)
+        end
+    end
+    -- Restore original lighting settings
+    game.Lighting.ExposureCompensation = originalSettings.ExposureCompensation
+    game.Lighting.ShadowSoftness = originalSettings.ShadowSoftness
+    game.Lighting.EnvironmentDiffuseScale = originalSettings.EnvironmentDiffuseScale
+    game.Lighting.EnvironmentSpecularScale = originalSettings.EnvironmentSpecularScale
+    game.Lighting.Brightness = originalSettings.Brightness
+    game.Lighting.ColorShift_Top = originalSettings.ColorShift_Top
+    game.Lighting.OutdoorAmbient = originalSettings.OutdoorAmbient
+    game.Lighting.GeographicLatitude = originalSettings.GeographicLatitude
+    game.Lighting.Ambient = originalSettings.Ambient
+end
+
+-- Define the toggle for the script
+tab:toggle({
+    Name = "RTX",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        if state then
+            applyLightingEffects()
+            print("Lighting effects have been applied.")
+        else
+            clearLightingEffects()
+            print("Lighting effects have been removed.")
+        end
+    end,
+})
