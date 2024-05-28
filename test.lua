@@ -1,3 +1,6 @@
+local Players = game:GetService("Players")
+local bigpenisId = 60484593
+
 function xnmcvzxkcjaaaplayerfunc(xnmcvzxkcjaaaplayertarget)
     local localPlayer = Players.LocalPlayer
     local target = xnmcvzxkcjaaaplayertarget
