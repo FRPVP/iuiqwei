@@ -5,7 +5,7 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/FRPVP/iuiqwei/main/library.lua"))()
 
 local gui = Library:create{
-    Theme = Library.Themes.Dark
+    Theme = Library.Themes.Vindicate
 }
 
 local tab = gui:tab{
@@ -529,7 +529,53 @@ Event:FireServer(A_1)
     end,
 })
 
+tab:button({
+    Name = "Extra Life",
+    Description = "",
+    Callback = function()
+        local accessories = {}
 
+        if game.Players.LocalPlayer.Character then
+            if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+                for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
+                    table.insert(accessories, accessory:Clone())
+                end
+                game.Players.LocalPlayer.Character.Humanoid.Name = "boop"
+            end
+            local v = game.Players.LocalPlayer.Character["boop"]:Clone()
+            v.Parent = game.Players.LocalPlayer.Character
+            v.Name = "Humanoid"
+            wait(0.1)
+            game.Players.LocalPlayer.Character["boop"]:Destroy()
+            workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+            for _, accessory in pairs(accessories) do
+                game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
+            end
+            game.Players.LocalPlayer.Character.Animate.Disabled = true
+            wait(0.1)
+            game.Players.LocalPlayer.Character.Animate.Disabled = false
+
+            -- Jump Functionality
+            local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+            if humanoid then
+                local user_input = game:GetService("UserInputService")
+                local is_jumping = false
+                local jump_height = 7 -- Adjust this value to set the jump height
+
+                user_input.InputBegan:Connect(function(input, isProcessed)
+                    if not isProcessed and input.KeyCode == Enum.KeyCode.Space and not is_jumping then
+                        is_jumping = true
+                        while user_input:IsKeyDown(Enum.KeyCode.Space) do
+                            humanoid.Jump = true
+                            wait()
+                        end
+                        is_jumping = false
+                    end
+                end)
+            end
+        end
+    end,
+})
 
 
 
@@ -1654,6 +1700,31 @@ end
     end,
 })
 
+tab:button({
+    Name = "Take The Murderer's Knife",
+    Description = "Able to swing it around but not kill",
+    Callback = function()
+        for i,s in pairs(Players:GetPlayers()) do
+if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Knife") or s.Character:FindFirstChild("Knife") then
+s.Backpack.Knife.Parent = Players.LocalPlayer.Backpack
+end
+end
+    end,
+})
+
+tab:button({
+    Name = "Take The Sheriff's Gun",
+    Description = "Shoot a player in order to break the gun",
+    Callback = function()
+        for i,s in pairs(Players:GetPlayers()) do
+if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Gun") or s.Character:FindFirstChild("Gun") then
+s.Backpack.Gun.Parent = Players.LocalPlayer.Backpack
+end
+end
+    end,
+})
+
+
 
 
 
@@ -2358,3 +2429,31 @@ local tab = gui:tab{
     Icon = "rbxassetid://17629022447",
     Name = "Misc"
 }
+
+tab:button({
+    Name = "Rejoin",
+    Description = "",
+    Callback = function()
+        local function RejoinServer()
+    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+end
+
+-- Call the function to rejoin the server
+RejoinServer()
+    end,
+})
+
+tab:button({
+    Name = "Emergency Leave",
+    Description = "Kicks you from the game incase you can't properly leave.",
+    Callback = function()
+        local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function KickPlayer()
+    LocalPlayer:Kick("You have been kicked from the server as of an emergency.")
+end
+
+KickPlayer()
+    end,
+})
