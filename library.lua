@@ -57,7 +57,7 @@ local Library = {
 		},
 		Vindicate = {
 			Main = Color3.fromRGB(10,23,39,255),
-			Secondary = Color3.fromRGB(86,138,160,255),
+			Secondary = Color3.fromRGB(21,40,57,255),
 			Tertiary = Color3.fromRGB(11,220,189,255),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
