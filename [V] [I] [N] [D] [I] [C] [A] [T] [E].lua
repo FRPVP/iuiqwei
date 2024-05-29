@@ -3332,6 +3332,56 @@ tab:toggle({
     end,
 })
 
+local player = game.Players.LocalPlayer
+
+-- Variable to store TradeGUI reference
+local savedTradeGUI = nil
+
+-- Function to remove TradeGUI
+local function removeTradeGUI()
+    -- Find the TradeGUI in the player's PlayerGui
+    local tradeGUI = player.PlayerGui:FindFirstChild("TradeGUI")
+
+    -- Check if the TradeGUI exists
+    if tradeGUI then
+        -- Save a reference to TradeGUI
+        savedTradeGUI = tradeGUI
+
+        -- Hide the TradeGUI
+        tradeGUI.Parent = nil
+        print("TradeGUI removed successfully!")
+    else
+        print("TradeGUI not found.")
+    end
+end
+
+-- Function to restore TradeGUI
+local function restoreTradeGUI()
+    -- Check if there's a saved reference to TradeGUI
+    if savedTradeGUI then
+        -- Restore TradeGUI
+        savedTradeGUI.Parent = player.PlayerGui
+        print("TradeGUI restored successfully!")
+    else
+        print("No TradeGUI to restore.")
+    end
+end
+
+tab:toggle({
+    Name = "Remove Trade GUI",
+		StartingState = false,
+		Description = "",
+		Callback = function(val)
+   if val then
+        -- Call the function to remove TradeGUI
+        removeTradeGUI()
+    else
+        -- Call the function to restore TradeGUI
+        restoreTradeGUI()
+    end
+end,})
+
+
 
 
 
