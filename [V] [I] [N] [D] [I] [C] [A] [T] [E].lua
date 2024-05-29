@@ -594,7 +594,7 @@ getgenv().BetterESP = false
 tab:toggle({
     Name = "Player ESP",
     StartingState = false,
-    Description = "",
+    Description = "By Role",
     Callback = function(val)
         getgenv().BetterESP = val
     end,
@@ -685,6 +685,91 @@ RunService.RenderStepped:Connect(function()
         end
     end
 end)
+
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local folder = Instance.new("Folder", CoreGui)
+folder.Name = "ESP Holder"
+
+local function AddBillboard(player)
+    local billboard = Instance.new("BillboardGui", folder)
+    billboard.Name = player.Name
+    billboard.AlwaysOnTop = true
+    billboard.Size = UDim2.fromOffset(200, 50)
+    billboard.ExtentsOffset = Vector3.new(0, 3, 0)
+    billboard.Enabled = false
+
+    local textLabel = Instance.new("TextLabel", billboard)
+    textLabel.TextSize = 15
+    textLabel.Text = player.Name
+    textLabel.Font = Enum.Font.SourceSans
+    textLabel.BackgroundTransparency = 1
+    textLabel.Size = UDim2.fromScale(1, 1)
+    textLabel.TextStrokeTransparency = 0
+    textLabel.TextYAlignment = Enum.TextYAlignment.Bottom
+    textLabel.ZIndex = 0
+
+    local function updateBillboard()
+        pcall(function()
+            billboard.Adornee = player.Character:FindFirstChild("Head")
+            if player.Character:FindFirstChild("Knife") or player.Backpack:FindFirstChild("Knife") then
+                textLabel.TextColor3 = Color3.fromRGB(225, 0, 0)
+                if not billboard.Enabled and getgenv().MurderEsp then
+                    billboard.Enabled = true
+                end
+            elseif player.Character:FindFirstChild("Gun") or player.Backpack:FindFirstChild("Gun") then
+                textLabel.TextColor3 = Color3.fromRGB(0, 0, 225)
+                if not billboard.Enabled and getgenv().SheriffEsp then
+                    billboard.Enabled = true
+                end
+            else
+                textLabel.TextColor3 = Color3.fromRGB(0, 225, 0)
+            end
+        end)
+    end
+
+    if getgenv().AllEsp then
+        billboard.Enabled = true
+    end
+
+    repeat
+        wait()
+        updateBillboard()
+    until not player.Parent
+end
+
+for _, player in pairs(Players:GetPlayers()) do
+    if player ~= Players.LocalPlayer then
+        coroutine.wrap(AddBillboard)(player)
+    end
+end
+
+Players.PlayerAdded:Connect(function(player)
+    if player ~= Players.LocalPlayer then
+        coroutine.wrap(AddBillboard)(player)
+    end
+end)
+
+Players.PlayerRemoving:Connect(function(player)
+    local billboard = folder:FindFirstChild(player.Name)
+    if billboard then
+        billboard:Destroy()
+    end
+end)
+
+tab:toggle({
+    Name = "Player ESP",
+    StartingState = false,
+    Description = "By Item",
+    Callback = function(val)
+        getgenv().AllEsp = val
+        for _, v in pairs(folder:GetChildren()) do
+            if v:IsA("BillboardGui") and Players:FindFirstChild(v.Name) then
+                v.Enabled = getgenv().AllEsp
+            end
+        end
+    end,
+})
 
 tab:toggle({
     Name = "Player Highlights",
