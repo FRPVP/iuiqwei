@@ -3269,7 +3269,68 @@ local tab = gui:tab{
     Name = "Trade"
 }
 
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local isLooping = false
+local tradetargetUser = ""
 
+local function SendTradeRequestToPlayer(tradetargetUser)
+    local targetPlayer = Players:FindFirstChild(tradetargetUser)
+
+    if targetPlayer then
+        local tradeSendRequest = ReplicatedStorage:WaitForChild("Trade"):WaitForChild("SendRequest")
+        local tradeAcceptRequest = ReplicatedStorage:WaitForChild("Trade"):WaitForChild("AcceptRequest")
+
+        tradeSendRequest:InvokeServer(targetPlayer)
+        tradeAcceptRequest:FireServer()
+    else
+        warn("Player not found:", tradetargetUser)
+    end
+end
+
+tab:textbox({
+    Name = "Target User",
+    Description = "",
+    Callback = function(Value)
+        tradetargetUser = Value
+    end
+})
+
+tab:button({
+    Name = "Force Trade",
+    Description = "only spams the request only for now",
+    Callback = function()
+        if tradetargetUser ~= "" then
+            SendTradeRequestToPlayer(tradetargetUser)
+        else
+            print("Please enter a valid player name.")
+        end
+    end,
+})
+
+local function ToggleLoop()
+    while isLooping do
+        if tradetargetUser ~= "" then
+            SendTradeRequestToPlayer(tradetargetUser)
+        else
+            print("Please enter a valid player name.")
+            break
+        end
+        wait(0) -- Adjust the delay as needed
+    end
+end
+
+tab:toggle({
+    Name = "Loop Trade",
+    StartingState = false,
+    Description = "only spams the request only for now",
+    Callback = function(Value)
+        isLooping = Value
+        if isLooping then
+            ToggleLoop()
+        end
+    end,
+})
 
 
 
