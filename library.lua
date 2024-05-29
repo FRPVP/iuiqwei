@@ -31,10 +31,10 @@ local HTTPService = game:GetService("HttpService")
 
 local Library = {
 	Themes = {
-		VegaX = {
-			Main = Color3.fromHSV(18,18,20,255),
-			Secondary = Color3.fromHSV(37,37,37,255),
-			Tertiary = Color3.fromHSV(208,68,53,255),
+		Vega = {
+			Main = Color3.fromRGB(18,18,20,255),
+			Secondary = Color3.fromRGB(37,37,37,255),
+			Tertiary = Color3.fromRGB(208,68,53,255),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
