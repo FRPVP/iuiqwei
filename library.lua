@@ -39,10 +39,10 @@ local Library = {
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
 		},
-		Serika = {
-			Main = Color3.fromRGB(50, 52, 55),
-			Secondary = Color3.fromRGB(80, 82, 85),
-			Tertiary = Color3.fromRGB(226, 183, 20),
+		Eclipse = {
+			Main = Color3.fromRGB(24,24,24,255),
+			Secondary = Color3.fromRGB(40,40,40,255),
+			Tertiary = Color3.fromRGB(232,129,28,255),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
