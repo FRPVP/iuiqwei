@@ -3346,7 +3346,7 @@ tab:button({
     Name = "Vindicate Decal Library",
     Description = "",
     Callback = function()
-        -- Create a ScreenGui
+-- Create a ScreenGui
 local gui = Instance.new("ScreenGui")
 gui.Name = "MyGUI"
 gui.ResetOnSpawn = false
@@ -3363,7 +3363,7 @@ local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
 mainFrame.Size = initialSize -- Adjust size for mobile devices
 mainFrame.Position = UDim2.new(0.5, -mainFrame.Size.X.Offset / 2, 0.5, -mainFrame.Size.Y.Offset / 2) -- Center the frame
-mainFrame.BackgroundColor3 = Color3.fromRGB(17,18,22,255) -- Dark blue background
+mainFrame.BackgroundColor3 = Color3.fromRGB(10,23,39,255) -- Dark blue background
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
 mainFrame.Draggable = true -- Enable dragging
@@ -3379,7 +3379,7 @@ local closeButton = Instance.new("TextButton")
 closeButton.Name = "CloseButton"
 closeButton.Size = UDim2.new(0, 30, 0, 30) -- Adjust size as needed
 closeButton.Position = UDim2.new(1, -40, 0, 10) -- Adjust position as needed
-closeButton.BackgroundColor3 = Color3.fromRGB(43,177,255,255) -- Red color
+closeButton.BackgroundColor3 = Color3.fromRGB(28,156,148) -- Red color
 closeButton.BorderSizePixel = 0
 closeButton.Text = "X"
 closeButton.Font = Enum.Font.GothamSemibold -- Change font
@@ -3407,7 +3407,7 @@ local minimizeButton = Instance.new("TextButton")
 minimizeButton.Name = "MinimizeButton"
 minimizeButton.Size = UDim2.new(0, 30, 0, 30) -- Adjust size as needed
 minimizeButton.Position = UDim2.new(1, -80, 0, 10) -- Adjust position as needed
-minimizeButton.BackgroundColor3 = Color3.fromRGB(43,177,255,255) -- Green color
+minimizeButton.BackgroundColor3 = Color3.fromRGB(28,156,148) -- Green color
 minimizeButton.BorderSizePixel = 0
 minimizeButton.Text = "-"
 minimizeButton.Font = Enum.Font.GothamSemibold -- Change font
@@ -3424,8 +3424,8 @@ minimizeButtonCorner.Parent = minimizeButton
 local minimizedButton = Instance.new("TextButton")
 minimizedButton.Name = "MinimizedButton"
 minimizedButton.Size = UDim2.new(0, 30, 0, 30) -- Adjust size as needed
-minimizedButton.Position = UDim2.new(1, -40, 0, 10) -- Adjust position as needed
-minimizedButton.BackgroundColor3 = Color3.fromRGB(43,177,255,255) -- Green color
+minimizedButton.Position = UDim2.new(1, -1431, 0, -31) -- Adjust position as needed
+minimizedButton.BackgroundColor3 = Color3.fromRGB(28,156,148) -- Green color
 minimizedButton.BorderSizePixel = 0
 minimizedButton.Text = "-"
 minimizedButton.Font = Enum.Font.GothamSemibold -- Change font
@@ -3460,7 +3460,7 @@ searchBar.PlaceholderText = "Search by title..."
 searchBar.Font = Enum.Font.Gotham
 searchBar.TextSize = 14
 searchBar.BackgroundTransparency = 0.5
-searchBar.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Dark background color
+searchBar.BackgroundColor3 = Color3.fromRGB(21,40,57,255) -- Dark background color
 searchBar.BorderSizePixel = 0
 searchBar.TextColor3 = Color3.fromRGB(255, 255, 255) -- Text color
 searchBar.PlaceholderColor3 = Color3.fromRGB(150, 150, 150) -- Placeholder text color
@@ -3483,7 +3483,7 @@ infoBox.Text = initialInfoText -- Set the initial text content
 infoBox.Font = Enum.Font.Gotham
 infoBox.TextSize = 14
 infoBox.BackgroundTransparency = 0.5
-infoBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40) -- Dark background color
+infoBox.BackgroundColor3 = Color3.fromRGB(21,40,57,255) -- Dark background color
 infoBox.BorderSizePixel = 0
 infoBox.TextColor3 = Color3.fromRGB(255, 255, 255) -- Text color
 infoBox.ClearTextOnFocus = false -- Allow editing without clearing text
@@ -3538,7 +3538,7 @@ local function createDecalPreview(title, decalID, position, textboxPosition)
     titleTextBox.Name = "TitleTextBox"
     titleTextBox.Size = UDim2.new(0, 120, 0, 20) -- Adjust size as needed
     titleTextBox.Position = position + UDim2.new(0, 0, 0, 130) -- Position below decal preview
-    titleTextBox.BackgroundColor3 = Color3.fromRGB(26, 32, 46) -- Darker blue background
+    titleTextBox.BackgroundColor3 = Color3.fromRGB(21,40,57,255) -- Darker blue background
     titleTextBox.BorderSizePixel = 0
     titleTextBox.Text = title
     titleTextBox.Font = Enum.Font.Gotham
@@ -3553,7 +3553,7 @@ local function createDecalPreview(title, decalID, position, textboxPosition)
     decalIDTextBox.Name = "DecalIDTextBox"
     decalIDTextBox.Size = UDim2.new(0, 120, 0, 20) -- Adjust size as needed
     decalIDTextBox.Position = textboxPosition
-    decalIDTextBox.BackgroundColor3 = Color3.fromRGB(26, 32, 46) -- Darker blue background
+    decalIDTextBox.BackgroundColor3 = Color3.fromRGB(21,40,57,255) -- Darker blue background
     decalIDTextBox.BorderSizePixel = 0
     decalIDTextBox.Text = decalID
     decalIDTextBox.Font = Enum.Font.Gotham
@@ -3575,7 +3575,7 @@ end
 
 -- Define custom titles and decal IDs (replace these with your own)
 local decalPreviews = {
-    {title = "Pornhub Logo", id = 17189770364},
+    {title = "Vindicate Logo", id = 17646580928},
     {title = "White Glue", id = 14976845153},
     {title = "Communism", id = 6978648716},
     {title = "Face 1", id = 12579922286},
@@ -3748,7 +3748,6 @@ local decalPreviews = {
     {title = "Oh My GYATT", id = 15724216964},
     {title = "Certified Rizz", id = 17156009318},
     {title = "Mid", id = 15147793496},
-    {title = "That Gyatt", id = 17553789321},
     {title = "Sexy Xray", id = 17559259734},
 
 }
