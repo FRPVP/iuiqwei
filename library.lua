@@ -31,7 +31,7 @@ local HTTPService = game:GetService("HttpService")
 
 local Library = {
 	Themes = {
-		Vega X = {
+		VegaX = {
 			Main = Color3.fromHSV(18,18,20,255),
 			Secondary = Color3.fromHSV(37,37,37,255),
 			Tertiary = Color3.fromHSV(208,68,53,255),
