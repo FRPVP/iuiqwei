@@ -9,7 +9,18 @@ local function boxsprayOnPlayer(target)
     
     local humanoidRootPart = target.Character.HumanoidRootPart
 
-    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Front, 5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 5, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Top, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Bottom, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Bottom, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Top, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Front, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Back, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Front, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Back, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Right, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Left, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Right, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Left, 6, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
 end
 
 local boxsprayLoop = false
