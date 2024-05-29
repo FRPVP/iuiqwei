@@ -3264,6 +3264,30 @@ tab:textbox({
 
 
 
+local tab = gui:tab{
+    Icon = "rbxassetid://17652717888",
+    Name = "Trade"
+}
+
+
+
+
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17652719752",
+    Name = "Decals"
+}
+
+
+
+
+
+
+
+
 
 
 
