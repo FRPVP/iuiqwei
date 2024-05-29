@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
-local tagId = 60484593
+local boxId = 60484593
 
-local function tagsprayOnPlayer(target)
+local function boxsprayOnPlayer(target)
     local localPlayer = Players.LocalPlayer
     if not target.Character or not target.Character:FindFirstChild("HumanoidRootPart") then
         return
@@ -9,32 +9,32 @@ local function tagsprayOnPlayer(target)
     
     local humanoidRootPart = target.Character.HumanoidRootPart
 
-    localPlayer.Character.SprayPaint.Remote:FireServer(tagId, Enum.NormalId.Front, 5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 5, 0))
+    localPlayer.Character.SprayPaint.Remote:FireServer(boxId, Enum.NormalId.Front, 5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(0, 5, 0))
 end
 
-local tagsprayLoop = false
+local boxsprayLoop = false
 
 tab:toggle({
-    Name = "Tag",
+    Name = "Box",
     StartingState = false,
     Description = "Spraypaint Toy Required",
     Callback = function(Value)
         if Value then
-            tagsprayLoop = true
-            while tagsprayLoop do
+            boxsprayLoop = true
+            while boxsprayLoop do
                 EquipSpray()
                 task.wait(0.4)
                 if infinityGauntlet == "All" then
                     for _, player in pairs(game.Players:GetPlayers()) do
                         if player ~= Players.LocalPlayer then -- Skip executing the function on yourself
-                            tagsprayOnPlayer(player)
+                            boxsprayOnPlayer(player)
                             task.wait()
                         end
                     end
                 else
                     local targetPlayer = findPlayerByName(infinityGauntlet)
                     if targetPlayer then
-                        tagsprayOnPlayer(targetPlayer)
+                        boxsprayOnPlayer(targetPlayer)
                     else
                         print("Player not found.")
                     end
@@ -42,14 +42,14 @@ tab:toggle({
                 task.wait(15)
             end
         else
-            tagsprayLoop = false
+            boxsprayLoop = false
         end
     end
 })
 
 tab:textbox({
-    Name = "Custom Tag ID",
+    Name = "Custom Box ID",
     Callback = function(Value)
-        tagId = tonumber(Value) or tagId
+        boxId = tonumber(Value) or boxId
     end
 })
