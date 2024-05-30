@@ -1624,11 +1624,12 @@ end
 
 tab:toggle({
     Name = "Ghost",
-		StartingState = false,
-		Description = "Ghost Perk Required",
-		Callback = function(Value)
-   Gameplay.Stealth:FireServer(Value)
-end,})
+    StartingState = false,
+    Description = "Ghost Perk Required",
+    Callback = function(Value)
+        Gameplay.Stealth:FireServer(Value)
+    end
+})
 
 tab:toggle({
     Name = "Sprint Trail",
