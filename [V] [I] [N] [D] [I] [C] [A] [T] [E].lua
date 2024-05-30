@@ -3527,6 +3527,26 @@ KickPlayer()
 })
 
 tab:toggle({
+    Name = "Improve FPS",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   ChangeImproveFPS = Value
+    while ChangeImproveFPS do
+        for i,v in pairs (Workspace:GetDescendants()) do
+            if v.Name == "Pet" then
+                v:Destroy()
+            elseif v.Name == "KnifeDisplay" then
+                v:Destroy()
+            elseif v.Name == "GunDisplay" then
+                v:Destroy()
+            end
+        end
+        wait(10)
+    end
+end,})
+
+tab:toggle({
     Name = "Night",
     StartingState = false,
     Description = "",
