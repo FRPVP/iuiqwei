@@ -1632,25 +1632,25 @@ local Stealth
 
 tab:toggle({
     Name = "Ghost",
-		StartingState = false,
-		Description = "Ghost Perk Required",
-		Callback = function(val)
-   local val = Value
-    if val then
-        -- If toggle is turned on, activate Stealth
-        Stealth = RS.RenderStepped:Connect(function()
-            StealthRemote:FireServer(true)
-        end)
-    else
-        -- If toggle is turned off, disconnect the Stealth activation
-        if Stealth then
-            Stealth:Disconnect()
-            Stealth = nil
+    StartingState = false,
+    Description = "Ghost Perk Required",
+    Callback = function(val)
+        if val then
+            -- If toggle is turned on, activate Stealth
+            Stealth = RS.RenderStepped:Connect(function()
+                StealthRemote:FireServer(true)
+            end)
+        else
+            -- If toggle is turned off, disconnect the Stealth activation
+            if Stealth then
+                Stealth:Disconnect()
+                Stealth = nil
+            end
+            -- Deactivate Stealth
+            StealthRemote:FireServer(false)
         end
-        -- Deactivate Stealth
-        StealthRemote:FireServer(false)
-    end
-end,})
+    end,
+})
 
 tab:toggle({
     Name = "Sprint Trail",
