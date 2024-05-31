@@ -3672,13 +3672,12 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "ToggleUiDCCHub"
 gui.Parent = game.CoreGui
 
-local toggleui = Instance.new("ImageButton") -- Changed TextButton to ImageButton
-toggleui.Size = UDim2.new(0, 50, 0, 50)
+local toggleui = Instance.new("ImageLabel")
+toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
 toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
-toggleui.Image = "rbxassetid://9065431121" -- Set the image ID
-toggleui.BackgroundColor3 = Color3.fromRGB(255, 255, 255) -- Set background color to white
+toggleui.Image = "rbxassetid://9065431121" -- Set image ID
+toggleui.BackgroundTransparency = 1 -- Make the background transparent
 toggleui.Active = true
-toggleui.Draggable = true
 toggleui.Parent = gui
 toggleui.ZIndex = 0
 
