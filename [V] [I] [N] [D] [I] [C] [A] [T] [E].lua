@@ -3672,12 +3672,16 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "ToggleUiDCCHub"
 gui.Parent = game.CoreGui
 
-local toggleui = Instance.new("ImageLabel")
-toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
+local toggleui = Instance.new("TextButton")
+toggleui.Size = UDim2.new(0, 50, 0, 50)
 toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
-toggleui.BackgroundTransparency = 1 -- Make background transparent
-toggleui.Image = "rbxassetid://9065431121" -- Set the image ID
+toggleui.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+toggleui.Style = Enum.ButtonStyle.RobloxRoundDefaultButton
+toggleui.Active = true
+toggleui.Draggable = true
 toggleui.Parent = gui
+toggleui.Text = "" -- Remove text
+toggleui.Image = "rbxassetid://8676495068" -- Replace "YourImageIDHere" with the ID of your image
 toggleui.ZIndex = 0
 
 toggleui.MouseButton1Click:Connect(function()
