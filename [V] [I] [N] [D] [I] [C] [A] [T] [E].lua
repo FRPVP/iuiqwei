@@ -3669,22 +3669,18 @@ tab:toggle({
 
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "ToggleUIButton"
+gui.Name = "ToggleUiDCCHub"
 gui.Parent = game.CoreGui
 
 local toggleui = Instance.new("TextButton")
 toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
 toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
-toggleui.BackgroundColor3 = Color3.fromRGB(28,156,148)
+toggleui.BackgroundColor3 = Color3.fromRGB(28, 156, 148) -- Changed background color
 toggleui.Style = Enum.ButtonStyle.RobloxRoundDefaultButton -- Added UI cornering
 toggleui.Active = true
 toggleui.Draggable = true
 toggleui.Parent = gui
-toggleui.Text = ""
-toggleui.TextSize = 14 -- Adjusted text size to fit smaller button
-toggleui.TextScaled = true
-toggleui.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleui.Font = Enum.Font.SourceSans
+toggleui.Text = "" -- Removed the text
 toggleui.ZIndex = 0
 
 toggleui.MouseButton1Click:Connect(function()
