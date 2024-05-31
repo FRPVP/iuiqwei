@@ -3665,3 +3665,31 @@ tab:toggle({
         end
     end,
 })
+
+
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "ToggleUiDCCHub"
+gui.Parent = game.CoreGui
+
+local toggleui = Instance.new("TextButton")
+toggleui.Size = UDim2.new(0, 75, 0, 75)
+toggleui.Position = UDim2.new(0.01001973976, 0, 0.343832953, 0)
+toggleui.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+toggleui.Active = true
+toggleui.Draggable = true
+toggleui.Parent = gui
+toggleui.Text = "Toggle Ui"
+toggleui.TextSize = 18
+toggleui.TextScaled = true
+toggleui.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleui.Font = Enum.Font.SourceSans
+toggleui.ZIndex = 0
+
+toggleui.MouseButton1Click:Connect(function()
+    if Library and Library.show then
+        Library:show(not Library.Toggled)
+    else
+        warn("Library or its show method not found.")
+    end
+end)
