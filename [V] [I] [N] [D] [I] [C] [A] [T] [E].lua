@@ -3672,23 +3672,49 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "ToggleUiDCCHub"
 gui.Parent = game.CoreGui
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 50, 0, 50)
-frame.Position = UDim2.new(0.01, 0, 0.34, 0)
-frame.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
-frame.Parent = gui
-
-local toggleui = Instance.new("TextButton")
-toggleui.Size = UDim2.new(1, 0, 1, 0)
-toggleui.Position = UDim2.new(0, 0, 0, 0)
-toggleui.BackgroundTransparency = 1
-toggleui.Style = Enum.ButtonStyle.RobloxRoundDefaultButton
-toggleui.Parent = frame
-toggleui.Text = "Toggle Ui"
-toggleui.TextSize = 14
-toggleui.TextColor3 = Color3.fromRGB(255, 255, 255)
-toggleui.Font = Enum.Font.SourceSans
+local toggleui = Instance.new("Frame")
+toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
+toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
+toggleui.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+toggleui.BackgroundTransparency = 0.5 -- Make it semi-transparent when not hovered
+toggleui.Active = true
+toggleui.Parent = gui
 toggleui.ZIndex = 0
+
+local label = Instance.new("TextLabel") -- Adding a label for text
+label.Size = UDim2.new(1, 0, 1, 0)
+label.BackgroundTransparency = 1
+label.Text = "Toggle Ui"
+label.TextSize = 14
+label.TextScaled = true
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.Font = Enum.Font.SourceSans
+label.Parent = toggleui
+
+toggleui.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        local offset = input.Position - toggleui.AbsolutePosition
+        toggleui.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement then
+                toggleui.Position = UDim2.new(0, input.Position.X - offset.X, 0, input.Position.Y - offset.Y)
+            end
+        end)
+    end
+end)
+
+toggleui.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        toggleui.InputChanged:Disconnect()
+    end
+end)
+
+toggleui.MouseEnter:Connect(function()
+    toggleui.BackgroundTransparency = 0 -- Make it opaque when hovered
+end)
+
+toggleui.MouseLeave:Connect(function()
+    toggleui.BackgroundTransparency = 0.5 -- Make it semi-transparent when not hovered
+end)
 
 toggleui.MouseButton1Click:Connect(function()
     if Library and Library.show then
