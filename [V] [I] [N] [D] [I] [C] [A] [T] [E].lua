@@ -3675,17 +3675,25 @@ gui.Parent = game.CoreGui
 local toggleui = Instance.new("TextButton")
 toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
 toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
-toggleui.BackgroundColor3 = Color3.fromRGB(28, 156, 148) -- Changed background color
+toggleui.BackgroundTransparency = 1 -- Make the TextButton transparent
 toggleui.Active = true
 toggleui.Draggable = true
 toggleui.Parent = gui
 toggleui.Text = "" -- Removed the text
-toggleui.ZIndex = 0
+toggleui.ZIndex = 1
+
+local imageLabel = Instance.new("ImageLabel")
+imageLabel.Size = UDim2.new(1, 0, 1, 0) -- Match the size of the TextButton
+imageLabel.Position = UDim2.new(0, 0, 0, 0)
+imageLabel.Image = "https://www.roblox.com/asset-thumbnail/image?assetId=8676495068&width=420&height=420&format=png" -- Set the image URL using rbxthumb
+imageLabel.BackgroundTransparency = 1
+imageLabel.Parent = toggleui
+imageLabel.ZIndex = 0
 
 -- Adding UI cornering
 local uicorner = Instance.new("UICorner")
 uicorner.CornerRadius = UDim.new(0, 8) -- Adjust the radius as needed
-uicorner.Parent = toggleui
+uicorner.Parent = imageLabel
 
 toggleui.MouseButton1Click:Connect(function()
     if Library and Library.show then
