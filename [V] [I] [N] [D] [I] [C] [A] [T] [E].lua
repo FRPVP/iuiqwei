@@ -3487,6 +3487,53 @@ local tab = gui:tab{
     Name = "Misc"
 }
 
+tab:toggle({
+    Name = "Toggle UI Button",
+    StartingState = false,
+    Description = "A button to hopefully help you better toggle the UI",
+    Callback = function(Value)
+        local gui = game.CoreGui:FindFirstChild("ToggleUiDCCHub")
+        if not gui then
+            gui = Instance.new("ScreenGui")
+            gui.Name = "ToggleUiDCCHub"
+            gui.Parent = game.CoreGui
+
+            local toggleui = Instance.new("TextButton")
+            toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
+            toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
+            toggleui.BackgroundTransparency = 1 -- Make the TextButton transparent
+            toggleui.Active = true
+            toggleui.Draggable = true
+            toggleui.Parent = gui
+            toggleui.Text = "" -- Removed the text
+            toggleui.ZIndex = 1
+
+            local imageLabel = Instance.new("ImageLabel")
+            imageLabel.Size = UDim2.new(1, 0, 1, 0) -- Match the size of the TextButton
+            imageLabel.Position = UDim2.new(0, 0, 0, 0)
+            imageLabel.Image = "https://www.roblox.com/asset-thumbnail/image?assetId=17684864798&width=420&height=420&format=png" -- Set the image URL using rbxthumb
+            imageLabel.BackgroundTransparency = 1
+            imageLabel.Parent = toggleui
+            imageLabel.ZIndex = 0
+
+            -- Adding UI cornering
+            local uicorner = Instance.new("UICorner")
+            uicorner.CornerRadius = UDim.new(0, 8) -- Adjust the radius as needed
+            uicorner.Parent = imageLabel
+
+            toggleui.MouseButton1Click:Connect(function()
+                if Library and Library.show then
+                    Library:show(not Library.Toggled)
+                else
+                    warn("Library or its show method not found.")
+                end
+            end)
+        else
+            gui:Destroy() -- If the GUI already exists, destroy it
+        end
+    end
+})
+
 tab:button({
     Name = "Rejoin",
     Description = "",
@@ -3666,39 +3713,3 @@ tab:toggle({
     end,
 })
 
-
-
-local gui = Instance.new("ScreenGui")
-gui.Name = "ToggleUiDCCHub"
-gui.Parent = game.CoreGui
-
-local toggleui = Instance.new("TextButton")
-toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
-toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
-toggleui.BackgroundTransparency = 1 -- Make the TextButton transparent
-toggleui.Active = true
-toggleui.Draggable = true
-toggleui.Parent = gui
-toggleui.Text = "" -- Removed the text
-toggleui.ZIndex = 1
-
-local imageLabel = Instance.new("ImageLabel")
-imageLabel.Size = UDim2.new(1, 0, 1, 0) -- Match the size of the TextButton
-imageLabel.Position = UDim2.new(0, 0, 0, 0)
-imageLabel.Image = "https://www.roblox.com/asset-thumbnail/image?assetId=17684864798&width=420&height=420&format=png" -- Set the image URL using rbxthumb
-imageLabel.BackgroundTransparency = 1
-imageLabel.Parent = toggleui
-imageLabel.ZIndex = 0
-
--- Adding UI cornering
-local uicorner = Instance.new("UICorner")
-uicorner.CornerRadius = UDim.new(0, 8) -- Adjust the radius as needed
-uicorner.Parent = imageLabel
-
-toggleui.MouseButton1Click:Connect(function()
-    if Library and Library.show then
-        Library:show(not Library.Toggled)
-    else
-        warn("Library or its show method not found.")
-    end
-end)
