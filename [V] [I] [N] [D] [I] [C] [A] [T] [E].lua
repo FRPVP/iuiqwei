@@ -3676,11 +3676,16 @@ local toggleui = Instance.new("TextButton")
 toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
 toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
 toggleui.BackgroundColor3 = Color3.fromRGB(28, 156, 148) -- Changed background color
-toggleui.BorderSizePixel = 5 -- Removed border
-toggleui.AutoButtonColor = false -- Added to prevent color change on mouse hover
+toggleui.Active = true
+toggleui.Draggable = true
 toggleui.Parent = gui
 toggleui.Text = "" -- Removed the text
 toggleui.ZIndex = 0
+
+-- Adding UI cornering
+local uicorner = Instance.new("UICorner")
+uicorner.CornerRadius = UDim.new(0, 8) -- Adjust the radius as needed
+uicorner.Parent = toggleui
 
 toggleui.MouseButton1Click:Connect(function()
     if Library and Library.show then
