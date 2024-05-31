@@ -3672,11 +3672,11 @@ local gui = Instance.new("ScreenGui")
 gui.Name = "ToggleUiDCCHub"
 gui.Parent = game.CoreGui
 
-local toggleui = Instance.new("ImageButton") -- Changed from TextButton to ImageButton
+local toggleui = Instance.new("ImageButton")
 toggleui.Size = UDim2.new(0, 50, 0, 50)
 toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
-toggleui.Image = "rbxassetid://8676495068" -- Replace "YourImageIDHere" with the ID of your image asset
-toggleui.BackgroundColor3 = Color3.fromRGB(28, 28, 28)
+toggleui.Image = "rbxassetid://8676495068"
+toggleui.BackgroundTransparency = 1 -- Set BackgroundTransparency to 1 to hide default color
 toggleui.Style = Enum.ButtonStyle.RobloxRoundDefaultButton
 toggleui.Active = true
 toggleui.Draggable = true
