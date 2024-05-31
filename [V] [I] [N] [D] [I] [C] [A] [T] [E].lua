@@ -3685,7 +3685,7 @@ toggleui.ZIndex = 1
 local imageLabel = Instance.new("ImageLabel")
 imageLabel.Size = UDim2.new(1, 0, 1, 0) -- Match the size of the TextButton
 imageLabel.Position = UDim2.new(0, 0, 0, 0)
-imageLabel.Image = "https://www.roblox.com/asset-thumbnail/image?assetId=8676495068&width=420&height=420&format=png" -- Set the image URL using rbxthumb
+imageLabel.Image = "https://www.roblox.com/asset-thumbnail/image?assetId=17684864798&width=420&height=420&format=png" -- Set the image URL using rbxthumb
 imageLabel.BackgroundTransparency = 1
 imageLabel.Parent = toggleui
 imageLabel.ZIndex = 0
