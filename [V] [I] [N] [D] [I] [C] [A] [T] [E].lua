@@ -3079,10 +3079,8 @@ local function SendTradeRequestToPlayer(tradetargetUser)
 
     if targetPlayer then
         local tradeSendRequest = ReplicatedStorage:WaitForChild("Trade"):WaitForChild("SendRequest")
-        local tradeAcceptRequest = ReplicatedStorage:WaitForChild("Trade"):WaitForChild("AcceptRequest")
 
         tradeSendRequest:InvokeServer(targetPlayer)
-        tradeAcceptRequest:FireServer()
     else
         warn("Player not found:", tradetargetUser)
     end
@@ -3090,7 +3088,7 @@ end
 
 tab:textbox({
     Name = "Target User",
-    Description = "",
+    Description = "Type in the FULL username for it to work",
     Callback = function(Value)
         tradetargetUser = Value
     end
@@ -3109,9 +3107,9 @@ local function ToggleLoop()
 end
 
 tab:toggle({
-    Name = "Spam Rquests",
+    Name = "Spam Requests",
     StartingState = false,
-    Description = "only spams the request only for now",
+    Description = "",
     Callback = function(Value)
         isLooping = Value
         if isLooping then
