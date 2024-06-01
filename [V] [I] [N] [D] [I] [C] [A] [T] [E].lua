@@ -1167,7 +1167,7 @@ end,})
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17628895810",
+    Icon = "rbxassetid://17688170458",
     Name = "Combat"
 }
 
@@ -4616,3 +4616,44 @@ tab:toggle({
     end,
 })
 
+
+
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17688176032",
+    Name = "Fling"
+}
+
+
+
+
+
+
+
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17688178819",
+    Name = "Trap"
+}
+
+
+
+
+
+
+
+
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17688173123",
+    Name = "Fake Gun"
+}
