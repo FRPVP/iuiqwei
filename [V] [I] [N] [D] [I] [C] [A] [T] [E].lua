@@ -3071,7 +3071,8 @@ local tab = gui:tab{
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local isLooping = false
+local isLoopingSend = false
+local isLoopingCancel = false
 local tradetargetUser = ""
 
 local function SendTradeRequestToPlayer(tradetargetUser)
@@ -3086,6 +3087,18 @@ local function SendTradeRequestToPlayer(tradetargetUser)
     end
 end
 
+local function CancelTradeRequestForPlayer(tradetargetUser)
+    local targetPlayer = Players:FindFirstChild(tradetargetUser)
+
+    if targetPlayer then
+        local tradeCancelRequest = ReplicatedStorage:WaitForChild("Trade"):WaitForChild("CancelRequest")
+
+        tradeCancelRequest:FireServer(targetPlayer)
+    else
+        warn("Player not found:", tradetargetUser)
+    end
+end
+
 tab:textbox({
     Name = "Target User",
     Description = "Type in the FULL username for it to work",
@@ -3094,8 +3107,8 @@ tab:textbox({
     end
 })
 
-local function ToggleLoop()
-    while isLooping do
+local function ToggleSendLoop()
+    while isLoopingSend do
         if tradetargetUser ~= "" then
             SendTradeRequestToPlayer(tradetargetUser)
         else
@@ -3106,14 +3119,38 @@ local function ToggleLoop()
     end
 end
 
+local function ToggleCancelLoop()
+    while isLoopingCancel do
+        if tradetargetUser ~= "" then
+            CancelTradeRequestForPlayer(tradetargetUser)
+        else
+            print("Please enter a valid player name.")
+            break
+        end
+        wait(0) -- Adjust the delay as needed
+    end
+end
+
 tab:toggle({
-    Name = "Spam Requests",
+    Name = "Spam Trade Requests",
     StartingState = false,
     Description = "",
     Callback = function(Value)
-        isLooping = Value
-        if isLooping then
-            ToggleLoop()
+        isLoopingSend = Value
+        if isLoopingSend then
+            ToggleSendLoop()
+        end
+    end,
+})
+
+tab:toggle({
+    Name = "Spam Cancel Requests",
+    StartingState = false,
+    Description = "",
+    Callback = function(Value)
+        isLoopingCancel = Value
+        if isLoopingCancel then
+            ToggleCancelLoop()
         end
     end,
 })
