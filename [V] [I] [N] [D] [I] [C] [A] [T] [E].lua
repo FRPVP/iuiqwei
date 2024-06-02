@@ -4665,3 +4665,31 @@ tab:toggle({
         end
     end,
 })
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+local enabled = false
+
+local function onPlayerRemoving(removedPlayer)
+    if enabled and removedPlayer ~= player then
+        local message = removedPlayer.Name.." has left the game."
+        game.StarterGui:SetCore("ChatMakeSystemMessage", {
+            Text = message;
+            Color = Color3.new(1, 1, 0); -- Yellow color for the message
+            Font = Enum.Font.SourceSansBold;
+            FontSize = Enum.FontSize.Size24;
+        })
+    end
+end
+
+tab:toggle({
+    Name = "Notify Player Leave",
+		StartingState = false,
+		Description = "",
+		Callback = function(state)
+			enabled = state
+		end,
+})
+
+Players.PlayerRemoving:Connect(onPlayerRemoving)
