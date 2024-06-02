@@ -4667,29 +4667,60 @@ tab:toggle({
 })
 
 local Players = game:GetService("Players")
+
+-- Local Player
 local player = Players.LocalPlayer
 
-local enabled = false
+-- Notification Toggles
+local notifyLeaveEnabled = false
+local notifyJoinEnabled = false
 
+-- Function to handle player removal
 local function onPlayerRemoving(removedPlayer)
-    if enabled and removedPlayer ~= player then
-        local message = removedPlayer.Name.." has left the game."
+    if notifyLeaveEnabled and removedPlayer ~= player then
+        local message = removedPlayer.Name .. " has left the game."
         game.StarterGui:SetCore("ChatMakeSystemMessage", {
             Text = message;
-            Color = Color3.new(240, 7, 7);
+            Color = Color3.fromRGB(240, 7, 7);
             Font = Enum.Font.SourceSansBold;
             FontSize = Enum.FontSize.Size24;
         })
     end
 end
 
+-- Function to handle player addition
+local function onPlayerAdded(addedPlayer)
+    if notifyJoinEnabled and addedPlayer ~= player then
+        local message = addedPlayer.Name .. " has joined the game."
+        game.StarterGui:SetCore("ChatMakeSystemMessage", {
+            Text = message;
+            Color = Color3.fromRGB(0, 200, 0);
+            Font = Enum.Font.SourceSansBold;
+            FontSize = Enum.FontSize.Size24;
+        })
+    end
+end
+
+-- Toggle button for leaving notification setup
 tab:toggle({
-    Name = "Notify Player Leave",
-		StartingState = false,
-		Description = "",
-		Callback = function(state)
-			enabled = state
-		end,
+    Name = "Player Leave Notify",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        notifyLeaveEnabled = state
+    end,
 })
 
+-- Toggle button for joining notification setup
+tab:toggle({
+    Name = "Player Join Notify",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        notifyJoinEnabled = state
+    end,
+})
+
+-- Connect the functions to the respective events
 Players.PlayerRemoving:Connect(onPlayerRemoving)
+Players.PlayerAdded:Connect(onPlayerAdded)
