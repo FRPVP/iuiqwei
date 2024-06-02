@@ -4676,7 +4676,7 @@ local function onPlayerRemoving(removedPlayer)
         local message = removedPlayer.Name.." has left the game."
         game.StarterGui:SetCore("ChatMakeSystemMessage", {
             Text = message;
-            Color = Color3.new(1, 1, 0); -- Yellow color for the message
+            Color = Color3.new(240, 7, 7);
             Font = Enum.Font.SourceSansBold;
             FontSize = Enum.FontSize.Size24;
         })
