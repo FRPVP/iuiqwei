@@ -3359,6 +3359,181 @@ tab:toggle({
     end
 end,})
 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local plr = Players.LocalPlayer
+
+local flyKeyDown, flyKeyUp
+local FLYING = false
+local Clip = true
+local Noclipping
+local IYMouse = plr:GetMouse()
+
+local vehicleflyspeed = 0.5
+local iyflyspeed = 0.3
+local QEfly = true
+
+function sFLY(vfly)
+    repeat wait() until plr and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChildOfClass("Humanoid")
+
+    if flyKeyDown or flyKeyUp then
+        flyKeyDown:Disconnect()
+        flyKeyUp:Disconnect()
+    end
+
+    local T = plr.Character.HumanoidRootPart
+    local CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+    local lCONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+    local SPEED = 0
+
+    local function FLY()
+        FLYING = true
+        local BG = Instance.new('BodyGyro')
+        local BV = Instance.new('BodyVelocity')
+        BG.P = 9e4
+        BG.Parent = T
+        BV.Parent = T
+        BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+        BG.cframe = T.CFrame
+        BV.velocity = Vector3.new(0, 0, 0)
+        BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
+
+        task.spawn(function()
+            repeat wait()
+                if not vfly and plr.Character:FindFirstChildOfClass('Humanoid') then
+                    plr.Character:FindFirstChildOfClass('Humanoid').PlatformStand = true
+                end
+                if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0 then
+                    SPEED = 50
+                elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0) and SPEED ~= 0 then
+                    SPEED = 0
+                end
+                if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 or (CONTROL.Q + CONTROL.E) ~= 0 then
+                    BV.velocity = ((workspace.CurrentCamera.CFrame.LookVector * (CONTROL.F + CONTROL.B)) + ((workspace.CurrentCamera.CFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).Position) - workspace.CurrentCamera.CFrame.Position)) * SPEED
+                    lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
+                elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and (CONTROL.Q + CONTROL.E) == 0 and SPEED ~= 0 then
+                    BV.velocity = ((workspace.CurrentCamera.CFrame.LookVector * (lCONTROL.F + lCONTROL.B)) + ((workspace.CurrentCamera.CFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).Position) - workspace.CurrentCamera.CFrame.Position)) * SPEED
+                else
+                    BV.velocity = Vector3.new(0, 0, 0)
+                end
+                BG.CFrame = workspace.CurrentCamera.CFrame
+            until not FLYING
+            CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+            lCONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
+            SPEED = 0
+            BG:Destroy()
+            BV:Destroy()
+            if plr.Character:FindFirstChildOfClass('Humanoid') then
+                plr.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
+            end
+        end)
+    end
+
+    flyKeyDown = IYMouse.KeyDown:Connect(function(KEY)
+        if KEY:lower() == 'w' then
+            CONTROL.F = (vfly and vehicleflyspeed or iyflyspeed)
+        elseif KEY:lower() == 's' then
+            CONTROL.B = - (vfly and vehicleflyspeed or iyflyspeed)
+        elseif KEY:lower() == 'a' then
+            CONTROL.L = - (vfly and vehicleflyspeed or iyflyspeed)
+        elseif KEY:lower() == 'd' then 
+            CONTROL.R = (vfly and vehicleflyspeed or iyflyspeed)
+        elseif QEfly and KEY:lower() == 'e' then
+            CONTROL.Q = (vfly and vehicleflyspeed or iyflyspeed) * 2
+        elseif QEfly and KEY:lower() == 'q' then
+            CONTROL.E = -(vfly and vehicleflyspeed or iyflyspeed) * 2
+        end
+        pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Track end)
+    end)
+
+    flyKeyUp = IYMouse.KeyUp:Connect(function(KEY)
+        if KEY:lower() == 'w' then
+            CONTROL.F = 0
+        elseif KEY:lower() == 's' then
+            CONTROL.B = 0
+        elseif KEY:lower() == 'a' then
+            CONTROL.L = 0
+        elseif KEY:lower() == 'd' then
+            CONTROL.R = 0
+        elseif KEY:lower() == 'e' then
+            CONTROL.Q = 0
+        elseif KEY:lower() == 'q' then
+            CONTROL.E = 0
+        end
+    end)
+
+    FLY()
+end
+
+-- Function to enable noclip
+function Noclip()
+    Clip = false
+    local function NoclipLoop()
+        if Clip == false and plr.Character ~= nil then
+            for _, child in pairs(plr.Character:GetDescendants()) do
+                if child:IsA("BasePart") and child.CanCollide == true then
+                    child.CanCollide = false
+                end
+            end
+        end
+    end
+    Noclipping = RunService.Stepped:Connect(NoclipLoop)
+end
+
+-- Function to disable flying
+function NOFLY()
+    FLYING = false
+    if flyKeyDown or flyKeyUp then
+        flyKeyDown:Disconnect()
+        flyKeyUp:Disconnect()
+    end
+    if plr.Character:FindFirstChildOfClass('Humanoid') then
+        plr.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
+    end
+    pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Custom end)
+end
+
+-- Toggle button for Fly Fling
+tab:toggle({
+    Name = "Fly Fling",
+    StartingState = false,
+    Description = "Has a bit of an issue of throwing you off the map",
+    Callback = function(Fly)
+        if Fly == true then
+            NOFLY()
+            wait()
+            for _, v in pairs(plr.Character:GetDescendants()) do
+                if v:IsA("Part") then
+                    v.CustomPhysicalProperties = PhysicalProperties.new(9e99, 9e99, 9e99, 9e99, 9e99)
+                end
+            end
+            Noclip()
+            sFLY(true)
+            local BodyAV = Instance.new("BodyAngularVelocity", plr.Character:FindFirstChild("HumanoidRootPart"))
+            BodyAV.AngularVelocity = Vector3.new(0, 2000, 0)
+            BodyAV.MaxTorque = Vector3.new(0, math.huge, 0)
+            BodyAV.Name = "FlyFling"
+            BodyAV.P = 1250
+        else
+            NOFLY()
+            for _, child in pairs(plr.Character:GetDescendants()) do
+                if child.ClassName == "Part" then
+                    child.CustomPhysicalProperties = PhysicalProperties.new(0.7, 0.3, 0.5, 0, 0)
+                end
+            end
+            for _, v in pairs(plr.Character:GetDescendants()) do
+                if v:IsA("BodyAngularVelocity") and v.Name == "FlyFling" then
+                    v:Destroy()
+                end
+            end
+            Clip = true
+            if Noclipping then
+                Noclipping:Disconnect()
+            end
+        end
+    end
+})
+
 tab:textbox({
 Name = "Target User",
 Description = "Type All to select all players",
