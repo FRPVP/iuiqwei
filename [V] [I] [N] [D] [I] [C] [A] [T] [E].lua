@@ -643,8 +643,6 @@ end
 
 
 
-
-
 local tab = gui:tab{
     Icon = "rbxassetid://17628884815",
     Name = "Visual"
@@ -1688,7 +1686,7 @@ tab:toggle({
 })
 
 local something = tab:slider({
-    Name = "Emote Speed",
+    Name = "Energizer Emote Speed",
     Description = "",
     Default = 1,
     Min = 1,
@@ -1703,7 +1701,7 @@ local something = tab:slider({
 })
 
 tab:textbox({
-    Name = "Emote Speed",
+    Name = "Energizer Emote Speed",
     Description = "",
     Placeholder = "1-1000",
     Callback = function(v)
@@ -1717,7 +1715,64 @@ tab:textbox({
     end
 })
 
+local originalAnimations = {}
+local originalHipHeight
 
+tab:toggle({
+    Name = "Sit Walk",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        local plr = game.Players.LocalPlayer
+        local character = plr.Character
+        local anims = character:WaitForChild("Animate")
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+        if state then
+            -- Save original animations and hip height
+            originalAnimations.idle = anims.idle:FindFirstChildOfClass("Animation").AnimationId
+            originalAnimations.walk = anims.walk:FindFirstChildOfClass("Animation").AnimationId
+            originalAnimations.run = anims.run:FindFirstChildOfClass("Animation").AnimationId
+            originalAnimations.jump = anims.jump:FindFirstChildOfClass("Animation").AnimationId
+            originalHipHeight = humanoid.HipHeight
+
+            -- Get sit animation
+            local sitAnimation = anims.sit:FindFirstChildOfClass("Animation")
+            if sitAnimation then
+                local sitAnimId = sitAnimation.AnimationId
+                anims.idle:FindFirstChildOfClass("Animation").AnimationId = sitAnimId
+                anims.walk:FindFirstChildOfClass("Animation").AnimationId = sitAnimId
+                anims.run:FindFirstChildOfClass("Animation").AnimationId = sitAnimId
+                anims.jump:FindFirstChildOfClass("Animation").AnimationId = sitAnimId
+
+                -- Set HipHeight
+                if humanoid.RigType == Enum.HumanoidRigType.R15 then
+                    humanoid.HipHeight = 0.5
+                else
+                    humanoid.HipHeight = -1.5
+                end
+            else
+                warn("Sit animation not found")
+            end
+        else
+            -- Restore original animations and hip height
+            if originalAnimations.idle and originalAnimations.walk and originalAnimations.run and originalAnimations.jump then
+                anims.idle:FindFirstChildOfClass("Animation").AnimationId = originalAnimations.idle
+                anims.walk:FindFirstChildOfClass("Animation").AnimationId = originalAnimations.walk
+                anims.run:FindFirstChildOfClass("Animation").AnimationId = originalAnimations.run
+                anims.jump:FindFirstChildOfClass("Animation").AnimationId = originalAnimations.jump
+            else
+                warn("Original animations not properly saved")
+            end
+
+            if originalHipHeight then
+                humanoid.HipHeight = originalHipHeight
+            else
+                warn("Original hip height not properly saved")
+            end
+        end
+    end
+})
 
 
 local tab = gui:tab{
