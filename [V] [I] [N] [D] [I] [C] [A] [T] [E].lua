@@ -3196,7 +3196,13 @@ tab:textbox({
     end
 })
 
-
+tab:button({
+    Name = "Fake Dropped Gun",
+    Description = "Spraypaint Toy Required",
+    Callback = function()
+        print("Button clicked")
+    end,
+})
 
 
 local tab = gui:tab{
