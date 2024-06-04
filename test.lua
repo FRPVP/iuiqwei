@@ -55,10 +55,10 @@ local Library = {
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
 		},
-        Custom = {
-			Main = uiColor1,
-			Secondary = uiColor2,
-			Tertiary = uiColor3,
+        	Custom = {
+			Main = Color3.fromRGB(uiColor1[1], uiColor1[2], uiColor1[3]),
+			Secondary = Color3.fromRGB(uiColor2[1], uiColor2[2], uiColor2[3]),
+			Tertiary = Color3.fromRGB(uiColor3[1], uiColor3[2], uiColor3[3]),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
