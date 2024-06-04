@@ -37,7 +37,7 @@ local Library = {
 			Tertiary = Color3.fromRGB(208, 68, 53),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
-			WeakText = Color3.fromHSV(0, 0, 172/255)
+			WeakText = Color3.fromHSV(0, 0, 172 / 255)
 		},
 		Eclipse = {
 			Main = Color3.fromRGB(24, 24, 24),
@@ -45,7 +45,7 @@ local Library = {
 			Tertiary = Color3.fromRGB(232, 129, 28),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
-			WeakText = Color3.fromHSV(0, 0, 172/255)
+			WeakText = Color3.fromHSV(0, 0, 172 / 255)
 		},
 		Vindicate = {
 			Main = Color3.fromRGB(10, 23, 39),
@@ -53,15 +53,15 @@ local Library = {
 			Tertiary = Color3.fromRGB(28, 156, 148),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
-			WeakText = Color3.fromHSV(0, 0, 172/255)
+			WeakText = Color3.fromHSV(0, 0, 172 / 255)
 		},
         	Custom = {
-			Main = Color3.fromRGB(uiColor1[1], uiColor1[2], uiColor1[3]),
-			Secondary = Color3.fromRGB(uiColor2[1], uiColor2[2], uiColor2[3]),
-			Tertiary = Color3.fromRGB(uiColor3[1], uiColor3[2], uiColor3[3]),
+			Main = Color3.fromRGB(unpack(uiColor1)),
+			Secondary = Color3.fromRGB(unpack(uiColor2)),
+			Tertiary = Color3.fromRGB(unpack(uiColor3)),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
-			WeakText = Color3.fromHSV(0, 0, 172/255)
+			WeakText = Color3.fromHSV(0, 0, 172 / 255)
 		},
 		Vaporwave = {},
 		OperaGX = {},
