@@ -32,33 +32,33 @@ local HTTPService = game:GetService("HttpService")
 local Library = {
 	Themes = {
 		Vega = {
-			Main = Color3.fromRGB(18,18,20,255),
-			Secondary = Color3.fromRGB(37,37,37,255),
-			Tertiary = Color3.fromRGB(208,68,53,255),
+			Main = Color3.fromRGB(18, 18, 20),
+			Secondary = Color3.fromRGB(37, 37, 37),
+			Tertiary = Color3.fromRGB(208, 68, 53),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
 		},
 		Eclipse = {
-			Main = Color3.fromRGB(24,24,24,255),
-			Secondary = Color3.fromRGB(40,40,40,255),
-			Tertiary = Color3.fromRGB(232,129,28,255),
+			Main = Color3.fromRGB(24, 24, 24),
+			Secondary = Color3.fromRGB(40, 40, 40),
+			Tertiary = Color3.fromRGB(232, 129, 28),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
 		},
 		Vindicate = {
-			Main = Color3.fromRGB(10,23,39,255),
-			Secondary = Color3.fromRGB(21,40,57,255),
-			Tertiary = Color3.fromRGB(28,156,148),
+			Main = Color3.fromRGB(10, 23, 39),
+			Secondary = Color3.fromRGB(21, 40, 57),
+			Tertiary = Color3.fromRGB(28, 156, 148),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
 		},
-        Custom = {
-			Main = Color3.fromRGB(uiColor1),
-			Secondary = Color3.fromRGB(uiColor2),
-			Tertiary = Color3.fromRGB(uiColor3),
+		Custom = {
+			Main = Color3.fromRGB(uiColor1[1], uiColor1[2], uiColor1[3]),
+			Secondary = Color3.fromRGB(uiColor2[1], uiColor2[2], uiColor2[3]),
+			Tertiary = Color3.fromRGB(uiColor3[1], uiColor3[2], uiColor3[3]),
 
 			StrongText = Color3.fromHSV(0, 0, 1),		
 			WeakText = Color3.fromHSV(0, 0, 172/255)
