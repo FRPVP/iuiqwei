@@ -1534,9 +1534,204 @@ local tab = gui:tab{
     Name = "Autofarm"
 }
 
+local tweens = game:GetService('TweenService')
+local speed = 30
+local pppp = nil
+local res = false
 
+local farm = false -- Initial state is false
 
+-- Anti-AFK
+repeat wait() until game:IsLoaded()
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+end)
 
+local function startFarm()
+    while farm do
+        if game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Coin').Visible == true and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Egg').CurrencyFrame.Icon.Coins.Text ~= '20' and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.CurrencyFrame.Icon.Coins.Text ~= '40' then
+            for i, v in pairs(game.Workspace:WaitForChild('Normal'):WaitForChild('CoinContainer'):GetChildren()) do
+                if pppp == nil then
+                    pppp = v
+                elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude <= (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - pppp.Position).Magnitude and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude > 1 then
+                    pppp = v
+                end
+            end
+
+            local v = pppp
+
+            local time = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude / speed
+            if v:FindFirstChild('CoinVisual') then
+                pppp = v:FindFirstChild('CoinVisual')
+            else
+                pppp = v
+            end
+
+            local tween = tweens:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {CFrame = pppp.CFrame})
+            tween:Play()
+
+            wait(time + 0.2)
+            v:Destroy()
+
+            pppp = nil
+
+            wait(0.1)
+            if game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Egg').CurrencyFrame.Icon.Coins.Text == '20' and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.CurrencyFrame.Icon.Coins.Text == '40' then
+                if res == true then
+                    game.Players.LocalPlayer.Character:Load()
+                end
+            end
+        end
+        wait(1)
+    end
+end
+
+tab:toggle({
+    Name = "Tween Autofarm",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        farm = state
+        if farm then
+            startFarm()
+        end
+    end
+})
+
+local PathService = game:GetService("PathfindingService")
+local UserInputService = game:GetService("UserInputService")
+local lp = game.Players.LocalPlayer -- Ensure this is correct
+local autofarm = false
+local speed = 30 -- Default speed
+
+local function getRoot(character)
+    return character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Torso")
+end
+
+local function findNearestCoin()
+    local nearestCoin = nil
+    local shortestDistance = math.huge
+
+    for _, v in pairs(game.Workspace:GetDescendants()) do
+        if v.Name == "Coin_Server" then
+            local distance = (getRoot(lp.Character).Position - v.Position).Magnitude
+            if distance < shortestDistance then
+                shortestDistance = distance
+                nearestCoin = v
+            end
+        end
+    end
+
+    return nearestCoin
+end
+
+local function moveto(destinationCFrame)
+    local character = lp.Character
+    local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+    if not character or not humanoid then return end
+
+    local path = PathService:CreatePath({
+        AgentRadius = 2,
+        AgentHeight = 5,
+        AgentCanJump = true,
+        AgentMaxSlope = 45
+    })
+
+    local start = getRoot(character).Position
+    local goal = destinationCFrame.Position
+
+    local success, errorMsg = pcall(function()
+        path:ComputeAsync(start, goal)
+    end)
+
+    if success then
+        local waypoints = path:GetWaypoints()
+        for _, waypoint in ipairs(waypoints) do
+            humanoid:MoveTo(waypoint.Position)
+            humanoid.MoveToFinished:Wait()
+        end
+    else
+        -- If pathfinding fails, move directly to the target
+        humanoid:MoveTo(goal)
+        humanoid.MoveToFinished:Wait()
+    end
+end
+
+tab:toggle({
+    Name = "Walk Autofarm",
+    StartingState = false,
+    Description = "Experimental Only!",
+    Callback = function(val)
+        autofarm = val
+        if val then
+            local function startAutofarm()
+                while autofarm do
+                    task.wait(0.1)
+                    pcall(function()
+                        local nearestCoin = findNearestCoin()
+                        if nearestCoin then
+                            moveto(nearestCoin.CFrame)
+                        end
+                    end)
+                    if not autofarm then break end
+                end
+            end
+
+            if not getgenv().safemode and not getgenv().fastermode then
+                startAutofarm()
+            elseif getgenv().safemode and not getgenv().fastermode then
+                while autofarm do
+                    task.wait(0.1)
+                    pcall(function()
+                        local nearestCoin = findNearestCoin()
+                        if nearestCoin then
+                            moveto(nearestCoin.CFrame + Vector3.new(0, -5, 0))
+                            wait(2.6)
+                            moveto(nearestCoin.CFrame)
+                        end
+                    end)
+                    if not autofarm then break end
+                end
+            elseif getgenv().safemode and getgenv().fastermode then
+                while autofarm do
+                    task.wait(0.1)
+                    pcall(function()
+                        local nearestCoin = findNearestCoin()
+                        if nearestCoin then
+                            moveto(nearestCoin.CFrame + Vector3.new(0, -5, 0))
+                            wait(1.8)
+                            moveto(nearestCoin.CFrame)
+                        end
+                    end)
+                    if not autofarm then break end
+                end
+            elseif not getgenv().safemode and getgenv().fastermode then
+                while autofarm do
+                    task.wait(0.1)
+                    pcall(function()
+                        local nearestCoin = findNearestCoin()
+                        if nearestCoin then
+                            moveto(nearestCoin.CFrame)
+                        end
+                    end)
+                    if not autofarm then break end
+                end
+            end
+        end
+    end,
+})
+
+tab:slider({
+    Name = "Autofarm Speed",
+    Description = "",
+    Default = 30,
+    Min = 1,
+    Max = 50,
+    Rounding = 1,
+    Callback = function(v)
+        speed = v
+    end
+})
 
 
 
