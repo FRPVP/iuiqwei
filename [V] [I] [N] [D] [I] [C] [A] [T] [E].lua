@@ -1697,6 +1697,9 @@ local animationIds = {
     ["Murderer Stab"] = "rbxassetid://1957890538",
     ["Dual Stab"] = "rbxassetid://2470501967",
     ["Dual Slash"] = "rbxassetid://2467577524",
+    ["Lick"] = "rbxassetid://2474137630",
+    ["Spray"] = "rbxassetid://2474355515",
+    ["Fireflies"] = "rbxassetid://2474321961",
 }
 
 local currentAnimation = nil
@@ -1723,7 +1726,7 @@ tab:dropdown({
     Name = "Energizer Emotes",
     Description = "",
     StartingText = "",
-    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash"},
+    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash", "Lick", "Spray", "Fireflies"},
     Callback = function(Value)
         if currentTrack then
             StopAnimation()
