@@ -1727,7 +1727,7 @@ end
 
 tab:dropdown({
     Name = "Energizer Emotes",
-    Description = "",
+    Description = "MM2 Edition",
     StartingText = "",
     Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash", "Lick", "Spray", "Fireflies", "Throw", "Throw Hold", "Throw Charge"},
     Callback = function(Value)
