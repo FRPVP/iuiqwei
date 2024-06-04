@@ -1722,7 +1722,7 @@ end
 tab:dropdown({
     Name = "Energizer Emotes",
     Description = "",
-    StartingText = "Bodypart",
+    StartingText = "",
     Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash"},
     Callback = function(Value)
         if currentTrack then
