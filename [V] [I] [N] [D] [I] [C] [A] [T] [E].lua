@@ -1693,6 +1693,7 @@ local animationIds = {
     ["Bend"] = "rbxassetid://696096087",
     ["Rotate Slash"] = "rbxassetid://675025570",
     ["Flail Arms"] = "rbxassetid://754656200",
+    ["Punch"] = "rbxassetid://846744780",
     ["Murderer Slash"] = "rbxassetid://2467567750",
     ["Murderer Stab"] = "rbxassetid://1957890538",
     ["Dual Stab"] = "rbxassetid://2470501967",
@@ -1729,7 +1730,7 @@ tab:dropdown({
     Name = "Energizer Emotes",
     Description = "MM2 Edition",
     StartingText = "",
-    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash", "Lick", "Spray", "Fireflies", "Throw", "Throw Hold", "Throw Charge"},
+    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Punch", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash", "Lick", "Spray", "Fireflies", "Throw", "Throw Hold", "Throw Charge"},
     Callback = function(Value)
         if currentTrack then
             StopAnimation()
