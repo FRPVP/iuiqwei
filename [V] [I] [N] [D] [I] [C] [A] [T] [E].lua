@@ -5103,7 +5103,7 @@ local function PlayerAdded(Player)
     Services.RunService.Heartbeat:Connect(function()
         if AntiFlingEnabled then
             if (Character and Character:IsDescendantOf(workspace)) and (PrimaryPart and PrimaryPart:IsDescendantOf(Character)) then
-                if PrimaryPart.AssemblyAngularVelocity.Magnitude > 50 or PrimaryPart.AssemblyLinearVelocity.Magnitude > 100 then
+                if PrimaryPart.AssemblyAngularVelocity.Magnitude > 100 or PrimaryPart.AssemblyLinearVelocity.Magnitude > 200 then
                     if Detected == false then
                         game.StarterGui:SetCore("ChatMakeSystemMessage", {
                             Text = "Possible Flinging detected, Player: " .. tostring(Player);
@@ -5131,9 +5131,9 @@ tab:toggle({
     Callback = function(state)
         AntiFlingEnabled = state
         if state then
-            print("Enabled")
+            print("")
         else
-            print("Disabled")
+            print("")
         end
     end,
 })
