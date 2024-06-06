@@ -1769,8 +1769,8 @@ tab:toggle({
 local something = tab:slider({
     Name = "Energizer Emote Speed",
     Description = "",
-    Default = 1,
-    Min = 1,
+    Default = 60,
+    Min = 0,
     Max = 1000,
     Rounding = 1,
     Callback = function(v)
@@ -1784,7 +1784,7 @@ local something = tab:slider({
 tab:textbox({
     Name = "Energizer Emote Speed",
     Description = "",
-    Placeholder = "1-1000",
+    Placeholder = "0-1000",
     Callback = function(v)
         local numericValue = tonumber(v)
         if numericValue then
@@ -5106,7 +5106,7 @@ local function PlayerAdded(Player)
                 if PrimaryPart.AssemblyAngularVelocity.Magnitude > 50 or PrimaryPart.AssemblyLinearVelocity.Magnitude > 100 then
                     if Detected == false then
                         game.StarterGui:SetCore("ChatMakeSystemMessage", {
-                            Text = "Fling Exploit detected, Player: " .. tostring(Player);
+                            Text = "Possible Flinging detected, Player: " .. tostring(Player);
                             Color = Color3.fromRGB(255, 200, 0);
                         })
                     end
