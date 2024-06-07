@@ -4792,10 +4792,10 @@ tab:toggle({
     StartingState = false,
     Description = "A button to hopefully help you better toggle the UI",
     Callback = function(Value)
-        local gui = game.CoreGui:FindFirstChild("ToggleUiDCCHub")
+        local gui = game.CoreGui:FindFirstChild("VindicateToggleUIButton")
         if not gui then
             gui = Instance.new("ScreenGui")
-            gui.Name = "ToggleUiDCCHub"
+            gui.Name = "VindicateToggleUIButton"
             gui.Parent = game.CoreGui
 
             local toggleui = Instance.new("TextButton")
