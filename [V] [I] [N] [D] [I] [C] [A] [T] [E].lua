@@ -9,7 +9,7 @@ local gui = Library:create{
 }
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17628898821",
+    Icon = "rbxassetid://17771512972",
     Name = "Player"
 }
 
@@ -644,7 +644,7 @@ end
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17628884815",
+    Icon = "rbxassetid://17771505635",
     Name = "Visual"
 }
 
@@ -1530,7 +1530,7 @@ TpVoid.Size = Vector3.new(20,0,20)
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17628879224",
+    Icon = "rbxassetid://17771517804",
     Name = "Autofarm"
 }
 
@@ -2348,8 +2348,8 @@ end,})
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17765213467",
-    Name = "Spraypaint Fun"
+    Icon = "rbxassetid://17771510478",
+    Name = "Art"
 }
 
 local infinityGauntlet = ""
@@ -3237,7 +3237,7 @@ end
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17652717888",
+    Icon = "rbxassetid://17771507990",
     Name = "Trade"
 }
 
@@ -3383,7 +3383,7 @@ end,})
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17652719752",
+    Icon = "rbxassetid://17771515495",
     Name = "Decals"
 }
 
