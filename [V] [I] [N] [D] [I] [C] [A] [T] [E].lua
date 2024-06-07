@@ -1225,7 +1225,7 @@ end,})
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17759082574",
+    Icon = "rbxassetid://17765194180",
     Name = "Combat"
 }
 
@@ -1620,7 +1620,7 @@ tab:slider({
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17759079439",
+    Icon = "rbxassetid://17765231984",
     Name = "Emotes"
 }
 
@@ -1857,7 +1857,7 @@ tab:toggle({
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17759069263",
+    Icon = "rbxassetid://17765204126",
     Name = "Spraypaint"
 }
 
@@ -2348,7 +2348,7 @@ end,})
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17759071753",
+    Icon = "rbxassetid://17765213467",
     Name = "Spraypaint Fun"
 }
 
@@ -3404,7 +3404,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/FRPVP/iuiqwei/main/De
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17759074095",
+    Icon = "rbxassetid://17765223017",
     Name = "Fling"
 }
 
@@ -4621,7 +4621,7 @@ end
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17759076846",
+    Icon = "rbxassetid://17765228256",
     Name = "Fake Gun"
 }
 
