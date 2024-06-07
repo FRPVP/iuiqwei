@@ -1415,7 +1415,7 @@ end,})
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17628887332",
+    Icon = "rbxassetid://17771714371",
     Name = "Teleport"
 }
 
@@ -4493,7 +4493,7 @@ SerFling("she")
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17688178819",
+    Icon = "rbxassetid://17771717140",
     Name = "Trap"
 }
 
@@ -4783,7 +4783,7 @@ end
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://17629022447",
+    Icon = "rbxassetid://17771719508",
     Name = "Misc"
 }
 
