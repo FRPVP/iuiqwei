@@ -1,6 +1,7 @@
 local o = game:GetService("Players")
 local k = game:GetService("RunService")
 local q = game:GetService("UserInputService")
+local y = game:GetService("Workspace")
 
 local Sound = Instance.new("Sound",game:GetService("SoundService"))
  Sound.SoundId = "rbxassetid://9120129807"
@@ -237,7 +238,7 @@ local player = o.LocalPlayer
 local mouse = player:GetMouse()
 local runservice = k
 local uis = q
-local camera = game:GetService("Workspace").CurrentCamera
+local camera = y.CurrentCamera
 
 local flycontrol = {F = 0, R = 0, B = 0, L = 0, U = 0, D = 0}
 local flying = false
@@ -324,7 +325,7 @@ local function invisible()
     campart.Material = Enum.Material.Neon
     campart.Size = hrp.Size
     campart.CanCollide = false
-    campart.Parent = game:GetService("Workspace")
+    campart.Parent = y
     camera.CameraSubject = campart
 
     local bv = Instance.new("BodyVelocity")
@@ -1309,7 +1310,7 @@ tab:button({
     Description = "",
     Callback = function()
         local player = game.Players.LocalPlayer
-local workspace = game:GetService("Workspace")
+local workspace = y
 
 -- Variable to store the original position
 local originalPosition = player.Character.HumanoidRootPart.CFrame
@@ -4722,7 +4723,7 @@ tab:button({
     local p = o.LocalPlayer
     local c = p.Character
     if c and c:FindFirstChild("Humanoid") then
-        for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+        for i, v in pairs(y:GetDescendants()) do
             if v:IsA("Tool") then
                 c:FindFirstChild("Humanoid"):EquipTool(v)
             end
