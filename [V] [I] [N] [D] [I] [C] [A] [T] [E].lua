@@ -2655,6 +2655,7 @@ tab:toggle({
 
 local Players = game:GetService("Players")
 local sprayId = 60484593
+local sprayLoop = false
 
 local function sprayOnPlayer(target)
     local localPlayer = Players.LocalPlayer
@@ -2708,39 +2709,47 @@ local function sprayOnPlayer(target)
     localPlayer.Character.SprayPaint.Remote:FireServer(sprayId, Enum.NormalId.Left, 0.5, humanoidRootPart, humanoidRootPart.CFrame * CFrame.new(-0.65, -1.15, -0.7))
 end
 
-local sprayLoop = false
+local function startSprayLoop()
+    while sprayLoop do
+        EquipSpray()
+        task.wait(0.4)
+        if infinityGauntlet == "All" then
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer then -- Skip executing the function on yourself
+                    sprayOnPlayer(player)
+                    task.wait()
+                end
+            end
+        else
+            local targetPlayer = findPlayerByName(infinityGauntlet)
+            if targetPlayer then
+                sprayOnPlayer(targetPlayer)
+            else
+                print("Player not found.")
+            end
+        end
+        task.wait(15)
+    end
+end
+
+local function onCharacterAdded(character)
+    if sprayLoop then
+        task.spawn(startSprayLoop)
+    end
+end
+
+Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Penis",
     StartingState = false,
     Description = "Spraypaint Toy Required",
     Callback = function(Value)
+        sprayLoop = Value
         if Value then
-            sprayLoop = true
-            while sprayLoop do
-                EquipSpray()
-                task.wait(0.4)
-                if infinityGauntlet == "All" then
-                    for _, player in pairs(game.Players:GetPlayers()) do
-                        if player ~= Players.LocalPlayer then -- Skip executing the function on yourself
-                            sprayOnPlayer(player)
-                            task.wait()
-                        end
-                    end
-                else
-                    local targetPlayer = findPlayerByName(infinityGauntlet)
-                    if targetPlayer then
-                        sprayOnPlayer(targetPlayer)
-                    else
-                        print("Player not found.")
-                    end
-                end
-                task.wait(15)
-            end
-        else
-            sprayLoop = false
+            task.spawn(startSprayLoop)
         end
-    end
+    end,
 })
 
 tab:textbox({
