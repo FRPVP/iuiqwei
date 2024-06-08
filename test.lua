@@ -1,4 +1,5 @@
 local o = game:GetService("Players")
+local k = game:GetService("RunService")
 
 local Sound = Instance.new("Sound",game:GetService("SoundService"))
  Sound.SoundId = "rbxassetid://9120129807"
@@ -179,7 +180,7 @@ tab:toggle({
 		Description = "",
 		Callback = function(Value)
    local Players = o
-        local RunService = game:GetService("RunService")
+        local RunService = k
         local Plr = Players.LocalPlayer
         local Clipon = Value
 
@@ -233,7 +234,7 @@ local default_flyspeed = flyspeed
 
 local player = o.LocalPlayer
 local mouse = player:GetMouse()
-local runservice = game:GetService("RunService")
+local runservice = k
 local uis = game:GetService("UserInputService")
 local camera = game:GetService("Workspace").CurrentCamera
 
@@ -579,7 +580,7 @@ tab:button({
     end,
 })
 
-local RS = game:GetService("RunService")
+local RS = k
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local Gameplay = Remotes:WaitForChild("Gameplay")
@@ -662,7 +663,7 @@ tab:toggle({
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = o
-local RunService = game:GetService("RunService")
+local RunService = k
 local LP = Players.LocalPlayer
 local roles
 
@@ -840,7 +841,7 @@ tab:toggle({
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = o
-local RunService = game:GetService("RunService")
+local RunService = k
 local LP = Players.LocalPlayer
 local roles
 
@@ -1010,7 +1011,7 @@ local function CreateGunAdornment(gun)
 
     UpdateGunHighlight()
 
-    RenderSteppedConnection = game:GetService("RunService").RenderStepped:Connect(function()
+    RenderSteppedConnection = k.RenderStepped:Connect(function()
         UpdateGunHighlight()
     end)
 end
@@ -1369,7 +1370,7 @@ for _, player in pairs(Players:GetPlayers()) do
 })
 
 local loopBreakG = nil
-local RS = game:GetService("RunService")
+local RS = k
 local Players = o
 local LP = Players.LocalPlayer
 
@@ -3447,22 +3448,22 @@ tab:toggle({
                         local function fling()
                             local hrp, c, vel, movel = nil, nil, nil, 0.1
                             while true do
-                                game:GetService("RunService").Heartbeat:Wait()
+                                k.Heartbeat:Wait()
                                 if hiddenfling then
                                     local lp = game.Players.LocalPlayer
                                     while hiddenfling and not (c and c.Parent and hrp and hrp.Parent) do
-                                        game:GetService("RunService").Heartbeat:Wait()
+                                        k.Heartbeat:Wait()
                                         c = lp.Character
                                         hrp = c:FindFirstChild("HumanoidRootPart") or c:FindFirstChild("Torso") or c:FindFirstChild("UpperTorso")
                                     end
                                     if hiddenfling then
                                         vel = hrp.Velocity
                                         hrp.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
-                                        game:GetService("RunService").RenderStepped:Wait()
+                                        k.RenderStepped:Wait()
                                         if c and c.Parent and hrp and hrp.Parent then
                                             hrp.Velocity = vel
                                         end
-                                        game:GetService("RunService").Stepped:Wait()
+                                        k.Stepped:Wait()
                                         if c and c.Parent and hrp and hrp.Parent then
                                             hrp.Velocity = vel + Vector3.new(0, movel, 0)
                                             movel = movel * -1
@@ -3490,7 +3491,7 @@ tab:toggle({
 end,})
 
 local Players = o
-local RunService = game:GetService("RunService")
+local RunService = k
 local plr = Players.LocalPlayer
 
 local flyKeyDown, flyKeyUp
@@ -4130,7 +4131,7 @@ tab:button({
     local checkForMudy = function()
  local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = o
-    local RunService = game:GetService("RunService")
+    local RunService = k
     local LP = Players.LocalPlayer
     local Murder
 
@@ -4418,7 +4419,7 @@ tab:button({
     local checkForSery = function()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
     local Players = o
-    local RunService = game:GetService("RunService")
+    local RunService = k
     local LP = Players.LocalPlayer
     local Sheriff
 
@@ -4690,7 +4691,7 @@ tab:toggle({
     if toggleValue then
         -- Start dropping fake gun
         dropGunEnabled = true
-        dropGunConnection = game:GetService("RunService").Stepped:Connect(function()
+        dropGunConnection = k.Stepped:Connect(function()
             if dropGunEnabled then
                 game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(true)
                 wait(0.2)
