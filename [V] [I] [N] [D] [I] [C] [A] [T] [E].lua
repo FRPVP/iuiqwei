@@ -1973,8 +1973,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local collideplayerloop = false
 
 function collideplayerfunc(collideplayertarget)
@@ -2025,8 +2025,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local poolplayerloop = false
 
 function poolplayerfunc(poolplayertarget)
@@ -2088,8 +2088,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local fesliploop = false
 
 function feslipfunc(fesliptarget)
@@ -2141,8 +2141,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local opiwhdaplayerloop = false
 
 function opiwhdaplayerfunc(opiwhdaplayertarget)
@@ -2195,8 +2195,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local jadoiwanplayerloop = false
 
 function jadoiwanplayerfunc(jadoiwanplayertarget)
@@ -2247,8 +2247,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local andlxcaosplayerloop = false
 
 function andlxcaosplayerfunc(andlxcaosplayertarget)
@@ -2299,8 +2299,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local iopiipiopolllplayerloop = false
 
 function iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
@@ -2352,8 +2352,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local qweqqwwplayerloop = false
 
 function qweqqwwplayerfunc(qweqqwwplayertarget)
@@ -2404,8 +2404,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local bnmbnbbplayerloop = false
 
 function bnmbnbbplayerfunc(bnmbnbbplayertarget)
@@ -2481,8 +2481,8 @@ Description = "Type All to select all players",
     end
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local asndzxnchajsplayerloop = false
 
 function asndzxnchajsplayerfunc(asndzxnchajsplayertarget)
@@ -2602,8 +2602,8 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
+
+
 local djiwbdjksbbxkzplayerloop = false
 
 function djiwbdjksbbxkzplayerfunc(djiwbdjksbbxkzplayertarget)
@@ -2653,12 +2653,12 @@ tab:toggle({
     end,
 })
 
-local Players = game:GetService("Players")
+
 local sprayId = 60484593
 local sprayLoop = false
 
 local function sprayOnPlayer(target)
-    local localPlayer = Players.LocalPlayer
+    
     if not target.Character or not target.Character:FindFirstChild("HumanoidRootPart") then
         return
     end
