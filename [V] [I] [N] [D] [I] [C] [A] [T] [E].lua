@@ -2352,45 +2352,57 @@ tab:toggle({
     end,
 })
 
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local qweqqwwplayerloop = false
+
 function qweqqwwplayerfunc(qweqqwwplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 50.5, 0))
+  LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 50.5, 0))
 end
 
-local qweqqwwplayerloop = false
+local function startLoop()
+    while qweqqwwplayerloop do
+        EquipSpray()
+        task.wait(0.4)
+        if fetargetname == "All" then
+            for _, v in pairs(Players:GetPlayers()) do
+                if v ~= LocalPlayer then -- Skip executing the function on yourself
+                    local qweqqwwplayertarget = v
+                    qweqqwwplayerfunc(qweqqwwplayertarget)
+                    task.wait()
+                end
+            end
+        else
+            local qweqqwwplayertarget = findPlayerByName(fetargetname)
+            if qweqqwwplayertarget then
+                qweqqwwplayerfunc(qweqqwwplayertarget)
+            else
+                print("Player not found.")
+            end
+        end
+        task.wait(15)
+    end
+end
+
+local function onCharacterAdded(character)
+    if qweqqwwplayerloop then
+        task.spawn(startLoop)
+    end
+end
+
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Shake",
-		StartingState = false,
-		Description = "Spraypaint Toy Required",
-		Callback = function(Value)
-   if Value == true then
-        qweqqwwplayerloop = true
-        while qweqqwwplayerloop do
-            EquipSpray()
-            task.wait(0.4)
-            if fetargetname == "All" then
-                for _, v in pairs(game.Players:GetPlayers()) do
-                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
-                        local qweqqwwplayertarget = v
-                        qweqqwwplayerfunc(qweqqwwplayertarget)
-                        task.wait()
-                    end
-                end
-            else
-                local qweqqwwplayertarget = findPlayerByName(fetargetname)
-                if qweqqwwplayertarget then
-                    qweqqwwplayerfunc(qweqqwwplayertarget)
-                else
-                    print("Player not found.")
-                end
-            end
-            task.wait(15)
+    StartingState = false,
+    Description = "Spraypaint Toy Required",
+    Callback = function(qweqqwwplayer)
+        qweqqwwplayerloop = qweqqwwplayer
+        if qweqqwwplayer then
+            task.spawn(startLoop)
         end
-    end
-    if Value == false then
-        qweqqwwplayerloop = false
-    end
-end,})
+    end,
+})
 
 function bnmbnbbplayerfunc(bnmbnbbplayertarget)
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 10000, bnmbnbbplayertarget.Character.LeftLowerArm, bnmbnbbplayertarget.Character.LeftLowerArm.CFrame * CFrame.new(0, 0, -1))
