@@ -1,5 +1,6 @@
 local o = game:GetService("Players")
 local k = game:GetService("RunService")
+local q = game:GetService("UserInputService")
 
 local Sound = Instance.new("Sound",game:GetService("SoundService"))
  Sound.SoundId = "rbxassetid://9120129807"
@@ -22,7 +23,7 @@ tab:toggle({
 		Description = "",
 		Callback = function(Value)
    if Value then
-InfJump = game:GetService("UserInputService").JumpRequest:connect(function()
+InfJump = q.JumpRequest:connect(function()
 if Value then
 		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
 		end
@@ -235,7 +236,7 @@ local default_flyspeed = flyspeed
 local player = o.LocalPlayer
 local mouse = player:GetMouse()
 local runservice = k
-local uis = game:GetService("UserInputService")
+local uis = q
 local camera = game:GetService("Workspace").CurrentCamera
 
 local flycontrol = {F = 0, R = 0, B = 0, L = 0, U = 0, D = 0}
@@ -561,7 +562,7 @@ tab:button({
             -- Jump Functionality
             local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
             if humanoid then
-                local user_input = game:GetService("UserInputService")
+                local user_input = q
                 local is_jumping = false
                 local jump_height = 7 -- Adjust this value to set the jump height
 
