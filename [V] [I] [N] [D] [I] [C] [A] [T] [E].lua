@@ -1229,9 +1229,8 @@ local tab = gui:tab{
     Name = "Combat"
 }
 
-tab:button({
-    Name = "Shoot Murderer",
-    Description = "",
+tab:keybind({
+Name = "Shoot Murderer",
     Callback = function()
         local function findMurderer()
     for _, i in ipairs(game.Players:GetPlayers()) do
