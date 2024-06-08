@@ -1,31 +1,51 @@
-if game.Players.LocalPlayer.Character ~= nil then
-local mouse = game.Players.LocalPlayer:GetMouse()
-tool = Instance.new("Tool")
-tool.RequiresHandle = false
-tool.Name = "Gun "
-tool.Activated:connect(function()
-    if game:GetService("Players").LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Back, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Front, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Right, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Left, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-        game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
-    elseif game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
-        game:GetService("Players").LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Back, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Front, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Right, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Left, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-        game.Players.LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
-    elseif game:GetService("Players").LocalPlayer.Character:FindFirstChild("SprayPaint") then
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Back, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Front, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Right, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Left, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
-    end
-end)
-tool.Parent = game.Players.LocalPlayer.Backpack
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local resetplayerloop = false
+
+function resetplayerfunc(resetplayertarget)
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
 end
+
+local function startLoop()
+    while resetplayerloop do
+        EquipSpray()
+        task.wait(0.4)
+        if fetargetname == "All" then
+            for _, v in pairs(Players:GetPlayers()) do
+                if v ~= LocalPlayer then -- Skip executing the function on yourself
+                    local resetplayertarget = v
+                    resetplayerfunc(resetplayertarget)
+                    task.wait()
+                end
+            end
+        else
+            local resetplayertarget = findPlayerByName(fetargetname)
+            if resetplayertarget then
+                resetplayerfunc(resetplayertarget)
+            else
+                print("Player not found.")
+            end
+        end
+        task.wait(0)
+    end
+end
+
+local function onCharacterAdded(character)
+    if resetplayerloop then
+        task.spawn(startLoop)
+    end
+end
+
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+
+tab:toggle({
+    Name = "Loop Reset",
+    StartingState = false,
+    Description = "Spraypaint Toy Required",
+    Callback = function(resetplayer)
+        resetplayerloop = resetplayer
+        if resetplayer then
+            task.spawn(startLoop)
+        end
+    end,
+})
