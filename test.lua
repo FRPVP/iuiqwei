@@ -2,6 +2,7 @@ local o = game:GetService("Players")
 local k = game:GetService("RunService")
 local q = game:GetService("UserInputService")
 local y = game:GetService("Workspace")
+local p = game:GetService("ReplicatedStorage")
 
 local Sound = Instance.new("Sound",game:GetService("SoundService"))
  Sound.SoundId = "rbxassetid://9120129807"
@@ -529,7 +530,7 @@ tab:button({
     Name = "Free Xbox",
     Description = "",
     Callback = function()
-    local Event = game:GetService("ReplicatedStorage").Remotes.Extras.IsXbox
+    local Event = p.Remotes.Extras.IsXbox
 Event:FireServer(A_1)
     end,
 })
@@ -583,7 +584,7 @@ tab:button({
 })
 
 local RS = k
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = p
 local Remotes = ReplicatedStorage:WaitForChild("Remotes")
 local Gameplay = Remotes:WaitForChild("Gameplay")
 local StealthRemote = Gameplay:WaitForChild("Stealth")
@@ -663,7 +664,7 @@ tab:toggle({
     end,
 })
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = p
 local Players = o
 local RunService = k
 local LP = Players.LocalPlayer
@@ -841,7 +842,7 @@ tab:toggle({
 		Callback = function(val)
    getgenv().he = val
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = p
 local Players = o
 local RunService = k
 local LP = Players.LocalPlayer
@@ -1098,9 +1099,9 @@ end
 -- Iterate through players to determine roles and send chat messages
 for _, player in ipairs(game.Players:GetPlayers()) do
     if checkForKnife(player) then
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Murderer: " .. player.Name, "normalchat")
+        p:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Murderer: " .. player.Name, "normalchat")
     elseif checkForGun(player) then
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Sheriff: " .. player.Name, "normalchat")
+        p:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Sheriff: " .. player.Name, "normalchat")
     end
 end
     end,
@@ -1886,7 +1887,7 @@ Description = "Type All to select all players",
 })
 
 function EquipSpray()
-    game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+    p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
     wait()
     for _, obj in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
         if obj.Name == "SprayPaint" then
@@ -2773,8 +2774,8 @@ tool.RequiresHandle = false
 tool.Name = "Grass Block"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(9267183944, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 3.3, 0))
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(9267089525, Enum.NormalId.Bottom, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 0, 0))
@@ -2808,8 +2809,8 @@ tool.RequiresHandle = false
 tool.Name = "Oak Planks"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(9359126658, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 3.3, 0))
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(9359126658, Enum.NormalId.Bottom, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 0, 0))
@@ -2843,8 +2844,8 @@ tool.RequiresHandle = false
 tool.Name = "Cobblestone"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(12616185407, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 3.3, 0))
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(12616185407, Enum.NormalId.Bottom, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 0, 0))
@@ -2878,8 +2879,8 @@ tool.RequiresHandle = false
 tool.Name = "Stone"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(3162897225, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 3.3, 0))
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(3162897225, Enum.NormalId.Bottom, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 0, 0))
@@ -2913,8 +2914,8 @@ tool.RequiresHandle = false
 tool.Name = "Diamond Ore"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(11425623081, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 3.3, 0))
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(11425623081, Enum.NormalId.Bottom, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 0, 0))
@@ -2948,8 +2949,8 @@ tool.RequiresHandle = false
 tool.Name = "Diamond Block"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(4786858334, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 3.3, 0))
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(4786858334, Enum.NormalId.Bottom, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 0, 0))
@@ -2983,8 +2984,8 @@ tool.RequiresHandle = false
 tool.Name = "Lava"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
         local savepos = game.Players.LocalPlayer:GetMouse().Hit
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(9886286740, Enum.NormalId.Top, 3.5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(savepos.Position) * CFrame.new(0, 3.3, 0))
@@ -3053,7 +3054,7 @@ end
 })
 
 local Players = o
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = p
 local defaultSprayId = 12781220539  -- Default spray ID for the block
 
 local function giveTool()
@@ -3224,8 +3225,8 @@ tool.RequiresHandle = false
 tool.Name = "Fake Dropped Gun"
 tool.Activated:connect(function()
     if o.LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-        game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        p.Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         o.LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Back, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
 o.LocalPlayer.Character.SprayPaint.Remote:FireServer(14926229050, Enum.NormalId.Front, 5, workspace.Lobby.VoteIcons.VotePad2, CFrame.new(game.Players.LocalPlayer:GetMouse().Hit.Position) * CFrame.new(0, 4, 0))
@@ -3258,7 +3259,7 @@ local tab = gui:tab{
 }
 
 local Players = o
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = p
 local isLoopingSend = false
 local isLoopingCancel = false
 local tradetargetUser = ""
@@ -3438,13 +3439,13 @@ tab:toggle({
                 hiddenfling = false
 
                 local function enableWalkfling()
-                    if game:GetService("ReplicatedStorage"):FindFirstChild("juisdfj0i32i0eidsuf0iok") then
+                    if p:FindFirstChild("juisdfj0i32i0eidsuf0iok") then
                         hiddenfling = true
                     else
                         hiddenfling = true
                         local detection = Instance.new("Decal")
                         detection.Name = "juisdfj0i32i0eidsuf0iok"
-                        detection.Parent = game:GetService("ReplicatedStorage")
+                        detection.Parent = p
 
                         -- Fling function
                         local function fling()
@@ -4131,7 +4132,7 @@ tab:button({
     end
 
     local checkForMudy = function()
- local ReplicatedStorage = game:GetService("ReplicatedStorage")
+ local ReplicatedStorage = p
     local Players = o
     local RunService = k
     local LP = Players.LocalPlayer
@@ -4419,7 +4420,7 @@ tab:button({
     end
 
     local checkForSery = function()
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = p
     local Players = o
     local RunService = k
     local LP = Players.LocalPlayer
@@ -4517,7 +4518,7 @@ tab:button({
     Name = "Spawn Trap",
     Description = "Trap Perk Required",
     Callback = function()
-        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local ReplicatedStorage = p
         local lp = o.LocalPlayer
 
         -- Invoke the server to spawn a trap
@@ -4525,7 +4526,7 @@ tab:button({
     end,
 })
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ReplicatedStorage = p
 local Players = o
 local lp = Players.LocalPlayer
 
@@ -4591,7 +4592,7 @@ tab:button({
     Callback = function()
         for i,x in pairs(Players:GetPlayers()) do
 if x ~= lp then
-game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+p:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
     [1] = x.Character.HumanoidRootPart.CFrame
 }))
 end
@@ -4605,7 +4606,7 @@ tab:button({
     Callback = function()
         for _,v in pairs(game.Players:GetPlayers()) do
 if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
-game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+p:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
     [1] = v.Character.HumanoidRootPart.CFrame
 }))
 end
@@ -4619,7 +4620,7 @@ tab:button({
     Callback = function()
         for _,v in pairs(game.Players:GetPlayers()) do
 if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
-game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+p:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
     [1] = v.Character.HumanoidRootPart.CFrame
 }))
 end
@@ -4647,11 +4648,11 @@ tab:toggle({
 		Description = "Fake Gun Perk Required",
 		Callback = function(val)
    if val then
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+p:WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = true
 }))
 else
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+p:WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = false
 }))
 end
@@ -4661,7 +4662,7 @@ tab:button({
     Name = "Get Fake Gun",
     Description = "Fake Gun Perk Required",
     Callback = function()
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+        p:WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = true -- set to true to activate
 }))
     end,
@@ -4671,7 +4672,7 @@ tab:button({
     Name = "Drop Fake Gun",
     Description = "Requires Fake Gun Perk And A Godly Gun Thats An Official Roblox Asset",
     Callback = function()
-        game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
+        p:WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
     [1] = true -- set to true to activate
 }))
 
@@ -4695,7 +4696,7 @@ tab:toggle({
         dropGunEnabled = true
         dropGunConnection = k.Stepped:Connect(function()
             if dropGunEnabled then
-                game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(true)
+                p:WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(true)
                 wait(0.2)
                 local character = game.Players.LocalPlayer.Character
                 if character then
