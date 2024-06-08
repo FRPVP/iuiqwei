@@ -52,7 +52,7 @@ local function startLoop()
     while djiwbdjksbbxkzplayerloop do
         EquipSpray()
         task.wait(0.4)
-        if fetargetname == "All" then
+        if infinityGauntlet == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                     local djiwbdjksbbxkzplayertarget = v
                     djiwbdjksbbxkzplayerfunc(djiwbdjksbbxkzplayertarget)
