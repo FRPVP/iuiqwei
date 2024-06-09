@@ -2141,47 +2141,57 @@ tab:toggle({
     end,
 })
 
+local opiwhdaplayerloop = false
+
 function opiwhdaplayerfunc(opiwhdaplayertarget)
-    o.LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
-    o.LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
-    o.LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
 end
 
-local opiwhdaplayerloop = false
+local function startLoop()
+    while opiwhdaplayerloop do
+        EquipSpray()
+        task.wait(0.4)
+        if fetargetname == "All" then
+            for _, v in pairs(Players:GetPlayers()) do
+                if v ~= LocalPlayer then -- Skip executing the function on yourself
+                    local opiwhdaplayertarget = v
+                    opiwhdaplayerfunc(opiwhdaplayertarget)
+                    task.wait()
+                end
+            end
+        else
+            local opiwhdaplayertarget = findPlayerByName(fetargetname)
+            if opiwhdaplayertarget then
+                opiwhdaplayerfunc(opiwhdaplayertarget)
+            else
+                print("Player not found.")
+            end
+        end
+        task.wait(0)
+    end
+end
+
+local function onCharacterAdded(character)
+    if opiwhdaplayerloop then
+        task.spawn(startLoop)
+    end
+end
+
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Void",
-		StartingState = false,
-		Description = "Spraypaint Toy Required",
-		Callback = function(Value)
-   if Value == true then
-        opiwhdaplayerloop = true
-        while opiwhdaplayerloop do
-            EquipSpray()
-            task.wait(0.4)
-            if fetargetname == "All" then
-                for _, v in pairs(game.Players:GetPlayers()) do
-                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
-                        local opiwhdaplayertarget = v
-                        opiwhdaplayerfunc(opiwhdaplayertarget)
-                        task.wait()
-                    end
-                end
-            else
-                local opiwhdaplayertarget = findPlayerByName(fetargetname)
-                if opiwhdaplayertarget then
-                    opiwhdaplayerfunc(opiwhdaplayertarget)
-                else
-                    print("Player not found.")
-                end
-            end
-            task.wait(0)
+    StartingState = false,
+    Description = "Spraypaint Toy Required",
+    Callback = function(opiwhdaplayer)
+        opiwhdaplayerloop = opiwhdaplayer
+        if opiwhdaplayer then
+            task.spawn(startLoop)
         end
-    end
-    if Value == false then
-        opiwhdaplayerloop = false
-    end
-end,})
+    end,
+})
 
 function jadoiwanplayerfunc(jadoiwanplayertarget)
     o.LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
