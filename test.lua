@@ -1,36 +1,25 @@
-local poolplayerloop = false
+local collideplayerloop = false
 
-function poolplayerfunc(poolplayertarget)
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
+function collideplayerfunc(collideplayertarget)
+   LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
 end
 
 local function startLoop()
-    while poolplayerloop do
+    while collideplayerloop do
         EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                 if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local poolplayertarget = v
-                    poolplayerfunc(poolplayertarget)
+                    local collideplayertarget = v
+                    collideplayerfunc(collideplayertarget)
                     task.wait()
                 end
             end
         else
-            local poolplayertarget = findPlayerByName(fetargetname)
-            if poolplayertarget then
-                poolplayerfunc(poolplayertarget)
+            local collideplayertarget = findPlayerByName(fetargetname)
+            if collideplayertarget then
+                collideplayerfunc(collideplayertarget)
             else
                 print("Player not found.")
             end
@@ -40,7 +29,7 @@ local function startLoop()
 end
 
 local function onCharacterAdded(character)
-    if poolplayerloop then
+    if collideplayerloop then
         task.spawn(startLoop)
     end
 end
@@ -48,12 +37,12 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Blind",
+    Name = "Remove Collisions",
     StartingState = false,
     Description = "Spraypaint Toy Required",
-    Callback = function(poolplayer)
-        poolplayerloop = poolplayer
-        if poolplayer then
+    Callback = function(collideplayer)
+        collideplayerloop = collideplayer
+        if collideplayer then
             task.spawn(startLoop)
         end
     end,
