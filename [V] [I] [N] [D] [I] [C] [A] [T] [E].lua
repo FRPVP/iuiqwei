@@ -3,6 +3,7 @@ local k = game:GetService("RunService")
 local q = game:GetService("UserInputService")
 local y = game:GetService("Workspace")
 local p = game:GetService("ReplicatedStorage")
+local u = 
 
 local Sound = Instance.new("Sound",game:GetService("SoundService"))
  Sound.SoundId = "rbxassetid://9120129807"
