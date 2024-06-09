@@ -1,26 +1,25 @@
-local iopiipiopolllplayerloop = false
+local qweqqwwplayerloop = false
 
-function iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
-LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, -50, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
+function qweqqwwplayerfunc(qweqqwwplayertarget)
+LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 50.5, 0))
 end
 
 local function startLoop()
-    while iopiipiopolllplayerloop do
+    while qweqqwwplayerloop do
         EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                 if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local iopiipiopolllplayertarget = v
-                    iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
+                    local qweqqwwplayertarget = v
+                    qweqqwwplayerfunc(qweqqwwplayertarget)
                     task.wait()
                 end
             end
         else
-            local iopiipiopolllplayertarget = findPlayerByName(fetargetname)
-            if iopiipiopolllplayertarget then
-                iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
+            local qweqqwwplayertarget = findPlayerByName(fetargetname)
+            if qweqqwwplayertarget then
+                qweqqwwplayerfunc(qweqqwwplayertarget)
             else
                 print("Player not found.")
             end
@@ -30,7 +29,7 @@ local function startLoop()
 end
 
 local function onCharacterAdded(character)
-    if iopiipiopolllplayerloop then
+    if qweqqwwplayerloop then
         task.spawn(startLoop)
     end
 end
@@ -38,12 +37,12 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Launch Up",
+    Name = "Shake",
     StartingState = false,
     Description = "Spraypaint Toy Required",
-    Callback = function(iopiipiopolllplayer)
-        iopiipiopolllplayerloop = iopiipiopolllplayer
-        if iopiipiopolllplayer then
+    Callback = function(qweqqwwplayer)
+        qweqqwwplayerloop = qweqqwwplayer
+        if qweqqwwplayer then
             task.spawn(startLoop)
         end
     end,
