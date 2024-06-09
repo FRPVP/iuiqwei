@@ -1,25 +1,26 @@
-local collideplayerloop = false
+local fesliploop = false
 
-function collideplayerfunc(collideplayertarget)
-   LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+function feslipfunc(fesliptarget)
+  LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
 end
 
 local function startLoop()
-    while collideplayerloop do
+    while fesliploop do
         EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                 if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local collideplayertarget = v
-                    collideplayerfunc(collideplayertarget)
+                    local fesliptarget = v
+                    feslipfunc(fesliptarget)
                     task.wait()
                 end
             end
         else
-            local collideplayertarget = findPlayerByName(fetargetname)
-            if collideplayertarget then
-                collideplayerfunc(collideplayertarget)
+            local fesliptarget = findPlayerByName(fetargetname)
+            if fesliptarget then
+                feslipfunc(fesliptarget)
             else
                 print("Player not found.")
             end
@@ -29,7 +30,7 @@ local function startLoop()
 end
 
 local function onCharacterAdded(character)
-    if collideplayerloop then
+    if fesliploop then
         task.spawn(startLoop)
     end
 end
@@ -37,12 +38,12 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Remove Collisions",
+    Name = "Slip Up",
     StartingState = false,
     Description = "Spraypaint Toy Required",
-    Callback = function(collideplayer)
-        collideplayerloop = collideplayer
-        if collideplayer then
+    Callback = function(feslip)
+        fesliploop = feslip
+        if feslip then
             task.spawn(startLoop)
         end
     end,
