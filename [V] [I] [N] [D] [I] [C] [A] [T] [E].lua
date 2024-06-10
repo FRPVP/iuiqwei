@@ -1840,45 +1840,55 @@ tab:toggle({
     end,
 })
 
+local jadoiwanplayerloop = false
+
 function jadoiwanplayerfunc(jadoiwanplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
+LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
 end
 
-local jadoiwanplayerloop = false
+local function startLoop()
+    while jadoiwanplayerloop do
+        EquipSpray()
+        task.wait(0.4)
+        if fetargetname == "All" then
+            for _, v in pairs(Players:GetPlayers()) do
+                if v ~= LocalPlayer then -- Skip executing the function on yourself
+                    local jadoiwanplayertarget = v
+                    jadoiwanplayerfunc(jadoiwanplayertarget)
+                    task.wait()
+                end
+            end
+        else
+            local jadoiwanplayertarget = findPlayerByName(fetargetname)
+            if jadoiwanplayertarget then
+                jadoiwanplayerfunc(jadoiwanplayertarget)
+            else
+                print("Player not found.")
+            end
+        end
+        task.wait(0)
+    end
+end
+
+local function onCharacterAdded(character)
+    if jadoiwanplayerloop then
+        task.spawn(startLoop)
+    end
+end
+
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Freeze",
-		StartingState = false,
-		Description = "Spraypaint Toy Required",
-		Callback = function(Value)
-   if Value == true then
-        jadoiwanplayerloop = true
-        while jadoiwanplayerloop do
-            EquipSpray()
-            task.wait(0.4)
-            if fetargetname == "All" then
-                for _, v in pairs(game.Players:GetPlayers()) do
-                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
-                        local jadoiwanplayertarget = v
-                        jadoiwanplayerfunc(jadoiwanplayertarget)
-                        task.wait()
-                    end
-                end
-            else
-                local jadoiwanplayertarget = findPlayerByName(fetargetname)
-                if jadoiwanplayertarget then
-                    jadoiwanplayerfunc(jadoiwanplayertarget)
-                else
-                    print("Player not found.")
-                end
-            end
-            task.wait(0)
+    StartingState = false,
+    Description = "Spraypaint Toy Required",
+    Callback = function(jadoiwanplayer)
+        jadoiwanplayerloop = jadoiwanplayer
+        if jadoiwanplayer then
+            task.spawn(startLoop)
         end
-    end
-    if Value == false then
-        jadoiwanplayerloop = false
-    end
-end,})
+    end,
+})
 
 function andlxcaosplayerfunc(andlxcaosplayertarget)
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Right, 2048, andlxcaosplayertarget.Character.HumanoidRootPart, andlxcaosplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 250, 0))
