@@ -1626,45 +1626,55 @@ tab:toggle({
     end,
 })
 
+local collideplayerloop = false
+
 function collideplayerfunc(collideplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
 end
 
-local collideplayerloop = false
+local function startLoop()
+    while collideplayerloop do
+        EquipSpray()
+        task.wait(0.4)
+        if fetargetname == "All" then
+            for _, v in pairs(Players:GetPlayers()) do
+                if v ~= LocalPlayer then -- Skip executing the function on yourself
+                    local collideplayertarget = v
+                    collideplayerfunc(collideplayertarget)
+                    task.wait()
+                end
+            end
+        else
+            local collideplayertarget = findPlayerByName(fetargetname)
+            if collideplayertarget then
+                collideplayerfunc(collideplayertarget)
+            else
+                print("Player not found.")
+            end
+        end
+        task.wait(15)
+    end
+end
+
+local function onCharacterAdded(character)
+    if collideplayerloop then
+        task.spawn(startLoop)
+    end
+end
+
+LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Remove Collisions",
-		StartingState = false,
-		Description = "Spraypaint Toy Required",
-		Callback = function(Value)
-   if Value == true then
-        collideplayerloop = true
-        while collideplayerloop do
-            EquipSpray()
-            task.wait(0.4)
-            if fetargetname == "All" then
-                for _, v in pairs(game.Players:GetPlayers()) do
-                    if v ~= game.Players.LocalPlayer then -- Skip executing the function on yourself
-                        local collideplayertarget = v
-                        collideplayerfunc(collideplayertarget)
-                        task.wait()
-                    end
-                end
-            else
-                local collideplayertarget = findPlayerByName(fetargetname)
-                if collideplayertarget then
-                    collideplayerfunc(collideplayertarget)
-                else
-                    print("Player not found.")
-                end
-            end
-            task.wait(15)
+    StartingState = false,
+    Description = "Spraypaint Toy Required",
+    Callback = function(collideplayer)
+        collideplayerloop = collideplayer
+        if collideplayer then
+            task.spawn(startLoop)
         end
-    end
-    if Value == false then
-        collideplayerloop = false
-    end
-end,})
+    end,
+})
 
 function poolplayerfunc(poolplayertarget)
     game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
