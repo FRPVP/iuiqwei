@@ -13,48 +13,6 @@ local tab = gui:tab{
     Name = "Player"
 }
 
-tab:toggle({
-    Name = "Inf Jump",
-		StartingState = false,
-		Description = "",
-		Callback = function(Value)
-   if Value then
-InfJump = game:GetService("UserInputService").JumpRequest:connect(function()
-if Value then
-		game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
-		end
-end)
-else
-InfJump:Disconnect()
-end
-end,})
-
-tab:button({
-    Name = "Play Dead",
-    Description = "",
-    Callback = function()
-    local player = game.Players.LocalPlayer
-
--- Function to make the character sit
-local function sit()
-    -- Check if the character exists
-    if player.Character then
-        -- Loop through each part of the character
-        for _, part in pairs(player.Character:GetDescendants()) do
-            -- Check if the part is a Humanoid
-            if part:IsA("Humanoid") then
-                -- Set the sitting property to true
-                part.Sit = true
-            end
-        end
-    end
-end
-
--- Call the sit function
-sit()
-    end,
-})
-
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local currentWalkSpeed = 16
@@ -93,26 +51,6 @@ if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humano
     setWalkSpeed()
 end
 
-tab:textbox({
-    Name = "Walkspeed",
-    Callback = function(Value)
-        local newWalkSpeed = tonumber(Value)
-        if newWalkSpeed then
-            -- Clamp the new walk speed value between 16 and 300
-            currentWalkSpeed = math.clamp(newWalkSpeed, 16, 300)
-            
-            -- Update the walk speed
-            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-                LocalPlayer.Character.Humanoid.WalkSpeed = currentWalkSpeed
-            end
-            
-            print("Walk speed changed to:", currentWalkSpeed)
-        else
-            warn("Invalid input. Please enter a valid number.")
-        end
-    end
-})
-
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local currentJumpPower = 50
@@ -150,26 +88,6 @@ end)
 if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
     setJumpPower()
 end
-
-tab:textbox({
-    Name = "Jump Height",
-    Callback = function(Value)
-        local newJumpPower = tonumber(Value)
-        if newJumpPower then
-            -- Clamp the new jump power value between 50 and 300
-            currentJumpPower = math.clamp(newJumpPower, 50, 300)
-            
-            -- Update the jump power
-            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-                LocalPlayer.Character.Humanoid.JumpPower = currentJumpPower
-            end
-            
-            print("Jump power changed to:", currentJumpPower)
-        else
-            warn("Invalid input. Please enter a valid number.")
-        end
-    end
-})
 
 tab:toggle({
     Name = "Noclip",
@@ -494,13 +412,6 @@ local something = tab:slider({
     end
 })
 
-tab:textbox({
-Name = "Fly Speed",
-    Callback = function(vv)
-        flyspeed = vv
-    end
-})
-
 tab:toggle({
     Name = "Remove Kill Barriers",
 		StartingState = false,
@@ -519,63 +430,6 @@ end
 end
 end
 end,})
-
-tab:button({
-    Name = "Free Xbox",
-    Description = "",
-    Callback = function()
-    local Event = game:GetService("ReplicatedStorage").Remotes.Extras.IsXbox
-Event:FireServer(A_1)
-    end,
-})
-
-tab:button({
-    Name = "Extra Life",
-    Description = "",
-    Callback = function()
-        local accessories = {}
-
-        if game.Players.LocalPlayer.Character then
-            if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
-                for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
-                    table.insert(accessories, accessory:Clone())
-                end
-                game.Players.LocalPlayer.Character.Humanoid.Name = "boop"
-            end
-            local v = game.Players.LocalPlayer.Character["boop"]:Clone()
-            v.Parent = game.Players.LocalPlayer.Character
-            v.Name = "Humanoid"
-            wait(0.1)
-            game.Players.LocalPlayer.Character["boop"]:Destroy()
-            workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
-            for _, accessory in pairs(accessories) do
-                game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
-            end
-            game.Players.LocalPlayer.Character.Animate.Disabled = true
-            wait(0.1)
-            game.Players.LocalPlayer.Character.Animate.Disabled = false
-
-            -- Jump Functionality
-            local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                local user_input = game:GetService("UserInputService")
-                local is_jumping = false
-                local jump_height = 7 -- Adjust this value to set the jump height
-
-                user_input.InputBegan:Connect(function(input, isProcessed)
-                    if not isProcessed and input.KeyCode == Enum.KeyCode.Space and not is_jumping then
-                        is_jumping = true
-                        while user_input:IsKeyDown(Enum.KeyCode.Space) do
-                            humanoid.Jump = true
-                            wait()
-                        end
-                        is_jumping = false
-                    end
-                end)
-            end
-        end
-    end,
-})
 
 local RS = game:GetService("RunService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -614,30 +468,6 @@ tab:toggle({
 		Callback = function(Value)
    Workspace[LocalPlayer.Name].SpeedTrail.Toggle:FireServer(Value)
 end,})
-
-tab:button({
-    Name = "Take The Murderer's Knife",
-    Description = "Able to swing it around but not kill",
-    Callback = function()
-        for i,s in pairs(Players:GetPlayers()) do
-if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Knife") or s.Character:FindFirstChild("Knife") then
-s.Backpack.Knife.Parent = Players.LocalPlayer.Backpack
-end
-end
-    end,
-})
-
-tab:button({
-    Name = "Take The Sheriff's Gun",
-    Description = "Shoot a player in order to break the gun",
-    Callback = function()
-        for i,s in pairs(Players:GetPlayers()) do
-if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Gun") or s.Character:FindFirstChild("Gun") then
-s.Backpack.Gun.Parent = Players.LocalPlayer.Backpack
-end
-end
-    end,
-})
 
 
 
@@ -829,6 +659,70 @@ tab:toggle({
     end,
 })
 
+local BillboardGui = nil
+local RenderSteppedConnection = nil
+local Gun = Workspace:FindFirstChild("GunDrop")
+local ToggleValue = false
+
+local function CreateBillboardAboveGun(gun)
+    BillboardGui = Instance.new("BillboardGui")
+    BillboardGui.Adornee = gun
+    BillboardGui.Size = UDim2.new(0, 80, 0, 50) -- Decreased size for smaller text
+    BillboardGui.StudsOffset = Vector3.new(0, 3, 0) -- Adjust the height of the billboard
+    BillboardGui.AlwaysOnTop = true -- Ensure the billboard is always visible
+
+    local TextLabel = Instance.new("TextLabel")
+    TextLabel.Size = UDim2.new(1, 0, 1, 0)
+    TextLabel.Text = "Gundrop"
+    TextLabel.Font = Enum.Font.SourceSansBold
+    TextLabel.TextColor3 = Color3.fromRGB(0, 214, 0)
+    TextLabel.BackgroundTransparency = 1
+    TextLabel.TextScaled = true -- Allow the text to scale based on the size of the billboard
+    TextLabel.Parent = BillboardGui
+
+    BillboardGui.Parent = gun
+end
+
+local function DestroyBillboard()
+    if BillboardGui then
+        BillboardGui:Destroy()
+        BillboardGui = nil
+    end
+    if RenderSteppedConnection then
+        RenderSteppedConnection:Disconnect()
+        RenderSteppedConnection = nil
+    end
+end
+
+local function OnGunAdded(gun)
+    if ToggleValue then
+        CreateBillboardAboveGun(gun)
+    end
+end
+
+local function OnGunRemoved(gun)
+    DestroyBillboard()
+end
+
+local function ToggleChanged(newValue)
+    ToggleValue = newValue
+    if newValue then
+        if Gun then
+            OnGunAdded(Gun)
+        end
+    else
+        DestroyBillboard()
+    end
+    print("Toggle value changed to:", newValue)
+end
+
+tab:toggle({
+    Name = "Gun ESP",
+    StartingState = false,
+    Description = "",
+    Callback = ToggleChanged
+})
+
 tab:toggle({
     Name = "Player Highlights",
 		StartingState = false,
@@ -898,70 +792,6 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 end,})
-
-local BillboardGui = nil
-local RenderSteppedConnection = nil
-local Gun = Workspace:FindFirstChild("GunDrop")
-local ToggleValue = false
-
-local function CreateBillboardAboveGun(gun)
-    BillboardGui = Instance.new("BillboardGui")
-    BillboardGui.Adornee = gun
-    BillboardGui.Size = UDim2.new(0, 80, 0, 50) -- Decreased size for smaller text
-    BillboardGui.StudsOffset = Vector3.new(0, 3, 0) -- Adjust the height of the billboard
-    BillboardGui.AlwaysOnTop = true -- Ensure the billboard is always visible
-
-    local TextLabel = Instance.new("TextLabel")
-    TextLabel.Size = UDim2.new(1, 0, 1, 0)
-    TextLabel.Text = "Gundrop"
-    TextLabel.Font = Enum.Font.SourceSansBold
-    TextLabel.TextColor3 = Color3.fromRGB(0, 214, 0)
-    TextLabel.BackgroundTransparency = 1
-    TextLabel.TextScaled = true -- Allow the text to scale based on the size of the billboard
-    TextLabel.Parent = BillboardGui
-
-    BillboardGui.Parent = gun
-end
-
-local function DestroyBillboard()
-    if BillboardGui then
-        BillboardGui:Destroy()
-        BillboardGui = nil
-    end
-    if RenderSteppedConnection then
-        RenderSteppedConnection:Disconnect()
-        RenderSteppedConnection = nil
-    end
-end
-
-local function OnGunAdded(gun)
-    if ToggleValue then
-        CreateBillboardAboveGun(gun)
-    end
-end
-
-local function OnGunRemoved(gun)
-    DestroyBillboard()
-end
-
-local function ToggleChanged(newValue)
-    ToggleValue = newValue
-    if newValue then
-        if Gun then
-            OnGunAdded(Gun)
-        end
-    else
-        DestroyBillboard()
-    end
-    print("Toggle value changed to:", newValue)
-end
-
-tab:toggle({
-    Name = "Gun ESP",
-    StartingState = false,
-    Description = "",
-    Callback = ToggleChanged
-})
 
 Workspace.ChildAdded:Connect(function(child)
     if child.Name == "GunDrop" then
@@ -1049,56 +879,6 @@ tab:toggle({
 		StartingState = false,
 		Description = "",
 		Callback = ToggleChanged
-})
-
-tab:button({
-    Name = "Notify Roles",
-    Description = "",
-    Callback = function()
-        for _, player in pairs(game.Players:GetPlayers()) do 
-    if player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife")) then 
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Murder Detected",
-            Text = "Murder is " .. player.Name .. "!",
-            Duration = 5
-        })
-    end 
-end
-
-for _, player in pairs(game.Players:GetPlayers()) do 
-    if player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun")) then
-        game.StarterGui:SetCore("SendNotification", {
-            Title = "Sheriff Detected",
-            Text = "Sheriff is " .. player.Name .. "!",
-            Duration = 5
-        })
-    end 
-end
-    end,
-})
-
-tab:button({
-    Name = "Message Roles",
-    Description = "",
-    Callback = function()
-        local function checkForKnife(player)
-    return player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife"))
-end
-
--- Function to check if a player has a gun
-local function checkForGun(player)
-    return player.Character and (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun"))
-end
-
--- Iterate through players to determine roles and send chat messages
-for _, player in ipairs(game.Players:GetPlayers()) do
-    if checkForKnife(player) then
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Murderer: " .. player.Name, "normalchat")
-    elseif checkForGun(player) then
-        game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest"):FireServer("Sheriff: " .. player.Name, "normalchat")
-    end
-end
-    end,
 })
 
 tab:textbox({
@@ -1418,25 +1198,6 @@ local tab = gui:tab{
     Name = "Teleport"
 }
 
-tab:toggle({
-    Name = "Click TP",
-		StartingState = false,
-		Description = "",
-		Callback = function(Value)
-   Toggle = Value
-
-      local player = game.Players.LocalPlayer
-      local mouse = player:GetMouse()
-
-      local function Teleport()
-         if Toggle and mouse.Target then
-            player.Character.HumanoidRootPart.CFrame = mouse.Hit
-         end
-      end
-
-      mouse.Button1Down:Connect(Teleport)
-end,})
-
 tab:button({
     Name = "Lobby",
     Description = "",
@@ -1518,99 +1279,6 @@ TpVoid.Size = Vector3.new(20,0,20)
         end
     end,
 })
-
-
-
-
-
-
-
-
-
-
-local tab = gui:tab{
-    Icon = "rbxassetid://17771517804",
-    Name = "Autofarm"
-}
-
-local tweens = game:GetService('TweenService')
-local speed = 30
-local pppp = nil
-local res = false
-
-local farm = false -- Initial state is false
-
--- Anti-AFK
-repeat wait() until game:IsLoaded()
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-    game:GetService("VirtualUser"):ClickButton2(Vector2.new())
-end)
-
-local function startFarm()
-    while farm do
-        if game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Coin').Visible == true and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Egg').CurrencyFrame.Icon.Coins.Text ~= '20' and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.CurrencyFrame.Icon.Coins.Text ~= '40' then
-            for i, v in pairs(game.Workspace:WaitForChild('Normal'):WaitForChild('CoinContainer'):GetChildren()) do
-                if pppp == nil then
-                    pppp = v
-                elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude <= (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - pppp.Position).Magnitude and (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude > 1 then
-                    pppp = v
-                end
-            end
-
-            local v = pppp
-
-            local time = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude / speed
-            if v:FindFirstChild('CoinVisual') then
-                pppp = v:FindFirstChild('CoinVisual')
-            else
-                pppp = v
-            end
-
-            local tween = tweens:Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {CFrame = pppp.CFrame})
-            tween:Play()
-
-            wait(time + 0.2)
-            v:Destroy()
-
-            pppp = nil
-
-            wait(0.1)
-            if game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container:FindFirstChild('Egg').CurrencyFrame.Icon.Coins.Text == '20' and game.Players.LocalPlayer.PlayerGui.MainGUI.Game.CoinBags.Container.Coin.CurrencyFrame.Icon.Coins.Text == '40' then
-                if res == true then
-                    game.Players.LocalPlayer.Character:Load()
-                end
-            end
-        end
-        wait(1)
-    end
-end
-
-tab:toggle({
-    Name = "Tween Autofarm",
-    StartingState = false,
-    Description = "",
-    Callback = function(state)
-        farm = state
-        if farm then
-            startFarm()
-        end
-    end
-})
-
-tab:slider({
-    Name = "Autofarm Speed",
-    Description = "",
-    Default = 30,
-    Min = 1,
-    Max = 50,
-    Rounding = 1,
-    Callback = function(v)
-        speed = v
-    end
-})
-
-
-
 
 
 
@@ -1776,21 +1444,6 @@ local something = tab:slider({
         currentSpeed = v -- Update the global speed variable
         if currentTrack then
             currentTrack:AdjustSpeed(currentSpeed / 100) -- Adjust the speed of the current track
-        end
-    end
-})
-
-tab:textbox({
-    Name = "Energizer Emote Speed",
-    Description = "",
-    Placeholder = "0-1000",
-    Callback = function(v)
-        local numericValue = tonumber(v)
-        if numericValue then
-            currentSpeed = numericValue -- Update the global speed variable
-            if currentTrack then
-                currentTrack:AdjustSpeed(currentSpeed / 100) -- Adjust the speed of the current track
-            end
         end
     end
 })
@@ -3247,170 +2900,6 @@ end
 })
 
 
-local tab = gui:tab{
-    Icon = "rbxassetid://17771507990",
-    Name = "Trade"
-}
-
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local isLoopingSend = false
-local isLoopingCancel = false
-local tradetargetUser = ""
-
-local function SendTradeRequestToPlayer(tradetargetUser)
-    local targetPlayer = Players:FindFirstChild(tradetargetUser)
-
-    if targetPlayer then
-        local tradeSendRequest = ReplicatedStorage:WaitForChild("Trade"):WaitForChild("SendRequest")
-
-        tradeSendRequest:InvokeServer(targetPlayer)
-    else
-        warn("Player not found:", tradetargetUser)
-    end
-end
-
-local function CancelTradeRequestForPlayer(tradetargetUser)
-    local targetPlayer = Players:FindFirstChild(tradetargetUser)
-
-    if targetPlayer then
-        local tradeCancelRequest = ReplicatedStorage:WaitForChild("Trade"):WaitForChild("CancelRequest")
-
-        tradeCancelRequest:FireServer(targetPlayer)
-    else
-        warn("Player not found:", tradetargetUser)
-    end
-end
-
-tab:textbox({
-    Name = "Target User",
-    Description = "Type in the FULL username for it to work",
-    Callback = function(Value)
-        tradetargetUser = Value
-    end
-})
-
-local function ToggleSendLoop()
-    while isLoopingSend do
-        if tradetargetUser ~= "" then
-            SendTradeRequestToPlayer(tradetargetUser)
-        else
-            print("Please enter a valid player name.")
-            break
-        end
-        wait(0) -- Adjust the delay as needed
-    end
-end
-
-local function ToggleCancelLoop()
-    while isLoopingCancel do
-        if tradetargetUser ~= "" then
-            CancelTradeRequestForPlayer(tradetargetUser)
-        else
-            print("Please enter a valid player name.")
-            break
-        end
-        wait(0) -- Adjust the delay as needed
-    end
-end
-
-tab:toggle({
-    Name = "Spam Trade Requests",
-    StartingState = false,
-    Description = "",
-    Callback = function(Value)
-        isLoopingSend = Value
-        if isLoopingSend then
-            ToggleSendLoop()
-        end
-    end,
-})
-
-tab:toggle({
-    Name = "Spam Cancel Requests",
-    StartingState = false,
-    Description = "",
-    Callback = function(Value)
-        isLoopingCancel = Value
-        if isLoopingCancel then
-            ToggleCancelLoop()
-        end
-    end,
-})
-
-local player = game.Players.LocalPlayer
-
--- Variable to store TradeGUI reference
-local savedTradeGUI = nil
-
--- Function to remove TradeGUI
-local function removeTradeGUI()
-    -- Find the TradeGUI in the player's PlayerGui
-    local tradeGUI = player.PlayerGui:FindFirstChild("TradeGUI")
-
-    -- Check if the TradeGUI exists
-    if tradeGUI then
-        -- Save a reference to TradeGUI
-        savedTradeGUI = tradeGUI
-
-        -- Hide the TradeGUI
-        tradeGUI.Parent = nil
-        print("TradeGUI removed successfully!")
-    else
-        print("TradeGUI not found.")
-    end
-end
-
--- Function to restore TradeGUI
-local function restoreTradeGUI()
-    -- Check if there's a saved reference to TradeGUI
-    if savedTradeGUI then
-        -- Restore TradeGUI
-        savedTradeGUI.Parent = player.PlayerGui
-        print("TradeGUI restored successfully!")
-    else
-        print("No TradeGUI to restore.")
-    end
-end
-
-tab:toggle({
-    Name = "Remove Trade GUI",
-		StartingState = false,
-		Description = "",
-		Callback = function(val)
-   if val then
-        -- Call the function to remove TradeGUI
-        removeTradeGUI()
-    else
-        -- Call the function to restore TradeGUI
-        restoreTradeGUI()
-    end
-end,})
-
-
-
-
-
-
-
-local tab = gui:tab{
-    Icon = "rbxassetid://17771515495",
-    Name = "Decals"
-}
-
-tab:button({
-    Name = "Vindicate Decal Library",
-    Description = "",
-    Callback = function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/FRPVP/iuiqwei/main/Decals.lua"))();
-    end,
-})
-
-
-
-
-
-
 
 
 
@@ -3418,249 +2907,6 @@ local tab = gui:tab{
     Icon = "rbxassetid://17765223017",
     Name = "Fling"
 }
-
-local TouchFlig = nil
-local hiddenfling = false
-
-tab:toggle({
-    Name = "Touch Fling",
-		StartingState = false,
-		Description = "",
-		Callback = function(val)
-   if val then
-        if not TouchFlig then -- Check if TouchFlig is not already connected
-            TouchFlig = RS.RenderStepped:Connect(function()
-                hiddenfling = false
-
-                local function enableWalkfling()
-                    if game:GetService("ReplicatedStorage"):FindFirstChild("juisdfj0i32i0eidsuf0iok") then
-                        hiddenfling = true
-                    else
-                        hiddenfling = true
-                        local detection = Instance.new("Decal")
-                        detection.Name = "juisdfj0i32i0eidsuf0iok"
-                        detection.Parent = game:GetService("ReplicatedStorage")
-
-                        -- Fling function
-                        local function fling()
-                            local hrp, c, vel, movel = nil, nil, nil, 0.1
-                            while true do
-                                game:GetService("RunService").Heartbeat:Wait()
-                                if hiddenfling then
-                                    local lp = game.Players.LocalPlayer
-                                    while hiddenfling and not (c and c.Parent and hrp and hrp.Parent) do
-                                        game:GetService("RunService").Heartbeat:Wait()
-                                        c = lp.Character
-                                        hrp = c:FindFirstChild("HumanoidRootPart") or c:FindFirstChild("Torso") or c:FindFirstChild("UpperTorso")
-                                    end
-                                    if hiddenfling then
-                                        vel = hrp.Velocity
-                                        hrp.Velocity = vel * 10000 + Vector3.new(0, 10000, 0)
-                                        game:GetService("RunService").RenderStepped:Wait()
-                                        if c and c.Parent and hrp and hrp.Parent then
-                                            hrp.Velocity = vel
-                                        end
-                                        game:GetService("RunService").Stepped:Wait()
-                                        if c and c.Parent and hrp and hrp.Parent then
-                                            hrp.Velocity = vel + Vector3.new(0, movel, 0)
-                                            movel = movel * -1
-                                        end
-                                    end
-                                end
-                            end
-                        end
-
-                        fling()
-                    end
-                end
-
-                -- Call the function to enable walkfling when the script is executed
-                enableWalkfling()
-            end)
-        end
-    else
-        if TouchFlig then -- Check if TouchFlig is connected
-            TouchFlig:Disconnect() -- Disconnect TouchFlig
-            TouchFlig = nil -- Set TouchFlig to nil to indicate it's disconnected
-            hiddenfling = false
-        end
-    end
-end,})
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local plr = Players.LocalPlayer
-
-local flyKeyDown, flyKeyUp
-local FLYING = false
-local Clip = true
-local Noclipping
-local IYMouse = plr:GetMouse()
-
-local vehicleflyspeed = 0.5
-local iyflyspeed = 0.3
-local QEfly = true
-
-function sFLY(vfly)
-    repeat wait() until plr and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChildOfClass("Humanoid")
-
-    if flyKeyDown or flyKeyUp then
-        flyKeyDown:Disconnect()
-        flyKeyUp:Disconnect()
-    end
-
-    local T = plr.Character.HumanoidRootPart
-    local CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
-    local lCONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
-    local SPEED = 0
-
-    local function FLY()
-        FLYING = true
-        local BG = Instance.new('BodyGyro')
-        local BV = Instance.new('BodyVelocity')
-        BG.P = 9e4
-        BG.Parent = T
-        BV.Parent = T
-        BG.maxTorque = Vector3.new(9e9, 9e9, 9e9)
-        BG.cframe = T.CFrame
-        BV.velocity = Vector3.new(0, 0, 0)
-        BV.maxForce = Vector3.new(9e9, 9e9, 9e9)
-
-        task.spawn(function()
-            repeat wait()
-                if not vfly and plr.Character:FindFirstChildOfClass('Humanoid') then
-                    plr.Character:FindFirstChildOfClass('Humanoid').PlatformStand = true
-                end
-                if CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0 then
-                    SPEED = 50
-                elseif not (CONTROL.L + CONTROL.R ~= 0 or CONTROL.F + CONTROL.B ~= 0 or CONTROL.Q + CONTROL.E ~= 0) and SPEED ~= 0 then
-                    SPEED = 0
-                end
-                if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 or (CONTROL.Q + CONTROL.E) ~= 0 then
-                    BV.velocity = ((workspace.CurrentCamera.CFrame.LookVector * (CONTROL.F + CONTROL.B)) + ((workspace.CurrentCamera.CFrame * CFrame.new(CONTROL.L + CONTROL.R, (CONTROL.F + CONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).Position) - workspace.CurrentCamera.CFrame.Position)) * SPEED
-                    lCONTROL = {F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R}
-                elseif (CONTROL.L + CONTROL.R) == 0 and (CONTROL.F + CONTROL.B) == 0 and (CONTROL.Q + CONTROL.E) == 0 and SPEED ~= 0 then
-                    BV.velocity = ((workspace.CurrentCamera.CFrame.LookVector * (lCONTROL.F + lCONTROL.B)) + ((workspace.CurrentCamera.CFrame * CFrame.new(lCONTROL.L + lCONTROL.R, (lCONTROL.F + lCONTROL.B + CONTROL.Q + CONTROL.E) * 0.2, 0).Position) - workspace.CurrentCamera.CFrame.Position)) * SPEED
-                else
-                    BV.velocity = Vector3.new(0, 0, 0)
-                end
-                BG.CFrame = workspace.CurrentCamera.CFrame
-            until not FLYING
-            CONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
-            lCONTROL = {F = 0, B = 0, L = 0, R = 0, Q = 0, E = 0}
-            SPEED = 0
-            BG:Destroy()
-            BV:Destroy()
-            if plr.Character:FindFirstChildOfClass('Humanoid') then
-                plr.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
-            end
-        end)
-    end
-
-    flyKeyDown = IYMouse.KeyDown:Connect(function(KEY)
-        if KEY:lower() == 'w' then
-            CONTROL.F = (vfly and vehicleflyspeed or iyflyspeed)
-        elseif KEY:lower() == 's' then
-            CONTROL.B = - (vfly and vehicleflyspeed or iyflyspeed)
-        elseif KEY:lower() == 'a' then
-            CONTROL.L = - (vfly and vehicleflyspeed or iyflyspeed)
-        elseif KEY:lower() == 'd' then 
-            CONTROL.R = (vfly and vehicleflyspeed or iyflyspeed)
-        elseif QEfly and KEY:lower() == 'e' then
-            CONTROL.Q = (vfly and vehicleflyspeed or iyflyspeed) * 2
-        elseif QEfly and KEY:lower() == 'q' then
-            CONTROL.E = -(vfly and vehicleflyspeed or iyflyspeed) * 2
-        end
-        pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Track end)
-    end)
-
-    flyKeyUp = IYMouse.KeyUp:Connect(function(KEY)
-        if KEY:lower() == 'w' then
-            CONTROL.F = 0
-        elseif KEY:lower() == 's' then
-            CONTROL.B = 0
-        elseif KEY:lower() == 'a' then
-            CONTROL.L = 0
-        elseif KEY:lower() == 'd' then
-            CONTROL.R = 0
-        elseif KEY:lower() == 'e' then
-            CONTROL.Q = 0
-        elseif KEY:lower() == 'q' then
-            CONTROL.E = 0
-        end
-    end)
-
-    FLY()
-end
-
--- Function to enable noclip
-function Noclip()
-    Clip = false
-    local function NoclipLoop()
-        if Clip == false and plr.Character ~= nil then
-            for _, child in pairs(plr.Character:GetDescendants()) do
-                if child:IsA("BasePart") and child.CanCollide == true then
-                    child.CanCollide = false
-                end
-            end
-        end
-    end
-    Noclipping = RunService.Stepped:Connect(NoclipLoop)
-end
-
--- Function to disable flying
-function NOFLY()
-    FLYING = false
-    if flyKeyDown or flyKeyUp then
-        flyKeyDown:Disconnect()
-        flyKeyUp:Disconnect()
-    end
-    if plr.Character:FindFirstChildOfClass('Humanoid') then
-        plr.Character:FindFirstChildOfClass('Humanoid').PlatformStand = false
-    end
-    pcall(function() workspace.CurrentCamera.CameraType = Enum.CameraType.Custom end)
-end
-
--- Toggle button for Fly Fling
-tab:toggle({
-    Name = "Fly Fling",
-    StartingState = false,
-    Description = "Has a bit of an issue of throwing you off the map",
-    Callback = function(Fly)
-        if Fly == true then
-            NOFLY()
-            wait()
-            for _, v in pairs(plr.Character:GetDescendants()) do
-                if v:IsA("Part") then
-                    v.CustomPhysicalProperties = PhysicalProperties.new(9e99, 9e99, 9e99, 9e99, 9e99)
-                end
-            end
-            Noclip()
-            sFLY(true)
-            local BodyAV = Instance.new("BodyAngularVelocity", plr.Character:FindFirstChild("HumanoidRootPart"))
-            BodyAV.AngularVelocity = Vector3.new(0, 2000, 0)
-            BodyAV.MaxTorque = Vector3.new(0, math.huge, 0)
-            BodyAV.Name = "FlyFling"
-            BodyAV.P = 1250
-        else
-            NOFLY()
-            for _, child in pairs(plr.Character:GetDescendants()) do
-                if child.ClassName == "Part" then
-                    child.CustomPhysicalProperties = PhysicalProperties.new(0.7, 0.3, 0.5, 0, 0)
-                end
-            end
-            for _, v in pairs(plr.Character:GetDescendants()) do
-                if v:IsA("BodyAngularVelocity") and v.Name == "FlyFling" then
-                    v:Destroy()
-                end
-            end
-            Clip = true
-            if Noclipping then
-                Noclipping:Disconnect()
-            end
-        end
-    end
-})
 
 tab:textbox({
 Name = "Target User",
@@ -4499,158 +3745,10 @@ SerFling("she")
 
 
 
-
-
-
-
-local tab = gui:tab{
-    Icon = "rbxassetid://17771717140",
-    Name = "Trap"
-}
-
-tab:button({
-    Name = "Spawn Trap",
-    Description = "Trap Perk Required",
-    Callback = function()
-        local ReplicatedStorage = game:GetService("ReplicatedStorage")
-        local lp = game:GetService("Players").LocalPlayer
-
-        -- Invoke the server to spawn a trap
-        ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
-    end,
-})
-
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = game:GetService("Players")
-local lp = Players.LocalPlayer
-
-local trapToggle = false
-local trapLoop
-local trapSpawnDelay = 0 -- Default delay value
-
-local function spawnTrapLoop()
-    while trapToggle do
-        -- Invoke the server to spawn a trap
-        ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
-        wait(trapSpawnDelay) -- Add a delay after spawning each trap
-    end
-end
-
-tab:toggle({
-    Name = "Loop Traps",
-		StartingState = false,
-		Description = "Trap Perk Required",
-		Callback = function(Value)
-   trapToggle = Value
-    if trapToggle then
-        -- Start the trap spawn loop
-        spawnTrapLoop()
-    else
-        -- If toggle turned off, disconnect the loop
-        if trapLoop then
-            trapLoop:Disconnect()
-        end
-    end
-end,})
-
-local trapsd = tab:slider({
-    Name = "Loop Trap Delay",
-    Description = "",
-    Default = 0,
-    Min = 0,
-    Max = 10,
-    Rounding = 1,
-    Callback = function(Value)
-        trapSpawnDelay = Value 
-    end
-})
-
-tab:textbox({
-Name = "Loop Trap Delay",
-    Callback = function(Value)
-        local delay = tonumber(Value)
-    if delay then
-        if delay >= 0 and delay <= 10 then
-            trapSpawnDelay = delay
-        else
-            -- Ensure the delay value stays within the range of 0 to 10
-            trapSpawnDelay = math.clamp(delay, 0, 10)
-        end
-    end
-    end
-})
-
-tab:button({
-    Name = "Trap All",
-    Description = "Trap Perk Required",
-    Callback = function()
-        for i,x in pairs(Players:GetPlayers()) do
-if x ~= lp then
-game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
-    [1] = x.Character.HumanoidRootPart.CFrame
-}))
-end
-end
-    end,
-})
-
-tab:button({
-    Name = "Trap Murderer",
-    Description = "Trap Perk Required",
-    Callback = function()
-        for _,v in pairs(game.Players:GetPlayers()) do
-if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
-game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
-    [1] = v.Character.HumanoidRootPart.CFrame
-}))
-end
-end
-    end,
-})
-
-tab:button({
-    Name = "Trap Sheriff",
-    Description = "Trap Perk Required",
-    Callback = function()
-        for _,v in pairs(game.Players:GetPlayers()) do
-if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
-game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
-    [1] = v.Character.HumanoidRootPart.CFrame
-}))
-end
-end
-    end,
-})
-
-
-
-
-
-
-
-
-
-
 local tab = gui:tab{
     Icon = "rbxassetid://17765228256",
     Name = "Fake Gun"
 }
-
-tab:toggle({
-    Name = "Toggle Fake Gun",
-		StartingState = false,
-		Description = "Fake Gun Perk Required",
-		Callback = function(val)
-   if val then
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
-    [1] = true
-}))
-else
-game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("Gameplay"):WaitForChild("FakeGun"):FireServer(unpack({
-    [1] = false
-}))
-end
-end,})
 
 tab:button({
     Name = "Get Fake Gun",
