@@ -1,36 +1,37 @@
-local fesliploop = false
+local opiwhdaplayerloop = false
 
-function feslipfunc(fesliptarget)
-LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+function opiwhdaplayerfunc(opiwhdaplayertarget)
+LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
 end
 
 local function startLoop()
-    while fesliploop do
+    while opiwhdaplayerloop do
         EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                 if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local fesliptarget = v
-                    feslipfunc(fesliptarget)
+                    local opiwhdaplayertarget = v
+                    opiwhdaplayerfunc(opiwhdaplayertarget)
                     task.wait()
                 end
             end
         else
-            local fesliptarget = findPlayerByName(fetargetname)
-            if fesliptarget then
-                feslipfunc(fesliptarget)
+            local opiwhdaplayertarget = findPlayerByName(fetargetname)
+            if opiwhdaplayertarget then
+                opiwhdaplayerfunc(opiwhdaplayertarget)
             else
                 print("Player not found.")
             end
         end
-        task.wait(15)
+        task.wait(0)
     end
 end
 
 local function onCharacterAdded(character)
-    if fesliploop then
+    if opiwhdaplayerloop then
         task.spawn(startLoop)
     end
 end
@@ -38,12 +39,12 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Slip Up",
+    Name = "Void",
     StartingState = false,
     Description = "Spraypaint Toy Required",
-    Callback = function(feslip)
-        fesliploop = feslip
-        if feslip then
+    Callback = function(opiwhdaplayer)
+        opiwhdaplayerloop = opiwhdaplayer
+        if opiwhdaplayer then
             task.spawn(startLoop)
         end
     end,
