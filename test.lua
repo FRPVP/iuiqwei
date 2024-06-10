@@ -1,27 +1,25 @@
-local opiwhdaplayerloop = false
+local jadoiwanplayerloop = false
 
-function opiwhdaplayerfunc(opiwhdaplayertarget)
-LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+function jadoiwanplayerfunc(jadoiwanplayertarget)
+LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
 end
 
 local function startLoop()
-    while opiwhdaplayerloop do
+    while jadoiwanplayerloop do
         EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                 if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local opiwhdaplayertarget = v
-                    opiwhdaplayerfunc(opiwhdaplayertarget)
+                    local jadoiwanplayertarget = v
+                    jadoiwanplayerfunc(jadoiwanplayertarget)
                     task.wait()
                 end
             end
         else
-            local opiwhdaplayertarget = findPlayerByName(fetargetname)
-            if opiwhdaplayertarget then
-                opiwhdaplayerfunc(opiwhdaplayertarget)
+            local jadoiwanplayertarget = findPlayerByName(fetargetname)
+            if jadoiwanplayertarget then
+                jadoiwanplayerfunc(jadoiwanplayertarget)
             else
                 print("Player not found.")
             end
@@ -31,7 +29,7 @@ local function startLoop()
 end
 
 local function onCharacterAdded(character)
-    if opiwhdaplayerloop then
+    if jadoiwanplayerloop then
         task.spawn(startLoop)
     end
 end
@@ -39,12 +37,12 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Void",
+    Name = "Freeze",
     StartingState = false,
     Description = "Spraypaint Toy Required",
-    Callback = function(opiwhdaplayer)
-        opiwhdaplayerloop = opiwhdaplayer
-        if opiwhdaplayer then
+    Callback = function(jadoiwanplayer)
+        jadoiwanplayerloop = jadoiwanplayer
+        if jadoiwanplayer then
             task.spawn(startLoop)
         end
     end,
