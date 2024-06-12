@@ -1,50 +1,30 @@
-local ncnzksnkaslplayerloop = false
-
-function ncnzksnkaslplayerfunc(ncnzksnkaslplayertarget)
-LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 1113, ncnzksnkaslplayertarget.Character.RightHand, ncnzksnkaslplayertarget.Character.RightHand.CFrame * CFrame.new(0, 100, 0))
-   LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.LeftLeg, qweqqwwplayertarget.Character.LeftLeg.CFrame * CFrame.new(0, 50.5, 0))
+function heatplayerfunc(heatplayertarget)
+    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
 end
 
-local function startLoop()
-    while ncnzksnkaslplayerloop do
-        EquipSpray()
-        task.wait(0.4)
-        if fetargetname == "All" then
-            for _, v in pairs(Players:GetPlayers()) do
-                if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local ncnzksnkaslplayertarget = v
-                    ncnzksnkaslplayerfunc(ncnzksnkaslplayertarget)
-                    task.wait()
-                end
-            end
-        else
-            local ncnzksnkaslplayertarget = findPlayerByName(fetargetname)
-            if ncnzksnkaslplayertarget then
-                ncnzksnkaslplayerfunc(ncnzksnkaslplayertarget)
-            else
-                print("Player not found.")
-            end
-        end
-        task.wait(0)
-    end
-end
-
-local function onCharacterAdded(character)
-    if ncnzksnkaslplayerloop then
-        task.spawn(startLoop)
-    end
-end
-
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
-tab:toggle({
-    Name = "Test",
-    StartingState = false,
+tab:button({
+    Name = "Reset",
     Description = "Spraypaint Toy Required",
-    Callback = function(ncnzksnkaslplayer)
-        ncnzksnkaslplayerloop = ncnzksnkaslplayer
-        if ncnzksnkaslplayer then
-            task.spawn(startLoop)
+    Callback = function()
+        if fetargetname == "All" then
+        EquipSpray() -- Equip the spray first
+        -- Iterate over all players and execute heatplayerfunc on each player except yourself
+        for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+            if player ~= game.Players.LocalPlayer then
+                heatplayerfunc(player)
+            end
         end
+    elseif fetargetname ~= "" then
+        EquipSpray() -- Equip the spray first
+        -- Find the player with the selected name
+        local heatplayertarget = findPlayerByName(fetargetname)
+        if heatplayertarget then
+            heatplayerfunc(heatplayertarget) -- Execute heatplayerfunc on the player
+        else
+            print("Player not found.")
+        end
+    else
+        print("Please select a name from the dropdown.")
+    end
     end,
 })
