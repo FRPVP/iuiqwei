@@ -1533,18 +1533,20 @@ Description = "Type All to select all players",
     end
 })
 
-function EquipSpray()
-    game:GetService("ReplicatedStorage").Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
-    wait()
-    for _, obj in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-        if obj.Name == "SprayPaint" then
-            obj.Parent = game.Players.LocalPlayer.Character
-        end
-    end
-end
-
 function heatplayerfunc(heatplayertarget)
-    game:GetService("Players").LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+    if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+        LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+         LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+        LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+         LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (heatplayertarget.Character.Head), heatplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
 end
 
 tab:button({
@@ -1552,16 +1554,12 @@ tab:button({
     Description = "Spraypaint Toy Required",
     Callback = function()
         if fetargetname == "All" then
-        EquipSpray() -- Equip the spray first
-        -- Iterate over all players and execute heatplayerfunc on each player except yourself
         for _, player in pairs(game:GetService("Players"):GetPlayers()) do
             if player ~= game.Players.LocalPlayer then
                 heatplayerfunc(player)
             end
         end
     elseif fetargetname ~= "" then
-        EquipSpray() -- Equip the spray first
-        -- Find the player with the selected name
         local heatplayertarget = findPlayerByName(fetargetname)
         if heatplayertarget then
             heatplayerfunc(heatplayertarget) -- Execute heatplayerfunc on the player
@@ -1579,12 +1577,23 @@ local LocalPlayer = Players.LocalPlayer
 local resetplayerloop = false
 
 function resetplayerfunc(resetplayertarget)
+	    if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
     LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+end
 end
 
 local function startLoop()
     while resetplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1629,12 +1638,23 @@ tab:toggle({
 local collideplayerloop = false
 
 function collideplayerfunc(collideplayertarget)
+	if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
     LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, collideplayertarget.Character.HumanoidRootPart, collideplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+end
 end
 
 local function startLoop()
     while collideplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1679,6 +1699,10 @@ tab:toggle({
 local poolplayerloop = false
 
 function poolplayerfunc(poolplayertarget)
+	if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
     LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
@@ -1691,11 +1715,40 @@ function poolplayerfunc(poolplayertarget)
     LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+		    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+				    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 3.15, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Bottom, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -2.8, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Top, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, -3, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 3.1))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, 2.86))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Front, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -2.86))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Back, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.1, -3.1))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(2.86, 0.1, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(3.1, 0.1, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Right, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-3.1, 0.1, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(60484593, Enum.NormalId.Left, 32, poolplayertarget.Character.HumanoidRootPart, poolplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(-2.86, 0.1, 0))
+end
 end
 
 local function startLoop()
     while poolplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1740,13 +1793,26 @@ tab:toggle({
 local fesliploop = false
 
 function feslipfunc(fesliptarget)
+	if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, fesliptarget.Character.LeftUpperLeg, fesliptarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -2, 0))
+end
 end
 
 local function startLoop()
     while fesliploop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1791,14 +1857,29 @@ tab:toggle({
 local opiwhdaplayerloop = false
 
 function opiwhdaplayerfunc(opiwhdaplayertarget)
+		if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Back, 6.331, opiwhdaplayertarget.Character.HumanoidRootPart, opiwhdaplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 99999, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, opiwhdaplayertarget.Character.LeftUpperLeg, opiwhdaplayertarget.Character.LeftUpperLeg.CFrame * CFrame.new(0, -100, 0))
 end
-
+	end 
+	
 local function startLoop()
     while opiwhdaplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1843,12 +1924,23 @@ tab:toggle({
 local jadoiwanplayerloop = false
 
 function jadoiwanplayerfunc(jadoiwanplayertarget)
+	if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
+	LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, jadoiwanplayertarget.Character.LeftHand, jadoiwanplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
+end
 end
 
 local function startLoop()
     while jadoiwanplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1893,12 +1985,23 @@ tab:toggle({
 local andlxcaosplayerloop = false
 
 function andlxcaosplayerfunc(andlxcaosplayertarget)
+	if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Right, 2048, andlxcaosplayertarget.Character.HumanoidRootPart, andlxcaosplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 250, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Right, 2048, andlxcaosplayertarget.Character.HumanoidRootPart, andlxcaosplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 250, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Right, 2048, andlxcaosplayertarget.Character.HumanoidRootPart, andlxcaosplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0, 250, 0))
+end
 end
 
 local function startLoop()
     while andlxcaosplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1943,13 +2046,26 @@ tab:toggle({
 local iopiipiopolllplayerloop = false
 
 function iopiipiopolllplayerfunc(iopiipiopolllplayertarget)
+	if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, -50, 0))
     LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, -50, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, -50, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 2500, iopiipiopolllplayertarget.Character.RightHand, iopiipiopolllplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
+end
 end
 
 local function startLoop()
     while iopiipiopolllplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
@@ -1994,12 +2110,23 @@ tab:toggle({
 local qweqqwwplayerloop = false
 
 function qweqqwwplayerfunc(qweqqwwplayertarget)
+	if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 50.5, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
+        LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 50.5, 0))
+LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
+	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 50.5, 0))
+end
 end
 
 local function startLoop()
     while qweqqwwplayerloop do
-        EquipSpray()
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
