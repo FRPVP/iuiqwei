@@ -2,7 +2,7 @@ local ncnzksnkaslplayerloop = false
 
 function ncnzksnkaslplayerfunc(ncnzksnkaslplayertarget)
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, ncnzksnkaslplayertarget.Character.RightHand, ncnzksnkaslplayertarget.Character.RightHand.CFrame * CFrame.new(0, 0, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 2048, ncnzksnkaslplayertarget.Character.LeftHand, ncnzksnkaslplayertarget.Character.LeftHand.CFrame * CFrame.new(0, 0, 0))
+   LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Front, 8, qweqqwwplayertarget.Character.Head, qweqqwwplayertarget.Character.Head.CFrame * CFrame.new(0, 50.5, 0))
 end
 
 local function startLoop()
