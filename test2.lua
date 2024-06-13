@@ -1,36 +1,36 @@
-local resetplayerloop = false
+local djiwbdjksbbxkzplayerloop = false
 
-function resetplayerfunc(resetplayertarget)
+function djiwbdjksbbxkzplayerfunc(djiwbdjksbbxkzplayertarget)
 	    if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
         Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(14976845153, Enum.NormalId.Front, 1.5, (djiwbdjksbbxkzplayertarget.Character.HumanoidRootPart), djiwbdjksbbxkzplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.15,-2.90))
 		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
     elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
         LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-		LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(14976845153, Enum.NormalId.Front, 1.5, (djiwbdjksbbxkzplayertarget.Character.HumanoidRootPart), djiwbdjksbbxkzplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.15,-2.90))
 		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
     elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
-		LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, resetplayertarget.Character.Head, resetplayertarget.Character.Head.CFrame * CFrame.new(0, math.huge, 0))
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(14976845153, Enum.NormalId.Front, 1.5, (djiwbdjksbbxkzplayertarget.Character.HumanoidRootPart), djiwbdjksbbxkzplayertarget.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.15,-2.90))
 end
 end
 
 local function startLoop()
-    while resetplayerloop do
+    while djiwbdjksbbxkzplayerloop do
         task.wait(0.4)
         if fetargetname == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                 if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local resetplayertarget = v
-                    resetplayerfunc(resetplayertarget)
+                    local djiwbdjksbbxkzplayertarget = v
+                    djiwbdjksbbxkzplayerfunc(djiwbdjksbbxkzplayertarget)
                     task.wait()
                 end
             end
         else
-            local resetplayertarget = findPlayerByName(fetargetname)
-            if resetplayertarget then
-                resetplayerfunc(resetplayertarget)
+            local djiwbdjksbbxkzplayertarget = findPlayerByName(fetargetname)
+            if djiwbdjksbbxkzplayertarget then
+                djiwbdjksbbxkzplayerfunc(djiwbdjksbbxkzplayertarget)
             else
                 print("Player not found.")
             end
@@ -40,7 +40,7 @@ local function startLoop()
 end
 
 local function onCharacterAdded(character)
-    if resetplayerloop then
+    if djiwbdjksbbxkzplayerloop then
         task.spawn(startLoop)
     end
 end
@@ -48,12 +48,12 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Loop Reset",
+    Name = "Cum On Penis",
     StartingState = false,
     Description = "Spraypaint Toy Required",
-    Callback = function(resetplayer)
-        resetplayerloop = resetplayer
-        if resetplayer then
+    Callback = function(djiwbdjksbbxkzplayer)
+        djiwbdjksbbxkzplayerloop = djiwbdjksbbxkzplayer
+        if djiwbdjksbbxkzplayer then
             task.spawn(startLoop)
         end
     end,
