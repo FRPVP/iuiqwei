@@ -19,7 +19,7 @@ end
 local function startLoop()
     while djiwbdjksbbxkzplayerloop do
         task.wait(0.4)
-        if fetargetname == "All" then
+        if infinityGauntlet == "All" then
             for _, v in pairs(Players:GetPlayers()) do
                 if v ~= LocalPlayer then -- Skip executing the function on yourself
                     local djiwbdjksbbxkzplayertarget = v
@@ -28,7 +28,7 @@ local function startLoop()
                 end
             end
         else
-            local djiwbdjksbbxkzplayertarget = findPlayerByName(fetargetname)
+            local djiwbdjksbbxkzplayertarget = findPlayerByName(infinityGauntlet)
             if djiwbdjksbbxkzplayertarget then
                 djiwbdjksbbxkzplayerfunc(djiwbdjksbbxkzplayertarget)
             else
