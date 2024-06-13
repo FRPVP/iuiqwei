@@ -56,7 +56,7 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Penis",
+    Name = "Tag",
     StartingState = false,
     Description = "Spraypaint Toy Required",
     Callback = function(Value)
