@@ -1621,8 +1621,6 @@ local function onCharacterAdded(character)
     end
 end
 
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
 tab:toggle({
     Name = "Loop Reset",
     StartingState = false,
@@ -1681,8 +1679,6 @@ local function onCharacterAdded(character)
         task.spawn(startLoop)
     end
 end
-
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Remove Collisions",
@@ -1776,8 +1772,6 @@ local function onCharacterAdded(character)
     end
 end
 
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
 tab:toggle({
     Name = "Blind",
     StartingState = false,
@@ -1839,8 +1833,6 @@ local function onCharacterAdded(character)
         task.spawn(startLoop)
     end
 end
-
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Slip Up",
@@ -1907,8 +1899,6 @@ local function onCharacterAdded(character)
     end
 end
 
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
 tab:toggle({
     Name = "Void",
     StartingState = false,
@@ -1968,8 +1958,6 @@ local function onCharacterAdded(character)
     end
 end
 
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
 tab:toggle({
     Name = "Freeze",
     StartingState = false,
@@ -2028,8 +2016,6 @@ local function onCharacterAdded(character)
         task.spawn(startLoop)
     end
 end
-
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
     Name = "Lag",
@@ -2093,10 +2079,8 @@ local function onCharacterAdded(character)
     end
 end
 
-LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
 tab:toggle({
-    Name = "Launch Up",
+    Name = "Fling",
     StartingState = false,
     Description = "Spraypaint Toy Required",
     Callback = function(iopiipiopolllplayer)
@@ -2157,7 +2141,7 @@ end
 LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 tab:toggle({
-    Name = "Shake",
+    Name = "Break Character",
     StartingState = false,
     Description = "Spraypaint Toy Required",
     Callback = function(qweqqwwplayer)
