@@ -6,16 +6,13 @@ function ancoawpqjwejejjfunc(ancoawpqjwejejjtarget)
         Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, ancoawpqjwejejjtarget.Character.RightHand, ancoawpqjwejejjtarget.Character.RightHand.CFrame * CFrame.new(0, -2, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, ancoawpqjwejejjtarget.Character.LeftHand, ancoawpqjwejejjtarget.Character.LeftHand.CFrame * CFrame.new(0, -2, 0))
 LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
     elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
         LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
 	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, ancoawpqjwejejjtarget.Character.RightHand, ancoawpqjwejejjtarget.Character.RightHand.CFrame * CFrame.new(0, -2, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, ancoawpqjwejejjtarget.Character.LeftHand, ancoawpqjwejejjtarget.Character.LeftHand.CFrame * CFrame.new(0, -2, 0))
 LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
     elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
 	LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, ancoawpqjwejejjtarget.Character.RightHand, ancoawpqjwejejjtarget.Character.RightHand.CFrame * CFrame.new(0, -2, 0))
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(0, Enum.NormalId.Top, 6.331, ancoawpqjwejejjtarget.Character.LeftHand, ancoawpqjwejejjtarget.Character.LeftHand.CFrame * CFrame.new(0, -2, 0))
 end
 end
 
