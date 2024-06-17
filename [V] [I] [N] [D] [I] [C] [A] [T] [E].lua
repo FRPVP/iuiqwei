@@ -1198,6 +1198,25 @@ local tab = gui:tab{
     Name = "Teleport"
 }
 
+tab:toggle({
+    Name = "Click TP",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   Toggle = Value
+
+      local player = game.Players.LocalPlayer
+      local mouse = player:GetMouse()
+
+      local function Teleport()
+         if Toggle and mouse.Target then
+            player.Character.HumanoidRootPart.CFrame = mouse.Hit
+         end
+      end
+
+      mouse.Button1Down:Connect(Teleport)
+end,})
+
 tab:button({
     Name = "Lobby",
     Description = "",
@@ -1506,6 +1525,136 @@ tab:toggle({
         end
     end
 })
+
+
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17771717140",
+    Name = "Trap"
+}
+
+tab:button({
+    Name = "Spawn Trap",
+    Description = "Trap Perk Required",
+    Callback = function()
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local lp = game:GetService("Players").LocalPlayer
+
+        -- Invoke the server to spawn a trap
+        ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
+    end,
+})
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+local lp = Players.LocalPlayer
+
+local trapToggle = false
+local trapLoop
+local trapSpawnDelay = 0 -- Default delay value
+
+local function spawnTrapLoop()
+    while trapToggle do
+        -- Invoke the server to spawn a trap
+        ReplicatedStorage:WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(lp.Character.HumanoidRootPart.CFrame)
+        wait(trapSpawnDelay) -- Add a delay after spawning each trap
+    end
+end
+
+tab:toggle({
+    Name = "Loop Traps",
+		StartingState = false,
+		Description = "Trap Perk Required",
+		Callback = function(Value)
+   trapToggle = Value
+    if trapToggle then
+        -- Start the trap spawn loop
+        spawnTrapLoop()
+    else
+        -- If toggle turned off, disconnect the loop
+        if trapLoop then
+            trapLoop:Disconnect()
+        end
+    end
+end,})
+
+local trapsd = tab:slider({
+    Name = "Loop Trap Delay",
+    Description = "",
+    Default = 0,
+    Min = 0,
+    Max = 10,
+    Rounding = 1,
+    Callback = function(Value)
+        trapSpawnDelay = Value 
+    end
+})
+
+tab:textbox({
+Name = "Loop Trap Delay",
+    Callback = function(Value)
+        local delay = tonumber(Value)
+    if delay then
+        if delay >= 0 and delay <= 10 then
+            trapSpawnDelay = delay
+        else
+            -- Ensure the delay value stays within the range of 0 to 10
+            trapSpawnDelay = math.clamp(delay, 0, 10)
+        end
+    end
+    end
+})
+
+tab:button({
+    Name = "Trap All",
+    Description = "Trap Perk Required",
+    Callback = function()
+        for i,x in pairs(Players:GetPlayers()) do
+if x ~= lp then
+game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+    [1] = x.Character.HumanoidRootPart.CFrame
+}))
+end
+end
+    end,
+})
+
+tab:button({
+    Name = "Trap Murderer",
+    Description = "Trap Perk Required",
+    Callback = function()
+        for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife") then
+game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+    [1] = v.Character.HumanoidRootPart.CFrame
+}))
+end
+end
+    end,
+})
+
+tab:button({
+    Name = "Trap Sheriff",
+    Description = "Trap Perk Required",
+    Callback = function()
+        for _,v in pairs(game.Players:GetPlayers()) do
+if v.Character ~= nil and v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun") then
+game:GetService("ReplicatedStorage"):WaitForChild("TrapSystem"):WaitForChild("PlaceTrap"):InvokeServer(unpack({
+    [1] = v.Character.HumanoidRootPart.CFrame
+}))
+end
+end
+    end,
+})
+
+
+
+
+
+
 
 
 local tab = gui:tab{
