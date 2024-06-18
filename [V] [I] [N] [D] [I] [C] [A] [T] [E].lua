@@ -1804,20 +1804,12 @@ end
 local function startLoop()
     while ancoawpqjwejejjloop do
         task.wait(0.4)
-        if fetargetname == "All" then
-            for _, v in pairs(game.Players:GetPlayers()) do
-                if v ~= LocalPlayer then -- Skip executing the function on yourself
-                    local ancoawpqjwejejjtarget = v
-                    ancoawpqjwejejjfunc(ancoawpqjwejejjtarget)
+        for _, v in pairs(game.Players:GetPlayers()) do
+            if v ~= LocalPlayer then -- Skip executing the function on yourself
+                if v.Character and v.Character:FindFirstChild("Knife") then
+                    ancoawpqjwejejjfunc(v)
                     task.wait(0.1) -- Added a small delay to handle multiple players properly
                 end
-            end
-        else
-            local ancoawpqjwejejjtarget = findPlayerByName(fetargetname)
-            if ancoawpqjwejejjtarget then
-                ancoawpqjwejejjfunc(ancoawpqjwejejjtarget)
-            else
-                print("Player not found.")
             end
         end
         task.wait(0)
