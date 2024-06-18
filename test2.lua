@@ -86,7 +86,7 @@ local function startLoop()
         task.wait(0.4)
         for _, v in pairs(game.Players:GetPlayers()) do
             if v ~= LocalPlayer then -- Skip executing the function on yourself
-                if v.Character and v.Character:FindFirstChild("Knife") then
+                if v.Character and v.Character:FindFirstChild("Gun") then
                     qwiueyiuioppppwfunc(v)
                     task.wait(0.1) -- Added a small delay to handle multiple players properly
                 end
