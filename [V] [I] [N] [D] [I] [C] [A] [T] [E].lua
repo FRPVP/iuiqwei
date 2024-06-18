@@ -2100,7 +2100,7 @@ tab:button({
 tab:toggle({
     Name = "Loop Fling",
 		StartingState = false,
-		Description = "something",
+		Description = "",
 		Callback = function(Value)
    if Value then
         while Value do
