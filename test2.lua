@@ -1,37 +1,58 @@
-function jadoiwanplayerfunc(jadoiwanplayertarget)
-    if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+local bnmbnbbplayerloop = false
+
+function bnmbnbbplayerfunc(bnmbnbbplayertarget)
+	    if LocalPlayer.Backpack.Toys:FindFirstChild("SprayPaint") then
+        Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         Remotes.Extras.ReplicateToy:InvokeServer("SprayPaint")
         LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-    LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (jadoiwanplayertarget.Character.RightLowerLeg), jadoiwanplayertarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
-        LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+    LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, bnmbnbbplayertarget.Character.RightHand, bnmbnbbplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
     elseif LocalPlayer.Backpack:FindFirstChild("SprayPaint") then
         LocalPlayer.Backpack.SprayPaint.Parent = game.Players.LocalPlayer.Character
-         LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (jadoiwanplayertarget.Character.RightLowerLeg), jadoiwanplayertarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
-        LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, bnmbnbbplayertarget.Character.RightHand, bnmbnbbplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
+		LocalPlayer.Character.SprayPaint.Parent = game:GetService("Players").LocalPlayer.Backpack
     elseif LocalPlayer.Character:FindFirstChild("SprayPaint") then
-         LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, (jadoiwanplayertarget.Character.RightLowerLeg), jadoiwanplayertarget.Character.RightLowerLeg.CFrame * CFrame.new(0, 0, 0))
+		LocalPlayer.Character.SprayPaint.Remote:FireServer(80373024, Enum.NormalId.Back, 15, bnmbnbbplayertarget.Character.RightHand, bnmbnbbplayertarget.Character.RightHand.CFrame * CFrame.new(0, 50, 0))
 end
 end
 
-tab:button({
-    Name = "test",
-    Description = "Spraypaint Toy Required",
-    Callback = function()
+local function startLoop()
+    while bnmbnbbplayerloop do
+        task.wait(0.4)
         if fetargetname == "All" then
-        for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-            if player ~= game.Players.LocalPlayer then
-                jadoiwanplayerfunc(player)
+            for _, v in pairs(Players:GetPlayers()) do
+                if v ~= LocalPlayer then -- Skip executing the function on yourself
+                    local bnmbnbbplayertarget = v
+                    bnmbnbbplayerfunc(bnmbnbbplayertarget)
+                    task.wait()
+                end
+            end
+        else
+            local bnmbnbbplayertarget = findPlayerByName(fetargetname)
+            if bnmbnbbplayertarget then
+                bnmbnbbplayerfunc(bnmbnbbplayertarget)
+            else
+                print("Player not found.")
             end
         end
-    elseif fetargetname ~= "" then
-        local jadoiwanplayertarget = findPlayerByName(fetargetname)
-        if jadoiwanplayertarget then
-            jadoiwanplayerfunc(jadoiwanplayertarget) -- Execute jadoiwanplayerfunc on the player
-        else
-            print("Player not found.")
-        end
-    else
-        print("Please select a name from the dropdown.")
+        task.wait(0)
     end
+end
+
+local function onCharacterAdded(character)
+    if bnmbnbbplayerloop then
+        task.spawn(startLoop)
+    end
+end
+
+tab:toggle({
+    Name = "Speed Glitch Player",
+    StartingState = false,
+    Description = "",
+    Callback = function(bnmbnbbplayer)
+        bnmbnbbplayerloop = bnmbnbbplayer
+        if bnmbnbbplayer then
+            task.spawn(startLoop)
+        end
     end,
 })
