@@ -2,7 +2,7 @@
  Sound.SoundId = "rbxassetid://9120129807"
  Sound:Play()
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/FRPVP/iuiqwei/main/%5BV%5D%20%5BI%5D%20%5BN%5D%20%5BD%5D%20%5BI%5D%20%5BC%5D%20%5BA%5D%20%5BT%5D%20%5BE%5D.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/FRPVP/iuiqwei/main/library.lua"))()
 
 local gui = Library:create{
     Theme = Library.Themes.Vindicate
