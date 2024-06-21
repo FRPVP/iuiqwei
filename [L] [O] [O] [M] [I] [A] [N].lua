@@ -22,7 +22,7 @@ local slider = tab:slider({
     Description = "",
     Default = 16,
     Min = 16,
-    Max = 300,
+    Max = 60,
     Rounding = 1,
     Callback = function(vv)
         currentWalkSpeed = vv
@@ -49,44 +49,6 @@ end)
 -- Initial setting of walk speed in case the character is already loaded
 if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
     setWalkSpeed()
-end
-
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local currentJumpPower = 50
-
-local something = tab:slider({
-    Name = "Jump Height",
-    Description = "",
-    Default = 50,
-    Min = 50,
-    Max = 300,
-    Rounding = 1,
-    Callback = function(vv)
-        currentJumpPower = vv
-        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-            LocalPlayer.Character.Humanoid.JumpPower = vv
-        end
-    end
-})
-
--- Function to set the jump power
-local function setJumpPower()
-    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-        LocalPlayer.Character.Humanoid.JumpPower = currentJumpPower
-    end
-end
-
--- Connect CharacterAdded event to reapply jump power on respawn
-LocalPlayer.CharacterAdded:Connect(function()
-    -- Wait for the character to be fully loaded
-    LocalPlayer.Character:WaitForChild("Humanoid")
-    setJumpPower()
-end)
-
--- Set initial jump power value if the character already exists
-if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-    setJumpPower()
 end
 
 tab:toggle({
@@ -668,6 +630,581 @@ unfreezeCharacter()
 countdownGui:Destroy()
     end,
 })
+
+local autoFarmRunning = false
+
+tab:toggle({
+    Name = "Route 1",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(3.3425238132476807, 54.88100051879883, -177.1690673828125)
+            local coordinates2 = Vector3.new(-5.3425238132476807, 54.88100051879883, -177.1690673828125)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Gale Forest",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(-440.79705810546875, 105.60586547851562, -1145.4281005859375)
+	    local coordinates2 = Vector3.new(-445.79705810546875, 105.60586547851562, -1145.4281005859375)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Route 3",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(-1279.0032958984375, 103.20599365234375, -422.75982666015625)
+	    local coordinates2 = Vector3.new(-1274.0032958984375, 103.20599365234375, -422.75982666015625)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Route 4",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(-1081.342041015625, 74.51649475097656, -1324.4395751953125)
+	    local coordinates2 = Vector3.new(-1086.342041015625, 74.51649475097656, -1324.4395751953125)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Route 5",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(338.41693115234375, 168.70596313476562, -2173.38671875)
+	    local coordinates2 = Vector3.new(333.41693115234375, 168.70596313476562, -2173.38671875)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Igneus Hollow",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(-1204.162353515625, 102.70599365234375, -941.314208984375)
+	    local coordinates2 = Vector3.new(-1209.162353515625, 102.70599365234375, -941.314208984375)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Heiwa Cemetary",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(620.1329345703125, 207.90577697753906, -2473.2744140625)
+		local coordinates2 = Vector3.new(615.1329345703125, 207.90577697753906, -2473.2744140625)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Rally Ranch",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(620.8035278320312, 53.20600891113281, 24.47963523864746)
+		local coordinates2 = Vector3.new(615.8035278320312, 53.20600891113281, 24.47963523864746)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Route 7",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(1595.239013671875, 239.20596313476562, 4514.86572265625)
+		local coordinates2 = Vector3.new(1590.239013671875, 239.20596313476562, 4514.86572265625)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Saphrite Junkyard",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(1600.180908203125, 224.20599365234375, 4581.55224609375)
+		local coordinates2 = Vector3.new(1605.180908203125, 224.20599365234375, 4581.55224609375)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "POLUT Campus",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(1375.622314453125, 149.30589294433594, -143.76918029785156)
+		local coordinates2 = Vector3.new(1370.622314453125, 149.30589294433594, -143.76918029785156)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Route 8",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(384.11932373046875, 356.2059631347656, 3435.404052734375)
+		local coordinates2 = Vector3.new(389.11932373046875, 356.2059631347656, 3435.404052734375)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Lotusun Beach",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(-766.48095703125, 308.2059326171875, 2864.21435546875)
+		local coordinates2 = Vector3.new(-761.48095703125, 308.2059326171875, 2864.21435546875)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+tab:toggle({
+    Name = "Atlanthian Living District",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(-2968.037109375, 490.6206970214844, -734.7662963867188)
+		local coordinates2 = Vector3.new(-2963.037109375, 490.6206970214844, -734.7662963867188)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
