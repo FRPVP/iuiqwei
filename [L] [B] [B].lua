@@ -675,7 +675,7 @@ tab:toggle({
 end,})
 
 local tab = gui:tab{
-    Icon = "rbxassetid://18136264231",
+    Icon = "rbxassetid://18138798743",
     Name = "Lucky Blocks"
 }
 
