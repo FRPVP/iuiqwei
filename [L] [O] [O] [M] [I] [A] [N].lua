@@ -1193,7 +1193,253 @@ tab:toggle({
         end
 end,})
 
+tab:toggle({
+    Name = "Lumminity Park",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   autoFarmRunning = Value
+        
+        -- Check if the auto-farm is turned on or off
+        if autoFarmRunning then
+            -- Set the coordinates where you want the player to teleport
+            local coordinates1 = Vector3.new(-4.088019847869873, 96.96873474121094, -211.2429962158203)
+		local coordinates2 = Vector3.new(7.548005104064941, 96.9999771118164, -186.29055786132812)
+            
+            -- Set the delay between each teleport in seconds
+            local teleportDelay = 0
+            
+            -- Get the player's character
+            local player = game.Players.LocalPlayer
+            local character = player.Character or player.CharacterAdded:Wait()
+            
+            -- Function to teleport the player to the specified coordinates
+            local function teleportPlayer(position)
+                character:SetPrimaryPartCFrame(CFrame.new(position))
+            end
+            
+            -- Function to repeatedly teleport the player between the two coordinates
+            local function teleportLoop()
+                while autoFarmRunning do  -- Check if autoFarmRunning is true
+                    teleportPlayer(coordinates1)
+                    wait(teleportDelay)
+                    teleportPlayer(coordinates2)
+                    wait(teleportDelay)
+                end
+            end
+            
+            -- Start the teleport loop
+            teleportLoop()
+        end
+end,})
 
+
+
+
+
+
+
+
+tab:button({
+    Name = "Cords",
+    Description = "",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+
+-- Create a ScreenGui object to hold the TextBox and CloseButton
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CoordinatesGui"
+screenGui.Parent = player.PlayerGui
+
+-- Create a Frame to serve as the draggable window
+local frame = Instance.new("Frame")
+frame.Name = "CoordinatesWindow"
+frame.Size = UDim2.new(0, 300, 0, 120) -- Adjust the size as desired
+frame.Position = UDim2.new(0, 10, 0, 10)
+frame.BackgroundTransparency = 0.5
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+-- Create a TextBox to display and allow copying of the coordinates
+local textBox = Instance.new("TextBox")
+textBox.Name = "CoordinatesTextBox"
+textBox.Size = UDim2.new(1, 0, 0.6, 0)
+textBox.Position = UDim2.new(0, 0, 0, 0)
+textBox.BackgroundTransparency = 1
+textBox.TextColor3 = Color3.new(1, 1, 1)
+textBox.TextSize = 24 -- Increase the text size
+textBox.ClearTextOnFocus = false -- Keep the text when the TextBox is focused
+textBox.MultiLine = true -- Allow multiple lines for better visibility
+textBox.TextEditable = false -- Disable editing
+textBox.Parent = frame
+
+-- Create a CloseButton to close the GUI
+local closeButton = Instance.new("TextButton")
+closeButton.Name = "CloseButton"
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(1, -20, 0, 0)
+closeButton.BackgroundColor3 = Color3.new(1, 0, 0)
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.TextSize = 14
+closeButton.Text = "X"
+closeButton.Parent = frame
+
+-- Function to close the GUI
+local function closeGui()
+    screenGui:Destroy()
+end
+
+-- Connect the closeButton click event
+closeButton.MouseButton1Click:Connect(closeGui)
+
+-- Create a function to update the coordinates
+local function updateCoordinates()
+    local character = player.Character
+    if character then
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if humanoidRootPart then
+            local position = humanoidRootPart.Position
+            textBox.Text = "Coordinates: " .. tostring(position)
+        end
+    end
+end
+
+-- Call the updateCoordinates function every second
+while wait(0) do
+    updateCoordinates()
+end
+    end,
+})
+
+
+tab:button({
+    Name = "Test",
+    Description = "",
+    Callback = function()
+        local gui = Instance.new("ScreenGui")
+gui.Name = "CoordinatesGUI"
+gui.Parent = game.Players.LocalPlayer.PlayerGui
+
+-- Create a Frame as the draggable container for the GUI
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 500, 0, 190)
+frame.Position = UDim2.new(0.5, -100, 0.5, -95)
+frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+frame.BackgroundTransparency = 0.8
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+-- Create two TextBoxes for the coordinates
+local textBox1 = Instance.new("TextBox")
+textBox1.Size = UDim2.new(0.8, 0, 0, 20)
+textBox1.Position = UDim2.new(0.1, 0, 0.2, 0)
+textBox1.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+textBox1.PlaceholderText = "Enter coordinates (X, Y, Z)"
+textBox1.Parent = frame
+
+local textBox2 = Instance.new("TextBox")
+textBox2.Size = UDim2.new(0.8, 0, 0, 20)
+textBox2.Position = UDim2.new(0.1, 0, 0.4, 0)
+textBox2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+textBox2.PlaceholderText = "Enter coordinates (X, Y, Z)"
+textBox2.Parent = frame
+
+-- Create a TeleportButton to trigger the teleportation
+local teleportButton = Instance.new("TextButton")
+teleportButton.Size = UDim2.new(0.4, 0, 0, 30)
+teleportButton.Position = UDim2.new(0.3, 0, 0.6, 0)
+teleportButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
+teleportButton.Text = "Start Teleportation"
+teleportButton.Parent = frame
+
+-- Create a ToggleButton to turn the teleportation on and off
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0.4, 0, 0, 30)
+toggleButton.Position = UDim2.new(0.3, 0, 0.8, 0)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.AutoButtonColor = false
+toggleButton.Text = "Teleportation: OFF"
+toggleButton.Parent = frame
+
+-- Create a CloseButton to close the GUI window
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(1, -20, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.Parent = frame
+
+local isTeleporting = false
+local position1, position2
+local currentPosIndex = 1
+local positions = {}
+
+-- Function to handle the toggle button click
+local function toggleTeleportation()
+    isTeleporting = not isTeleporting
+    toggleButton.Text = isTeleporting and "Teleportation: ON" or "Teleportation: OFF"
+
+    if isTeleporting then
+        local coordinates1 = string.split(textBox1.Text, ",")
+        local coordinates2 = string.split(textBox2.Text, ",")
+
+        if #coordinates1 == 3 and #coordinates2 == 3 then
+            position1 = Vector3.new(
+                tonumber(coordinates1[1]),
+                tonumber(coordinates1[2]),
+                tonumber(coordinates1[3])
+            )
+            position2 = Vector3.new(
+                tonumber(coordinates2[1]),
+                tonumber(coordinates2[2]),
+                tonumber(coordinates2[3])
+            )
+
+            positions = {position1, position2}
+        else
+            print("Invalid coordinates input!")
+            isTeleporting = false
+            toggleButton.Text = "Teleportation: OFF"
+        end
+    end
+end
+
+-- Function to teleport the player to the specified coordinates
+local function teleportToCoordinates(coordinates)
+    local player = game.Players.LocalPlayer
+    player.Character:MoveTo(coordinates)
+end
+
+-- Bind the TeleportButton's MouseButton1Click event
+teleportButton.MouseButton1Click:Connect(function()
+    toggleTeleportation()
+end)
+
+-- Bind the ToggleButton's MouseButton1Click event
+toggleButton.MouseButton1Click:Connect(function()
+    toggleTeleportation()
+end)
+
+-- Bind the CloseButton's MouseButton1Click event
+closeButton.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+-- Function to repeatedly teleport the player
+game:GetService("RunService").Heartbeat:Connect(function()
+    if isTeleporting then
+        teleportToCoordinates(positions[currentPosIndex])
+        currentPosIndex = currentPosIndex % 2 + 1
+        wait(0)
+    end
+end)
+    end,
+})
 
 
 
