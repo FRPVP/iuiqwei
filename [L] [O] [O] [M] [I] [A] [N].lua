@@ -411,3 +411,533 @@ local something = tab:slider({
         flyspeed = vv
     end
 })
+
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://18146267134",
+    Name = "Loomian Legacy"
+}
+
+local Transparency = true -- Will make you slightly transparent when you are invisible. No reason to disable.
+local NoClip = false -- Will make your fake character no clip.
+local Player = game:GetService("Players").LocalPlayer
+local RealCharacter = Player.Character or Player.CharacterAdded:Wait()
+
+local IsInvisible = false
+
+RealCharacter.Archivable = true
+local FakeCharacter = RealCharacter:Clone()
+local Part = Instance.new("Part", workspace)
+Part.Anchored = true
+Part.Size = Vector3.new(200, 1, 200)
+Part.CFrame = CFrame.new(9999, 9999, 9999) -- Set this to whatever you want, just far away from the map.
+Part.CanCollide = true
+FakeCharacter.Parent = workspace
+FakeCharacter.HumanoidRootPart.CFrame = Part.CFrame * CFrame.new(0, 5, 0)
+
+for _, v in pairs(RealCharacter:GetChildren()) do
+    if v:IsA("LocalScript") then
+        local clone = v:Clone()
+        clone.Disabled = true
+        clone.Parent = FakeCharacter
+    end
+end
+
+if Transparency then
+    for _, v in pairs(FakeCharacter:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.Transparency = 1
+        end
+    end
+end
+
+local CanInvis = true
+
+local function SetupFakeCharacter()
+    CanInvis = false
+    RealCharacter:Destroy()
+    RealCharacter = Player.Character
+    CanInvis = true
+    IsInvisible = false
+    FakeCharacter:Destroy()
+    workspace.CurrentCamera.CameraSubject = RealCharacter.Humanoid
+
+    RealCharacter.Archivable = true
+    FakeCharacter = RealCharacter:Clone()
+    Part:Destroy()
+    Part = Instance.new("Part", workspace)
+    Part.Anchored = true
+    Part.Size = Vector3.new(200, 1, 200)
+    Part.CFrame = CFrame.new(9999, 9999, 9999)
+    Part.CanCollide = true
+    FakeCharacter.Parent = workspace
+    FakeCharacter.HumanoidRootPart.CFrame = Part.CFrame * CFrame.new(0, 5, 0)
+
+    for _, v in pairs(RealCharacter:GetChildren()) do
+        if v:IsA("LocalScript") then
+            local clone = v:Clone()
+            clone.Disabled = true
+            clone.Parent = FakeCharacter
+        end
+    end
+
+    if Transparency then
+        for _, v in pairs(FakeCharacter:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.Transparency = 1
+            end
+        end
+    end
+
+    RealCharacter.Humanoid.Died:Connect(function()
+        RealCharacter:Destroy()
+        FakeCharacter:Destroy()
+    end)
+
+    Player.CharacterAppearanceLoaded:Connect(SetupFakeCharacter)
+end
+
+RealCharacter.Humanoid.Died:Connect(function()
+    RealCharacter:Destroy()
+    FakeCharacter:Destroy()
+end)
+
+Player.CharacterAppearanceLoaded:Connect(SetupFakeCharacter)
+
+local PseudoAnchor
+game:GetService("RunService").RenderStepped:Connect(function()
+    if PseudoAnchor then
+        PseudoAnchor.CFrame = Part.CFrame * CFrame.new(0, 5, 0)
+    end
+
+    if NoClip then
+        FakeCharacter.Humanoid:ChangeState(Enum.HumanoidStateType.Physics)
+    end
+end)
+
+PseudoAnchor = FakeCharacter.HumanoidRootPart
+
+local function ToggleInvisibility()
+    if IsInvisible == false then
+        local StoredCF = RealCharacter.HumanoidRootPart.CFrame
+        RealCharacter.HumanoidRootPart.CFrame = FakeCharacter.HumanoidRootPart.CFrame
+        FakeCharacter.HumanoidRootPart.CFrame = StoredCF
+        RealCharacter.Humanoid:UnequipTools()
+        Player.Character = FakeCharacter
+        workspace.CurrentCamera.CameraSubject = FakeCharacter.Humanoid
+        PseudoAnchor = RealCharacter.HumanoidRootPart
+
+        for _, v in pairs(FakeCharacter:GetChildren()) do
+            if v:IsA("LocalScript") then
+                v.Disabled = false
+            end
+        end
+
+        IsInvisible = true
+    else
+        local StoredCF = FakeCharacter.HumanoidRootPart.CFrame
+        FakeCharacter.HumanoidRootPart.CFrame = RealCharacter.HumanoidRootPart.CFrame
+        RealCharacter.HumanoidRootPart.CFrame = StoredCF
+        FakeCharacter.Humanoid:UnequipTools()
+        Player.Character = RealCharacter
+        workspace.CurrentCamera.CameraSubject = RealCharacter.Humanoid
+        PseudoAnchor = FakeCharacter.HumanoidRootPart
+
+        for _, v in pairs(FakeCharacter:GetChildren()) do
+            if v:IsA("LocalScript") then
+                v.Disabled = true
+            end
+        end
+
+        IsInvisible = false
+    end
+end
+
+-- Integration with the tab:toggle method
+tab:toggle({
+    Name = "Become Loomian",
+    StartingState = false,
+    Description = "You will become the loomian for everyone to see",
+    Callback = function(Value)
+        if CanInvis and RealCharacter and FakeCharacter then
+            if RealCharacter:FindFirstChild("HumanoidRootPart") and FakeCharacter:FindFirstChild("HumanoidRootPart") then
+                ToggleInvisibility()
+            end
+        end
+    end,
+})
+
+tab:button({
+    Name = "Break Loomian",
+    Description = "Automatically breaks your loomian",
+    Callback = function()
+        -- Get the player's character
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+-- Store the player's original position
+local originalPosition = character.PrimaryPart.Position
+
+-- Define the target position
+local targetPosition = Vector3.new(751.7203369140625, -50000.160400390625, 3492.107421875)
+
+-- Define the number of executions
+local numExecutions = 10
+
+-- Define the delay between each execution (in seconds)
+local executionDelay = 0
+
+-- Function to teleport the player to the target position
+local function teleportToTarget()
+    character:SetPrimaryPartCFrame(CFrame.new(targetPosition))
+end
+
+-- Function to teleport the player back to their original position
+local function teleportToOriginal()
+    character:SetPrimaryPartCFrame(CFrame.new(originalPosition))
+end
+
+-- Function to freeze the character
+local function freezeCharacter()
+    character.PrimaryPart.Anchored = true
+end
+
+-- Function to unfreeze the character
+local function unfreezeCharacter()
+    character.PrimaryPart.Anchored = false
+end
+
+-- Execute the teleportation ten times with a delay between each execution
+for i = 1, numExecutions do
+    teleportToTarget()
+    wait(executionDelay)
+    teleportToOriginal()
+    wait(executionDelay)
+end
+
+-- Create a countdown UI
+local countdownGui = Instance.new("ScreenGui")
+countdownGui.Name = "CountdownGui"
+countdownGui.Parent = player:FindFirstChildOfClass("PlayerGui")
+
+local executingText = Instance.new("TextLabel")
+executingText.Name = "ExecutingText"
+executingText.Size = UDim2.new(0, 200, 0, 50)
+executingText.Position = UDim2.new(0.5, -100, 0.4, -290)
+executingText.Parent = countdownGui
+executingText.BackgroundColor3 = Color3.new(0, 0, 0)
+executingText.BackgroundTransparency = 1 -- Adjust transparency here (0 is fully opaque, 1 is fully transparent)
+executingText.TextColor3 = Color3.new(1, 1, 1)
+executingText.TextSize = 50
+executingText.Font = Enum.Font.SourceSansBold
+executingText.TextStrokeColor3 = Color3.new(0, 0, 0)
+executingText.TextStrokeTransparency = 0
+executingText.Text = "Pls Wait..."
+
+local countdownText = Instance.new("TextLabel")
+countdownText.Name = "CountdownText"
+countdownText.Size = UDim2.new(0, 200, 0, 100)
+countdownText.Position = UDim2.new(0.5, -100, 0.5, -320)
+countdownText.Parent = countdownGui
+countdownText.BackgroundColor3 = Color3.new(0, 0, 0)
+countdownText.BackgroundTransparency = 1 -- Adjust transparency here (0 is fully opaque, 1 is fully transparent)
+countdownText.TextColor3 = Color3.new(1, 1, 1)
+countdownText.TextSize = 50
+countdownText.Font = Enum.Font.SourceSansBold
+countdownText.TextStrokeColor3 = Color3.new(0, 0, 0)
+countdownText.TextStrokeTransparency = 0
+
+-- Countdown duration
+local countdownDuration = 5 -- 5-second countdown
+
+-- Freeze the character before starting the countdown
+freezeCharacter()
+
+for countdownValue = countdownDuration, 1, -1 do
+    countdownText.Text = tostring(countdownValue)
+    wait(1) -- Wait for 1 second
+end
+
+-- Unfreeze the character after the countdown
+unfreezeCharacter()
+
+-- Clean up the countdown GUI
+countdownGui:Destroy()
+    end,
+})
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17771719508",
+    Name = "Misc"
+}
+
+tab:toggle({
+    Name = "Toggle UI Button",
+    StartingState = false,
+    Description = "A button to hopefully help you better toggle the UI",
+    Callback = function(Value)
+        local gui = game.CoreGui:FindFirstChild("VindicateToggleUIButton")
+        if not gui then
+            gui = Instance.new("ScreenGui")
+            gui.Name = "VindicateToggleUIButton"
+            gui.Parent = game.CoreGui
+
+            local toggleui = Instance.new("TextButton")
+            toggleui.Size = UDim2.new(0, 50, 0, 50) -- Adjusted size to make it smaller
+            toggleui.Position = UDim2.new(0.01, 0, 0.34, 0)
+            toggleui.BackgroundTransparency = 1 -- Make the TextButton transparent
+            toggleui.Active = true
+            toggleui.Draggable = true
+            toggleui.Parent = gui
+            toggleui.Text = "" -- Removed the text
+            toggleui.ZIndex = 1
+
+            local imageLabel = Instance.new("ImageLabel")
+            imageLabel.Size = UDim2.new(1, 0, 1, 0) -- Match the size of the TextButton
+            imageLabel.Position = UDim2.new(0, 0, 0, 0)
+            imageLabel.Image = "https://www.roblox.com/asset-thumbnail/image?assetId=17684864798&width=420&height=420&format=png" -- Set the image URL using rbxthumb
+            imageLabel.BackgroundTransparency = 1
+            imageLabel.Parent = toggleui
+            imageLabel.ZIndex = 0
+
+            -- Adding UI cornering
+            local uicorner = Instance.new("UICorner")
+            uicorner.CornerRadius = UDim.new(0, 8) -- Adjust the radius as needed
+            uicorner.Parent = imageLabel
+
+            toggleui.MouseButton1Click:Connect(function()
+                if Library and Library.show then
+                    Library:show(not Library.Toggled)
+                else
+                    warn("Library or its show method not found.")
+                end
+            end)
+        else
+            gui:Destroy() -- If the GUI already exists, destroy it
+        end
+    end
+})
+
+tab:button({
+    Name = "Rejoin",
+    Description = "",
+    Callback = function()
+        local function RejoinServer()
+    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer)
+end
+
+-- Call the function to rejoin the server
+RejoinServer()
+    end,
+})
+
+tab:button({
+    Name = "Emergency Leave",
+    Description = "Kicks you from the game incase you can't properly leave.",
+    Callback = function()
+        local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local function KickPlayer()
+    LocalPlayer:Kick("You have been kicked from the server as of an emergency.")
+end
+
+KickPlayer()
+    end,
+})
+
+tab:toggle({
+    Name = "Night",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        if state then
+            -- Toggle on: Set the sky to night
+            game.Lighting.TimeOfDay = "00:00:00" -- Midnight
+            print("The sky is now set to night.")
+        else
+            -- Toggle off: Set the sky to day
+            game.Lighting.TimeOfDay = "12:00:00" -- Noon
+            print("The sky is now set to day.")
+        end
+    end,
+})
+
+tab:toggle({
+    Name = "Sunset",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        if state then
+            -- Toggle on: Set the sky to night
+            game.Lighting.TimeOfDay = "18:00:00" -- Midnight
+            print("The sky is now set to night.")
+        else
+            -- Toggle off: Set the sky to day
+            game.Lighting.TimeOfDay = "12:00:00" -- Noon
+            print("The sky is now set to day.")
+        end
+    end,
+})
+
+local originalSettings = {
+    ExposureCompensation = game.Lighting.ExposureCompensation,
+    ShadowSoftness = game.Lighting.ShadowSoftness,
+    EnvironmentDiffuseScale = game.Lighting.EnvironmentDiffuseScale,
+    EnvironmentSpecularScale = game.Lighting.EnvironmentSpecularScale,
+    Brightness = game.Lighting.Brightness,
+    ColorShift_Top = game.Lighting.ColorShift_Top,
+    OutdoorAmbient = game.Lighting.OutdoorAmbient,
+    GeographicLatitude = game.Lighting.GeographicLatitude,
+    Ambient = game.Lighting.Ambient
+}
+
+-- Function to apply the custom lighting effects
+local function applyLightingEffects()
+    local find1 = game.Lighting:FindFirstChildWhichIsA("BloomEffect")
+    if find1 then
+        find1:Destroy()
+    end
+    local find2 = game.Lighting:FindFirstChildWhichIsA("SunRaysEffect")
+    if find2 then
+        find2:Destroy()
+    end
+    local find3 = game.Lighting:FindFirstChildWhichIsA("ColorCorrectionEffect")
+    if find3 then
+        find3:Destroy()
+    end
+    local find4 = game.Lighting:FindFirstChildWhichIsA("BlurEffect")
+    if find4 then
+        find4:Destroy()
+    end
+    local find5 = game.Lighting:FindFirstChildWhichIsA("Sky")
+    if find5 then
+        find5:Destroy()
+    end
+    local blem = Instance.new("BloomEffect", game.Lighting)
+    local sanrey = Instance.new("SunRaysEffect", game.Lighting)
+    local color = Instance.new("ColorCorrectionEffect", game.Lighting)
+    local blor = Instance.new("BlurEffect", game.Lighting)
+    Instance.new("Sky", game.Lighting)
+    game.Lighting.ExposureCompensation = 0.34
+    game.Lighting.ShadowSoftness = 1
+    game.Lighting.EnvironmentDiffuseScale = 0.343
+    game.Lighting.EnvironmentSpecularScale = 1
+    game.Lighting.Brightness = 2
+    game.Lighting.ColorShift_Top = Color3.fromRGB(118, 117, 108)
+    game.Lighting.OutdoorAmbient = Color3.fromRGB(141, 141, 141)
+    game.Lighting.GeographicLatitude = 100
+    game.Lighting.Ambient = Color3.fromRGB(112, 112, 112)
+    blem.Intensity = 0.5
+    blem.Size = 22
+    blem.Threshold = 1.5
+    sanrey.Intensity = 0.117
+    sanrey.Spread = 1
+    blor.Size = 2
+    color.Contrast = 0.3
+    color.Saturation = 0.2
+    color.TintColor = Color3.fromRGB(255, 252, 224)
+end
+
+-- Function to clear all custom lighting effects and restore original settings
+local function clearLightingEffects()
+    local effects = {"BloomEffect", "SunRaysEffect", "ColorCorrectionEffect", "BlurEffect", "Sky"}
+    for _, effect in ipairs(effects) do
+        local found = game.Lighting:FindFirstChildWhichIsA(effect)
+        while found do
+            found:Destroy()
+            found = game.Lighting:FindFirstChildWhichIsA(effect)
+        end
+    end
+    -- Restore original lighting settings
+    game.Lighting.ExposureCompensation = originalSettings.ExposureCompensation
+    game.Lighting.ShadowSoftness = originalSettings.ShadowSoftness
+    game.Lighting.EnvironmentDiffuseScale = originalSettings.EnvironmentDiffuseScale
+    game.Lighting.EnvironmentSpecularScale = originalSettings.EnvironmentSpecularScale
+    game.Lighting.Brightness = originalSettings.Brightness
+    game.Lighting.ColorShift_Top = originalSettings.ColorShift_Top
+    game.Lighting.OutdoorAmbient = originalSettings.OutdoorAmbient
+    game.Lighting.GeographicLatitude = originalSettings.GeographicLatitude
+    game.Lighting.Ambient = originalSettings.Ambient
+end
+
+-- Define the toggle for the script
+tab:toggle({
+    Name = "RTX",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        if state then
+            applyLightingEffects()
+            print("Lighting effects have been applied.")
+        else
+            clearLightingEffects()
+            print("Lighting effects have been removed.")
+        end
+    end,
+})
+
+local Players = game:GetService("Players")
+
+-- Local Player
+local player = Players.LocalPlayer
+
+-- Notification Toggles
+local notifyLeaveEnabled = false
+local notifyJoinEnabled = false
+
+-- Function to handle player removal
+local function onPlayerRemoving(removedPlayer)
+    if notifyLeaveEnabled and removedPlayer ~= player then
+        local message = removedPlayer.Name .. " has left the game."
+        game.StarterGui:SetCore("ChatMakeSystemMessage", {
+            Text = message;
+            Color = Color3.fromRGB(240, 7, 7);
+            Font = Enum.Font.SourceSansBold;
+            FontSize = Enum.FontSize.Size24;
+        })
+    end
+end
+
+-- Function to handle player addition
+local function onPlayerAdded(addedPlayer)
+    if notifyJoinEnabled and addedPlayer ~= player then
+        local message = addedPlayer.Name .. " has joined the game."
+        game.StarterGui:SetCore("ChatMakeSystemMessage", {
+            Text = message;
+            Color = Color3.fromRGB(0, 200, 0);
+            Font = Enum.Font.SourceSansBold;
+            FontSize = Enum.FontSize.Size24;
+        })
+    end
+end
+
+-- Toggle button for leaving notification setup
+tab:toggle({
+    Name = "Player Leave Notify",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        notifyLeaveEnabled = state
+    end,
+})
+
+-- Toggle button for joining notification setup
+tab:toggle({
+    Name = "Player Join Notify",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        notifyJoinEnabled = state
+    end,
+})
+
+-- Connect the functions to the respective events
+Players.PlayerRemoving:Connect(onPlayerRemoving)
+Players.PlayerAdded:Connect(onPlayerAdded)
