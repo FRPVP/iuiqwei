@@ -13,43 +13,49 @@ local tab = gui:tab{
     Name = "Player"
 }
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local currentWalkSpeed = 16
+-- LocalScript in StarterPlayerScripts or within a tool
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local runService = game:GetService("RunService")
 
-local slider = tab:slider({
-    Name = "Walkspeed",
+local SPEED_MULTIPLIER = 0 -- Default multiplier to 1 (normal speed)
+local speedEnabled = false -- Variable to track if speed is enabled
+
+local function onUpdate()
+    if speedEnabled and character and humanoid and humanoid.MoveDirection.Magnitude > 0 then
+        local moveDirection = humanoid.MoveDirection
+        local newPosition = character.PrimaryPart.Position + (moveDirection * SPEED_MULTIPLIER)
+        character:SetPrimaryPartCFrame(CFrame.new(newPosition))
+    end
+end
+
+-- Connect the update function to the render step
+runService.RenderStepped:Connect(onUpdate)
+
+-- Assuming you have a UI library that provides tab:toggle
+tab:toggle({
+    Name = "Speed",
+    StartingState = false,
     Description = "",
-    Default = 16,
-    Min = 16,
-    Max = 60,
-    Rounding = 1,
-    Callback = function(vv)
-        currentWalkSpeed = vv
-        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-            LocalPlayer.Character.Humanoid.WalkSpeed = vv
-        end
+    Callback = function(state)
+        speedEnabled = state -- Update the speedEnabled variable based on toggle state
     end
 })
 
--- Function to set the walk speed
-local function setWalkSpeed()
-    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-        LocalPlayer.Character.Humanoid.WalkSpeed = currentWalkSpeed
+-- Assuming you have a UI library that provides tab:slider
+local something = tab:slider({
+    Name = "Adjust Speed",
+    Description = "",
+    Default = 0,
+    Min = 0,
+    Max = 10, -- Adjust this maximum value as needed
+    Rounding = 1,
+    Callback = function(v)
+        SPEED_MULTIPLIER = v
     end
-end
+})
 
--- Connect CharacterAdded event to reapply walk speed on respawn
-LocalPlayer.CharacterAdded:Connect(function()
-    -- Wait for the character to be fully loaded
-    LocalPlayer.Character:WaitForChild("Humanoid")
-    setWalkSpeed()
-end)
-
--- Initial setting of walk speed in case the character is already loaded
-if LocalPlayer.Character and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-    setWalkSpeed()
-end
 
 tab:toggle({
     Name = "Noclip",
@@ -85,6 +91,75 @@ tab:toggle({
         end
 
         toggleNoclip()
+end,})
+
+
+
+tab:toggle({
+    Name = "Esp",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   if Value then
+           local FillColor = Color3.fromRGB(255,255,255)
+           local DepthMode = "AlwaysOnTop"
+           local FillTransparency = 0.5
+           local OutlineColor = Color3.fromRGB(255,255,255)
+           local OutlineTransparency = 0
+
+           local CoreGui = game:FindService("CoreGui")
+           local Players = game:FindService("Players")
+           local lp = Players.LocalPlayer
+           local connections = {}
+
+           local Storage = Instance.new("Folder")
+           Storage.Parent = CoreGui
+           Storage.Name = "Highlight_Storage"
+
+           local function Highlight(plr)
+               local Highlight = Instance.new("Highlight")
+               Highlight.Name = plr.Name
+               Highlight.FillColor = FillColor
+               Highlight.DepthMode = DepthMode
+               Highlight.FillTransparency = FillTransparency
+               Highlight.OutlineColor = OutlineColor
+               Highlight.OutlineTransparency = 0
+               Highlight.Parent = Storage
+
+               local plrchar = plr.Character
+               if plrchar then
+                   Highlight.Adornee = plrchar
+               end
+
+               connections[plr] = plr.CharacterAdded:Connect(function(char)
+                   Highlight.Adornee = char
+               end)
+           end
+
+           Players.PlayerAdded:Connect(Highlight)
+           for i,v in next, Players:GetPlayers() do
+               Highlight(v)
+           end
+
+           Players.PlayerRemoving:Connect(function(plr)
+               local plrname = plr.Name
+               if Storage[plrname] then
+                   Storage[plrname]:Destroy()
+               end
+               if connections[plr] then
+                   connections[plr]:Disconnect()
+               end
+           end)
+       else
+           -- Turn off the ESP functionality
+           -- Remove any existing highlights from the screen
+           local CoreGui = game:GetService("CoreGui")
+           local Storage = CoreGui:FindFirstChild("Highlight_Storage")
+           if Storage then
+               Storage:ClearAllChildren()
+               Storage:Destroy()
+           end
+       end
 end,})
 
 local flybutton = "" -- Empty string to remove the key binding
@@ -374,6 +449,25 @@ local something = tab:slider({
     end
 })
 
+tab:toggle({
+    Name = "Click TP",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   Toggle = Value
+
+      local player = game.Players.LocalPlayer
+      local mouse = player:GetMouse()
+
+      local function Teleport()
+         if Toggle and mouse.Target then
+            player.Character.HumanoidRootPart.CFrame = mouse.Hit
+         end
+      end
+
+      mouse.Button1Down:Connect(Teleport)
+end,})
+
 local animationIds = {
     ["Float Slash"] = "rbxassetid://717879555",
     ["Down Slash"] = "rbxassetid://746398327",
@@ -467,6 +561,14 @@ local something = tab:slider({
             currentTrack:AdjustSpeed(currentSpeed / 100) -- Adjust the speed of the current track
         end
     end
+})
+
+tab:button({
+    Name = "Walk On Walls",
+    Description = "Toggle with Z",
+    Callback = function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/zXk4Rq2r"))()
+    end,
 })
 
 
@@ -613,9 +715,9 @@ end
 
 -- Integration with the tab:toggle method
 tab:toggle({
-    Name = "Become Loomian",
+    Name = "Invisibility",
     StartingState = false,
-    Description = "You will become the loomian for everyone to see",
+    Description = "Break your loomian to become FULLY invisible",
     Callback = function(Value)
         if CanInvis and RealCharacter and FakeCharacter then
             if RealCharacter:FindFirstChild("HumanoidRootPart") and FakeCharacter:FindFirstChild("HumanoidRootPart") then
@@ -721,14 +823,6 @@ unfreezeCharacter()
 
 -- Clean up the countdown GUI
 countdownGui:Destroy()
-    end,
-})
-
-tab:button({
-    Name = "Walk On Walls",
-    Description = "",
-    Callback = function()
-        loadstring(game:HttpGet("https://pastebin.com/raw/zXk4Rq2r"))()
     end,
 })
 
