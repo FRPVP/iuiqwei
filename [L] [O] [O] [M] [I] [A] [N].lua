@@ -374,7 +374,100 @@ local something = tab:slider({
     end
 })
 
+local animationIds = {
+    ["Float Slash"] = "rbxassetid://717879555",
+    ["Down Slash"] = "rbxassetid://746398327",
+    ["Arms Out"] = "rbxassetid://582384156",
+    ["Spinner"] = "rbxassetid://754658275",
+    ["Crazy Slash"] = "rbxassetid://674871189",
+    ["Weird Zombie"] = "rbxassetid://708553116",
+    ["Pull"] = "rbxassetid://675025795",
+    ["Open"] = "rbxassetid://582855105",
+    ["Circle Arm"] = "rbxassetid://698251653",
+    ["Bend"] = "rbxassetid://696096087",
+    ["Rotate Slash"] = "rbxassetid://675025570",
+    ["Flail Arms"] = "rbxassetid://754656200",
+    ["Punch"] = "rbxassetid://846744780",
+    ["NPC Walk"] = "rbxassetid://8648075382",
+    ["NPC Run"] = "rbxassetid://8648077870",
+    ["NPC Wave"] = "rbxassetid://1885144316",
 
+}
+
+local currentAnimation = nil
+local currentTrack = nil
+local isPlaying = false
+local currentSpeed = 60
+
+local function PlayAnimation()
+    if currentTrack then
+        currentTrack:Play()
+        currentTrack:AdjustSpeed(currentSpeed / 100) -- Set the speed whenever the animation is played
+        isPlaying = true
+    end
+end
+
+local function StopAnimation()
+    if currentTrack then
+        currentTrack:Stop()
+        isPlaying = false
+    end
+end
+
+tab:dropdown({
+    Name = "Energizer Emotes",
+    Description = "Loomian Legacy Edition",
+    StartingText = "",
+    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Punch", "NPC Walk", "NPC Run", "NPC Wave"},
+    Callback = function(Value)
+        if currentTrack then
+            StopAnimation()
+        end
+        local animationId = animationIds[Value]
+        local anim = Instance.new("Animation")
+        anim.AnimationId = animationId
+        currentTrack = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(anim)
+        currentAnimation = Value
+    end
+})
+
+tab:toggle({
+    Name = "Toggle Emote",
+    StartingState = false,
+    Description = "",
+    Callback = function(Value)
+        if currentAnimation then
+            if Value then
+                PlayAnimation()
+                -- Check if animation stopped playing, then restart it and set speed
+                while isPlaying do
+                    if not currentTrack.IsPlaying then
+                        PlayAnimation()
+                    end
+                    currentTrack:AdjustSpeed(currentSpeed / 100) -- Ensure speed is set consistently
+                    wait(0) -- Adjust the delay between checks as needed
+                end
+            else
+                StopAnimation()
+            end
+        end
+    end,
+})
+
+local something = tab:slider({
+    Name = "Energizer Emote Speed",
+    Description = "",
+    Default = 60,
+    Min = 0,
+    Max = 1000,
+    Rounding = 1,
+    Callback = function(v)
+        currentSpeed = v -- Update the global speed variable
+        if currentTrack then
+            currentTrack:AdjustSpeed(currentSpeed / 100) -- Adjust the speed of the current track
+        end
+    end
+})
 
 
 
