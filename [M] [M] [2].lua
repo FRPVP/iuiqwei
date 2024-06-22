@@ -1396,7 +1396,7 @@ local animationIds = {
 local currentAnimation = nil
 local currentTrack = nil
 local isPlaying = false
-local currentSpeed = 1
+local currentSpeed = 60
 
 local function PlayAnimation()
     if currentTrack then
