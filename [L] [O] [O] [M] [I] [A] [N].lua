@@ -869,11 +869,10 @@ local teleportDelay = 0
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
--- Set the original coordinates
-local coordinates1 = character.PrimaryPart.Position
-
--- Variables to track the state of the teleport loop
+-- Variables to track the state of the teleport loop and store original position
 local isTeleporting = false
+local originalPosition = nil
+local teleportMode = "None"  -- Options: "None", "Closest", "Farthest"
 
 -- Function to teleport the player to the specified coordinates
 local function teleportPlayer(position)
@@ -886,36 +885,110 @@ local function getCurrentCoordinates()
     return currentPosition + Vector3.new(5, 0, 0)
 end
 
--- Function to repeatedly teleport the player between the current coordinates and the original coordinates
+-- Function to find the closest "Grass" part in the workspace
+local function findClosestGrassPart()
+    local closestPart = nil
+    local shortestDistance = math.huge
+    
+    for _, part in ipairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") and part.Name == "Grass" then
+            local distance = (part.Position - character.PrimaryPart.Position).Magnitude
+            if distance < shortestDistance then
+                shortestDistance = distance
+                closestPart = part
+            end
+        end
+    end
+    
+    return closestPart
+end
+
+-- Function to find the farthest "Grass" part in the workspace
+local function findFarthestGrassPart()
+    local farthestPart = nil
+    local longestDistance = 0
+    
+    for _, part in ipairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") and part.Name == "Grass" then
+            local distance = (part.Position - character.PrimaryPart.Position).Magnitude
+            if distance > longestDistance then
+                longestDistance = distance
+                farthestPart = part
+            end
+        end
+    end
+    
+    return farthestPart
+end
+
+-- Function to repeatedly teleport the player between the current coordinates and an offset position
 local function teleportLoop()
     local currentCoordinates = getCurrentCoordinates()
     
     while isTeleporting do
-        teleportPlayer(currentCoordinates)
+        local targetPosition = currentCoordinates
+        teleportPlayer(targetPosition)
         wait(teleportDelay)
-        teleportPlayer(coordinates1) -- Teleport to the original coordinates
-        wait(teleportDelay)
-        teleportPlayer(currentCoordinates + Vector3.new(5, 0, 0)) -- Teleport back to the current coordinates
+        teleportPlayer(targetPosition + Vector3.new(5, 0, 0)) -- Teleport to an offset position
         wait(teleportDelay)
     end
 end
 
--- Toggle integration
+-- Toggle to start the teleport loop at the current position
 tab:toggle({
-    Name = "Auto Encounter",
+    Name = "Tp Autofarm",
     StartingState = false,
-    Description = "",
+    Description = "Only works on patches of grass",
     Callback = function(state)
         isTeleporting = state
         
         if isTeleporting then
-            print("Teleport loop started")
+            -- Save the original position when toggled on
+            originalPosition = character.PrimaryPart.Position
+            
+            if teleportMode == "Closest" then
+                local closestGrassPart = findClosestGrassPart()
+                if closestGrassPart then
+                    local grassCenter = closestGrassPart.Position
+                    teleportPlayer(grassCenter)
+                    wait(teleportDelay)
+                end
+            elseif teleportMode == "Farthest" then
+                local farthestGrassPart = findFarthestGrassPart()
+                if farthestGrassPart then
+                    local grassCenter = farthestGrassPart.Position
+                    teleportPlayer(grassCenter)
+                    wait(teleportDelay)
+                end
+            end
+
             teleportLoop()
         else
-            print("Teleport loop stopped")
+            if originalPosition then
+                teleportPlayer(originalPosition)
+            end
         end
     end,
 })
+
+-- Dropdown to select teleport mode
+tab:dropdown({
+    Name = "Tp Method",
+    StartingText = "None",
+    Items = {
+        {"None", "None"},
+        {"Closest", "Closest"},
+        {"Farthest", "Farthest"}
+    },
+    Description = "Select the method of your choosing",
+    Callback = function(v)
+        teleportMode = v
+    end,
+})
+
+
+
+
 
 
 
