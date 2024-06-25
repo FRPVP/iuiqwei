@@ -3,6 +3,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local CoreGui = game:GetService("CoreGui")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
 local SayMessageRequest = ReplicatedStorage:WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
 
 local screenGui = Instance.new("ScreenGui")
@@ -74,6 +75,7 @@ inputBox.PlaceholderText = "Type your message here..."
 
 local playerColors = {}
 local isColoredNamesEnabled = false
+local blockedPlayers = {}
 
 local brightColors = {
     Color3.fromRGB(255, 85, 85),   -- Red
@@ -106,6 +108,8 @@ end
 
 -- Function to convert chat messages to system messages and add to GUI
 local function convertChatToSystemMessage(player, message)
+    if blockedPlayers[player] then return end
+
     local newMessage = Instance.new("TextLabel")
     newMessage.Size = UDim2.new(1, -10, 0, 0) -- Automatically resize the height
     newMessage.AutomaticSize = Enum.AutomaticSize.Y
@@ -128,6 +132,91 @@ local function convertChatToSystemMessage(player, message)
     messageFrame.CanvasSize = UDim2.new(0, 0, 0, layout.AbsoluteContentSize.Y)
     -- Scroll to the bottom
     messageFrame.CanvasPosition = Vector2.new(0, messageFrame.AbsoluteCanvasSize.Y)
+
+    -- Right-click context menu logic
+    newMessage.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton2 then
+            local contextMenu = Instance.new("Frame", screenGui)
+            contextMenu.Size = UDim2.new(0, 100, 0, 100)
+            contextMenu.Position = UDim2.new(0, input.Position.X, 0, input.Position.Y)
+            contextMenu.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+            contextMenu.BackgroundTransparency = 0.3
+            contextMenu.BorderSizePixel = 0
+
+            local copyButton = Instance.new("TextButton", contextMenu)
+            copyButton.Size = UDim2.new(1, 0, 0.25, 0)
+            copyButton.Position = UDim2.new(0, 0, 0, 0)
+            copyButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+            copyButton.BackgroundTransparency = 0.3
+            copyButton.BorderSizePixel = 0
+            copyButton.Text = "Copy"
+            copyButton.TextColor3 = Color3.new(1, 1, 1)
+            copyButton.Font = Enum.Font.SourceSans
+            copyButton.TextSize = 18
+
+            local deleteButton = Instance.new("TextButton", contextMenu)
+            deleteButton.Size = UDim2.new(1, 0, 0.25, 0)
+            deleteButton.Position = UDim2.new(0, 0, 0.25, 0)
+            deleteButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+            deleteButton.BackgroundTransparency = 0.3
+            deleteButton.BorderSizePixel = 0
+            deleteButton.Text = "Delete"
+            deleteButton.TextColor3 = Color3.new(1, 1, 1)
+            deleteButton.Font = Enum.Font.SourceSans
+            deleteButton.TextSize = 18
+
+            local blockButton = Instance.new("TextButton", contextMenu)
+            blockButton.Size = UDim2.new(1, 0, 0.25, 0)
+            blockButton.Position = UDim2.new(0, 0, 0.5, 0)
+            blockButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+            blockButton.BackgroundTransparency = 0.3
+            blockButton.BorderSizePixel = 0
+            blockButton.Text = "Block"
+            blockButton.TextColor3 = Color3.new(1, 1, 1)
+            blockButton.Font = Enum.Font.SourceSans
+            blockButton.TextSize = 18
+
+            local unblockButton = Instance.new("TextButton", contextMenu)
+            unblockButton.Size = UDim2.new(1, 0, 0.25, 0)
+            unblockButton.Position = UDim2.new(0, 0, 0.75, 0)
+            unblockButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+            unblockButton.BackgroundTransparency = 0.3
+            unblockButton.BorderSizePixel = 0
+            unblockButton.Text = "Unblock"
+            unblockButton.TextColor3 = Color3.new(1, 1, 1)
+            unblockButton.Font = Enum.Font.SourceSans
+            unblockButton.TextSize = 18
+
+            copyButton.MouseButton1Click:Connect(function()
+                setclipboard(newMessage.Text)
+                contextMenu:Destroy()
+            end)
+
+            deleteButton.MouseButton1Click:Connect(function()
+                newMessage:Destroy()
+                contextMenu:Destroy()
+            end)
+
+            blockButton.MouseButton1Click:Connect(function()
+                blockedPlayers[player] = true
+                contextMenu:Destroy()
+            end)
+
+            unblockButton.MouseButton1Click:Connect(function()
+                blockedPlayers[player] = nil
+                contextMenu:Destroy()
+            end)
+
+            -- Destroy context menu if clicking outside of it
+            local function onInput(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 and not contextMenu:IsAncestorOf(input.Target) then
+                    contextMenu:Destroy()
+                    UserInputService.InputBegan:Disconnect(onInput)
+                end
+            end
+            UserInputService.InputBegan:Connect(onInput)
+        end
+    end)
 end
 
 -- Dictionary to keep track of connected players
@@ -184,7 +273,7 @@ dragHandle.InputChanged:Connect(function(input)
     end
 end)
 
-game:GetService("UserInputService").InputChanged:Connect(function(input)
+UserInputService.InputChanged:Connect(function(input)
     if dragging and input == dragInput then
         updateInput(input)
     end
