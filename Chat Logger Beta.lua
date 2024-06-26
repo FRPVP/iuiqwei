@@ -46,6 +46,14 @@ colorButton.BackgroundTransparency = 1
 colorButton.BorderSizePixel = 0
 colorButton.Image = "rbxassetid://18206558897"
 
+local channelButton = Instance.new("ImageButton", dragHandle)
+channelButton.Size = UDim2.new(0, 30, 0, 30)
+channelButton.Position = UDim2.new(0, 369, 0, 0)
+channelButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+channelButton.BackgroundTransparency = 1
+channelButton.BorderSizePixel = 0
+channelButton.Image = "rbxassetid://18222421215"
+
 local messageFrame = Instance.new("ScrollingFrame", mainFrame)
 messageFrame.Position = UDim2.new(0, 0, 0, 30)
 messageFrame.Size = UDim2.new(1, 0, 1, -60)
@@ -279,12 +287,76 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Handle sending messages
+local currentChannel = "All"
+
+-- Function to create the channel context menu
+local function createChannelContextMenu()
+    -- Close any existing context menus
+    for _, child in ipairs(screenGui:GetChildren()) do
+        if child.Name == "ChannelContextMenu" then
+            child:Destroy()
+        end
+    end
+
+    local contextMenu = Instance.new("Frame", screenGui)
+    contextMenu.Name = "ChannelContextMenu"
+    contextMenu.Size = UDim2.new(0, 100, 0, 50)
+    contextMenu.Position = UDim2.new(0, channelButton.AbsolutePosition.X, 0, channelButton.AbsolutePosition.Y + channelButton.AbsoluteSize.Y)
+    contextMenu.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+    contextMenu.BackgroundTransparency = 0.3
+    contextMenu.BorderSizePixel = 0
+
+    local allButton = Instance.new("TextButton", contextMenu)
+    allButton.Size = UDim2.new(1, 0, 0.5, 0)
+    allButton.Position = UDim2.new(0, 0, 0, 0)
+    allButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+    allButton.BackgroundTransparency = 0.3
+    allButton.BorderSizePixel = 0
+    allButton.Text = "All"
+    allButton.TextColor3 = Color3.new(1, 1, 1)
+    allButton.Font = Enum.Font.SourceSans
+    allButton.TextSize = 18
+
+    local normalChatButton = Instance.new("TextButton", contextMenu)
+    normalChatButton.Size = UDim2.new(1, 0, 0.5, 0)
+    normalChatButton.Position = UDim2.new(0, 0, 0.5, 0)
+    normalChatButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+    normalChatButton.BackgroundTransparency = 0.3
+    normalChatButton.BorderSizePixel = 0
+    normalChatButton.Text = "normalchat"
+    normalChatButton.TextColor3 = Color3.new(1, 1, 1)
+    normalChatButton.Font = Enum.Font.SourceSans
+    normalChatButton.TextSize = 18
+
+    allButton.MouseButton1Click:Connect(function()
+        currentChannel = "All"
+        contextMenu:Destroy()
+    end)
+
+    normalChatButton.MouseButton1Click:Connect(function()
+        currentChannel = "normalchat"
+        contextMenu:Destroy()
+    end)
+
+    -- Destroy context menu if clicking outside of it
+    local function onInput(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 and not contextMenu:IsAncestorOf(input.Target) then
+            contextMenu:Destroy()
+            UserInputService.InputBegan:Disconnect(onInput)
+        end
+    end
+    UserInputService.InputBegan:Connect(onInput)
+end
+
+-- Handle channel button click to show context menu
+channelButton.MouseButton1Click:Connect(createChannelContextMenu)
+
+-- Modify the inputBox FocusLost connection to use the currentChannel
 inputBox.FocusLost:Connect(function(enterPressed)
     if enterPressed then
         local message = inputBox.Text
         if message ~= "" then
-            SayMessageRequest:FireServer(message, "All")
+            SayMessageRequest:FireServer(message, currentChannel)
             inputBox.Text = ""
         end
     end
