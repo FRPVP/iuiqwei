@@ -52,7 +52,15 @@ channelButton.Position = UDim2.new(0, 369, 0, 0)
 channelButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
 channelButton.BackgroundTransparency = 1
 channelButton.BorderSizePixel = 0
-channelButton.Image = "rbxassetid://18222421215"
+channelButton.Image = "rbxassetid://18224039020"
+
+local toggleDragButton = Instance.new("ImageButton", dragHandle)
+toggleDragButton.Size = UDim2.new(0, 30, 0, 30)
+toggleDragButton.Position = UDim2.new(0, 339, 0, 0)  -- Adjust the position as needed
+toggleDragButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+toggleDragButton.BackgroundTransparency = 1
+toggleDragButton.BorderSizePixel = 0
+toggleDragButton.Image = "rbxassetid://18225855341"
 
 local messageFrame = Instance.new("ScrollingFrame", mainFrame)
 messageFrame.Position = UDim2.new(0, 0, 0, 30)
@@ -250,6 +258,18 @@ Players.PlayerAdded:Connect(function(player)
     setupPlayerChatListener(player)
 end)
 
+local isDraggingEnabled = false
+
+-- Handle toggle drag button click to enable/disable dragging
+toggleDragButton.MouseButton1Click:Connect(function()
+    isDraggingEnabled = not isDraggingEnabled
+    if isDraggingEnabled then
+        toggleDragButton.ImageColor3 = Color3.fromRGB(227, 14, 14)  -- Change color to indicate dragging is enabled (e.g., green)
+    else
+        toggleDragButton.ImageColor3 = Color3.fromRGB(255, 255, 255)  -- Change color to indicate dragging is disabled (e.g., red)
+    end
+end)
+
 -- Draggable GUI logic
 local dragging
 local dragInput
@@ -257,12 +277,14 @@ local dragStart
 local startPos
 
 local function updateInput(input)
-    local delta = input.Position - dragStart
-    mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    if isDraggingEnabled then
+        local delta = input.Position - dragStart
+        mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
 end
 
 dragHandle.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+    if input.UserInputType == Enum.UserInputType.MouseButton1 and isDraggingEnabled then
         dragging = true
         dragStart = input.Position
         startPos = mainFrame.Position
@@ -290,7 +312,7 @@ end)
 local currentChannel = "All"
 
 -- Function to create the channel context menu
-local function createChannelContextMenu()
+local function createChannelContextMenu(channels)
     -- Close any existing context menus
     for _, child in ipairs(screenGui:GetChildren()) do
         if child.Name == "ChannelContextMenu" then
@@ -300,43 +322,29 @@ local function createChannelContextMenu()
 
     local contextMenu = Instance.new("Frame", screenGui)
     contextMenu.Name = "ChannelContextMenu"
-    contextMenu.Size = UDim2.new(0, 100, 0, 50)
+    contextMenu.Size = UDim2.new(0, 150, 0, #channels * 30)
     contextMenu.Position = UDim2.new(0, channelButton.AbsolutePosition.X, 0, channelButton.AbsolutePosition.Y + channelButton.AbsoluteSize.Y)
     contextMenu.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
     contextMenu.BackgroundTransparency = 0.3
     contextMenu.BorderSizePixel = 0
 
-    local allButton = Instance.new("TextButton", contextMenu)
-    allButton.Size = UDim2.new(1, 0, 0.5, 0)
-    allButton.Position = UDim2.new(0, 0, 0, 0)
-    allButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
-    allButton.BackgroundTransparency = 0.3
-    allButton.BorderSizePixel = 0
-    allButton.Text = "All"
-    allButton.TextColor3 = Color3.new(1, 1, 1)
-    allButton.Font = Enum.Font.SourceSans
-    allButton.TextSize = 18
+    for i, channel in ipairs(channels) do
+        local channelButton = Instance.new("TextButton", contextMenu)
+        channelButton.Size = UDim2.new(1, 0, 0, 30)
+        channelButton.Position = UDim2.new(0, 0, (i-1) * 0.25, 0)
+        channelButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+        channelButton.BackgroundTransparency = 0.3
+        channelButton.BorderSizePixel = 0
+        channelButton.Text = channel
+        channelButton.TextColor3 = Color3.new(1, 1, 1)
+        channelButton.Font = Enum.Font.SourceSans
+        channelButton.TextSize = 18
 
-    local normalChatButton = Instance.new("TextButton", contextMenu)
-    normalChatButton.Size = UDim2.new(1, 0, 0.5, 0)
-    normalChatButton.Position = UDim2.new(0, 0, 0.5, 0)
-    normalChatButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
-    normalChatButton.BackgroundTransparency = 0.3
-    normalChatButton.BorderSizePixel = 0
-    normalChatButton.Text = "normalchat"
-    normalChatButton.TextColor3 = Color3.new(1, 1, 1)
-    normalChatButton.Font = Enum.Font.SourceSans
-    normalChatButton.TextSize = 18
-
-    allButton.MouseButton1Click:Connect(function()
-        currentChannel = "All"
-        contextMenu:Destroy()
-    end)
-
-    normalChatButton.MouseButton1Click:Connect(function()
-        currentChannel = "normalchat"
-        contextMenu:Destroy()
-    end)
+        channelButton.MouseButton1Click:Connect(function()
+            currentChannel = channel
+            contextMenu:Destroy()
+        end)
+    end
 
     -- Destroy context menu if clicking outside of it
     local function onInput(input)
@@ -348,8 +356,18 @@ local function createChannelContextMenu()
     UserInputService.InputBegan:Connect(onInput)
 end
 
+-- Retrieve available channels (replace this with the actual method of retrieving channels)
+local function getAvailableChannels()
+    -- Dummy channels for illustration; replace this with your own logic to fetch channels
+    local channels = {"All", "normalchat", "dead", "Alive"}
+    return channels
+end
+
 -- Handle channel button click to show context menu
-channelButton.MouseButton1Click:Connect(createChannelContextMenu)
+channelButton.MouseButton1Click:Connect(function()
+    local channels = getAvailableChannels()
+    createChannelContextMenu(channels)
+end)
 
 -- Modify the inputBox FocusLost connection to use the currentChannel
 inputBox.FocusLost:Connect(function(enterPressed)
