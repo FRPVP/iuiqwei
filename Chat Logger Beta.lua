@@ -15,7 +15,7 @@ local mainFrame = Instance.new("Frame", screenGui)
 mainFrame.Size = UDim2.new(0, 460, 0, 210)
 mainFrame.Position = UDim2.new(0.0001, 0, 0.002, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(42, 42, 42)
-mainFrame.BackgroundTransparency = 0.3
+mainFrame.BackgroundTransparency = 1
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true -- Make the frame interactable for dragging
 
@@ -61,6 +61,14 @@ toggleDragButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
 toggleDragButton.BackgroundTransparency = 1
 toggleDragButton.BorderSizePixel = 0
 toggleDragButton.Image = "rbxassetid://18225855341"
+
+local transparencyToggleButton = Instance.new("ImageButton", dragHandle)
+transparencyToggleButton.Size = UDim2.new(0, 30, 0, 30)
+transparencyToggleButton.Position = UDim2.new(0, 301, 0, 0)  -- Adjust the position as needed
+transparencyToggleButton.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+transparencyToggleButton.BackgroundTransparency = 1
+transparencyToggleButton.BorderSizePixel = 0
+transparencyToggleButton.Image = "rbxassetid://18253118067"
 
 local messageFrame = Instance.new("ScrollingFrame", mainFrame)
 messageFrame.Position = UDim2.new(0, 0, 0, 30)
@@ -264,7 +272,7 @@ local isDraggingEnabled = false
 toggleDragButton.MouseButton1Click:Connect(function()
     isDraggingEnabled = not isDraggingEnabled
     if isDraggingEnabled then
-        toggleDragButton.ImageColor3 = Color3.fromRGB(227, 14, 14)  -- Change color to indicate dragging is enabled (e.g., green)
+        toggleDragButton.ImageColor3 = Color3.fromRGB(250, 92, 92)  -- Change color to indicate dragging is enabled (e.g., green)
     else
         toggleDragButton.ImageColor3 = Color3.fromRGB(255, 255, 255)  -- Change color to indicate dragging is disabled (e.g., red)
     end
@@ -380,9 +388,67 @@ inputBox.FocusLost:Connect(function(enterPressed)
     end
 end)
 
--- Handle close button
+local originalTransparency = {}
+for _, child in ipairs(mainFrame:GetDescendants()) do
+    if child:IsA("GuiObject") then
+        originalTransparency[child] = {
+            BackgroundTransparency = child.BackgroundTransparency,
+            TextTransparency = (child:IsA("TextButton") or child:IsA("TextLabel") or child:IsA("TextBox")) and child.TextTransparency or nil,
+            ImageTransparency = (child:IsA("ImageButton") or child:IsA("ImageLabel")) and child.ImageTransparency or nil
+        }
+    end
+end
+originalTransparency[mainFrame] = {BackgroundTransparency = mainFrame.BackgroundTransparency}
+originalTransparency[inputBox] = {BackgroundTransparency = inputBox.BackgroundTransparency, TextTransparency = inputBox.TextTransparency}
+
+local isTransparencyEnabled = false
+
+-- Handle transparency toggle button click to enable/disable transparency adjustment
+transparencyToggleButton.MouseButton1Click:Connect(function()
+    isTransparencyEnabled = not isTransparencyEnabled
+    if isTransparencyEnabled then
+        transparencyToggleButton.ImageColor3 = Color3.fromRGB(142, 132, 132)  -- Change color to indicate transparency is enabled (e.g., green)
+    else
+        transparencyToggleButton.ImageColor3 = Color3.fromRGB(255, 255, 255)  -- Change color to indicate transparency is disabled (e.g., red)
+    end
+end)
+
+-- Update the mouse enter and leave events to check if transparency adjustment is enabled
+mainFrame.MouseEnter:Connect(function()
+    if isTransparencyEnabled then
+        for obj, trans in pairs(originalTransparency) do
+            obj.BackgroundTransparency = trans.BackgroundTransparency
+            if trans.TextTransparency then
+                obj.TextTransparency = trans.TextTransparency
+            end
+            if trans.ImageTransparency then
+                obj.ImageTransparency = trans.ImageTransparency
+            end
+        end
+    end
+end)
+
+mainFrame.MouseLeave:Connect(function()
+    if isTransparencyEnabled then
+        for obj, trans in pairs(originalTransparency) do
+            if obj ~= messagesFrame and obj ~= inputBox then
+                obj.BackgroundTransparency = 1 -- or any desired transparency value
+                if trans.TextTransparency then
+                    obj.TextTransparency = 1 -- or any desired transparency value
+                end
+                if trans.ImageTransparency then
+                    obj.ImageTransparency = 1 -- or any desired transparency value
+                end
+            end
+        end
+        mainFrame.BackgroundTransparency = 1
+        inputBox.BackgroundTransparency = 1
+        inputBox.TextTransparency = 1
+    end
+end)
+
 closeButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
+    screenGui.Enabled = false
 end)
 
 -- Handle color button
