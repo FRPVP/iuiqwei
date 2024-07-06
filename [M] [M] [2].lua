@@ -431,44 +431,6 @@ end
 end
 end,})
 
-local RS = game:GetService("RunService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Remotes = ReplicatedStorage:WaitForChild("Remotes")
-local Gameplay = Remotes:WaitForChild("Gameplay")
-local StealthRemote = Gameplay:WaitForChild("Stealth")
-
-local Stealth
-
-tab:toggle({
-    Name = "Ghost",
-    StartingState = false,
-    Description = "Ghost Perk Required",
-    Callback = function(val)
-        if val then
-            -- If toggle is turned on, activate Stealth
-            Stealth = RS.RenderStepped:Connect(function()
-                StealthRemote:FireServer(true)
-            end)
-        else
-            -- If toggle is turned off, disconnect the Stealth activation
-            if Stealth then
-                Stealth:Disconnect()
-                Stealth = nil
-            end
-            -- Deactivate Stealth
-            StealthRemote:FireServer(false)
-        end
-    end,
-})
-
-tab:toggle({
-    Name = "Sprint Trail",
-		StartingState = false,
-		Description = "Sprint Perk Required",
-		Callback = function(Value)
-   Workspace[LocalPlayer.Name].SpeedTrail.Toggle:FireServer(Value)
-end,})
-
 
 
 
@@ -1387,6 +1349,9 @@ local animationIds = {
     ["Lick"] = "rbxassetid://2474137630",
     ["Spray"] = "rbxassetid://2474355515",
     ["Fireflies"] = "rbxassetid://2474321961",
+    ["Coconut"] = "rbxassetid://18326977397",
+    ["Sandcastle"] = "rbxassetid://18326045248",
+    ["Sand Bucket"] = "rbxassetid://18324663531",
     ["Crouch"] = "rbxassetid://5792999092",
     ["Throw"] = "rbxassetid://1957656552",
     ["Throw Hold"] = "rbxassetid://15478370930",
@@ -1417,7 +1382,7 @@ tab:dropdown({
     Name = "Energizer Emotes",
     Description = "MM2 Edition",
     StartingText = "",
-    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Punch", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash", "Lick", "Spray", "Fireflies", "Crouch", "Throw", "Throw Hold", "Throw Charge"},
+    Items = {"Float Slash", "Down Slash", "Arms Out", "Spinner", "Crazy Slash", "Weird Zombie", "Pull", "Open", "Circle Arm", "Bend", "Rotate Slash", "Flail Arms", "Punch", "Murderer Slash", "Murderer Stab", "Dual Stab", "Dual Slash", "Lick", "Spray", "Fireflies", "Coconut", "Sandcastle", "Sand Bucket", "Crouch", "Throw", "Throw Hold", "Throw Charge"},
     Callback = function(Value)
         if currentTrack then
             StopAnimation()
