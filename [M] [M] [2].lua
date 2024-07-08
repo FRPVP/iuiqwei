@@ -782,7 +782,6 @@ end,})
 
 local GunHighlight = nil
 local GunHandleAdornment = nil
-local RenderSteppedConnection = nil
 local ToggleValue = false
 
 local function findGunDrop()
