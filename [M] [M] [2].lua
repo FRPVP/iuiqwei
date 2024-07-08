@@ -623,8 +623,18 @@ tab:toggle({
 
 local BillboardGui = nil
 local RenderSteppedConnection = nil
-local Gun = Workspace:FindFirstChild("GunDrop")
+local Workspace = game:GetService("Workspace")
+local Gun = nil
 local ToggleValue = false
+
+local function findGunDrop()
+    for _, child in pairs(Workspace:GetDescendants()) do
+        if child:IsA("BasePart") and child.Name == "GunDrop" then
+            return child
+        end
+    end
+    return nil
+end
 
 local function CreateBillboardAboveGun(gun)
     BillboardGui = Instance.new("BillboardGui")
@@ -635,7 +645,7 @@ local function CreateBillboardAboveGun(gun)
 
     local TextLabel = Instance.new("TextLabel")
     TextLabel.Size = UDim2.new(1, 0, 1, 0)
-    TextLabel.Text = "Gundrop"
+    TextLabel.Text = "GunDrop"
     TextLabel.Font = Enum.Font.SourceSansBold
     TextLabel.TextColor3 = Color3.fromRGB(0, 214, 0)
     TextLabel.BackgroundTransparency = 1
@@ -669,6 +679,7 @@ end
 local function ToggleChanged(newValue)
     ToggleValue = newValue
     if newValue then
+        Gun = findGunDrop()
         if Gun then
             OnGunAdded(Gun)
         end
@@ -677,6 +688,20 @@ local function ToggleChanged(newValue)
     end
     print("Toggle value changed to:", newValue)
 end
+
+Workspace.DescendantAdded:Connect(function(child)
+    if child:IsA("BasePart") and child.Name == "GunDrop" then
+        Gun = child
+        OnGunAdded(Gun)
+    end
+end)
+
+Workspace.DescendantRemoving:Connect(function(child)
+    if child == Gun then
+        OnGunRemoved(child)
+        Gun = nil
+    end
+end)
 
 tab:toggle({
     Name = "Gun ESP",
