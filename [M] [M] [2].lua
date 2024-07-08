@@ -780,23 +780,19 @@ RunService.RenderStepped:Connect(function()
 end)
 end,})
 
-Workspace.ChildAdded:Connect(function(child)
-    if child.Name == "GunDrop" then
-        Gun = child
-        OnGunAdded(child)
-    end
-end)
-
-Workspace.ChildRemoved:Connect(function(child)
-    if child.Name == "GunDrop" then
-        OnGunRemoved(child)
-    end
-end)
-
 local GunHighlight = nil
 local GunHandleAdornment = nil
 local RenderSteppedConnection = nil
 local ToggleValue = false
+
+local function findGunDrop()
+    for _, child in pairs(Workspace:GetDescendants()) do
+        if child:IsA("BasePart") and child.Name == "GunDrop" then
+            return child
+        end
+    end
+    return nil
+end
 
 local function CreateGunAdornment(gun)
     GunHighlight = Instance.new("Highlight")
@@ -804,7 +800,7 @@ local function CreateGunAdornment(gun)
 
     GunHandleAdornment.Radius = (gun.Size.X + gun.Size.Y + gun.Size.Z) / 3
     GunHandleAdornment.Adornee = gun
-    GunHandleAdornment.Color3 = Color3.fromRGB(0,214,0,255)
+    GunHandleAdornment.Color3 = Color3.fromRGB(0, 214, 0)
     GunHandleAdornment.Transparency = 0.2
     GunHandleAdornment.AlwaysOnTop = true
     GunHandleAdornment.ZIndex = 10
@@ -833,39 +829,48 @@ end
 local function DestroyGunAdornment()
     if GunHighlight then
         GunHighlight:Destroy()
+        GunHighlight = nil
     end
     if GunHandleAdornment then
         GunHandleAdornment:Destroy()
+        GunHandleAdornment = nil
     end
     if RenderSteppedConnection then
         RenderSteppedConnection:Disconnect()
+        RenderSteppedConnection = nil
     end
 end
 
 local function ToggleChanged(newValue)
     ToggleValue = newValue
     if newValue then
-        for _, gun in ipairs(Workspace:GetChildren()) do
-            if gun.Name == "GunDrop" then
-                CreateGunAdornment(gun)
-            end
+        local gun = findGunDrop()
+        if gun then
+            CreateGunAdornment(gun)
         end
-        Workspace.ChildAdded:Connect(function(child)
-            if child.Name == "GunDrop" then
-                CreateGunAdornment(child)
-            end
-        end)
     else
         DestroyGunAdornment()
     end
     print("Toggle value changed to:", newValue)
 end
 
+Workspace.DescendantAdded:Connect(function(child)
+    if child:IsA("BasePart") and child.Name == "GunDrop" then
+        CreateGunAdornment(child)
+    end
+end)
+
+Workspace.DescendantRemoving:Connect(function(child)
+    if child == GunHandleAdornment.Adornee then
+        DestroyGunAdornment()
+    end
+end)
+
 tab:toggle({
     Name = "Gun Highlight",
-		StartingState = false,
-		Description = "",
-		Callback = ToggleChanged
+    StartingState = false,
+    Description = "",
+    Callback = ToggleChanged
 })
 
 tab:textbox({
