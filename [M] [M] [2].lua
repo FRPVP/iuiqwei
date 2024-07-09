@@ -622,7 +622,6 @@ tab:toggle({
 })
 
 local ESPBillboardGui = nil
-local ESPRenderSteppedConnection = nil
 local ESPToggleValue = false
 local Workspace = game:GetService("Workspace")
 
@@ -659,10 +658,6 @@ local function DestroyGunESP()
         ESPBillboardGui:Destroy()
         ESPBillboardGui = nil
     end
-    if ESPRenderSteppedConnection then
-        ESPRenderSteppedConnection:Disconnect()
-        ESPRenderSteppedConnection = nil
-    end
 end
 
 local function ESPToggleChanged(newValue)
@@ -678,19 +673,22 @@ local function ESPToggleChanged(newValue)
     print("ESP toggle value changed to:", newValue)
 end
 
-Workspace.DescendantAdded:Connect(function(child)
+local function onChildAdded(child)
     if child:IsA("BasePart") and child.Name == "GunDrop" then
         if ESPToggleValue then
             CreateGunESP(child)
         end
     end
-end)
+end
 
-Workspace.DescendantRemoving:Connect(function(child)
-    if child == ESPBillboardGui.Adornee then
+local function onChildRemoved(child)
+    if ESPBillboardGui and child == ESPBillboardGui.Adornee then
         DestroyGunESP()
     end
-end)
+end
+
+Workspace.DescendantAdded:Connect(onChildAdded)
+Workspace.DescendantRemoving:Connect(onChildRemoved)
 
 tab:toggle({
     Name = "Gun ESP",
@@ -771,7 +769,6 @@ end,})
 
 local GunHighlight = nil
 local GunHandleAdornment = nil
-local HighlightRenderSteppedConnection = nil
 local HighlightToggleValue = false
 local Workspace = game:GetService("Workspace")
 
@@ -796,24 +793,11 @@ local function CreateGunHighlightAdornment(gun)
     GunHandleAdornment.ZIndex = 10
     GunHandleAdornment.Parent = gun
 
-    local function UpdateGunHighlight()
-        if gun.Parent then
-            GunHighlight.Adornee = gun
-            GunHandleAdornment.Adornee = gun
-            GunHandleAdornment.Size = gun.Size + Vector3.new(0.05, 0.05, 0.05)
-            GunHighlight.Enabled = true
-            GunHandleAdornment.Visible = true
-        else
-            GunHighlight.Enabled = false
-            GunHandleAdornment.Visible = false
-        end
-    end
-
-    UpdateGunHighlight()
-
-    HighlightRenderSteppedConnection = game:GetService("RunService").RenderStepped:Connect(function()
-        UpdateGunHighlight()
-    end)
+    GunHighlight.Adornee = gun
+    GunHandleAdornment.Adornee = gun
+    GunHandleAdornment.Size = gun.Size + Vector3.new(0.05, 0.05, 0.05)
+    GunHighlight.Enabled = true
+    GunHandleAdornment.Visible = true
 end
 
 local function DestroyGunHighlightAdornment()
@@ -824,10 +808,6 @@ local function DestroyGunHighlightAdornment()
     if GunHandleAdornment then
         GunHandleAdornment:Destroy()
         GunHandleAdornment = nil
-    end
-    if HighlightRenderSteppedConnection then
-        HighlightRenderSteppedConnection:Disconnect()
-        HighlightRenderSteppedConnection = nil
     end
 end
 
@@ -844,19 +824,22 @@ local function HighlightToggleChanged(newValue)
     print("Highlight toggle value changed to:", newValue)
 end
 
-Workspace.DescendantAdded:Connect(function(child)
+local function onChildAdded(child)
     if child:IsA("BasePart") and child.Name == "GunDrop" then
         if HighlightToggleValue then
             CreateGunHighlightAdornment(child)
         end
     end
-end)
+end
 
-Workspace.DescendantRemoving:Connect(function(child)
-    if child == GunHandleAdornment.Adornee then
+local function onChildRemoved(child)
+    if GunHandleAdornment and child == GunHandleAdornment.Adornee then
         DestroyGunHighlightAdornment()
     end
-end)
+end
+
+Workspace.DescendantAdded:Connect(onChildAdded)
+Workspace.DescendantRemoving:Connect(onChildRemoved)
 
 tab:toggle({
     Name = "Gun Highlight",
