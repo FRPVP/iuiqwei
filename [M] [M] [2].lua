@@ -1082,7 +1082,7 @@ local function shootMurderer()
         [3] = "AH2"
     }
 
-    localPlayer.Character.Gun.KnifeServer.ShootGun:InvokeServer(unpack(args))
+    LocalPlayer.Character.Gun.KnifeLocal.CreateBeam.RemoteFunction:InvokeServer(unpack(args))
 end
 
 shootMurderer()
