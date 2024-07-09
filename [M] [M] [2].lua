@@ -621,11 +621,10 @@ tab:toggle({
     end,
 })
 
-local BillboardGui = nil
-local RenderSteppedConnection = nil
+local ESPBillboardGui = nil
+local ESPRenderSteppedConnection = nil
+local ESPToggleValue = false
 local Workspace = game:GetService("Workspace")
-local Gun = nil
-local ToggleValue = false
 
 local function findGunDrop()
     for _, child in pairs(Workspace:GetDescendants()) do
@@ -636,12 +635,12 @@ local function findGunDrop()
     return nil
 end
 
-local function CreateBillboardAboveGun(gun)
-    BillboardGui = Instance.new("BillboardGui")
-    BillboardGui.Adornee = gun
-    BillboardGui.Size = UDim2.new(0, 80, 0, 50) -- Decreased size for smaller text
-    BillboardGui.StudsOffset = Vector3.new(0, 3, 0) -- Adjust the height of the billboard
-    BillboardGui.AlwaysOnTop = true -- Ensure the billboard is always visible
+local function CreateGunESP(gun)
+    ESPBillboardGui = Instance.new("BillboardGui")
+    ESPBillboardGui.Adornee = gun
+    ESPBillboardGui.Size = UDim2.new(0, 80, 0, 50)
+    ESPBillboardGui.StudsOffset = Vector3.new(0, 3, 0)
+    ESPBillboardGui.AlwaysOnTop = true
 
     local TextLabel = Instance.new("TextLabel")
     TextLabel.Size = UDim2.new(1, 0, 1, 0)
@@ -649,57 +648,47 @@ local function CreateBillboardAboveGun(gun)
     TextLabel.Font = Enum.Font.SourceSansBold
     TextLabel.TextColor3 = Color3.fromRGB(0, 214, 0)
     TextLabel.BackgroundTransparency = 1
-    TextLabel.TextScaled = true -- Allow the text to scale based on the size of the billboard
-    TextLabel.Parent = BillboardGui
+    TextLabel.TextScaled = true
+    TextLabel.Parent = ESPBillboardGui
 
-    BillboardGui.Parent = gun
+    ESPBillboardGui.Parent = gun
 end
 
-local function DestroyBillboard()
-    if BillboardGui then
-        BillboardGui:Destroy()
-        BillboardGui = nil
+local function DestroyGunESP()
+    if ESPBillboardGui then
+        ESPBillboardGui:Destroy()
+        ESPBillboardGui = nil
     end
-    if RenderSteppedConnection then
-        RenderSteppedConnection:Disconnect()
-        RenderSteppedConnection = nil
-    end
-end
-
-local function OnGunAdded(gun)
-    if ToggleValue then
-        CreateBillboardAboveGun(gun)
+    if ESPRenderSteppedConnection then
+        ESPRenderSteppedConnection:Disconnect()
+        ESPRenderSteppedConnection = nil
     end
 end
 
-local function OnGunRemoved(gun)
-    DestroyBillboard()
-end
-
-local function ToggleChanged(newValue)
-    ToggleValue = newValue
+local function ESPToggleChanged(newValue)
+    ESPToggleValue = newValue
     if newValue then
-        Gun = findGunDrop()
-        if Gun then
-            OnGunAdded(Gun)
+        local gun = findGunDrop()
+        if gun then
+            CreateGunESP(gun)
         end
     else
-        DestroyBillboard()
+        DestroyGunESP()
     end
-    print("Toggle value changed to:", newValue)
+    print("ESP toggle value changed to:", newValue)
 end
 
 Workspace.DescendantAdded:Connect(function(child)
     if child:IsA("BasePart") and child.Name == "GunDrop" then
-        Gun = child
-        OnGunAdded(Gun)
+        if ESPToggleValue then
+            CreateGunESP(child)
+        end
     end
 end)
 
 Workspace.DescendantRemoving:Connect(function(child)
-    if child == Gun then
-        OnGunRemoved(child)
-        Gun = nil
+    if child == ESPBillboardGui.Adornee then
+        DestroyGunESP()
     end
 end)
 
@@ -707,7 +696,7 @@ tab:toggle({
     Name = "Gun ESP",
     StartingState = false,
     Description = "",
-    Callback = ToggleChanged
+    Callback = ESPToggleChanged
 })
 
 tab:toggle({
@@ -782,7 +771,9 @@ end,})
 
 local GunHighlight = nil
 local GunHandleAdornment = nil
-local ToggleValue = false
+local HighlightRenderSteppedConnection = nil
+local HighlightToggleValue = false
+local Workspace = game:GetService("Workspace")
 
 local function findGunDrop()
     for _, child in pairs(Workspace:GetDescendants()) do
@@ -793,7 +784,7 @@ local function findGunDrop()
     return nil
 end
 
-local function CreateGunAdornment(gun)
+local function CreateGunHighlightAdornment(gun)
     GunHighlight = Instance.new("Highlight")
     GunHandleAdornment = Instance.new("SphereHandleAdornment")
 
@@ -820,12 +811,12 @@ local function CreateGunAdornment(gun)
 
     UpdateGunHighlight()
 
-    RenderSteppedConnection = game:GetService("RunService").RenderStepped:Connect(function()
+    HighlightRenderSteppedConnection = game:GetService("RunService").RenderStepped:Connect(function()
         UpdateGunHighlight()
     end)
 end
 
-local function DestroyGunAdornment()
+local function DestroyGunHighlightAdornment()
     if GunHighlight then
         GunHighlight:Destroy()
         GunHighlight = nil
@@ -834,34 +825,36 @@ local function DestroyGunAdornment()
         GunHandleAdornment:Destroy()
         GunHandleAdornment = nil
     end
-    if RenderSteppedConnection then
-        RenderSteppedConnection:Disconnect()
-        RenderSteppedConnection = nil
+    if HighlightRenderSteppedConnection then
+        HighlightRenderSteppedConnection:Disconnect()
+        HighlightRenderSteppedConnection = nil
     end
 end
 
-local function ToggleChanged(newValue)
-    ToggleValue = newValue
+local function HighlightToggleChanged(newValue)
+    HighlightToggleValue = newValue
     if newValue then
         local gun = findGunDrop()
         if gun then
-            CreateGunAdornment(gun)
+            CreateGunHighlightAdornment(gun)
         end
     else
-        DestroyGunAdornment()
+        DestroyGunHighlightAdornment()
     end
-    print("Toggle value changed to:", newValue)
+    print("Highlight toggle value changed to:", newValue)
 end
 
 Workspace.DescendantAdded:Connect(function(child)
     if child:IsA("BasePart") and child.Name == "GunDrop" then
-        CreateGunAdornment(child)
+        if HighlightToggleValue then
+            CreateGunHighlightAdornment(child)
+        end
     end
 end)
 
 Workspace.DescendantRemoving:Connect(function(child)
     if child == GunHandleAdornment.Adornee then
-        DestroyGunAdornment()
+        DestroyGunHighlightAdornment()
     end
 end)
 
@@ -869,7 +862,7 @@ tab:toggle({
     Name = "Gun Highlight",
     StartingState = false,
     Description = "",
-    Callback = ToggleChanged
+    Callback = HighlightToggleChanged
 })
 
 tab:textbox({
