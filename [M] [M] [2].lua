@@ -976,41 +976,53 @@ local tab = gui:tab{
     Name = "Combat"
 }
 
+
+
 tab:button({
-    Name = "Pickup Gun Bypass",
-    Description = "Allows you to pick up the gun after death",
+    Name = "Extra Life",
+    Description = "",
     Callback = function()
-            local function freezePlayer()
-    local player = game.Players.LocalPlayer
-    local character = player.Character
-    
-    if character then
-        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
-        local humanoid = character:FindFirstChild("Humanoid")
-        
-        if humanoidRootPart and humanoid then
+        local accessories = {}
 
-            local initialPosition = humanoidRootPart.Position
-            
-            local bodyPosition = Instance.new("BodyPosition")
-            bodyPosition.Position = initialPosition
-            bodyPosition.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-            bodyPosition.P = math.huge
-            bodyPosition.Parent = humanoidRootPart
-            
-            while humanoidRootPart.AssemblyLinearVelocity.magnitude > 1 do
-                wait()
+        if game.Players.LocalPlayer.Character then
+            if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") then
+                for _, accessory in pairs(game.Players.LocalPlayer.Character.Humanoid:GetAccessories()) do
+                    table.insert(accessories, accessory:Clone())
+                end
+                game.Players.LocalPlayer.Character.Humanoid.Name = "boop"
             end
-            
-            bodyPosition:Destroy()
-            
-            wait(0)
-            humanoidRootPart.CFrame = CFrame.new(initialPosition)
-        end
-    end
-end
+            local v = game.Players.LocalPlayer.Character["boop"]:Clone()
+            v.Parent = game.Players.LocalPlayer.Character
+            v.Name = "Humanoid"
+            wait(0.1)
+            game.Players.LocalPlayer.Character["boop"]:Destroy()
+            workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character.Humanoid
+            for _, accessory in pairs(accessories) do
+                game.Players.LocalPlayer.Character.Humanoid:AddAccessory(accessory)
+            end
+            game.Players.LocalPlayer.Character.Animate.Disabled = true
+            wait(0.1)
+            game.Players.LocalPlayer.Character.Animate.Disabled = false
 
-freezePlayer()
+            -- Jump Functionality
+            local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+            if humanoid then
+                local user_input = game:GetService("UserInputService")
+                local is_jumping = false
+                local jump_height = 7 -- Adjust this value to set the jump height
+
+                user_input.InputBegan:Connect(function(input, isProcessed)
+                    if not isProcessed and input.KeyCode == Enum.KeyCode.Space and not is_jumping then
+                        is_jumping = true
+                        while user_input:IsKeyDown(Enum.KeyCode.Space) do
+                            humanoid.Jump = true
+                            wait()
+                        end
+                        is_jumping = false
+                    end
+                end)
+            end
+        end
     end,
 })
 
