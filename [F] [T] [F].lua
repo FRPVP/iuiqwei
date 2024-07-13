@@ -491,6 +491,91 @@ local tab = gui:tab{
     Name = "Hacker"
 }
 
+local highlightEnabled = false
+local highlightColor = Color3.fromRGB(9, 200, 238) -- Convert RGB values to Color3 format
+
+-- Function to create a Highlight instance for the given object
+local function highlightObject(object)
+    local highlight = Instance.new("Highlight")
+    highlight.Adornee = object
+    highlight.Parent = object
+    highlight.FillColor = highlightColor
+    highlight.OutlineColor = highlightColor
+    return highlight
+end
+
+-- Table to store highlighted objects
+local highlightedObjects = {}
+
+-- Function to check if an object should be highlighted
+local function shouldHighlight(object)
+    -- Check if object has "Computer" in its name and is not in the excluded path
+    local nameLower = object.Name:lower()
+    local pathLower = object:GetFullName():lower()
+    return nameLower:find("computer") and not pathLower:find("map.computer")
+end
+
+-- Function to highlight objects with "Computer" in their name
+local function highlightComputers()
+    if not highlightEnabled then
+        -- If highlighting is disabled, clear all highlights
+        for object, highlightInstance in pairs(highlightedObjects) do
+            highlightInstance:Destroy()
+            highlightedObjects[object] = nil
+        end
+        return
+    end
+
+    -- Clear existing highlights for objects that no longer match the criteria
+    for object, highlightInstance in pairs(highlightedObjects) do
+        if not object:IsDescendantOf(workspace) or not shouldHighlight(object) then
+            highlightInstance:Destroy()
+            highlightedObjects[object] = nil
+        end
+    end
+
+    -- Highlight new objects that match the criteria
+    for _, object in ipairs(workspace:GetDescendants()) do
+        if (object:IsA("Model") or object:IsA("BasePart")) and shouldHighlight(object) then
+            if not highlightedObjects[object] then
+                highlightedObjects[object] = highlightObject(object)
+            end
+        end
+    end
+end
+
+-- Coroutine for periodic checking and updating highlights
+coroutine.wrap(function()
+    while true do
+        wait(1) -- Adjust this delay as needed
+        highlightComputers()
+    end
+end)()
+
+-- Run the highlight function when the player joins
+game.Players.LocalPlayer.CharacterAdded:Connect(function()
+    highlightComputers()
+end)
+
+-- Run the highlight function immediately in case the character is already loaded
+if game.Players.LocalPlayer.Character then
+    highlightComputers()
+end
+
+-- Toggle function
+tab:toggle({
+    Name = "Highlight Computers",
+    StartingState = false,
+    Description = "Toggle highlighting of computers",
+    Callback = function(state)
+        highlightEnabled = state
+        highlightComputers()
+    end
+})
+
+
+
+
 tab:toggle({
     Name = "Never Fail Hacking",
 		StartingState = false,
