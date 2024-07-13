@@ -458,9 +458,6 @@ local pctoggle = false
 local playertoggle = false
 local bestpctoggle = false
 local exitstoggle = false
-local beastcamtoggle = false
-
-local neverfailtoggle = false
 local autointeracttoggle = false
 local autoplaytoggle = false
 
@@ -532,6 +529,30 @@ tab:toggle({
 	else
 		podstoggle = false
 		reloadESP()
+	end
+end,})
+
+tab:toggle({
+    Name = "Auto Interact",
+		StartingState = false,
+		Description = "",
+		Callback = function(state)
+   if autointeracttoggle == false then
+		autointeracttoggle = true
+	else
+		autointeracttoggle = false
+	end
+end,})
+
+tab:toggle({
+    Name = "Auto Play",
+		StartingState = false,
+		Description = "Automatically plays the game for you (Buggy)",
+		Callback = function(state)
+   if autoplaytoggle == false then
+		autoplaytoggle = true
+	else
+		autoplaytoggle = false
 	end
 end,})
 
