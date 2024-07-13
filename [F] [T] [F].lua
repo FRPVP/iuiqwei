@@ -301,7 +301,7 @@ local textgui = load_textgui()
 tab:toggle({
     Name = "Fly",
 		StartingState = false,
-		Description = "R for invisibility",
+		Description = "R for invisibility (DO NOT USE TO GO TO COMPUTERS!!!)",
 		Callback = function(Value)
    flying = Value
     if flying then
@@ -415,6 +415,37 @@ local something = tab:slider({
 })
 
 
+
+tab:textbox({
+    Name = "Spectate Player",
+    Callback = function(vv)
+        local User = nil
+        for _, player in ipairs(game.Players:GetPlayers()) do
+            if string.sub(player.Name:lower(), 1, #vv):lower() == vv:lower() then
+                User = player
+                break
+            end
+        end
+
+        if User then
+            if User.Character and User.Character:FindFirstChildOfClass("Humanoid") then
+                game.Workspace.CurrentCamera.CameraSubject = User.Character.Humanoid
+            else
+                warn("Player's character or humanoid not found!")
+            end
+        else
+            warn("Player not found!")
+        end
+    end
+})
+
+tab:button({
+    Name = "Stop Spectating",
+    Description = "",
+    Callback = function()
+        game.Workspace.CurrentCamera.CameraSubject = game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Humanoid')
+    end,
+})
 
 
 local tab = gui:tab{
