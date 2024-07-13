@@ -127,75 +127,6 @@ end,})
 
 
 
-tab:toggle({
-    Name = "ESP",
-		StartingState = false,
-		Description = "",
-		Callback = function(Value)
-   if Value then
-           local FillColor = Color3.fromRGB(255,255,255)
-           local DepthMode = "AlwaysOnTop"
-           local FillTransparency = 0.5
-           local OutlineColor = Color3.fromRGB(255,255,255)
-           local OutlineTransparency = 0
-
-           local CoreGui = game:FindService("CoreGui")
-           local Players = game:FindService("Players")
-           local lp = Players.LocalPlayer
-           local connections = {}
-
-           local Storage = Instance.new("Folder")
-           Storage.Parent = CoreGui
-           Storage.Name = "Highlight_Storage"
-
-           local function Highlight(plr)
-               local Highlight = Instance.new("Highlight")
-               Highlight.Name = plr.Name
-               Highlight.FillColor = FillColor
-               Highlight.DepthMode = DepthMode
-               Highlight.FillTransparency = FillTransparency
-               Highlight.OutlineColor = OutlineColor
-               Highlight.OutlineTransparency = 0
-               Highlight.Parent = Storage
-
-               local plrchar = plr.Character
-               if plrchar then
-                   Highlight.Adornee = plrchar
-               end
-
-               connections[plr] = plr.CharacterAdded:Connect(function(char)
-                   Highlight.Adornee = char
-               end)
-           end
-
-           Players.PlayerAdded:Connect(Highlight)
-           for i,v in next, Players:GetPlayers() do
-               Highlight(v)
-           end
-
-           Players.PlayerRemoving:Connect(function(plr)
-               local plrname = plr.Name
-               if Storage[plrname] then
-                   Storage[plrname]:Destroy()
-               end
-               if connections[plr] then
-                   connections[plr]:Disconnect()
-               end
-           end)
-       else
-           -- Turn off the ESP functionality
-           -- Remove any existing highlights from the screen
-           local CoreGui = game:GetService("CoreGui")
-           local Storage = CoreGui:FindFirstChild("Highlight_Storage")
-           if Storage then
-               Storage:ClearAllChildren()
-               Storage:Destroy()
-           end
-       end
-end,})
-
-
-
 local flybutton = "" -- Empty string to remove the key binding
 local flyparent = "HumanoidRootPart"
 local flyspeed = 40
@@ -491,87 +422,474 @@ local tab = gui:tab{
     Name = "Hacker"
 }
 
-local highlightEnabled = false
-local highlightColor = Color3.fromRGB(9, 200, 238) -- Convert RGB values to Color3 format
+local podstoggle = false
+local pctoggle = false
+local playertoggle = false
+local bestpctoggle = false
+local exitstoggle = false
+local beastcamtoggle = false
 
--- Function to create a Highlight instance for the given object
-local function highlightObject(object)
-    local highlight = Instance.new("Highlight")
-    highlight.Adornee = object
-    highlight.Parent = object
-    highlight.FillColor = highlightColor
-    highlight.OutlineColor = highlightColor
-    return highlight
+local neverfailtoggle = false
+local autointeracttoggle = false
+local autoplaytoggle = false
+
+
+tab:toggle({
+    Name = "Player ESP",
+		StartingState = false,
+		Description = "",
+		Callback = function(state)
+   if playertoggle == false then
+		playertoggle = true
+		reloadESP()
+	else
+		playertoggle = false
+		reloadESP()
+	end
+end,})
+
+tab:toggle({
+    Name = "Computer ESP",
+		StartingState = false,
+		Description = "",
+		Callback = function(state)
+   if pctoggle == false then
+		pctoggle = true
+		reloadESP()
+	else
+		pctoggle = false
+		reloadESP()
+   end
+end,})
+
+tab:toggle({
+    Name = "Best Computer ESP",
+		StartingState = false,
+		Description = "",
+		Callback = function(state)
+   if bestpctoggle == false then
+		bestpctoggle = true
+		reloadESP()
+	else
+		bestpctoggle = false
+		reloadESP()
+	end
+end,})
+
+tab:toggle({
+    Name = "Exit ESP",
+		StartingState = false,
+		Description = "",
+		Callback = function(state)
+   if exitstoggle == false then
+		exitstoggle = true
+		reloadESP()
+	else
+		exitstoggle = false
+		reloadESP()
+	end
+end,})
+
+tab:toggle({
+    Name = "Pods ESP",
+		StartingState = false,
+		Description = "",
+		Callback = function(state)
+   if podstoggle == false then
+		podstoggle = true
+		reloadESP()
+	else
+		podstoggle = false
+		reloadESP()
+	end
+end,})
+
+function reloadESP()
+	spawn(function()
+		local map = game.ReplicatedStorage.CurrentMap.Value
+		if map ~= nil then
+		local mapstuff = map:getChildren()
+		for i=1,#mapstuff do
+			if mapstuff[i].Name == "ComputerTable" then
+				if mapstuff[i]:findFirstChild("Highlight") and not pctoggle then
+					mapstuff[i].Highlight:remove()
+				end
+				if pctoggle and not mapstuff[i]:findFirstChild("Highlight") then
+					local a = Instance.new("Highlight", mapstuff[i])
+					a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+					a.FillColor = Color3.fromRGB(13, 105, 172) -- avoid display bugs as soon as loads :)
+					a.OutlineColor = Color3.fromRGB(20, 165, 270) -- avoid display bugs as soon as loads :)
+					spawn(function()
+						repeat 
+							if bestpctoggle and mapstuff[i]:findFirstChild("Screen") then
+								if getBestPC()[1].pc ~= nil and mapstuff[i] == getBestPC()[1].pc then
+									a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+									a.OutlineColor = Color3.fromRGB(200, 0, 255)
+								else
+									a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+									a.OutlineColor = Color3.fromRGB(a.FillColor.R*400, a.FillColor.G*400, a.FillColor.B*400)
+								end
+							else
+								a.FillColor = mapstuff[i]:findFirstChild("Screen").Color
+								a.OutlineColor = Color3.fromRGB(a.FillColor.R*400, a.FillColor.G*400, a.FillColor.B*400)
+							end
+							wait(1)
+						until mapstuff[i] == nil or a == nil
+					end)
+				end
+			end
+			if mapstuff[i].Name == "FreezePod" then
+				if mapstuff[i]:findFirstChild("Highlight") and not podstoggle then
+					mapstuff[i].Highlight:remove()
+				end
+				if podstoggle and not mapstuff[i]:findFirstChild("Highlight") then
+					local a = Instance.new("Highlight", mapstuff[i])
+					a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+					a.FillColor = Color3.fromRGB(120,200,255)
+					a.OutlineColor = Color3.fromRGB(160,255,255)
+				end
+			end
+			if mapstuff[i].Name == "ExitDoor" then
+				if mapstuff[i]:findFirstChild("Highlight") and not exitstoggle then
+					mapstuff[i].Highlight:remove()
+				end
+				if exitstoggle and not mapstuff[i]:findFirstChild("Highlight") then
+					local a = Instance.new("Highlight", mapstuff[i])
+					a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+					a.FillColor = Color3.fromRGB(252, 255, 100)
+					a.OutlineColor = Color3.fromRGB(255,255,160)
+				end
+			end
+			end
+			end
+	end)
+	local player = game.Players:GetChildren()
+	for i=1, #player do
+		if player[i] ~= game.Players.LocalPlayer and player[i].Character ~= nil then
+		local character = player[i].Character
+		if character:findFirstChild("Highlight") and not playertoggle then
+			character.Highlight:remove()
+		end
+		if playertoggle and not character:findFirstChild("Highlight") then
+			local a = Instance.new("Highlight", character)
+			a.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+			a.FillColor = Color3.fromRGB(0,255,0) -- avoid display bugs as soon as loads :)
+			a.OutlineColor = Color3.fromRGB(127,255,127) -- avoid display bugs as soon as loads :)
+			spawn(function()
+				repeat
+					wait(0.1)
+					if player[i] == getBeast() then
+						a.FillColor = Color3.fromRGB(255,0,0)
+						a.OutlineColor = Color3.fromRGB(255,127,127)
+					else
+						a.FillColor = Color3.fromRGB(0,255,0)
+						a.OutlineColor = Color3.fromRGB(127,255,127)
+					end
+				until character == nil or a == nil
+			end)
+			end
+			end
+	end
 end
 
--- Table to store highlighted objects
-local highlightedObjects = {}
 
--- Function to check if an object should be highlighted
-local function shouldHighlight(object)
-    -- Check if object has "Computer" in its name and is not in the excluded path
-    local nameLower = object.Name:lower()
-    local pathLower = object:GetFullName():lower()
-    return nameLower:find("computer") and not pathLower:find("map.computer")
+function reloadBeastCam()
+	ViewportFrame:ClearAllChildren()
+	if beastcamtoggle and game.ReplicatedStorage.CurrentMap.Value ~= nil then
+		local beast = getBeast()
+		local cam = Instance.new("Camera", ScreenGui)
+		cam.CameraType = Enum.CameraType.Scriptable
+		cam.FieldOfView = 70
+		local map = game.ReplicatedStorage.CurrentMap.Value
+		local mapclone = map:clone()
+		mapclone.Name = "map"
+		local mcstuff = mapclone:getDescendants()
+		for i=1,#mcstuff do
+			if mcstuff[i].Name == "SingleDoor" or mcstuff[i].Name == "DoubleDoor" or mcstuff[i].ClassName == "Sound" or mcstuff[i].ClassName == "LocalScript" or mcstuff[i].ClassName == "Script" then
+				mcstuff[i]:remove() 
+			end
+		end
+
+		mapclone.Parent = ViewportFrame
+		ViewportFrame.CurrentCamera = cam
+
+		spawn(function()
+			repeat
+				wait()
+				if not beastcamtoggle then
+					break
+				end
+				repeat
+					wait()
+				until getBeast().Character ~= nil
+				cam.CFrame = getBeast().Character.Head.CFrame
+				wait()
+			until cam == nil or mapclone == nil or beast ~= getBeast()
+		end)
+
+		spawn(function()
+			local dummy = Instance.new("Folder", ViewportFrame)
+			dummy.Name = "dummy"
+			dummy.Parent = ViewportFrame
+			local doors = Instance.new("Folder", ViewportFrame)
+			doors.Name = "doors"
+			doors.Parent = ViewportFrame
+
+			repeat
+				wait()
+				if not beastcamtoggle then
+					break
+				end
+				local doorsstuff = map:GetChildren()
+				for i=1,#doorsstuff do
+					if doorsstuff[i].Name == "SingleDoor" or doorsstuff[i].Name == "DoubleDoor" then
+						local a = doorsstuff[i]:clone()
+						a.Parent = doors
+					end
+				end
+
+				local players = game.Players:getChildren()
+				for i=1,#players do
+					if players[i] ~= getBeast() then
+						if players[i].Character ~= nil then
+							players[i].Character.Archivable = true
+							local dummyclone = players[i].Character:clone()
+							local bodyparts = dummyclone:getDescendants()
+
+							for i=1,#bodyparts do
+								if bodyparts[i].ClassName == "Sound" or bodyparts[i].ClassName == "LocalScript" or bodyparts[i].ClassName == "Script" then
+									bodyparts[i]:remove() 
+								end
+							end
+							
+							
+							dummyclone.Parent = dummy
+							
+						end
+					end
+				end
+
+
+				wait(0.3)
+
+				dummy:ClearAllChildren()
+				doors:ClearAllChildren()
+			until cam == nil or mapclone == nil or beast ~= getBeast()
+		end)
+	end
 end
 
--- Function to highlight objects with "Computer" in their name
-local function highlightComputers()
-    if not highlightEnabled then
-        -- If highlighting is disabled, clear all highlights
-        for object, highlightInstance in pairs(highlightedObjects) do
-            highlightInstance:Destroy()
-            highlightedObjects[object] = nil
-        end
-        return
-    end
+function getBeast()
+	local player = game.Players:GetChildren()
+	for i=1, #player do
+		local character = player[i].Character
+		if player[i]:findFirstChild("TempPlayerStatsModule"):findFirstChild("IsBeast").Value == true or (character ~= nil and character:findFirstChild("BeastPowers")) then
+			return player[i]
+		end
+	end
+end
 
-    -- Clear existing highlights for objects that no longer match the criteria
-    for object, highlightInstance in pairs(highlightedObjects) do
-        if not object:IsDescendantOf(workspace) or not shouldHighlight(object) then
-            highlightInstance:Destroy()
-            highlightedObjects[object] = nil
-        end
-    end
+function getBestPC()
+    local beast = getBeast()
+    local pcs = {}
 
-    -- Highlight new objects that match the criteria
-    for _, object in ipairs(workspace:GetDescendants()) do
-        if (object:IsA("Model") or object:IsA("BasePart")) and shouldHighlight(object) then
-            if not highlightedObjects[object] then
-                highlightedObjects[object] = highlightObject(object)
+    local map = game.ReplicatedStorage.CurrentMap.Value
+    if map ~= nil then
+        local mapstuff = map:getChildren()
+        for i=1,#mapstuff do
+            if mapstuff[i].Name == "ComputerTable" then
+                if mapstuff[i].Screen.BrickColor ~= BrickColor.new("Dark green") then
+                    local magnitude = ((mapstuff[i].Screen.Position - beast.Character:findFirstChild("HumanoidRootPart").Position).magnitude)
+                    table.insert(pcs, {magnitude=magnitude, pc=mapstuff[i]})
+                end
             end
         end
     end
+
+    table.sort(pcs, function(a, b) return a.magnitude > b.magnitude end)
+    return pcs
 end
 
--- Coroutine for periodic checking and updating highlights
-coroutine.wrap(function()
-    while true do
-        wait(1) -- Adjust this delay as needed
-        highlightComputers()
-    end
-end)()
+function isPlayerTyping()
+local hum = game.Players.LocalPlayer.Character:findFirstChildOfClass("Humanoid")
+local anims = hum:GetPlayingAnimationTracks()
+for i=1,#anims do
+if anims[i].Name == "AnimTyping" then
+return true
+end
+end
+return false
+end
 
--- Run the highlight function when the player joins
-game.Players.LocalPlayer.CharacterAdded:Connect(function()
-    highlightComputers()
+spawn(function() -- reload esp when new map
+	game.ReplicatedStorage.CurrentMap.Changed:Connect(function()
+		wait(5) -- hopefully enough time for map to load ;)
+		reloadESP()
+		if beastcamtoggle then
+		reloadBeastCam()	
+		end
+	end)
 end)
 
--- Run the highlight function immediately in case the character is already loaded
-if game.Players.LocalPlayer.Character then
-    highlightComputers()
+spawn(function() -- reload esp when game becomes active
+	game.ReplicatedStorage.IsGameActive.Changed:Connect(function()
+		reloadESP()
+		if beastcamtoggle then
+		reloadBeastCam()	
+		end
+	end)
+end)
+
+
+
+spawn(function() --reload esp when character loads/deloads
+	game:GetService("Players").PlayerAdded:Connect(function(player)
+		player.CharacterAdded:Connect(function(character)
+			reloadESP()
+		end)
+		player.CharacterRemoved:Connect(function(character)
+			reloadESP()
+		end)
+	end)
+end)
+
+spawn(function() -- never fail hacking
+	local mt = getrawmetatable(game)
+	local old = mt.__namecall
+	setreadonly(mt,false)
+	mt.__namecall = newcclosure(function(self, ...)
+		local args = {...}
+		if getnamecallmethod() == 'FireServer' and args[1] == 'SetPlayerMinigameResult' and neverfailtoggle then
+			args[2] = true
+		end
+		return old(self, unpack(args))
+	end)
+end)
+
+spawn(function() -- auto interact
+	game.Players.LocalPlayer.PlayerGui.ScreenGui.ActionBox:GetPropertyChangedSignal("Visible"):connect(function()
+		if autointeracttoggle then
+			game.ReplicatedStorage.RemoteEvent:FireServer("Input", "Action", true)
+		end	
+end)
+end)
+
+spawn(function() -- auto play (buggy and still testing :))
+	while wait(3) do
+		if autoplaytoggle then	
+			
+
+local beast = getBeast()
+local map = game.ReplicatedStorage.CurrentMap.Value
+local mapstuff = map:getChildren()
+for i=1,#mapstuff do
+if mapstuff[i].Name == "SingleDoor" or mapstuff[i].Name == "DoubleDoor" then
+local doorParts = mapstuff[i]:getDescendants()
+for i=1,#doorParts do
+if doorParts[i].ClassName == "Part" and doorParts[i].Name ~= "Frame" then
+if not doorParts[i]:findFirstChild("PathfindingModifier") then
+local a = Instance.new("PathfindingModifier", doorParts[i])
+a.PassThrough = true
+end
+if doorParts[i].Name == "Frame" then
+local a = Instance.new("PathfindingModifier", doorParts[i])
+a.PassThrough = false
+a.Label = "avoid"
+end
+end
+end
+end
 end
 
--- Toggle function
-tab:toggle({
-    Name = "Highlight Computers",
-    StartingState = false,
-    Description = "Toggle highlighting of computers",
-    Callback = function(state)
-        highlightEnabled = state
-        highlightComputers()
-    end
-})
+
+local pcs = getBestPC()
+local PathfindingService = game:GetService("PathfindingService")
+local Humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+local Root = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+local goal = nil
+local agentParams = {
+AgentRadius = 2.4,
+AgentHeight = 2,
+AgentCanJump = true,
+AgentWalkableClimb = 4,
+WaypointSpacing = 2,
+Costs = {
+avoid = 10.0
+}
+}
+
+
+local beastNearby = ((game.Players.LocalPlayer.Character.HumanoidRootPart.Position - beast.Character:findFirstChild("HumanoidRootPart").Position).magnitude < 50)
+for i, pc in ipairs(pcs) do
+if beastNearby then
+print("beast nearby")
+end
+
+
+if isPlayerTyping() and not beastNearby then
+break
+end
+				
+				
+goal = pc.pc["ComputerTrigger1"].Position
+local goalpc = pc.pc
+local path = PathfindingService:CreatePath(agentParams)
+
+path:ComputeAsync(Root.Position, goal)
+print(path.Status)
+if path.Status == Enum.PathStatus.Success then
+local waypoints = path:GetWaypoints()
+for i, waypoint in ipairs(waypoints) do
+
+local ray = Ray.new(waypoints[i].Position, Vector3.new(0, 1, 0) * 3)
+local part = workspace:FindPartOnRay(ray)
+if part and part.CanCollide then
+local humanoid = game.Players.LocalPlayer.Character:FindFirstChild("Humanoid")
+print("need to crouch :)")
+end
+
+
+
+Humanoid:MoveTo(waypoint.Position)
+if waypoint.Action == Enum.PathWaypointAction.Jump then
+Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+end
+
+local a = Instance.new("Part", workspace)
+a.Shape = Enum.PartType.Ball
+a.Position = waypoint.Position
+a.BrickColor = BrickColor.new("Pink")
+a.Material = Enum.Material.Neon
+a.Size = Vector3.new(2,2,2)
+a.Anchored = true
+a.CanCollide = false
+local touch = false
+
+spawn(function()
+a.Touched:Connect(function(hit)
+if hit.Parent:FindFirstChild("Humanoid") then
+if hit.Parent.Name == game.Players.LocalPlayer.Character.Name then
+touch = true
+a:remove()
+end
+end
+end)
+wait(10)
+a:remove()
+end)
+repeat
+wait(0.05)
+until touch
+end
+break
+end
+end
+				
+				
+				
+		end
+	end
+end)
 
 
 
