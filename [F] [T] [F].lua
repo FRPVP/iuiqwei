@@ -449,8 +449,8 @@ tab:button({
 
 
 local tab = gui:tab{
-    Icon = "rbxassetid://0",
-    Name = "Hacker"
+    Icon = "rbxassetid://17771505635",
+    Name = "Visual"
 }
 
 local podstoggle = false
@@ -459,7 +459,6 @@ local playertoggle = false
 local bestpctoggle = false
 local exitstoggle = false
 local autointeracttoggle = false
-local autoplaytoggle = false
 
 
 tab:toggle({
@@ -532,6 +531,15 @@ tab:toggle({
 	end
 end,})
 
+
+
+
+
+local tab = gui:tab{
+    Icon = "rbxassetid://17629022447",
+    Name = "Abilities"
+}
+
 tab:toggle({
     Name = "Auto Interact",
 		StartingState = false,
@@ -541,18 +549,6 @@ tab:toggle({
 		autointeracttoggle = true
 	else
 		autointeracttoggle = false
-	end
-end,})
-
-tab:toggle({
-    Name = "Auto Play",
-		StartingState = false,
-		Description = "Automatically plays the game for you (Buggy)",
-		Callback = function(state)
-   if autoplaytoggle == false then
-		autoplaytoggle = true
-	else
-		autoplaytoggle = false
 	end
 end,})
 
@@ -962,18 +958,42 @@ tab:toggle({
        end
 end,})
 
+tab:toggle({
+    Name = "Flashlight",
+		StartingState = false,
+		Description = "",
+		Callback = function(Value)
+   local player = game.Players.LocalPlayer
 
+        -- Check if the toggle is on or off
+        if Value then
+            -- Create a new light instance
+            local light = Instance.new("PointLight")
+            light.Range = 100 -- Adjust the range of the light as needed
+            light.Brightness = 3 -- Adjust the brightness of the light as needed
 
+            -- Attach the light to the player's character
+            player.CharacterAdded:Connect(function(character)
+                -- Wait for the character to load
+                character:WaitForChild("HumanoidRootPart")
 
+                -- Attach the light to the player's character
+                light.Parent = character.HumanoidRootPart
+            end)
 
-local tab = gui:tab{
-    Icon = "rbxassetid://0",
-    Name = "Beast"
-}
-
-
-
-
+            -- Attach the light to the initial character if already spawned
+            if player.Character then
+                player.Character:WaitForChild("HumanoidRootPart")
+                light.Parent = player.Character.HumanoidRootPart
+            end
+        else
+            -- Find and remove the existing light
+            local existingLight = player.Character and player.Character:FindFirstChild("HumanoidRootPart") and player.Character.HumanoidRootPart:FindFirstChild("PointLight")
+            if existingLight then
+                existingLight:Destroy()
+            end
+        end
+end,})
 
 
 
