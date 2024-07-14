@@ -1218,6 +1218,35 @@ teleportToGunDrop()
 
 
 
+tab:button({
+    Name = "Take The Murderer's Knife",
+    Description = "Able to swing it around but not kill",
+    Callback = function()
+        for i,s in pairs(Players:GetPlayers()) do
+if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Knife") or s.Character:FindFirstChild("Knife") then
+s.Backpack.Knife.Parent = Players.LocalPlayer.Backpack
+end
+end
+    end,
+})
+
+tab:button({
+    Name = "Take The Sheriff's Gun",
+    Description = "Shoot a player in order to break the gun",
+    Callback = function()
+        for i,s in pairs(Players:GetPlayers()) do
+if s ~= Players.LocalPlayer and s.Backpack:FindFirstChild("Gun") or s.Character:FindFirstChild("Gun") then
+s.Backpack.Gun.Parent = Players.LocalPlayer.Backpack
+end
+end
+    end,
+})
+
+
+
+
+
+
 
 
 
