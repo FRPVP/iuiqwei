@@ -995,6 +995,43 @@ tab:toggle({
         end
 end,})
 
+local player = game.Players.LocalPlayer
+local minWalkSpeed = 16  -- Minimum walkspeed desired
+local toggleActive = false
+local runService = game:GetService("RunService")
+
+-- Function to check and reset walkspeed
+local function checkWalkSpeed()
+    if player.Character and player.Character:FindFirstChild("Humanoid") then
+        local humanoid = player.Character.Humanoid
+        if humanoid.WalkSpeed < minWalkSpeed then
+            humanoid.WalkSpeed = minWalkSpeed
+        end
+    end
+end
+
+
+
+tab:toggle({
+    Name = "Never Slow",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        toggleActive = state
+        if toggleActive then
+            -- Start checking walkspeed
+            connection = runService.Stepped:Connect(function()
+                checkWalkSpeed()
+            end)
+        else
+            -- Stop checking walkspeed
+            if connection then
+                connection:Disconnect()
+                connection = nil
+            end
+        end
+    end,
+})
 
 
 
@@ -1078,25 +1115,6 @@ KickPlayer()
     end,
 })
 
-tab:toggle({
-    Name = "Improve FPS",
-		StartingState = false,
-		Description = "",
-		Callback = function(Value)
-   ChangeImproveFPS = Value
-    while ChangeImproveFPS do
-        for i,v in pairs (Workspace:GetDescendants()) do
-            if v.Name == "Pet" then
-                v:Destroy()
-            elseif v.Name == "KnifeDisplay" then
-                v:Destroy()
-            elseif v.Name == "GunDisplay" then
-                v:Destroy()
-            end
-        end
-        wait(10)
-    end
-end,})
 
 tab:toggle({
     Name = "Night",
