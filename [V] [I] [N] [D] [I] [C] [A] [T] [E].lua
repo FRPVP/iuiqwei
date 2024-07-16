@@ -13,7 +13,7 @@ tab:button({
     Name = "Activate Script",
     Description = "",
     Callback = function()
-        print("Button clicked")
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/FRPVP/iuiqwei/main/%5BM%5D%20%5BM%5D%20%5B2%5D.lua'))()
     end,
 })
 
@@ -28,7 +28,7 @@ tab:button({
     Name = "Activate Script",
     Description = "",
     Callback = function()
-        print("Button clicked")
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/FRPVP/iuiqwei/main/%5BL%5D%20%5BO%5D%20%5BO%5D%20%5BM%5D%20%5BI%5D%20%5BA%5D%20%5BN%5D.lua'))()
     end,
 })
 
@@ -44,7 +44,7 @@ tab:button({
     Name = "Activate Script",
     Description = "",
     Callback = function()
-        print("Button clicked")
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/FRPVP/iuiqwei/main/%5BL%5D%20%5BB%5D%20%5BB%5D.lua'))()
     end,
 })
 
@@ -61,6 +61,6 @@ tab:button({
     Name = "Activate Script",
     Description = "",
     Callback = function()
-        print("Button clicked")
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/FRPVP/iuiqwei/main/%5BF%5D%20%5BT%5D%20%5BF%5D.lua'))()
     end,
 })
