@@ -57,40 +57,43 @@ local something = tab:slider({
 })
 
 
+local noclipEnabled = false
+
+-- Function to enable noclip
+local function noclip()
+    Clip = false
+    local function Nocl()
+        if Clip == false and game.Players.LocalPlayer.Character then
+            for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+                if v:IsA('BasePart') and v.CanCollide then
+                    v.CanCollide = false
+                end
+            end
+        end
+        wait(0.21) -- Basic optimization
+    end
+    Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
+end
+
+-- Function to disable noclip
+local function clip()
+    if Noclip then
+        Noclip:Disconnect()
+    end
+    Clip = true
+end
+
 tab:toggle({
     Name = "Noclip",
 		StartingState = false,
 		Description = "",
 		Callback = function(Value)
-   local Players = game:GetService("Players")
-        local RunService = game:GetService("RunService")
-        local Plr = Players.LocalPlayer
-        local Clipon = Value
-
-        local function toggleNoclip()
-            if Clipon then
-                print("Noclip turned on")
-                RunService:BindToRenderStep("Noclip", Enum.RenderPriority.First.Value, function()
-                    -- Disable collision for player's parts
-                    for _, part in ipairs(Plr.Character:GetDescendants()) do
-                        if part:IsA("BasePart") then
-                            part.CanCollide = false
-                        end
-                    end
-                end)
-            else
-                print("Noclip turned off")
-                RunService:UnbindFromRenderStep("Noclip")
-                -- Restore collision for player's parts
-                for _, part in ipairs(Plr.Character:GetDescendants()) do
-                    if part:IsA("BasePart") then
-                        part.CanCollide = true
-                    end
-                end
-            end
+   noclipEnabled = Value
+        if noclipEnabled then
+            noclip()
+        else
+            clip()
         end
-
-        toggleNoclip()
 end,})
 
 
