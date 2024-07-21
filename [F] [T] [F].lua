@@ -1246,6 +1246,31 @@ checkAndFlingPlayers()
 
 
 
+local player = game.Players.LocalPlayer
+local running = false
+
+tab:toggle({
+    Name = "Crawl As Beast",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        running = state
+        if state then
+            -- Start the loop to continuously set DisableCrawl to false
+            spawn(function()
+                while running do
+                    if player:FindFirstChild("TempPlayerStatsModule") then
+                        player.TempPlayerStatsModule.DisableCrawl.Value = false
+                    end
+                    wait(0.1) -- Adjust the interval as needed
+                end
+            end)
+        end
+    end,
+})
+
+
+
 
 local tab = gui:tab{
     Icon = "rbxassetid://17771719508",
