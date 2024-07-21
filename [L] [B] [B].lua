@@ -417,6 +417,235 @@ local something = tab:slider({
 
 
 
+-- Repeat until game is loaded
+repeat task.wait() until game:IsLoaded()
+
+local words = {
+    ['gay'] = 'Bullying',
+    ['lesbian'] = 'Bullying',
+    ['retard'] = 'Bullying',
+    ['noob'] = 'Bullying',
+    ['clown'] = 'Bullying',
+    ['get a life'] = 'Bullying',
+    ['getalife'] = 'Bullying',
+    ['no life'] = 'Bullying',
+    ['nolife'] = 'Bullying',
+    ['wizard'] = 'Bullying',
+    ['report'] = 'Bullying',
+    ['father'] = 'Bullying',
+    ['mother'] = 'Bullying',
+    ['dumb'] = 'Bullying',
+    ['stupid'] = 'Bullying',
+    ['cringe'] = 'Bullying',
+    ['skill issue'] = 'Bullying',
+    ['parent'] = 'Bullying',
+    ['kid'] = 'Bullying',
+    ['ugly'] = 'Bullying',
+    ['child'] = 'Bullying',
+    ['trash'] = 'Bullying',
+    ['bozo'] = 'Bullying',
+    ['kys'] = 'Bullying',
+    ['die'] = 'Bullying',
+    ['dying'] = 'Bullying',
+    ['killyou'] = 'Bullying',
+    ['loser'] = 'Bullying',
+    ['black'] = 'Bullying',
+    [' white '] = 'Bullying',
+    ['ez l'] = 'Bullying',
+    ['l ez'] = 'Bullying',
+    ['negro'] = 'Bullying',
+    ['nivver'] = 'Bullying',
+    ['w⚓'] = 'Bullying',
+    ['negar'] = 'Bullying',
+    ['bad'] = 'Bullying',
+    ['worst'] = 'Bullying',
+    ['fat'] = 'Bullying',
+    ['fatty'] = 'Bullying',
+    ['monkey'] = 'Bullying',
+    ['report'] = 'Bullying',
+    ['banned'] = 'Bullying',
+    ['Trisha'] = 'Offsite Links',
+    ['hacking'] = 'Scamming',
+    ['hack'] = 'Scamming',
+    ['exploit'] = 'Scamming',
+    ['cheat'] = 'Scamming',
+    ['download'] = 'Offsite Links',
+    ['youtube'] = 'Offsite Links',
+    ['channel'] = 'Offsite Links',
+    ['yt'] = 'Offsite Links',
+    ['yt channel'] = 'Offsite Links',
+    ['youtube channel'] = 'Offsite Links',
+    ['tt'] = 'Offsite Links',
+    ['tiktok'] = 'Offsite Links',
+    ['tick tock'] = 'Offsite Links',
+    ['ticktock'] = 'Offsite Links',
+    ['yubtub'] = 'Offsite Links',
+    ['dizzy'] = 'Offsite Links',
+    ['dc'] = 'Offsite Links',
+    ['disco'] = 'Offsite Links',
+    ['discordant'] = 'Offsite Links',
+    ['trans'] = 'Bullying',
+    ['hobo'] = 'Bullying',
+    ['hobo'] = 'Offsite Links',
+    ['lgbt'] = 'Bullying',
+    ['ass'] = 'Bullying',
+    ['ass'] = 'Swearing',
+    ['hell'] = 'Bullying',
+    ['hell'] = 'Swearing',
+    ['nagger'] = 'Bullying',
+    ['tard'] = 'Bullying',
+    ['retard'] = 'Bullying',
+    ['pp'] = 'Bullying',
+    ['pp'] = 'Swearing',
+    ['fack'] = 'Bullying',
+    ['fack'] = 'Swearing',
+    ['wierdo'] = 'Bullying',
+    ['beach'] = 'Bullying',
+    ['moron'] = 'Bullying',
+    ['idc'] = 'Offsite Links',
+    ['shart'] = 'Swearing',
+    ['ahh'] = 'Swearing',
+    ['ahh'] = 'Bullying',
+}
+
+-- Check for necessary chat events
+if not game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents') or not game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents'):FindFirstChild('OnMessageDoneFiltering') then return end
+local DCSCE = game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents')
+
+-- Set up auto-report configuration if not already set
+if not autoreportcfg then
+    getgenv().autoreportcfg = {
+        Webhook = '', 
+        autoMessage = {
+           enabled = false,
+           Message = '',
+        },
+    }
+end
+
+-- Load notification system
+local players = game:GetService("Players")
+local notifs = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
+
+-- Define notification function
+local function notify(title, text)
+    notifs:MakeNotification({
+        Name = title,
+        Content = text,
+        Time = 5
+    })
+end
+
+-- Check if the script is running on Synapse X executor
+if syn then
+   notify("Autoreport", 'THIS DOESNT WORK ON MOST MOBILE EXECUTORS!')
+   notify('Autoreport', '3ds disabled ReportAbuse so yea')
+   return
+end
+
+-- Define handler function
+local function handler(msg, speaker)
+    for i, v in pairs(words) do
+        if string.match(string.lower(msg), i) then
+            local success, err = pcall(function()
+                players:ReportAbuse(players[speaker], v, 'He is breaking roblox TOS')
+                task.wait(1.5)
+                players:ReportAbuse(players[speaker], v, 'He is breaking roblox TOS')
+            end)
+            if not success then
+                warn("Failed to report player: " .. err)
+            else
+                if autoreportcfg.Webhook ~= nil and autoreportcfg.Webhook ~= '' and autoreportcfg.Webhook ~= ' ' then
+                    local data = {
+                        ["embeds"] = {{
+                            ["title"] = "**" .. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name .. "**",
+                            ["description"] = "Auto-reported a player",
+                            ["type"] = "rich",
+                            ["color"] = tonumber(0x00aff4),
+                            ["url"] = "https://www.roblox.com/games/" .. game.PlaceId,
+                            ["fields"] = {
+                                {
+                                    ["name"] = "Name",
+                                    ["value"] = "[" .. players[speaker].Name .. "](https://www.roblox.com/users/" .. players[speaker].UserId .. ")",
+                                    ["inline"] = true
+                                },
+                                {
+                                    ["name"] = "Message",
+                                    ["value"] = msg,
+                                    ["inline"] = true
+                                },
+                                {
+                                    ["name"] = "Offensive Part",
+                                    ["value"] = i,
+                                    ["inline"] = true
+                                },
+                                {
+                                    ["name"] = "Reported For",
+                                    ["value"] = v,
+                                    ["inline"] = true
+                                },
+                            },
+                            ["footer"] = {
+                                ["text"] = "\nIf you think this is a mistake: su"
+                            },
+                            ["author"] = {
+                                ["name"] = "Auto Report"
+                            }
+                        }}
+                    }
+                    local newdata = game:GetService("HttpService"):JSONEncode(data)
+                    local request = http_request or request or HttpPost or http.request or syn.request
+                    local abcdef = {
+                        Url = autoreportcfg.Webhook,
+                        Body = newdata,
+                        Method = "POST",
+                        Headers = {
+                            ["content-type"] = "application/json"
+                        }
+                    }
+                    request(abcdef)
+                else
+                    notify('Autoreport', 'Autoreported ' .. speaker .. ' | offensive part: ' .. i)
+                end
+                if DCSCE:FindFirstChild('SayMessageRequest') and autoreportcfg.autoMessage.enabled == true then
+                    DCSCE.SayMessageRequest:FireServer('/w ' .. speaker .. ' ' .. autoreportcfg.autoMessage.Message, 'All')
+                end
+            end
+        end
+    end
+end
+
+-- Define variable to store the event connection
+local chatConnection
+
+-- Toggle function
+tab:toggle({
+    Name = "AutoReport",
+    StartingState = false,
+    Description = "",
+    Callback = function(state)
+        if state then
+            -- Enable the auto-reporting script
+            chatConnection = DCSCE.OnMessageDoneFiltering.OnClientEvent:Connect(function(msgdata)
+                if tostring(msgdata.FromSpeaker) ~= players.LocalPlayer.Name then
+                    handler(tostring(msgdata.Message), tostring(msgdata.FromSpeaker))
+                end
+            end)
+            notify("AutoReport", "AutoReport script enabled.")
+        else
+            -- Disable the auto-reporting script
+            if chatConnection then
+                chatConnection:Disconnect()
+                chatConnection = nil
+            end
+            notify("AutoReport", "AutoReport script disabled.")
+        end
+    end
+})
+
+
+
+
 
 local tab = gui:tab{
     Icon = "rbxassetid://17765223017",
