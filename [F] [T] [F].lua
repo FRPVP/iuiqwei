@@ -1265,9 +1265,18 @@ tab:toggle({
                     wait(0.1) -- Adjust the interval as needed
                 end
             end)
+        else
+            -- Check "IsBeast" or "BeastPowers" and set DisableCrawl to true if the player has them
+            if (player:FindFirstChild("TempPlayerStatsModule") and player.TempPlayerStatsModule:FindFirstChild("IsBeast") and player.TempPlayerStatsModule.IsBeast.Value == true) or 
+               (player.Character and player.Character:FindFirstChild("BeastPowers")) then
+                if player:FindFirstChild("TempPlayerStatsModule") then
+                    player.TempPlayerStatsModule.DisableCrawl.Value = true
+                end
+            end
         end
     end,
 })
+
 
 
 
