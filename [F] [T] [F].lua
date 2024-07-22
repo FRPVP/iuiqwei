@@ -1280,7 +1280,6 @@ tab:toggle({
 
 
 
-
 local tab = gui:tab{
     Icon = "rbxassetid://17771719508",
     Name = "Misc"
