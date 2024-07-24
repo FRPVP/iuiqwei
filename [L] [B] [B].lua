@@ -517,7 +517,7 @@ if not autoreportcfg then
     getgenv().autoreportcfg = {
         Webhook = '', 
         autoMessage = {
-           enabled = false,
+           enabled = true,
            Message = '',
         },
     }
